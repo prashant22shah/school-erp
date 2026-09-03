@@ -1430,6 +1430,413 @@ export interface TimeAdjustment {
   updatedOn: string;
 }
 
+// ── M08 Assessment, Examinations and Integrity — domain types ────────────────
+
+export type AssessmentType = "formative" | "summative" | "unit_test" | "terminal" | "board_mock";
+export type AssessmentStatus = "draft" | "published" | "active" | "archived";
+
+export interface Assessment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  academicPeriodRef: string;
+  code: string;
+  name: string;
+  type: AssessmentType;
+  maxMarks: number;
+  passMarks: number;
+  weight: number;
+  status: AssessmentStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface AssessmentComponent {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  assessmentId: string;
+  assessmentName?: string;
+  name: string;
+  maxMarks: number;
+  weight: number;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type QuestionType = "mcq" | "short" | "long" | "practical" | "objective";
+export type QuestionDifficulty = "easy" | "medium" | "hard";
+export type QuestionStatus = "draft" | "approved" | "archived";
+
+export interface Question {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  subjectRef: string;
+  subjectName?: string;
+  code: string;
+  text: string;
+  type: QuestionType;
+  difficulty: QuestionDifficulty;
+  marks: number;
+  status: QuestionStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PaperStatus = "draft" | "in_review" | "approved" | "published" | "archived";
+
+export interface ExamPaper {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  assessmentId: string;
+  assessmentName?: string;
+  subjectRef: string;
+  subjectName?: string;
+  code: string;
+  title: string;
+  totalMarks: number;
+  durationMins: number;
+  status: PaperStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ExamType = "unit" | "terminal" | "pre_board" | "board" | "entrance";
+export type ExamStatus = "draft" | "scheduled" | "ongoing" | "completed" | "cancelled";
+
+export interface Exam {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  academicPeriodRef: string;
+  name: string;
+  code: string;
+  type: ExamType;
+  status: ExamStatus;
+  startDate: string;
+  endDate: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RegistrationStatus = "registered" | "admitted" | "absent" | "cancelled" | "completed";
+
+export interface ExamRegistration {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  examName?: string;
+  studentRef: string;
+  studentName: string;
+  status: RegistrationStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface ExamRoom {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  examName?: string;
+  locationRef: string;
+  locationName?: string;
+  capacity: number;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface SeatAllocation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  roomId: string;
+  roomName?: string;
+  studentRef: string;
+  studentName: string;
+  seatNo: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type InvigilationRole = "chief" | "assistant" | "reliever";
+
+export interface InvigilationDuty {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  roomId: string;
+  roomName?: string;
+  staffRef: string;
+  staffName: string;
+  role: InvigilationRole;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type MarkStatus = "draft" | "submitted" | "verified" | "published";
+
+export interface MarkEntry {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  registrationId: string;
+  studentName?: string;
+  subjectRef: string;
+  subjectName?: string;
+  marksObtained: number;
+  maxMarks: number;
+  grade?: string;
+  status: MarkStatus;
+  enteredBy: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ModerationAction = "scaled" | "grace" | "remarked" | "no_change";
+export type ModerationStatus = "pending" | "approved" | "rejected";
+
+export interface ModerationRecord {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  subjectRef: string;
+  action: ModerationAction;
+  reason: string;
+  adjustment: number;
+  status: ModerationStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PracticalType = "practical" | "project" | "viva";
+export type PracticalStatus = "scheduled" | "completed" | "absent" | "cancelled";
+
+export interface PracticalExam {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  subjectRef: string;
+  subjectName?: string;
+  type: PracticalType;
+  scheduledOn: string;
+  venue?: string;
+  status: PracticalStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type IntegrityType = "malpractice" | "impersonation" | "cheating" | "disruption" | "other";
+export type IntegrityStatus = "open" | "under_review" | "resolved" | "dismissed";
+
+export interface IntegrityCase {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  examId: string;
+  studentRef: string;
+  studentName: string;
+  type: IntegrityType;
+  description: string;
+  status: IntegrityStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RecheckStatus = "pending" | "in_review" | "approved" | "rejected" | "completed";
+
+export interface RecheckRequest {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  markEntryId: string;
+  studentName?: string;
+  subjectRef: string;
+  reason: string;
+  status: RecheckStatus;
+  requestedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── M09 School Results, Records and Certificates — domain types ──────────────
+
+export type ResultRunStatus = "draft" | "computed" | "approved" | "published" | "superseded";
+export type ResultOutcome = "pass" | "fail" | "withheld" | "absent";
+
+export interface ResultRun {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  academicPeriodRef: string;
+  examId: string;
+  examName?: string;
+  name: string;
+  status: ResultRunStatus;
+  computedOn?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface ResultLine {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  resultRunId: string;
+  resultRunName?: string;
+  studentRef: string;
+  studentName: string;
+  totalMarks: number;
+  gpa?: number;
+  grade?: string;
+  outcome: ResultOutcome;
+  rank?: number;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PublicationStatus = "draft" | "approved" | "published" | "revoked";
+
+export interface ResultPublication {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  resultRunId: string;
+  resultRunName?: string;
+  publishedOn: string;
+  status: PublicationStatus;
+  approvedBy?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CorrectionType = "retotal" | "recheck" | "grade_change" | "data_fix";
+export type CorrectionStatus2 = "pending" | "approved" | "rejected" | "applied";
+
+export interface ResultCorrection {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  resultLineId: string;
+  studentName?: string;
+  type: CorrectionType;
+  reason: string;
+  status: CorrectionStatus2;
+  correctedBy?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type MarksheetStatus = "draft" | "issued" | "reissued" | "revoked";
+
+export interface Marksheet {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  academicPeriodRef: string;
+  examId?: string;
+  serial: string;
+  status: MarksheetStatus;
+  issuedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type TranscriptStatus = "draft" | "issued" | "reissued";
+
+export interface Transcript {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  fromPeriod: string;
+  toPeriod: string;
+  status: TranscriptStatus;
+  issuedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CertificateType = "transfer" | "character" | "migration" | "provisional" | "bonafide" | "other";
+export type CertificateStatus = "draft" | "issued" | "revoked" | "expired";
+
+export interface Certificate {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  type: CertificateType;
+  serial: string;
+  status: CertificateStatus;
+  issuedOn: string;
+  validUntil?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CertRequestStatus = "pending" | "approved" | "issued" | "rejected";
+
+export interface CertificateRequest {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  certificateType: CertificateType;
+  purpose: string;
+  status: CertRequestStatus;
+  requestedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CredentialStatus = "active" | "revoked" | "expired";
+
+export interface DigitalCredential {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  certificateId: string;
+  certificateSerial?: string;
+  studentName?: string;
+  credentialCode: string;
+  status: CredentialStatus;
+  issuedOn: string;
+  verifiedOn?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CompletionType = "SEE" | "NEB_12" | "school_completion" | "transfer";
+export type CompletionStatus = "pending" | "completed" | "withheld" | "certified";
+
+export interface CompletionRecord {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  gradeClassRef: string;
+  academicPeriodRef: string;
+  type: CompletionType;
+  status: CompletionStatus;
+  completedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -1528,6 +1935,32 @@ export interface DBSchema {
   staffRosters: StaffRoster[];
   timeEntries: TimeEntry[];
   timeAdjustments: TimeAdjustment[];
+  // M08 stores
+  assessments: Assessment[];
+  assessmentComponents: AssessmentComponent[];
+  questions: Question[];
+  examPapers: ExamPaper[];
+  exams: Exam[];
+  examRegistrations: ExamRegistration[];
+  examRooms: ExamRoom[];
+  seatAllocations: SeatAllocation[];
+  invigilationDuties: InvigilationDuty[];
+  markEntries: MarkEntry[];
+  moderationRecords: ModerationRecord[];
+  practicalExams: PracticalExam[];
+  integrityCases: IntegrityCase[];
+  recheckRequests: RecheckRequest[];
+  // M09 stores
+  resultRuns: ResultRun[];
+  resultLines: ResultLine[];
+  resultPublications: ResultPublication[];
+  resultCorrections: ResultCorrection[];
+  marksheets: Marksheet[];
+  transcripts: Transcript[];
+  certificates: Certificate[];
+  certificateRequests: CertificateRequest[];
+  digitalCredentials: DigitalCredential[];
+  completionRecords: CompletionRecord[];
 }
 
 export type StoreName = keyof DBSchema;

@@ -19,6 +19,11 @@ import type {
   Timetable, TimetableSlot, TimetableAssignment, Substitution,
   AttendanceSession, StudentAttendance, AttendanceCorrection, AttendanceAlert,
   Shift, StaffRoster, TimeEntry, TimeAdjustment,
+  Assessment, AssessmentComponent, Question, ExamPaper, Exam, ExamRegistration,
+  ExamRoom, SeatAllocation, InvigilationDuty, MarkEntry, ModerationRecord,
+  PracticalExam, IntegrityCase, RecheckRequest,
+  ResultRun, ResultLine, ResultPublication, ResultCorrection, Marksheet, Transcript,
+  Certificate, CertificateRequest, DigitalCredential, CompletionRecord,
 } from "@/lib/types";
 
 export const keys = {
@@ -118,6 +123,32 @@ export const keys = {
   staffRosters: ["staffRosters"] as const,
   timeEntries: ["timeEntries"] as const,
   timeAdjustments: ["timeAdjustments"] as const,
+  // M08
+  assessments: ["assessments"] as const,
+  assessmentComponents: ["assessmentComponents"] as const,
+  questions: ["questions"] as const,
+  examPapers: ["examPapers"] as const,
+  exams: ["exams"] as const,
+  examRegistrations: ["examRegistrations"] as const,
+  examRooms: ["examRooms"] as const,
+  seatAllocations: ["seatAllocations"] as const,
+  invigilationDuties: ["invigilationDuties"] as const,
+  markEntries: ["markEntries"] as const,
+  moderationRecords: ["moderationRecords"] as const,
+  practicalExams: ["practicalExams"] as const,
+  integrityCases: ["integrityCases"] as const,
+  recheckRequests: ["recheckRequests"] as const,
+  // M09
+  resultRuns: ["resultRuns"] as const,
+  resultLines: ["resultLines"] as const,
+  resultPublications: ["resultPublications"] as const,
+  resultCorrections: ["resultCorrections"] as const,
+  marksheets: ["marksheets"] as const,
+  transcripts: ["transcripts"] as const,
+  certificates: ["certificates"] as const,
+  certificateRequests: ["certificateRequests"] as const,
+  digitalCredentials: ["digitalCredentials"] as const,
+  completionRecords: ["completionRecords"] as const,
 };
 
 // ── Queries ──────────────────────────────────────────────────────────────────
@@ -217,6 +248,32 @@ export const useShifts = () => useQuery({ queryKey: keys.shifts, queryFn: api.li
 export const useStaffRosters = () => useQuery({ queryKey: keys.staffRosters, queryFn: api.listStaffRosters });
 export const useTimeEntries = () => useQuery({ queryKey: keys.timeEntries, queryFn: api.listTimeEntries });
 export const useTimeAdjustments = () => useQuery({ queryKey: keys.timeAdjustments, queryFn: api.listTimeAdjustments });
+// M08
+export const useAssessments = () => useQuery({ queryKey: keys.assessments, queryFn: api.listAssessments });
+export const useAssessmentComponents = () => useQuery({ queryKey: keys.assessmentComponents, queryFn: api.listAssessmentComponents });
+export const useQuestions = () => useQuery({ queryKey: keys.questions, queryFn: api.listQuestions });
+export const useExamPapers = () => useQuery({ queryKey: keys.examPapers, queryFn: api.listExamPapers });
+export const useExams = () => useQuery({ queryKey: keys.exams, queryFn: api.listExams });
+export const useExamRegistrations = () => useQuery({ queryKey: keys.examRegistrations, queryFn: api.listExamRegistrations });
+export const useExamRooms = () => useQuery({ queryKey: keys.examRooms, queryFn: api.listExamRooms });
+export const useSeatAllocations = () => useQuery({ queryKey: keys.seatAllocations, queryFn: api.listSeatAllocations });
+export const useInvigilationDuties = () => useQuery({ queryKey: keys.invigilationDuties, queryFn: api.listInvigilationDuties });
+export const useMarkEntries = () => useQuery({ queryKey: keys.markEntries, queryFn: api.listMarkEntries });
+export const useModerationRecords = () => useQuery({ queryKey: keys.moderationRecords, queryFn: api.listModerationRecords });
+export const usePracticalExams = () => useQuery({ queryKey: keys.practicalExams, queryFn: api.listPracticalExams });
+export const useIntegrityCases = () => useQuery({ queryKey: keys.integrityCases, queryFn: api.listIntegrityCases });
+export const useRecheckRequests = () => useQuery({ queryKey: keys.recheckRequests, queryFn: api.listRecheckRequests });
+// M09
+export const useResultRuns = () => useQuery({ queryKey: keys.resultRuns, queryFn: api.listResultRuns });
+export const useResultLines = () => useQuery({ queryKey: keys.resultLines, queryFn: api.listResultLines });
+export const useResultPublications = () => useQuery({ queryKey: keys.resultPublications, queryFn: api.listResultPublications });
+export const useResultCorrections = () => useQuery({ queryKey: keys.resultCorrections, queryFn: api.listResultCorrections });
+export const useMarksheets = () => useQuery({ queryKey: keys.marksheets, queryFn: api.listMarksheets });
+export const useTranscripts = () => useQuery({ queryKey: keys.transcripts, queryFn: api.listTranscripts });
+export const useCertificates = () => useQuery({ queryKey: keys.certificates, queryFn: api.listCertificates });
+export const useCertificateRequests = () => useQuery({ queryKey: keys.certificateRequests, queryFn: api.listCertificateRequests });
+export const useDigitalCredentials = () => useQuery({ queryKey: keys.digitalCredentials, queryFn: api.listDigitalCredentials });
+export const useCompletionRecords = () => useQuery({ queryKey: keys.completionRecords, queryFn: api.listCompletionRecords });
 
 // ── Mutations ────────────────────────────────────────────────────────────────
 function useErpMutation<TIn, TOut>(
@@ -404,3 +461,53 @@ export const useSaveTimeEntry = () => useErpMutation<TimeEntry, TimeEntry>(api.s
 export const useDeleteTimeEntry = () => useErpMutation<TimeEntry, void>(api.deleteTimeEntry, [keys.timeEntries, keys.audit]);
 export const useSaveTimeAdjustment = () => useErpMutation<TimeAdjustment, TimeAdjustment>(api.saveTimeAdjustment, [keys.timeAdjustments, keys.audit]);
 export const useDeleteTimeAdjustment = () => useErpMutation<TimeAdjustment, void>(api.deleteTimeAdjustment, [keys.timeAdjustments, keys.audit]);
+// M08
+export const useSaveAssessment = () => useErpMutation<Assessment, Assessment>(api.saveAssessment, [keys.assessments, keys.audit]);
+export const useDeleteAssessment = () => useErpMutation<Assessment, void>(api.deleteAssessment, [keys.assessments, keys.audit]);
+export const useSaveAssessmentComponent = () => useErpMutation<AssessmentComponent, AssessmentComponent>(api.saveAssessmentComponent, [keys.assessmentComponents, keys.audit]);
+export const useDeleteAssessmentComponent = () => useErpMutation<AssessmentComponent, void>(api.deleteAssessmentComponent, [keys.assessmentComponents, keys.audit]);
+export const useSaveQuestion = () => useErpMutation<Question, Question>(api.saveQuestion, [keys.questions, keys.audit]);
+export const useDeleteQuestion = () => useErpMutation<Question, void>(api.deleteQuestion, [keys.questions, keys.audit]);
+export const useSaveExamPaper = () => useErpMutation<ExamPaper, ExamPaper>(api.saveExamPaper, [keys.examPapers, keys.audit]);
+export const useDeleteExamPaper = () => useErpMutation<ExamPaper, void>(api.deleteExamPaper, [keys.examPapers, keys.audit]);
+export const useSaveExam = () => useErpMutation<Exam, Exam>(api.saveExam, [keys.exams, keys.audit]);
+export const useDeleteExam = () => useErpMutation<Exam, void>(api.deleteExam, [keys.exams, keys.audit]);
+export const useSaveExamRegistration = () => useErpMutation<ExamRegistration, ExamRegistration>(api.saveExamRegistration, [keys.examRegistrations, keys.audit]);
+export const useDeleteExamRegistration = () => useErpMutation<ExamRegistration, void>(api.deleteExamRegistration, [keys.examRegistrations, keys.audit]);
+export const useSaveExamRoom = () => useErpMutation<ExamRoom, ExamRoom>(api.saveExamRoom, [keys.examRooms, keys.audit]);
+export const useDeleteExamRoom = () => useErpMutation<ExamRoom, void>(api.deleteExamRoom, [keys.examRooms, keys.audit]);
+export const useSaveSeatAllocation = () => useErpMutation<SeatAllocation, SeatAllocation>(api.saveSeatAllocation, [keys.seatAllocations, keys.audit]);
+export const useDeleteSeatAllocation = () => useErpMutation<SeatAllocation, void>(api.deleteSeatAllocation, [keys.seatAllocations, keys.audit]);
+export const useSaveInvigilationDuty = () => useErpMutation<InvigilationDuty, InvigilationDuty>(api.saveInvigilationDuty, [keys.invigilationDuties, keys.audit]);
+export const useDeleteInvigilationDuty = () => useErpMutation<InvigilationDuty, void>(api.deleteInvigilationDuty, [keys.invigilationDuties, keys.audit]);
+export const useSaveMarkEntry = () => useErpMutation<MarkEntry, MarkEntry>(api.saveMarkEntry, [keys.markEntries, keys.audit]);
+export const useDeleteMarkEntry = () => useErpMutation<MarkEntry, void>(api.deleteMarkEntry, [keys.markEntries, keys.audit]);
+export const useSaveModerationRecord = () => useErpMutation<ModerationRecord, ModerationRecord>(api.saveModerationRecord, [keys.moderationRecords, keys.audit]);
+export const useDeleteModerationRecord = () => useErpMutation<ModerationRecord, void>(api.deleteModerationRecord, [keys.moderationRecords, keys.audit]);
+export const useSavePracticalExam = () => useErpMutation<PracticalExam, PracticalExam>(api.savePracticalExam, [keys.practicalExams, keys.audit]);
+export const useDeletePracticalExam = () => useErpMutation<PracticalExam, void>(api.deletePracticalExam, [keys.practicalExams, keys.audit]);
+export const useSaveIntegrityCase = () => useErpMutation<IntegrityCase, IntegrityCase>(api.saveIntegrityCase, [keys.integrityCases, keys.audit]);
+export const useDeleteIntegrityCase = () => useErpMutation<IntegrityCase, void>(api.deleteIntegrityCase, [keys.integrityCases, keys.audit]);
+export const useSaveRecheckRequest = () => useErpMutation<RecheckRequest, RecheckRequest>(api.saveRecheckRequest, [keys.recheckRequests, keys.audit]);
+export const useDeleteRecheckRequest = () => useErpMutation<RecheckRequest, void>(api.deleteRecheckRequest, [keys.recheckRequests, keys.audit]);
+// M09
+export const useSaveResultRun = () => useErpMutation<ResultRun, ResultRun>(api.saveResultRun, [keys.resultRuns, keys.audit]);
+export const useDeleteResultRun = () => useErpMutation<ResultRun, void>(api.deleteResultRun, [keys.resultRuns, keys.audit]);
+export const useSaveResultLine = () => useErpMutation<ResultLine, ResultLine>(api.saveResultLine, [keys.resultLines, keys.audit]);
+export const useDeleteResultLine = () => useErpMutation<ResultLine, void>(api.deleteResultLine, [keys.resultLines, keys.audit]);
+export const useSaveResultPublication = () => useErpMutation<ResultPublication, ResultPublication>(api.saveResultPublication, [keys.resultPublications, keys.audit]);
+export const useDeleteResultPublication = () => useErpMutation<ResultPublication, void>(api.deleteResultPublication, [keys.resultPublications, keys.audit]);
+export const useSaveResultCorrection = () => useErpMutation<ResultCorrection, ResultCorrection>(api.saveResultCorrection, [keys.resultCorrections, keys.audit]);
+export const useDeleteResultCorrection = () => useErpMutation<ResultCorrection, void>(api.deleteResultCorrection, [keys.resultCorrections, keys.audit]);
+export const useSaveMarksheet = () => useErpMutation<Marksheet, Marksheet>(api.saveMarksheet, [keys.marksheets, keys.audit]);
+export const useDeleteMarksheet = () => useErpMutation<Marksheet, void>(api.deleteMarksheet, [keys.marksheets, keys.audit]);
+export const useSaveTranscript = () => useErpMutation<Transcript, Transcript>(api.saveTranscript, [keys.transcripts, keys.audit]);
+export const useDeleteTranscript = () => useErpMutation<Transcript, void>(api.deleteTranscript, [keys.transcripts, keys.audit]);
+export const useSaveCertificate = () => useErpMutation<Certificate, Certificate>(api.saveCertificate, [keys.certificates, keys.audit]);
+export const useDeleteCertificate = () => useErpMutation<Certificate, void>(api.deleteCertificate, [keys.certificates, keys.audit]);
+export const useSaveCertificateRequest = () => useErpMutation<CertificateRequest, CertificateRequest>(api.saveCertificateRequest, [keys.certificateRequests, keys.audit]);
+export const useDeleteCertificateRequest = () => useErpMutation<CertificateRequest, void>(api.deleteCertificateRequest, [keys.certificateRequests, keys.audit]);
+export const useSaveDigitalCredential = () => useErpMutation<DigitalCredential, DigitalCredential>(api.saveDigitalCredential, [keys.digitalCredentials, keys.audit]);
+export const useDeleteDigitalCredential = () => useErpMutation<DigitalCredential, void>(api.deleteDigitalCredential, [keys.digitalCredentials, keys.audit]);
+export const useSaveCompletionRecord = () => useErpMutation<CompletionRecord, CompletionRecord>(api.saveCompletionRecord, [keys.completionRecords, keys.audit]);
+export const useDeleteCompletionRecord = () => useErpMutation<CompletionRecord, void>(api.deleteCompletionRecord, [keys.completionRecords, keys.audit]);

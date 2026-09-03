@@ -12,6 +12,10 @@ import {
   Target, ScrollText, NotebookPen, Clock, CheckCircle, UsersRound,
   // M07 icons
   CalendarClock, Repeat2, ClipboardList, FilePenLine, Clock3, BellRing,
+  // M08 icons
+  FileText as FileTextM08, HelpCircle, FileCheck, Building2, Scale, FlaskConical, RefreshCw,
+  // M09 icons
+  BadgeCheck, Trophy,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -86,6 +90,28 @@ const m07Nav: NavItem[] = [
   { to: "/attendance-alerts", label: "Attendance Alerts", labelNe: "सतर्कता", icon: BellRing, micro: "M07.06" },
 ];
 
+const m08Nav: NavItem[] = [
+  { to: "/assessments", label: "Assessment Design", labelNe: "मूल्यांकन", icon: FileTextM08, micro: "M08.01" },
+  { to: "/question-bank", label: "Question Bank", labelNe: "प्रश्न बैंक", icon: HelpCircle, micro: "M08.02" },
+  { to: "/exams", label: "Exams & Registration", labelNe: "परीक्षा", icon: CalendarDays, micro: "M08.03" },
+  { to: "/exam-rooms", label: "Rooms, Seats & Invigilation", labelNe: "हल व्यवस्थापन", icon: Building2, micro: "M08.04" },
+  { to: "/marks", label: "Marks & Grades", labelNe: "अङ्क", icon: ClipboardCheck, micro: "M08.05" },
+  { to: "/moderation", label: "Moderation & Scaling", labelNe: "मध्यस्थता", icon: Scale, micro: "M08.06" },
+  { to: "/practicals", label: "Practical & Viva", labelNe: "प्रयोगात्मक", icon: FlaskConical, micro: "M08.07" },
+  { to: "/integrity", label: "Integrity Cases", labelNe: "अनुशासन", icon: ShieldAlert, micro: "M08.08" },
+  { to: "/rechecks", label: "Recheck & Retotal", labelNe: "पुन: जाँच", icon: RefreshCw, micro: "M08.09" },
+];
+
+const m09Nav: NavItem[] = [
+  { to: "/results", label: "Result Calculation", labelNe: "परिणाम", icon: Award, micro: "M09.01" },
+  { to: "/result-publications", label: "Result Publication", labelNe: "प्रकाशन", icon: Megaphone, micro: "M09.02" },
+  { to: "/result-corrections", label: "Result Corrections", labelNe: "सच्च्याउने", icon: FilePenLine, micro: "M09.03" },
+  { to: "/marksheets", label: "Marksheets & Transcripts", labelNe: "लेजर", icon: ScrollText, micro: "M09.04" },
+  { to: "/certificates", label: "Certificates & Letters", labelNe: "प्रमाणपत्र", icon: GraduationCap, micro: "M09.05" },
+  { to: "/credentials", label: "Digital Credentials", labelNe: "डिजिटल प्रमाण", icon: BadgeCheck, micro: "M09.06" },
+  { to: "/completions", label: "Class 10/12 Completion", labelNe: "उत्तीर्ण", icon: Trophy, micro: "M09.07" },
+];
+
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
   const filtered = items.filter((item) => canAccess(role, item.to));
   if (filtered.length === 0) return null;
@@ -139,7 +165,7 @@ export function AppShell() {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Shikshya ERP</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M07</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M09</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -150,6 +176,8 @@ export function AppShell() {
           <NavSection label="Student Lifecycle" items={m05Nav} role={role} />
           <NavSection label="Curriculum & Teaching" items={m06Nav} role={role} />
           <NavSection label="Scheduling & Attendance" items={m07Nav} role={role} />
+          <NavSection label="Assessment & Exams" items={m08Nav} role={role} />
+          <NavSection label="Results & Certificates" items={m09Nav} role={role} />
         </nav>
 
         {/* User + Logout */}
@@ -211,7 +239,7 @@ export function AppShell() {
           <Outlet />
         </main>
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground">
-          Shikshya ERP · Modules 1–7 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Design prototype (fake data, IndexedDB)
+          Shikshya ERP · Modules 1–9 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Design prototype (fake data, IndexedDB)
         </footer>
       </div>
     </div>

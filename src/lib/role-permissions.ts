@@ -87,6 +87,8 @@ const ALL_ADMIN_ROUTES = [
   "/students", "/enrolments", "/holds",
   "/curriculum", "/syllabus", "/lesson-planning", "/workload", "/quality-review", "/faculty-review",
   "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
+  "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
+  "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -100,6 +102,8 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/students", "/enrolments", "/holds",
     "/curriculum", "/syllabus", "/lesson-planning", "/workload", "/quality-review", "/faculty-review",
     "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
+    "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
+    "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
   ],
 
   accountant: [
@@ -113,6 +117,8 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/students", "/enrolments",
     "/curriculum", "/syllabus", "/lesson-planning", "/workload", "/quality-review", "/faculty-review",
     "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
+    "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
+    "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
   ],
 
   student: [

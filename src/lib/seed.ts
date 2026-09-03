@@ -769,6 +769,163 @@ export function seedData() {
     { id: "tadj-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timeEntryId: "te-3", staffName: "Suresh Thapa", reason: "QR scan duplicate — deduplication", approval: "", status: "draft", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
   ];
 
+  // ── M08 Assessment, Examinations and Integrity ─────────────────────────────
+
+  const assessments: DBSchema["assessments"] = [
+    { id: "ass-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", code: "ASS-2082-T1", name: "First Terminal Examination", type: "terminal", maxMarks: 100, passMarks: 40, weight: 25, status: "active", createdOn: "2025-06-01", updatedOn: "2025-06-01" },
+    { id: "ass-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", code: "ASS-2082-UT1", name: "Unit Test 1 — Science", type: "unit_test", maxMarks: 50, passMarks: 20, weight: 10, status: "published", createdOn: "2025-07-10", updatedOn: "2025-07-10" },
+    { id: "ass-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", code: "ASS-2082-PRE", name: "Pre-Board Mock — Class 10", type: "board_mock", maxMarks: 100, passMarks: 40, weight: 30, status: "draft", createdOn: "2025-08-15", updatedOn: "2025-08-15" },
+    { id: "ass-4", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, academicPeriodRef: "ay-1", code: "ASS-2082-FORM", name: "Formative Assessment — ECED", type: "formative", maxMarks: 20, passMarks: 8, weight: 15, status: "active", createdOn: "2025-07-20", updatedOn: "2025-07-20" },
+  ];
+
+  const assessmentComponents: DBSchema["assessmentComponents"] = [
+    { id: "acomp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-1", assessmentName: "First Terminal Examination", name: "Theory", maxMarks: 75, weight: 75, createdOn: "2025-06-01", updatedOn: "2025-06-01" },
+    { id: "acomp-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-1", assessmentName: "First Terminal Examination", name: "Practical", maxMarks: 25, weight: 25, createdOn: "2025-06-01", updatedOn: "2025-06-01" },
+    { id: "acomp-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-2", assessmentName: "Unit Test 1 — Science", name: "MCQ Section", maxMarks: 20, weight: 40, createdOn: "2025-07-10", updatedOn: "2025-07-10" },
+    { id: "acomp-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-2", assessmentName: "Unit Test 1 — Science", name: "Subjective", maxMarks: 30, weight: 60, createdOn: "2025-07-10", updatedOn: "2025-07-10" },
+  ];
+
+  const questions: DBSchema["questions"] = [
+    { id: "q-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, subjectRef: "su-6", subjectName: "Physics", code: "Q-PHY-001", text: "State Newton's First Law of Motion with an example.", type: "short", difficulty: "easy", marks: 5, status: "approved", createdOn: "2025-07-01", updatedOn: "2025-07-01" },
+    { id: "q-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, subjectRef: "su-3", subjectName: "Mathematics", code: "Q-MATH-042", text: "Solve: If 2x + 3y = 12 and x - y = 1, find x and y.", type: "long", difficulty: "medium", marks: 8, status: "approved", createdOn: "2025-07-02", updatedOn: "2025-07-02" },
+    { id: "q-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, subjectRef: "su-1", subjectName: "Nepali", code: "Q-NEP-011", text: "‘वसन्त ऋतु’ मा निबन्ध लेख्नुहोस्।", type: "long", difficulty: "medium", marks: 10, status: "draft", createdOn: "2025-07-05", updatedOn: "2025-07-05" },
+    { id: "q-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, subjectRef: "su-6", subjectName: "Physics", code: "Q-PHY-018", text: "Which unit is used for measuring force?", type: "mcq", difficulty: "easy", marks: 2, status: "approved", createdOn: "2025-07-06", updatedOn: "2025-07-06" },
+    { id: "q-5", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, subjectRef: "su-3", subjectName: "Mathematics", code: "Q-MATH-050", text: "Practical: Verify Pythagoras theorem using graph paper.", type: "practical", difficulty: "hard", marks: 10, status: "approved", createdOn: "2025-07-08", updatedOn: "2025-07-08" },
+  ];
+
+  const examPapers: DBSchema["examPapers"] = [
+    { id: "ep-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-1", assessmentName: "First Terminal Examination", subjectRef: "su-6", subjectName: "Physics", code: "PAP-PHY-T1", title: "Physics — Class 11 — Terminal Paper A", totalMarks: 75, durationMins: 180, status: "approved", createdOn: "2025-08-01", updatedOn: "2025-08-01" },
+    { id: "ep-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-1", assessmentName: "First Terminal Examination", subjectRef: "su-3", subjectName: "Mathematics", code: "PAP-MATH-T1", title: "Mathematics — Class 10 — Terminal Paper", totalMarks: 100, durationMins: 180, status: "published", createdOn: "2025-08-02", updatedOn: "2025-08-02" },
+    { id: "ep-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assessmentId: "ass-3", assessmentName: "Pre-Board Mock — Class 10", subjectRef: "su-3", subjectName: "Mathematics", code: "PAP-MATH-PRE", title: "Mock — Mathematics Pre-Board", totalMarks: 100, durationMins: 180, status: "draft", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+  ];
+
+  const exams: DBSchema["exams"] = [
+    { id: "exam-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "First Terminal 2082", code: "EXAM-T1-2082", type: "terminal", status: "scheduled", startDate: "2025-09-15", endDate: "2025-09-30", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "exam-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "Pre-Board 2082 — Class 10", code: "EXAM-PRE-10", type: "pre_board", status: "scheduled", startDate: "2026-01-05", endDate: "2026-01-20", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "exam-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "Unit Test — Science", code: "EXAM-UT-SCI", type: "unit", status: "ongoing", startDate: "2025-09-02", endDate: "2025-09-05", createdOn: "2025-08-25", updatedOn: "2025-09-02" },
+    { id: "exam-4", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, academicPeriodRef: "ay-1", name: "Entrance Test 2083", code: "EXAM-ENT-2083", type: "entrance", status: "draft", startDate: "2026-03-10", endDate: "2026-03-12", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+  ];
+
+  const examRegistrations: DBSchema["examRegistrations"] = [
+    { id: "er-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", examName: "First Terminal 2082", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", status: "admitted", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "er-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", examName: "First Terminal 2082", studentRef: "stu-2", studentName: "Sita Kumari Thapa", status: "registered", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "er-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", examName: "First Terminal 2082", studentRef: "stu-3", studentName: "Bikash Gurung", status: "registered", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "er-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-3", examName: "Unit Test — Science", studentRef: "stu-3", studentName: "Bikash Gurung", status: "completed", createdOn: "2025-09-02", updatedOn: "2025-09-03" },
+    { id: "er-5", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-2", examName: "Pre-Board 2082 — Class 10", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", status: "registered", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+
+  const examRooms: DBSchema["examRooms"] = [
+    { id: "eroom-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", examName: "First Terminal 2082", locationRef: "loc-rm-201", locationName: "Room 201", capacity: 36, createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "eroom-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", examName: "First Terminal 2082", locationRef: "loc-hall-asm", locationName: "Assembly Hall", capacity: 400, createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "eroom-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-2", examName: "Pre-Board 2082 — Class 10", locationRef: "loc-rm-101", locationName: "Room 101", capacity: 40, createdOn: "2025-09-12", updatedOn: "2025-09-12" },
+  ];
+
+  const seatAllocations: DBSchema["seatAllocations"] = [
+    { id: "seat-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-1", roomName: "Room 201", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", seatNo: "A-01", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "seat-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-1", roomName: "Room 201", studentRef: "stu-2", studentName: "Sita Kumari Thapa", seatNo: "A-02", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "seat-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-2", roomName: "Assembly Hall", studentRef: "stu-3", studentName: "Bikash Gurung", seatNo: "H-15", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+  ];
+
+  const invigilationDuties: DBSchema["invigilationDuties"] = [
+    { id: "inv-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-1", roomName: "Room 201", staffRef: "uid-5", staffName: "Manoj Rai", role: "chief", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "inv-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-2", roomName: "Assembly Hall", staffRef: "uid-2", staffName: "Ramesh Shrestha", role: "chief", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "inv-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", roomId: "eroom-2", roomName: "Assembly Hall", staffRef: "uid-4", staffName: "Suresh Thapa", role: "assistant", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+  ];
+
+  const markEntries: DBSchema["markEntries"] = [
+    { id: "me-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-3", registrationId: "er-4", studentName: "Bikash Gurung", subjectRef: "su-6", subjectName: "Physics", marksObtained: 38, maxMarks: 50, grade: "B+", status: "verified", enteredBy: "Manoj Rai", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "me-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", registrationId: "er-1", studentName: "Ram Bahadur Shrestha", subjectRef: "su-3", subjectName: "Mathematics", marksObtained: 78, maxMarks: 100, grade: "A", status: "submitted", enteredBy: "Manoj Rai", createdOn: "2025-09-28", updatedOn: "2025-09-28" },
+    { id: "me-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", registrationId: "er-2", studentName: "Sita Kumari Thapa", subjectRef: "su-6", subjectName: "Physics", marksObtained: 42, maxMarks: 75, grade: "B", status: "draft", enteredBy: "Suresh Thapa", createdOn: "2025-09-29", updatedOn: "2025-09-29" },
+    { id: "me-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", registrationId: "er-3", studentName: "Bikash Gurung", subjectRef: "su-6", subjectName: "Physics", marksObtained: 68, maxMarks: 75, grade: "A", status: "published", enteredBy: "Manoj Rai", createdOn: "2025-09-29", updatedOn: "2025-09-30" },
+  ];
+
+  const moderationRecords: DBSchema["moderationRecords"] = [
+    { id: "mod-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", subjectRef: "su-6", action: "scaled", reason: "Difficulty calibration — paper was tougher than standard", adjustment: 5, status: "approved", createdOn: "2025-09-30", updatedOn: "2025-09-30" },
+    { id: "mod-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", subjectRef: "su-3", action: "grace", reason: "Grace marks for Q7 ambiguity — 2 marks to all", adjustment: 2, status: "pending", createdOn: "2025-09-30", updatedOn: "2025-09-30" },
+    { id: "mod-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-3", subjectRef: "su-6", action: "no_change", reason: "Review: marking consistent — no adjustment", adjustment: 0, status: "approved", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+  ];
+
+  const practicalExams: DBSchema["practicalExams"] = [
+    { id: "prac-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", subjectRef: "su-6", subjectName: "Physics", type: "practical", scheduledOn: "2025-09-25T10:00:00", venue: "Physics Laboratory", status: "scheduled", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "prac-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", subjectRef: "su-8", subjectName: "Computer Science", type: "project", scheduledOn: "2025-09-26T13:00:00", venue: "Computer Laboratory", status: "scheduled", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+    { id: "prac-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", subjectRef: "su-6", subjectName: "Physics", type: "viva", scheduledOn: "2025-09-27T09:00:00", venue: "Room 201", status: "completed", createdOn: "2025-09-10", updatedOn: "2025-09-27" },
+  ];
+
+  const integrityCases: DBSchema["integrityCases"] = [
+    { id: "ic-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", studentRef: "stu-2", studentName: "Sita Kumari Thapa", type: "cheating", description: "Mobile phone found during Mathematics paper", status: "under_review", createdOn: "2025-09-20", updatedOn: "2025-09-20" },
+    { id: "ic-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-3", studentRef: "stu-3", studentName: "Bikash Gurung", type: "disruption", description: "Disruptive behavior — warned and relocated", status: "resolved", createdOn: "2025-09-03", updatedOn: "2025-09-04" },
+    { id: "ic-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, examId: "exam-1", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", type: "other", description: "Suspected impersonation — ID mismatch, under verification", status: "open", createdOn: "2025-09-21", updatedOn: "2025-09-21" },
+  ];
+
+  const recheckRequests: DBSchema["recheckRequests"] = [
+    { id: "rr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, markEntryId: "me-2", studentName: "Ram Bahadur Shrestha", subjectRef: "su-3", reason: "Request re-totalling — expected higher in Section B", status: "pending", requestedOn: "2025-10-01", createdOn: "2025-10-01", updatedOn: "2025-10-01" },
+    { id: "rr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, markEntryId: "me-3", studentName: "Sita Kumari Thapa", subjectRef: "su-6", reason: "Grace not applied — moderation pending", status: "in_review", requestedOn: "2025-10-02", createdOn: "2025-10-02", updatedOn: "2025-10-02" },
+    { id: "rr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, markEntryId: "me-1", studentName: "Bikash Gurung", subjectRef: "su-6", reason: "Re-assessment request — practical marks dispute", status: "completed", requestedOn: "2025-09-05", createdOn: "2025-09-05", updatedOn: "2025-09-06" },
+  ];
+
+  // ── M09 School Results, Records and Certificates ───────────────────────────
+
+  const resultRuns: DBSchema["resultRuns"] = [
+    { id: "rrun-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", examId: "exam-1", examName: "First Terminal 2082", name: "Terminal 1 — Class 10 — 2082", status: "published", computedOn: "2025-10-05", createdOn: "2025-10-01", updatedOn: "2025-10-05" },
+    { id: "rrun-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", examId: "exam-3", examName: "Unit Test — Science", name: "Unit Test — Science — Class 11", status: "computed", computedOn: "2025-09-04", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "rrun-3", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, academicPeriodRef: "ay-1", examId: "exam-4", examName: "Entrance Test 2083", name: "Entrance 2083 — Bhaktapur", status: "draft", createdOn: "2025-09-10", updatedOn: "2025-09-10" },
+  ];
+
+  const resultLines: DBSchema["resultLines"] = [
+    { id: "rl-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-1", resultRunName: "Terminal 1 — Class 10 — 2082", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", totalMarks: 342, gpa: 3.65, grade: "A", outcome: "pass", rank: 2, createdOn: "2025-10-05", updatedOn: "2025-10-05" },
+    { id: "rl-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-1", resultRunName: "Terminal 1 — Class 10 — 2082", studentRef: "stu-3", studentName: "Bikash Gurung", totalMarks: 365, gpa: 3.85, grade: "A+", outcome: "pass", rank: 1, createdOn: "2025-10-05", updatedOn: "2025-10-05" },
+    { id: "rl-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-1", resultRunName: "Terminal 1 — Class 10 — 2082", studentRef: "stu-2", studentName: "Sita Kumari Thapa", totalMarks: 198, gpa: 2.1, grade: "C", outcome: "fail", createdOn: "2025-10-05", updatedOn: "2025-10-05" },
+    { id: "rl-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-2", resultRunName: "Unit Test — Science — Class 11", studentRef: "stu-3", studentName: "Bikash Gurung", totalMarks: 38, gpa: 3.2, grade: "B+", outcome: "pass", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+  ];
+
+  const resultPublications: DBSchema["resultPublications"] = [
+    { id: "rpub-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-1", resultRunName: "Terminal 1 — Class 10 — 2082", publishedOn: "2025-10-06T10:00:00", status: "published", approvedBy: "Ramesh Shrestha", createdOn: "2025-10-06", updatedOn: "2025-10-06" },
+    { id: "rpub-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultRunId: "rrun-2", resultRunName: "Unit Test — Science — Class 11", publishedOn: "2025-09-05T09:00:00", status: "approved", approvedBy: "Manoj Rai", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "rpub-3", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, resultRunId: "rrun-3", resultRunName: "Entrance 2083 — Bhaktapur", publishedOn: "2025-09-11", status: "draft", createdOn: "2025-09-11", updatedOn: "2025-09-11" },
+  ];
+
+  const resultCorrections: DBSchema["resultCorrections"] = [
+    { id: "rcorr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultLineId: "rl-3", studentName: "Sita Kumari Thapa", type: "retotal", reason: "Totalling error — 12 marks missed in English", status: "pending", createdOn: "2025-10-07", updatedOn: "2025-10-07" },
+    { id: "rcorr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultLineId: "rl-1", studentName: "Ram Bahadur Shrestha", type: "recheck", reason: "Re-check requested via RR-1 — Mathematics", status: "approved", correctedBy: "Manoj Rai", createdOn: "2025-10-02", updatedOn: "2025-10-03" },
+    { id: "rcorr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resultLineId: "rl-2", studentName: "Bikash Gurung", type: "data_fix", reason: "Attendance marks correction — 5 added", status: "applied", correctedBy: "Anish Karki", createdOn: "2025-10-03", updatedOn: "2025-10-04" },
+  ];
+
+  const marksheets: DBSchema["marksheets"] = [
+    { id: "ms-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", academicPeriodRef: "ay-1", examId: "exam-1", serial: "MS-2082-001", status: "issued", issuedOn: "2025-10-07", createdOn: "2025-10-07", updatedOn: "2025-10-07" },
+    { id: "ms-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", academicPeriodRef: "ay-1", examId: "exam-1", serial: "MS-2082-002", status: "issued", issuedOn: "2025-10-07", createdOn: "2025-10-07", updatedOn: "2025-10-07" },
+    { id: "ms-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", academicPeriodRef: "ay-1", examId: "exam-1", serial: "MS-2082-003", status: "draft", issuedOn: "2025-10-08", createdOn: "2025-10-08", updatedOn: "2025-10-08" },
+  ];
+
+  const transcripts: DBSchema["transcripts"] = [
+    { id: "tr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", fromPeriod: "2081", toPeriod: "2082", status: "issued", issuedOn: "2025-10-10", createdOn: "2025-10-10", updatedOn: "2025-10-10" },
+    { id: "tr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", fromPeriod: "2080", toPeriod: "2082", status: "draft", issuedOn: "2025-10-11", createdOn: "2025-10-11", updatedOn: "2025-10-11" },
+  ];
+
+  const certificates: DBSchema["certificates"] = [
+    { id: "cert-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", type: "transfer", serial: "CER-2082-042", status: "issued", issuedOn: "2025-08-20", validUntil: "2026-08-20", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "cert-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", type: "character", serial: "CER-2082-043", status: "issued", issuedOn: "2025-08-22", createdOn: "2025-08-22", updatedOn: "2025-08-22" },
+    { id: "cert-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", type: "bonafide", serial: "CER-2082-044", status: "draft", issuedOn: "2025-09-01", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+
+  const certificateRequests: DBSchema["certificateRequests"] = [
+    { id: "creq-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", certificateType: "transfer", purpose: "Admission to new school", status: "issued", requestedOn: "2025-08-18", createdOn: "2025-08-18", updatedOn: "2025-08-20" },
+    { id: "creq-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", certificateType: "bonafide", purpose: "Scholarship application", status: "pending", requestedOn: "2025-08-30", createdOn: "2025-08-30", updatedOn: "2025-08-30" },
+    { id: "creq-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", certificateType: "character", purpose: "NEB registration", status: "approved", requestedOn: "2025-08-21", createdOn: "2025-08-21", updatedOn: "2025-08-22" },
+  ];
+
+  const digitalCredentials: DBSchema["digitalCredentials"] = [
+    { id: "dc-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, certificateId: "cert-1", certificateSerial: "CER-2082-042", studentName: "Ram Bahadur Shrestha", credentialCode: "CRED-9F3A2B1C", status: "active", issuedOn: "2025-08-20T14:00:00", verifiedOn: "2025-08-22T09:00:00", createdOn: "2025-08-20", updatedOn: "2025-08-22" },
+    { id: "dc-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, certificateId: "cert-2", certificateSerial: "CER-2082-043", studentName: "Bikash Gurung", credentialCode: "CRED-7E1D4A9F", status: "active", issuedOn: "2025-08-22T10:00:00", createdOn: "2025-08-22", updatedOn: "2025-08-22" },
+    { id: "dc-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, certificateId: "cert-3", certificateSerial: "CER-2082-044", studentName: "Sita Kumari Thapa", credentialCode: "CRED-3C8B2E7A", status: "expired", issuedOn: "2025-09-01T11:00:00", createdOn: "2025-09-01", updatedOn: "2025-09-05" },
+  ];
+
+  const completionRecords: DBSchema["completionRecords"] = [
+    { id: "comp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", gradeClassRef: "gc-8", academicPeriodRef: "ay-1", type: "SEE", status: "completed", completedOn: "2025-06-30", createdOn: "2025-06-30", updatedOn: "2025-06-30" },
+    { id: "comp-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", gradeClassRef: "gc-10", academicPeriodRef: "ay-1", type: "NEB_12", status: "pending", completedOn: "2026-06-15", createdOn: "2025-10-01", updatedOn: "2025-10-01" },
+    { id: "comp-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", gradeClassRef: "gc-10", academicPeriodRef: "ay-1", type: "school_completion", status: "withheld", completedOn: "2026-06-15", createdOn: "2025-10-01", updatedOn: "2025-10-01" },
+    { id: "comp-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", gradeClassRef: "gc-8", academicPeriodRef: "ay-2", type: "SEE", status: "certified", completedOn: "2024-06-30", createdOn: "2024-06-30", updatedOn: "2024-06-30" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -794,5 +951,12 @@ export function seedData() {
     timetables, timetableSlots, timetableAssignments, substitutions,
     attendanceSessions, studentAttendances, attendanceCorrections, attendanceAlerts,
     shifts, staffRosters, timeEntries, timeAdjustments,
+    // M08
+    assessments, assessmentComponents, questions, examPapers, exams, examRegistrations,
+    examRooms, seatAllocations, invigilationDuties, markEntries, moderationRecords,
+    practicalExams, integrityCases, recheckRequests,
+    // M09
+    resultRuns, resultLines, resultPublications, resultCorrections, marksheets,
+    transcripts, certificates, certificateRequests, digitalCredentials, completionRecords,
   };
 }

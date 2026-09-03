@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 8;
+const DB_VERSION = 9;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -109,6 +109,32 @@ function openDB(): Promise<IDBDatabase> {
         "staffRosters",
         "timeEntries",
         "timeAdjustments",
+        // M08 stores
+        "assessments",
+        "assessmentComponents",
+        "questions",
+        "examPapers",
+        "exams",
+        "examRegistrations",
+        "examRooms",
+        "seatAllocations",
+        "invigilationDuties",
+        "markEntries",
+        "moderationRecords",
+        "practicalExams",
+        "integrityCases",
+        "recheckRequests",
+        // M09 stores
+        "resultRuns",
+        "resultLines",
+        "resultPublications",
+        "resultCorrections",
+        "marksheets",
+        "transcripts",
+        "certificates",
+        "certificateRequests",
+        "digitalCredentials",
+        "completionRecords",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -161,6 +187,13 @@ const ALL_STORES: StoreName[] = [
   "timetables", "timetableSlots", "timetableAssignments", "substitutions",
   "attendanceSessions", "studentAttendances", "attendanceCorrections", "attendanceAlerts",
   "shifts", "staffRosters", "timeEntries", "timeAdjustments",
+  // M08 stores
+  "assessments", "assessmentComponents", "questions", "examPapers", "exams", "examRegistrations",
+  "examRooms", "seatAllocations", "invigilationDuties", "markEntries", "moderationRecords",
+  "practicalExams", "integrityCases", "recheckRequests",
+  // M09 stores
+  "resultRuns", "resultLines", "resultPublications", "resultCorrections", "marksheets",
+  "transcripts", "certificates", "certificateRequests", "digitalCredentials", "completionRecords",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -194,6 +227,11 @@ async function ensureSeeded(): Promise<void> {
     "timetables", "timetableSlots", "timetableAssignments", "substitutions",
     "attendanceSessions", "studentAttendances", "attendanceCorrections", "attendanceAlerts",
     "shifts", "staffRosters", "timeEntries", "timeAdjustments",
+    "assessments", "assessmentComponents", "questions", "examPapers", "exams", "examRegistrations",
+    "examRooms", "seatAllocations", "invigilationDuties", "markEntries", "moderationRecords",
+    "practicalExams", "integrityCases", "recheckRequests",
+    "resultRuns", "resultLines", "resultPublications", "resultCorrections", "marksheets",
+    "transcripts", "certificates", "certificateRequests", "digitalCredentials", "completionRecords",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {

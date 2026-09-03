@@ -21,6 +21,11 @@ import type {
   Timetable, TimetableSlot, TimetableAssignment, Substitution,
   AttendanceSession, StudentAttendance, AttendanceCorrection, AttendanceAlert,
   Shift, StaffRoster, TimeEntry, TimeAdjustment,
+  Assessment, AssessmentComponent, Question, ExamPaper, Exam, ExamRegistration,
+  ExamRoom, SeatAllocation, InvigilationDuty, MarkEntry, ModerationRecord,
+  PracticalExam, IntegrityCase, RecheckRequest,
+  ResultRun, ResultLine, ResultPublication, ResultCorrection, Marksheet, Transcript,
+  Certificate, CertificateRequest, DigitalCredential, CompletionRecord,
 } from "./types";
 
 const delay = (ms?: number) => new Promise<void>((r) => setTimeout(r, ms ?? 220 + Math.random() * 380));
@@ -280,6 +285,80 @@ interface ErpApi {
   listTimeAdjustments(): Promise<TimeAdjustment[]>;
   saveTimeAdjustment(a: TimeAdjustment): Promise<TimeAdjustment>;
   deleteTimeAdjustment(a: TimeAdjustment): Promise<void>;
+  // M08
+  listAssessments(): Promise<Assessment[]>;
+  saveAssessment(a: Assessment): Promise<Assessment>;
+  deleteAssessment(a: Assessment): Promise<void>;
+  listAssessmentComponents(): Promise<AssessmentComponent[]>;
+  saveAssessmentComponent(c: AssessmentComponent): Promise<AssessmentComponent>;
+  deleteAssessmentComponent(c: AssessmentComponent): Promise<void>;
+  listQuestions(): Promise<Question[]>;
+  saveQuestion(q: Question): Promise<Question>;
+  deleteQuestion(q: Question): Promise<void>;
+  listExamPapers(): Promise<ExamPaper[]>;
+  saveExamPaper(p: ExamPaper): Promise<ExamPaper>;
+  deleteExamPaper(p: ExamPaper): Promise<void>;
+  listExams(): Promise<Exam[]>;
+  saveExam(e: Exam): Promise<Exam>;
+  deleteExam(e: Exam): Promise<void>;
+  listExamRegistrations(): Promise<ExamRegistration[]>;
+  saveExamRegistration(r: ExamRegistration): Promise<ExamRegistration>;
+  deleteExamRegistration(r: ExamRegistration): Promise<void>;
+  listExamRooms(): Promise<ExamRoom[]>;
+  saveExamRoom(r: ExamRoom): Promise<ExamRoom>;
+  deleteExamRoom(r: ExamRoom): Promise<void>;
+  listSeatAllocations(): Promise<SeatAllocation[]>;
+  saveSeatAllocation(s: SeatAllocation): Promise<SeatAllocation>;
+  deleteSeatAllocation(s: SeatAllocation): Promise<void>;
+  listInvigilationDuties(): Promise<InvigilationDuty[]>;
+  saveInvigilationDuty(d: InvigilationDuty): Promise<InvigilationDuty>;
+  deleteInvigilationDuty(d: InvigilationDuty): Promise<void>;
+  listMarkEntries(): Promise<MarkEntry[]>;
+  saveMarkEntry(m: MarkEntry): Promise<MarkEntry>;
+  deleteMarkEntry(m: MarkEntry): Promise<void>;
+  listModerationRecords(): Promise<ModerationRecord[]>;
+  saveModerationRecord(m: ModerationRecord): Promise<ModerationRecord>;
+  deleteModerationRecord(m: ModerationRecord): Promise<void>;
+  listPracticalExams(): Promise<PracticalExam[]>;
+  savePracticalExam(p: PracticalExam): Promise<PracticalExam>;
+  deletePracticalExam(p: PracticalExam): Promise<void>;
+  listIntegrityCases(): Promise<IntegrityCase[]>;
+  saveIntegrityCase(c: IntegrityCase): Promise<IntegrityCase>;
+  deleteIntegrityCase(c: IntegrityCase): Promise<void>;
+  listRecheckRequests(): Promise<RecheckRequest[]>;
+  saveRecheckRequest(r: RecheckRequest): Promise<RecheckRequest>;
+  deleteRecheckRequest(r: RecheckRequest): Promise<void>;
+  // M09
+  listResultRuns(): Promise<ResultRun[]>;
+  saveResultRun(r: ResultRun): Promise<ResultRun>;
+  deleteResultRun(r: ResultRun): Promise<void>;
+  listResultLines(): Promise<ResultLine[]>;
+  saveResultLine(l: ResultLine): Promise<ResultLine>;
+  deleteResultLine(l: ResultLine): Promise<void>;
+  listResultPublications(): Promise<ResultPublication[]>;
+  saveResultPublication(p: ResultPublication): Promise<ResultPublication>;
+  deleteResultPublication(p: ResultPublication): Promise<void>;
+  listResultCorrections(): Promise<ResultCorrection[]>;
+  saveResultCorrection(c: ResultCorrection): Promise<ResultCorrection>;
+  deleteResultCorrection(c: ResultCorrection): Promise<void>;
+  listMarksheets(): Promise<Marksheet[]>;
+  saveMarksheet(m: Marksheet): Promise<Marksheet>;
+  deleteMarksheet(m: Marksheet): Promise<void>;
+  listTranscripts(): Promise<Transcript[]>;
+  saveTranscript(t: Transcript): Promise<Transcript>;
+  deleteTranscript(t: Transcript): Promise<void>;
+  listCertificates(): Promise<Certificate[]>;
+  saveCertificate(c: Certificate): Promise<Certificate>;
+  deleteCertificate(c: Certificate): Promise<void>;
+  listCertificateRequests(): Promise<CertificateRequest[]>;
+  saveCertificateRequest(r: CertificateRequest): Promise<CertificateRequest>;
+  deleteCertificateRequest(r: CertificateRequest): Promise<void>;
+  listDigitalCredentials(): Promise<DigitalCredential[]>;
+  saveDigitalCredential(d: DigitalCredential): Promise<DigitalCredential>;
+  deleteDigitalCredential(d: DigitalCredential): Promise<void>;
+  listCompletionRecords(): Promise<CompletionRecord[]>;
+  saveCompletionRecord(c: CompletionRecord): Promise<CompletionRecord>;
+  deleteCompletionRecord(c: CompletionRecord): Promise<void>;
 }
 
 async function logAudit(action: string, entity: string, detail: string, recordsAffected = 1) {
@@ -842,6 +921,86 @@ Object.assign(apiMethods, {
   listTimeAdjustments: async (): Promise<TimeAdjustment[]> => { await delay(); return dbGetAll("timeAdjustments"); },
   saveTimeAdjustment: async (a: TimeAdjustment): Promise<TimeAdjustment> => { await delay(300); await dbPut("timeAdjustments", a); await logAudit("TIME_ADJUSTMENT_SAVED", "time_adjustment", `Adjustment saved — ${a.timeEntryId} (${a.status})`); return a; },
   deleteTimeAdjustment: async (a: TimeAdjustment): Promise<void> => { await delay(220); await dbDelete("timeAdjustments", a.id); await logAudit("TIME_ADJUSTMENT_DELETED", "time_adjustment", `Adjustment deleted — ${a.id}`); },
+});
+
+// ── M08 Assessment, Examinations and Integrity ─────────────────────────────
+Object.assign(apiMethods, {
+  listAssessments: async (): Promise<Assessment[]> => { await delay(); return dbGetAll("assessments"); },
+  saveAssessment: async (a: Assessment): Promise<Assessment> => { await delay(300); await dbPut("assessments", a); await logAudit("ASSESSMENT_SAVED", "assessment", `Assessment saved — ${a.name} (${a.code}, ${a.status})`); return a; },
+  deleteAssessment: async (a: Assessment): Promise<void> => { await delay(250); await dbDelete("assessments", a.id); await logAudit("ASSESSMENT_DELETED", "assessment", `Assessment deleted — ${a.name}`); },
+  listAssessmentComponents: async (): Promise<AssessmentComponent[]> => { await delay(); return dbGetAll("assessmentComponents"); },
+  saveAssessmentComponent: async (c: AssessmentComponent): Promise<AssessmentComponent> => { await delay(280); await dbPut("assessmentComponents", c); await logAudit("ASSESSMENT_COMPONENT_SAVED", "assessment_component", `Component saved — ${c.name} (${c.maxMarks})`); return c; },
+  deleteAssessmentComponent: async (c: AssessmentComponent): Promise<void> => { await delay(220); await dbDelete("assessmentComponents", c.id); await logAudit("ASSESSMENT_COMPONENT_DELETED", "assessment_component", `Component deleted — ${c.name}`); },
+  listQuestions: async (): Promise<Question[]> => { await delay(); return dbGetAll("questions"); },
+  saveQuestion: async (q: Question): Promise<Question> => { await delay(300); await dbPut("questions", q); await logAudit("QUESTION_SAVED", "question", `Question saved — ${q.code} (${q.type}, ${q.difficulty})`); return q; },
+  deleteQuestion: async (q: Question): Promise<void> => { await delay(220); await dbDelete("questions", q.id); await logAudit("QUESTION_DELETED", "question", `Question deleted — ${q.code}`); },
+  listExamPapers: async (): Promise<ExamPaper[]> => { await delay(); return dbGetAll("examPapers"); },
+  saveExamPaper: async (p: ExamPaper): Promise<ExamPaper> => { await delay(320); await dbPut("examPapers", p); await logAudit("EXAM_PAPER_SAVED", "exam_paper", `Paper saved — ${p.code} (${p.status})`); return p; },
+  deleteExamPaper: async (p: ExamPaper): Promise<void> => { await delay(250); await dbDelete("examPapers", p.id); await logAudit("EXAM_PAPER_DELETED", "exam_paper", `Paper deleted — ${p.code}`); },
+  listExams: async (): Promise<Exam[]> => { await delay(); return dbGetAll("exams"); },
+  saveExam: async (e: Exam): Promise<Exam> => { await delay(300); await dbPut("exams", e); await logAudit("EXAM_SAVED", "exam", `Exam saved — ${e.name} (${e.code}, ${e.status})`); return e; },
+  deleteExam: async (e: Exam): Promise<void> => { await delay(250); await dbDelete("exams", e.id); await logAudit("EXAM_DELETED", "exam", `Exam deleted — ${e.name}`); },
+  listExamRegistrations: async (): Promise<ExamRegistration[]> => { await delay(); return dbGetAll("examRegistrations"); },
+  saveExamRegistration: async (r: ExamRegistration): Promise<ExamRegistration> => { await delay(300); await dbPut("examRegistrations", r); await logAudit("EXAM_REGISTRATION_SAVED", "exam_registration", `Registration saved — ${r.studentName} for ${r.examId} (${r.status})`); return r; },
+  deleteExamRegistration: async (r: ExamRegistration): Promise<void> => { await delay(220); await dbDelete("examRegistrations", r.id); await logAudit("EXAM_REGISTRATION_DELETED", "exam_registration", `Registration deleted — ${r.studentName}`); },
+  listExamRooms: async (): Promise<ExamRoom[]> => { await delay(); return dbGetAll("examRooms"); },
+  saveExamRoom: async (r: ExamRoom): Promise<ExamRoom> => { await delay(280); await dbPut("examRooms", r); await logAudit("EXAM_ROOM_SAVED", "exam_room", `Room saved — ${r.locationName ?? r.locationRef} for ${r.examId}`); return r; },
+  deleteExamRoom: async (r: ExamRoom): Promise<void> => { await delay(220); await dbDelete("examRooms", r.id); await logAudit("EXAM_ROOM_DELETED", "exam_room", `Room deleted — ${r.locationName ?? r.locationRef}`); },
+  listSeatAllocations: async (): Promise<SeatAllocation[]> => { await delay(); return dbGetAll("seatAllocations"); },
+  saveSeatAllocation: async (s: SeatAllocation): Promise<SeatAllocation> => { await delay(280); await dbPut("seatAllocations", s); await logAudit("SEAT_ALLOCATION_SAVED", "seat_allocation", `Seat saved — ${s.studentName} → ${s.seatNo}`); return s; },
+  deleteSeatAllocation: async (s: SeatAllocation): Promise<void> => { await delay(220); await dbDelete("seatAllocations", s.id); await logAudit("SEAT_ALLOCATION_DELETED", "seat_allocation", `Seat deleted — ${s.seatNo}`); },
+  listInvigilationDuties: async (): Promise<InvigilationDuty[]> => { await delay(); return dbGetAll("invigilationDuties"); },
+  saveInvigilationDuty: async (d: InvigilationDuty): Promise<InvigilationDuty> => { await delay(280); await dbPut("invigilationDuties", d); await logAudit("INVIGILATION_SAVED", "invigilation_duty", `Duty saved — ${d.staffName} (${d.role})`); return d; },
+  deleteInvigilationDuty: async (d: InvigilationDuty): Promise<void> => { await delay(220); await dbDelete("invigilationDuties", d.id); await logAudit("INVIGILATION_DELETED", "invigilation_duty", `Duty deleted — ${d.staffName}`); },
+  listMarkEntries: async (): Promise<MarkEntry[]> => { await delay(); return dbGetAll("markEntries"); },
+  saveMarkEntry: async (m: MarkEntry): Promise<MarkEntry> => { await delay(300); await dbPut("markEntries", m); await logAudit("MARK_ENTRY_SAVED", "mark_entry", `Mark saved — ${m.studentName ?? m.registrationId} ${m.marksObtained}/${m.maxMarks} (${m.status})`); return m; },
+  deleteMarkEntry: async (m: MarkEntry): Promise<void> => { await delay(220); await dbDelete("markEntries", m.id); await logAudit("MARK_ENTRY_DELETED", "mark_entry", `Mark deleted — ${m.id}`); },
+  listModerationRecords: async (): Promise<ModerationRecord[]> => { await delay(); return dbGetAll("moderationRecords"); },
+  saveModerationRecord: async (m: ModerationRecord): Promise<ModerationRecord> => { await delay(300); await dbPut("moderationRecords", m); await logAudit("MODERATION_SAVED", "moderation_record", `Moderation saved — ${m.examId} ${m.subjectRef} ${m.action} (${m.status})`); return m; },
+  deleteModerationRecord: async (m: ModerationRecord): Promise<void> => { await delay(220); await dbDelete("moderationRecords", m.id); await logAudit("MODERATION_DELETED", "moderation_record", `Moderation deleted — ${m.id}`); },
+  listPracticalExams: async (): Promise<PracticalExam[]> => { await delay(); return dbGetAll("practicalExams"); },
+  savePracticalExam: async (p: PracticalExam): Promise<PracticalExam> => { await delay(300); await dbPut("practicalExams", p); await logAudit("PRACTICAL_SAVED", "practical_exam", `Practical saved — ${p.type} for ${p.subjectRef} (${p.status})`); return p; },
+  deletePracticalExam: async (p: PracticalExam): Promise<void> => { await delay(220); await dbDelete("practicalExams", p.id); await logAudit("PRACTICAL_DELETED", "practical_exam", `Practical deleted — ${p.id}`); },
+  listIntegrityCases: async (): Promise<IntegrityCase[]> => { await delay(); return dbGetAll("integrityCases"); },
+  saveIntegrityCase: async (c: IntegrityCase): Promise<IntegrityCase> => { await delay(320); await dbPut("integrityCases", c); await logAudit("INTEGRITY_CASE_SAVED", "integrity_case", `Integrity case saved — ${c.studentName} (${c.type}, ${c.status})`); return c; },
+  deleteIntegrityCase: async (c: IntegrityCase): Promise<void> => { await delay(220); await dbDelete("integrityCases", c.id); await logAudit("INTEGRITY_CASE_DELETED", "integrity_case", `Integrity case deleted — ${c.id}`); },
+  listRecheckRequests: async (): Promise<RecheckRequest[]> => { await delay(); return dbGetAll("recheckRequests"); },
+  saveRecheckRequest: async (r: RecheckRequest): Promise<RecheckRequest> => { await delay(300); await dbPut("recheckRequests", r); await logAudit("RECHECK_SAVED", "recheck_request", `Recheck saved — ${r.markEntryId} (${r.status})`); return r; },
+  deleteRecheckRequest: async (r: RecheckRequest): Promise<void> => { await delay(220); await dbDelete("recheckRequests", r.id); await logAudit("RECHECK_DELETED", "recheck_request", `Recheck deleted — ${r.id}`); },
+});
+
+// ── M09 School Results, Records and Certificates ───────────────────────────
+Object.assign(apiMethods, {
+  listResultRuns: async (): Promise<ResultRun[]> => { await delay(); return dbGetAll("resultRuns"); },
+  saveResultRun: async (r: ResultRun): Promise<ResultRun> => { await delay(300); await dbPut("resultRuns", r); await logAudit("RESULT_RUN_SAVED", "result_run", `Result run saved — ${r.name} (${r.status})`); return r; },
+  deleteResultRun: async (r: ResultRun): Promise<void> => { await delay(250); await dbDelete("resultRuns", r.id); await logAudit("RESULT_RUN_DELETED", "result_run", `Result run deleted — ${r.name}`); },
+  listResultLines: async (): Promise<ResultLine[]> => { await delay(); return dbGetAll("resultLines"); },
+  saveResultLine: async (l: ResultLine): Promise<ResultLine> => { await delay(280); await dbPut("resultLines", l); await logAudit("RESULT_LINE_SAVED", "result_line", `Result line saved — ${l.studentName} (${l.outcome}, ${l.grade})`); return l; },
+  deleteResultLine: async (l: ResultLine): Promise<void> => { await delay(220); await dbDelete("resultLines", l.id); await logAudit("RESULT_LINE_DELETED", "result_line", `Result line deleted — ${l.studentName}`); },
+  listResultPublications: async (): Promise<ResultPublication[]> => { await delay(); return dbGetAll("resultPublications"); },
+  saveResultPublication: async (p: ResultPublication): Promise<ResultPublication> => { await delay(300); await dbPut("resultPublications", p); await logAudit("RESULT_PUBLICATION_SAVED", "result_publication", `Publication saved — ${p.resultRunId} (${p.status})`); return p; },
+  deleteResultPublication: async (p: ResultPublication): Promise<void> => { await delay(220); await dbDelete("resultPublications", p.id); await logAudit("RESULT_PUBLICATION_DELETED", "result_publication", `Publication deleted — ${p.id}`); },
+  listResultCorrections: async (): Promise<ResultCorrection[]> => { await delay(); return dbGetAll("resultCorrections"); },
+  saveResultCorrection: async (c: ResultCorrection): Promise<ResultCorrection> => { await delay(300); await dbPut("resultCorrections", c); await logAudit("RESULT_CORRECTION_SAVED", "result_correction", `Correction saved — ${c.resultLineId} (${c.type}, ${c.status})`); return c; },
+  deleteResultCorrection: async (c: ResultCorrection): Promise<void> => { await delay(220); await dbDelete("resultCorrections", c.id); await logAudit("RESULT_CORRECTION_DELETED", "result_correction", `Correction deleted — ${c.id}`); },
+  listMarksheets: async (): Promise<Marksheet[]> => { await delay(); return dbGetAll("marksheets"); },
+  saveMarksheet: async (m: Marksheet): Promise<Marksheet> => { await delay(300); await dbPut("marksheets", m); await logAudit("MARKSHEET_SAVED", "marksheet", `Marksheet saved — ${m.studentName} (${m.serial}, ${m.status})`); return m; },
+  deleteMarksheet: async (m: Marksheet): Promise<void> => { await delay(250); await dbDelete("marksheets", m.id); await logAudit("MARKSHEET_DELETED", "marksheet", `Marksheet deleted — ${m.serial}`); },
+  listTranscripts: async (): Promise<Transcript[]> => { await delay(); return dbGetAll("transcripts"); },
+  saveTranscript: async (t: Transcript): Promise<Transcript> => { await delay(300); await dbPut("transcripts", t); await logAudit("TRANSCRIPT_SAVED", "transcript", `Transcript saved — ${t.studentName} (${t.fromPeriod}→${t.toPeriod})`); return t; },
+  deleteTranscript: async (t: Transcript): Promise<void> => { await delay(220); await dbDelete("transcripts", t.id); await logAudit("TRANSCRIPT_DELETED", "transcript", `Transcript deleted — ${t.id}`); },
+  listCertificates: async (): Promise<Certificate[]> => { await delay(); return dbGetAll("certificates"); },
+  saveCertificate: async (c: Certificate): Promise<Certificate> => { await delay(300); await dbPut("certificates", c); await logAudit("CERTIFICATE_SAVED", "certificate", `Certificate saved — ${c.studentName} (${c.type}, ${c.serial})`); return c; },
+  deleteCertificate: async (c: Certificate): Promise<void> => { await delay(220); await dbDelete("certificates", c.id); await logAudit("CERTIFICATE_DELETED", "certificate", `Certificate deleted — ${c.serial}`); },
+  listCertificateRequests: async (): Promise<CertificateRequest[]> => { await delay(); return dbGetAll("certificateRequests"); },
+  saveCertificateRequest: async (r: CertificateRequest): Promise<CertificateRequest> => { await delay(300); await dbPut("certificateRequests", r); await logAudit("CERT_REQUEST_SAVED", "certificate_request", `Cert request saved — ${r.studentName} (${r.certificateType}, ${r.status})`); return r; },
+  deleteCertificateRequest: async (r: CertificateRequest): Promise<void> => { await delay(220); await dbDelete("certificateRequests", r.id); await logAudit("CERT_REQUEST_DELETED", "certificate_request", `Cert request deleted — ${r.id}`); },
+  listDigitalCredentials: async (): Promise<DigitalCredential[]> => { await delay(); return dbGetAll("digitalCredentials"); },
+  saveDigitalCredential: async (d: DigitalCredential): Promise<DigitalCredential> => { await delay(300); await dbPut("digitalCredentials", d); await logAudit("CREDENTIAL_SAVED", "digital_credential", `Credential saved — ${d.credentialCode} (${d.status})`); return d; },
+  deleteDigitalCredential: async (d: DigitalCredential): Promise<void> => { await delay(220); await dbDelete("digitalCredentials", d.id); await logAudit("CREDENTIAL_DELETED", "digital_credential", `Credential deleted — ${d.credentialCode}`); },
+  listCompletionRecords: async (): Promise<CompletionRecord[]> => { await delay(); return dbGetAll("completionRecords"); },
+  saveCompletionRecord: async (c: CompletionRecord): Promise<CompletionRecord> => { await delay(300); await dbPut("completionRecords", c); await logAudit("COMPLETION_SAVED", "completion_record", `Completion saved — ${c.studentName} (${c.type}, ${c.status})`); return c; },
+  deleteCompletionRecord: async (c: CompletionRecord): Promise<void> => { await delay(220); await dbDelete("completionRecords", c.id); await logAudit("COMPLETION_DELETED", "completion_record", `Completion deleted — ${c.studentName}`); },
 });
 
 export const api = apiMethods as ErpApi;

@@ -49,6 +49,24 @@ import AttendancePage from "@/pages/attendance";
 import AttendanceCorrectionsPage from "@/pages/attendance-corrections";
 import ShiftsPage from "@/pages/shifts";
 import AttendanceAlertsPage from "@/pages/attendance-alerts";
+// M08 pages
+import AssessmentsPage from "@/pages/assessments";
+import QuestionBankPage from "@/pages/question-bank";
+import ExamsPage from "@/pages/exams";
+import ExamRoomsPage from "@/pages/exam-rooms";
+import MarksPage from "@/pages/marks";
+import ModerationPage from "@/pages/moderation";
+import PracticalsPage from "@/pages/practicals";
+import IntegrityPage from "@/pages/integrity";
+import RechecksPage from "@/pages/rechecks";
+// M09 pages
+import ResultsPage from "@/pages/results";
+import ResultPublicationsPage from "@/pages/result-publications";
+import ResultCorrectionsPage from "@/pages/result-corrections";
+import MarksheetsPage from "@/pages/marksheets";
+import CertificatesPage from "@/pages/certificates";
+import CredentialsPage from "@/pages/credentials";
+import CompletionsPage from "@/pages/completions";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -148,6 +166,24 @@ export default function App() {
               <Route path="attendance-corrections" element={<AttendanceCorrectionsPage />} />
               <Route path="shifts" element={<ShiftsPage />} />
               <Route path="attendance-alerts" element={<AttendanceAlertsPage />} />
+              {/* M08 */}
+              <Route path="assessments" element={<AssessmentsPage />} />
+              <Route path="question-bank" element={<QuestionBankPage />} />
+              <Route path="exams" element={<ExamsPage />} />
+              <Route path="exam-rooms" element={<ExamRoomsPage />} />
+              <Route path="marks" element={<MarksPage />} />
+              <Route path="moderation" element={<ModerationPage />} />
+              <Route path="practicals" element={<PracticalsPage />} />
+              <Route path="integrity" element={<IntegrityPage />} />
+              <Route path="rechecks" element={<RechecksPage />} />
+              {/* M09 */}
+              <Route path="results" element={<ResultsPage />} />
+              <Route path="result-publications" element={<ResultPublicationsPage />} />
+              <Route path="result-corrections" element={<ResultCorrectionsPage />} />
+              <Route path="marksheets" element={<MarksheetsPage />} />
+              <Route path="certificates" element={<CertificatesPage />} />
+              <Route path="credentials" element={<CredentialsPage />} />
+              <Route path="completions" element={<CompletionsPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
