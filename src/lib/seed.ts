@@ -1,0 +1,798 @@
+import type { DBSchema } from "./types";
+
+const uuid = (): string =>
+  typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `id-${Math.random().toString(36).slice(2)}`;
+
+export function seedData() {
+  const tenants: DBSchema["tenants"] = [
+    {
+      id: uuid(), code: "TNT-1042", name: "Sunrise Public School", nameNe: "सनराइज पब्लिक स्कूल",
+      edition: "premium", status: "active", environment: "production",
+      contactEmail: "admin@sunrise.edu.np", phone: "+977-1-4470091",
+      createdOn: "2024-01-15", validFrom: "2024-01-15", validTo: "2027-04-13",
+      licensedModules: ["M04 CRM & Admissions", "M05 Student Info", "M07 Attendance", "M08 Examinations", "M12 Fees & Finance", "M16 Library", "M17 Transport"],
+      userLimit: 250, storageLimitGb: 500,
+      usage: { users: 173, students: 1468, storageGb: 312, apiCallsK: 8420 },
+    },
+    {
+      id: uuid(), code: "TNT-1043", name: "Little Angels Secondary", nameNe: "लिटल एन्जल्स सेकेन्डरी",
+      edition: "standard", status: "trial", environment: "sandbox",
+      contactEmail: "info@littleangels.edu.np", phone: "+977-1-6630021",
+      createdOn: "2026-08-01", validFrom: "2026-08-01", validTo: "2026-09-30",
+      licensedModules: ["M04 CRM & Admissions", "M05 Student Info", "M12 Fees & Finance"],
+      userLimit: 25, storageLimitGb: 20,
+      usage: { users: 11, students: 240, storageGb: 6, apiCallsK: 310 },
+    },
+    {
+      id: uuid(), code: "TNT-1036", name: "Everest English Boarding", nameNe: "एभरेस्ट इन्ग्लिस बोर्डिङ",
+      edition: "standard", status: "active", environment: "production",
+      contactEmail: "admin@everestboarding.edu.np", phone: "+977-61-540221",
+      createdOn: "2024-07-10", validFrom: "2024-07-10", validTo: "2026-07-16",
+      licensedModules: ["M04 CRM & Admissions", "M05 Student Info", "M07 Attendance", "M12 Fees & Finance", "M17 Transport"],
+      userLimit: 120, storageLimitGb: 200,
+      usage: { users: 96, students: 980, storageGb: 121, apiCallsK: 5210 },
+    },
+    {
+      id: uuid(), code: "TNT-1029", name: "Shanti Nikunja School", nameNe: "शान्ति निकुञ्ज विद्यालय",
+      edition: "basic", status: "suspended", environment: "production",
+      contactEmail: "office@shantinikunja.edu.np", phone: "+977-56-520144",
+      createdOn: "2023-04-02", validFrom: "2023-04-02", validTo: "2026-04-13",
+      licensedModules: ["M05 Student Info", "M12 Fees & Finance"],
+      userLimit: 60, storageLimitGb: 100,
+      usage: { users: 41, students: 620, storageGb: 74, apiCallsK: 0 },
+    },
+    {
+      id: uuid(), code: "TNT-1015", name: "Galaxy Public School", nameNe: "ग्यालेक्सी पब्लिक स्कूल",
+      edition: "basic", status: "read_only", environment: "production",
+      contactEmail: "info@galaxy.edu.np", phone: "+977-1-4371122",
+      createdOn: "2022-06-18", validFrom: "2022-06-18", validTo: "2025-07-16",
+      licensedModules: ["M05 Student Info"],
+      userLimit: 40, storageLimitGb: 50,
+      usage: { users: 0, students: 410, storageGb: 33, apiCallsK: 0 },
+    },
+    {
+      id: uuid(), code: "TNT-1008", name: "Himalaya Higher Secondary", nameNe: "हिमालय उच्च माध्यमिक",
+      edition: "standard", status: "archived", environment: "training",
+      contactEmail: "admin@himalaya.edu.np", phone: "+977-64-410288",
+      createdOn: "2021-03-11", validFrom: "2021-03-11", validTo: "2024-04-12",
+      licensedModules: ["M05 Student Info", "M08 Examinations"],
+      userLimit: 80, storageLimitGb: 80,
+      usage: { users: 0, students: 0, storageGb: 12, apiCallsK: 0 },
+    },
+  ];
+
+  const institution: DBSchema["institution"] = [
+    {
+      id: "inst-primary", legalName: "Sunrise Education Foundation Pvt. Ltd.",
+      name: "Sunrise Public School", nameNe: "सनराइज पब्लिक स्कूल",
+      iemisCode: "NP-BAG-2704-0118", registrationNumber: "REG-KTM-741/2079",
+      schoolType: "Institutional (Private)", province: "Bagmati", district: "Kathmandu",
+      localLevel: "Kathmandu Metropolitan City", ward: 32, establishedOn: "2059-01-15",
+      governingBody: "Sunrise Education Foundation Board of Trustees",
+      recognition: "Upgraded Secondary — PABSON Recognition 2080",
+      affiliation: "National Examinations Board (NEB), Sanothimi",
+      pan: "601234567", website: "www.sunrise.edu.np", email: "info@sunrise.edu.np",
+      phone: "+977-1-4470091", moto: "Knowledge · Character · Service",
+    },
+  ];
+
+  const legalEntities: DBSchema["legalEntities"] = [
+    { id: uuid(), name: "Sunrise Education Foundation Pvt. Ltd.", type: "company", pan: "601234567", registrationNumber: "182934/078/079", address: "Baneshwor, Kathmandu-32", isPrimary: true },
+    { id: uuid(), name: "Sunrise Community Scholarship Trust", type: "trust", pan: "602987651", registrationNumber: "TRUST-4471/2081", address: "Suryabinayak, Bhaktapur", isPrimary: false },
+  ];
+
+  const campuses: DBSchema["campuses"] = [
+    { id: "camp-main", name: "Baneshwor Main Campus", nameNe: "बानेश्वर मुख्य क्याम्पस", code: "CAMP-MAIN", status: "open", type: "main", address: "Mid-Baneshwor Chowk, New Baneshwor", province: "Bagmati", district: "Kathmandu", localLevel: "Kathmandu Metropolitan City", ward: 10, phone: "+977-1-4470091", email: "main@sunrise.edu.np", head: "Ramesh Shrestha", gradeFrom: "ECED", gradeTo: "12", brandingColor: "#4f46e5", studentCount: 860, openedOn: "2059-04-01" },
+    { id: "camp-bkt", name: "Bhaktapur Branch", nameNe: "भक्तपुर शाखा", code: "CAMP-BKT", status: "open", type: "branch", address: "Suryabinayak Road, Bhaktapur", province: "Bagmati", district: "Bhaktapur", localLevel: "Suryabinayak Municipality", ward: 6, phone: "+977-1-6630021", email: "bhaktapur@sunrise.edu.np", head: "Sunita Bajracharya", gradeFrom: "1", gradeTo: "10", brandingColor: "#0d9488", studentCount: 420, openedOn: "2072-04-01" },
+    { id: "camp-eyc", name: "Satdobato Early Years Centre", nameNe: "साटदोबाटो प्रारम्भिक केन्द्र", code: "CAMP-EYC", status: "closing", type: "branch", address: "Ring Road, Satdobato, Lalitpur", province: "Bagmati", district: "Lalitpur", localLevel: "Lalitpur Metropolitan City", ward: 15, phone: "+977-1-5550123", email: "earlyyears@sunrise.edu.np", head: "Anita Maharjan", gradeFrom: "ECED", gradeTo: "UKG", brandingColor: "#f59e0b", studentCount: 188, openedOn: "2075-04-01" },
+  ];
+
+  const orgUnits: DBSchema["orgUnits"] = [
+    { id: "org-lt", name: "School Leadership", nameNe: "विद्यालय नेतृत्व", code: "ORG-01", type: "administrative", parentId: null, head: "Ramesh Shrestha", headRole: "Principal", staffCount: 4, status: "active" },
+    { id: "org-aca", name: "Academic Section", nameNe: "शैक्षिक शाखा", code: "ORG-02", type: "academic", parentId: "org-lt", head: "Sita Karki", headRole: "Vice Principal (Academic)", staffCount: 68, status: "active" },
+    { id: "org-prim", name: "Primary Department", code: "ORG-02A", type: "academic", parentId: "org-aca", head: "Kabita Gurung", headRole: "Primary Coordinator", staffCount: 22, status: "active" },
+    { id: "org-lsec", name: "Lower Secondary Department", code: "ORG-02B", type: "academic", parentId: "org-aca", head: "Bikash Tamang", headRole: "Lower Secondary Coordinator", staffCount: 18, status: "active" },
+    { id: "org-sec", name: "Secondary Department", code: "ORG-02C", type: "academic", parentId: "org-aca", head: "Deepak Adhikari", headRole: "Secondary Coordinator", staffCount: 24, status: "active" },
+    { id: "org-sci", name: "Science Stream (11–12)", code: "ORG-02C1", type: "academic", parentId: "org-sec", head: "Nabin Joshi", headRole: "Stream Lead", staffCount: 9, status: "active" },
+    { id: "org-mgt", name: "Management Stream (11–12)", code: "ORG-02C2", type: "academic", parentId: "org-sec", head: "Puja Shrestha", headRole: "Stream Lead", staffCount: 7, status: "active" },
+    { id: "org-adm", name: "Administration Section", nameNe: "प्रशासकीय शाखा", code: "ORG-03", type: "administrative", parentId: "org-lt", head: "Manoj Rai", headRole: "Admin Officer", staffCount: 11, status: "active" },
+    { id: "org-fin", name: "Finance Office", code: "ORG-03A", type: "administrative", parentId: "org-adm", head: "Laxmi Poudel", headRole: "Accountant", staffCount: 4, budgetCode: "FIN-2026", status: "active" },
+    { id: "org-hr", name: "HR Office", code: "ORG-03B", type: "administrative", parentId: "org-adm", head: "Suresh Thapa", headRole: "HR Officer", staffCount: 3, budgetCode: "HR-2026", status: "active" },
+    { id: "org-sup", name: "Student Support Services", nameNe: "विद्यार्थी सहायता", code: "ORG-04", type: "support", parentId: "org-lt", head: "Rekha Bhandari", headRole: "Support Lead", staffCount: 6, status: "active" },
+    { id: "org-coun", name: "Counselling Cell", code: "ORG-04A", type: "support", parentId: "org-sup", head: "Sabina Dulal", headRole: "School Counsellor", staffCount: 2, status: "active" },
+    { id: "org-it", name: "IT & Records Cell", code: "ORG-05", type: "support", parentId: "org-adm", head: "Anish Karki", headRole: "IT Officer", staffCount: 3, status: "inactive" },
+  ];
+
+  const locations: DBSchema["locations"] = [
+    { id: "loc-site-main", name: "Baneshwor Campus Site", code: "SITE-01", type: "site", parentId: null, accessibility: true, equipment: [], bookingPolicy: "closed", barcode: "QR-SITE-01", shared: false, status: "available" },
+    { id: "loc-blk-main", name: "Main Academic Block", code: "BLK-01", type: "building", parentId: "loc-site-main", accessibility: true, equipment: [], bookingPolicy: "closed", barcode: "QR-BLK-01", shared: false, status: "available" },
+    { id: "loc-blk-annex", name: "Academic Annex", code: "BLK-02", type: "building", parentId: "loc-site-main", accessibility: false, equipment: [], bookingPolicy: "closed", barcode: "QR-BLK-02", shared: false, status: "available" },
+    { id: "loc-fl-g", name: "Ground Floor", code: "BLK-01-F0", type: "floor", parentId: "loc-blk-main", accessibility: true, equipment: [], bookingPolicy: "closed", barcode: "QR-F0", shared: false, status: "available" },
+    { id: "loc-fl-1", name: "First Floor", code: "BLK-01-F1", type: "floor", parentId: "loc-blk-main", accessibility: true, equipment: ["Lift access"], bookingPolicy: "closed", barcode: "QR-F1", shared: false, status: "available" },
+    { id: "loc-rm-101", name: "Room 101", code: "RM-101", type: "room", parentId: "loc-fl-g", capacity: 40, accessibility: true, equipment: ["Projector", "Whiteboard", "Fans"], safetyRating: 4, bookingPolicy: "open", barcode: "QR-RM-101", shared: true, department: "Primary Department", status: "occupied" },
+    { id: "loc-rm-102", name: "Room 102", code: "RM-102", type: "room", parentId: "loc-fl-g", capacity: 40, accessibility: true, equipment: ["Whiteboard", "Fans"], safetyRating: 4, bookingPolicy: "open", barcode: "QR-RM-102", shared: false, department: "Primary Department", status: "available" },
+    { id: "loc-rm-201", name: "Room 201", code: "RM-201", type: "room", parentId: "loc-fl-1", capacity: 36, accessibility: true, equipment: ["Smart board", "AC"], safetyRating: 5, bookingPolicy: "approval", barcode: "QR-RM-201", shared: false, department: "Science Stream (11–12)", status: "available" },
+    { id: "loc-lab-phy", name: "Physics Laboratory", code: "LAB-PHY", type: "lab", parentId: "loc-fl-g", capacity: 30, accessibility: true, equipment: ["Lab benches", "Fume hood", "Fire extinguisher"], safetyRating: 5, bookingPolicy: "restricted", barcode: "QR-LAB-PHY", shared: true, department: "Science Stream (11–12)", status: "available" },
+    { id: "loc-lab-comp", name: "Computer Laboratory", code: "LAB-COMP", type: "lab", parentId: "loc-fl-1", capacity: 32, accessibility: true, equipment: ["40 workstations", "UPS", "Projector"], safetyRating: 4, bookingPolicy: "approval", barcode: "QR-LAB-COMP", shared: true, department: "Secondary Department", status: "occupied" },
+    { id: "loc-hall-asm", name: "Assembly Hall", code: "HALL-01", type: "hall", parentId: "loc-blk-main", capacity: 400, accessibility: true, equipment: ["PA system", "Stage lighting"], safetyRating: 5, bookingPolicy: "approval", barcode: "QR-HALL-01", shared: true, status: "available" },
+    { id: "loc-fld-main", name: "Main Sports Field", code: "FLD-01", type: "field", parentId: "loc-site-main", capacity: 600, accessibility: true, equipment: ["Basketball hoops", "Volleyball posts"], bookingPolicy: "open", barcode: "QR-FLD-01", shared: true, status: "available" },
+    { id: "loc-rm-a1", name: "Annex Room A-1", code: "RM-A1", type: "room", parentId: "loc-blk-annex", capacity: 28, accessibility: false, equipment: ["Whiteboard"], safetyRating: 3, bookingPolicy: "open", barcode: "QR-RM-A1", shared: false, department: "Lower Secondary Department", status: "maintenance" },
+  ];
+
+  const calendarYears: DBSchema["calendarYears"] = [
+    { id: "cal-2082", academicYear: "2082 BS", adRange: "Apr 2025 – Apr 2026", bsRange: "बैशाख २०८२ – चैत २०८२", totalDays: 365, workingDays: 242, status: "completed" },
+    { id: "cal-2083", academicYear: "2083 BS", adRange: "Apr 2026 – Apr 2027", bsRange: "बैशाख २०८३ – चैत २०८३", totalDays: 365, workingDays: 245, status: "current" },
+    { id: "cal-2084", academicYear: "2084 BS", adRange: "Apr 2027 – Apr 2028", bsRange: "बैशाख २०८४ – चैत २०८४", totalDays: 366, workingDays: 248, status: "upcoming" },
+  ];
+
+  const holidays: DBSchema["holidays"] = [
+    { id: "hol-1", name: "Republic Day", nameNe: "गणतन्त्र दिवस", date: "2026-05-29", dateBs: "जेठ १५, २०८३", type: "public" },
+    { id: "hol-2", name: "Janai Purnima", nameNe: "जनै पूर्णिमा", date: "2026-08-28", dateBs: "भदौ ११, २०८३", type: "festival" },
+    { id: "hol-3", name: "Constitution Day", nameNe: "संविधान दिवस", date: "2026-09-20", dateBs: "असोज ३, २०८३", type: "public" },
+    { id: "hol-4", name: "Dashain Holiday", nameNe: "दशैं बिदा", date: "2026-10-14", dateBs: "असोज २७, २०८३", type: "festival" },
+    { id: "hol-5", name: "Tihar Holiday", nameNe: "तिहार बिदा", date: "2026-11-06", dateBs: "कात्तिक २०, २०८३", type: "festival" },
+    { id: "hol-6", name: "Chhath Parva", nameNe: "छठ पर्व", date: "2026-11-10", dateBs: "कात्तिक २४, २०८३", type: "festival" },
+    { id: "hol-7", name: "Winter Break", nameNe: "शीतकालीन बिदा", date: "2026-12-24", dateBs: "पुस ९, २०८३", type: "school" },
+    { id: "hol-8", name: "Prithvi Jayanti", nameNe: "पृथ्वी जयन्ती", date: "2027-01-11", dateBs: "पुस २७, २०८३", type: "public" },
+    { id: "hol-9", name: "Maha Shivaratri", nameNe: "महाशिवरात्रि", date: "2027-02-15", dateBs: "फागुन ३, २०८३", type: "festival" },
+    { id: "hol-10", name: "Holi", nameNe: "होली", date: "2027-03-03", dateBs: "फागुन १९, २०८३", type: "festival" },
+  ];
+
+  const locale: DBSchema["locale"] = [
+    { id: "locale-default", timezone: "Asia/Kathmandu (UTC+05:45)", weekStart: "sunday", dateFormat: "DD/MM/YYYY", numberFormat: "en-IN (1,23,456.78)", language: "both", calendarSystem: "both", fiscalYearStart: "Shrawan 1 (mid-July)" },
+  ];
+
+  const sequences: DBSchema["sequences"] = [
+    { id: "seq-stu", docType: "Student ID", description: "Enrollment / student registry numbers", prefix: "STU-2083-", currentNumber: 1468, padLength: 4, period: "Academic 2083", locked: false, lastIssued: "2026-08-29" },
+    { id: "seq-inv", docType: "Invoice", description: "Fee invoices issued to guardians", prefix: "INV-2083-", currentNumber: 8934, padLength: 5, period: "Fiscal 2083/84", locked: true, lastIssued: "2026-09-01" },
+    { id: "seq-rcp", docType: "Receipt", description: "Payment receipts", prefix: "RCP-2083-", currentNumber: 8102, padLength: 5, period: "Fiscal 2083/84", locked: false, lastIssued: "2026-09-01" },
+    { id: "seq-adm", docType: "Application", description: "Admission enquiry / application forms", prefix: "ADM-2083-", currentNumber: 421, padLength: 4, period: "Academic 2083", locked: false, lastIssued: "2026-08-30" },
+    { id: "seq-emp", docType: "Employee ID", description: "Staff / payroll registry numbers", prefix: "EMP-2083-", currentNumber: 138, padLength: 3, period: "Fiscal 2083/84", locked: false, lastIssued: "2026-08-16" },
+    { id: "seq-cer", docType: "Certificate", description: "Transfer / character certificates", prefix: "CER-2083-", currentNumber: 96, padLength: 4, period: "Academic 2083", locked: true, lastIssued: "2026-08-11" },
+  ];
+
+  const featureFlags: DBSchema["featureFlags"] = [
+    { id: "ff-1", featureCode: "M10.LMS", name: "Learning Management System", description: "Digital classrooms, assignments and resources (M10)", category: "academics", enabled: true, scope: "tenant", campusId: null, role: null, effectiveFrom: "2026-04-14" },
+    { id: "ff-2", featureCode: "M12.ONLINE_PAY", name: "Online Fee Payments", description: "Connect IPS/eSewa/Khalti gateway for guardian payments", category: "finance", enabled: true, scope: "campus", campusId: "camp-main", role: null, effectiveFrom: "2026-07-17" },
+    { id: "ff-3", featureCode: "M17.GPS_TRACK", name: "Live Transport Tracking", description: "GPS bus tracking exposed to parent portal", category: "transport", enabled: false, scope: "tenant", campusId: null, role: null, effectiveFrom: "2026-10-01" },
+    { id: "ff-4", featureCode: "M16.BARCODE", name: "Library Barcode Circulation", description: "Barcode-based issue/return of learning resources", category: "library", enabled: true, scope: "tenant", campusId: null, role: null, effectiveFrom: "2026-04-20" },
+    { id: "ff-5", featureCode: "M23.SMS", name: "SMS Notifications", description: "Attendance and fee alerts via SMS (Nepali templates)", category: "communication", enabled: true, scope: "role", campusId: null, role: "Guardian", effectiveFrom: "2026-05-01" },
+    { id: "ff-6", featureCode: "M07.BIOMETRIC", name: "Biometric Staff Attendance", description: "Fingerprint device sync for staff attendance", category: "hr", enabled: false, scope: "campus", campusId: "camp-bkt", role: null, effectiveFrom: "2026-11-01" },
+    { id: "ff-7", featureCode: "M08.ONLINE_EXAM", name: "Online Examinations", description: "Computer-based tests with integrity monitoring", category: "academics", enabled: false, scope: "role", campusId: null, role: "Teacher", effectiveFrom: "2027-01-01" },
+    { id: "ff-8", featureCode: "M11.PARENT_PORTAL", name: "Parent Self-Service Portal", description: "Guardian web/mobile access to results, fees and notices", category: "communication", enabled: true, scope: "tenant", campusId: null, role: null, effectiveFrom: "2026-04-14" },
+  ];
+
+  const configVersions: DBSchema["configVersions"] = [
+    { id: "cv-1", version: "v4.2", status: "published", createdBy: "Anish Karki (IT Officer)", createdOn: "2026-07-01", approvedBy: "Ramesh Shrestha (Principal)", notes: "Fee heads restructured for FY 2083/84; transport slabs updated", changes: 14, targetEnv: "production" },
+    { id: "cv-2", version: "v4.3", status: "in_review", createdBy: "Anish Karki (IT Officer)", createdOn: "2026-08-20", notes: "Enable online payments for Bhaktapur branch; new custom field 'Blood Group' on student profile", changes: 6, targetEnv: "production" },
+    { id: "cv-3", version: "v5.0", status: "draft", createdBy: "Suresh Thapa (HR Officer)", createdOn: "2026-08-28", notes: "Sandbox draft: grading scheme for NEB letter grading 11–12", changes: 9, targetEnv: "sandbox" },
+    { id: "cv-4", version: "v4.1", status: "rejected", createdBy: "Laxmi Poudel (Accountant)", createdOn: "2026-06-10", approvedBy: "Ramesh Shrestha (Principal)", notes: "Rejected — discount policy conflicted with sibling-quota rule", changes: 3, targetEnv: "production" },
+  ];
+
+  const audit: DBSchema["audit"] = [
+    { id: "au-1", ts: "2026-09-01T09:41:00", actor: "Anish Karki", action: "POLICY_UPDATED", entity: "feature_policy", detail: "Enabled M12.ONLINE_PAY effective 2026-07-17 for Baneshwor Main Campus", recordsAffected: 128 },
+    { id: "au-2", ts: "2026-08-30T14:22:00", actor: "Ramesh Shrestha", action: "APPROVED", entity: "configuration_version", detail: "Version v4.2 published to production", recordsAffected: 14 },
+    { id: "au-3", ts: "2026-08-29T10:05:00", actor: "Suresh Thapa", action: "SEQUENCE_LOCKED", entity: "document_sequence", detail: "INV-2083- locked for fiscal period 2083/84", recordsAffected: 1 },
+    { id: "au-4", ts: "2026-08-25T16:48:00", actor: "Manoj Rai", action: "CAMPUS_STATUS", entity: "campus", detail: "Satdobato Early Years Centre marked as closing (end of FY)", recordsAffected: 1 },
+    { id: "au-5", ts: "2026-08-20T11:30:00", actor: "Anish Karki", action: "TENANT_ENTITLEMENT", entity: "tenant_entitlement", detail: "Storage quota raised 400 GB → 500 GB for TNT-1042", recordsAffected: 1 },
+    { id: "au-6", ts: "2026-08-11T09:12:00", actor: "Laxmi Poudel", action: "REJECTED", entity: "configuration_version", detail: "Version v4.1 rejected with review comments", recordsAffected: 3 },
+  ];
+
+  // ── M02 Identity, Access and Delegation seed data ─────────────────────────
+
+  const userIdentities: DBSchema["userIdentities"] = [
+    { id: "uid-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, username: "anish.karki", email: "anish.karki@sunrise.edu.np", phone: "+977-9841001001", displayName: "Anish Karki", displayNameNe: "अनिश कार्की", type: "admin", status: "active", mfaEnabled: true, mfaMethod: "totp", lastLogin: "2026-09-03T08:15:00", failedAttempts: 0, passwordChangedOn: "2026-08-01", mustChangePassword: false, createdOn: "2024-01-15", updatedOn: "2026-09-03" },
+    { id: "uid-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, username: "ramesh.shrestha", email: "ramesh.shrestha@sunrise.edu.np", phone: "+977-9841001002", displayName: "Ramesh Shrestha", displayNameNe: "रमेश श्रेष्ठ", type: "staff", status: "active", mfaEnabled: false, lastLogin: "2026-09-02T16:30:00", failedAttempts: 0, passwordChangedOn: "2026-07-15", mustChangePassword: false, createdOn: "2024-02-01", updatedOn: "2026-09-02" },
+    { id: "uid-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, username: "laxmi.poudel", email: "laxmi.poudel@sunrise.edu.np", phone: "+977-9841001003", displayName: "Laxmi Poudel", displayNameNe: "लक्ष्मी पौडेल", type: "staff", status: "active", mfaEnabled: false, lastLogin: "2026-09-01T10:00:00", failedAttempts: 0, passwordChangedOn: "2026-06-20", mustChangePassword: false, createdOn: "2024-03-10", updatedOn: "2026-09-01" },
+    { id: "uid-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, username: "suresh.thapa", email: "suresh.thapa@sunrise.edu.np", phone: "+977-9841001004", displayName: "Suresh Thapa", displayNameNe: "सुरेश थापा", type: "staff", status: "active", mfaEnabled: true, mfaMethod: "sms", lastLogin: "2026-09-03T07:45:00", failedAttempts: 0, passwordChangedOn: "2026-08-10", mustChangePassword: false, createdOn: "2024-04-01", updatedOn: "2026-09-03" },
+    { id: "uid-5", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, username: "manoj.rai", email: "manoj.rai@sunrise.edu.np", phone: "+977-9841001005", displayName: "Manoj Rai", displayNameNe: "मनोज राई", type: "staff", status: "active", mfaEnabled: false, lastLogin: "2026-08-30T14:00:00", failedAttempts: 0, passwordChangedOn: "2026-07-01", mustChangePassword: false, createdOn: "2024-05-15", updatedOn: "2026-08-30" },
+    { id: "uid-6", tenantId: tenants[0]!.id, username: "sita.adhikari", email: "sita.adhikari@sunrise.edu.np", displayName: "Sita Adhikari", displayNameNe: "सीता अधिकारी", type: "guardian", status: "active", mfaEnabled: false, failedAttempts: 0, mustChangePassword: false, createdOn: "2025-04-01", updatedOn: "2026-08-15" },
+    { id: "uid-7", tenantId: tenants[0]!.id, username: "test.locked", email: "locked@sunrise.edu.np", displayName: "Test Locked User", type: "staff", status: "locked", mfaEnabled: false, failedAttempts: 5, lockedUntil: "2026-09-10T00:00:00", mustChangePassword: true, createdOn: "2025-01-01", updatedOn: "2026-09-01" },
+    { id: "uid-8", tenantId: tenants[1]!.id, username: "admin.littleangels", email: "admin@littleangels.edu.np", displayName: "Little Angels Admin", type: "admin", status: "active", mfaEnabled: false, failedAttempts: 0, mustChangePassword: false, createdOn: "2026-08-01", updatedOn: "2026-08-01" },
+  ];
+
+  const authSessions: DBSchema["authSessions"] = [
+    { id: "as-1", userId: "uid-1", provider: "local", issuedAt: "2026-09-03T08:15:00", expiresAt: "2026-09-03T20:15:00", ip: "202.51.78.12", userAgent: "Chrome/128", isActive: true },
+    { id: "as-2", userId: "uid-2", provider: "local", issuedAt: "2026-09-02T16:30:00", expiresAt: "2026-09-03T04:30:00", ip: "202.51.78.14", userAgent: "Firefox/130", isActive: false },
+    { id: "as-3", userId: "uid-4", provider: "google", issuedAt: "2026-09-03T07:45:00", expiresAt: "2026-09-03T19:45:00", ip: "202.51.78.20", userAgent: "Chrome/128", isActive: true },
+    { id: "as-4", userId: "uid-3", provider: "local", issuedAt: "2026-09-01T10:00:00", expiresAt: "2026-09-01T22:00:00", ip: "202.51.78.15", userAgent: "Safari/18", isActive: false, revokedAt: "2026-09-01T18:00:00", revokeReason: "User logout" },
+    { id: "as-5", userId: "uid-1", provider: "sso", issuedAt: "2026-09-02T09:00:00", expiresAt: "2026-09-02T21:00:00", ip: "10.0.1.5", userAgent: "Chrome/128", isActive: false, revokedAt: "2026-09-02T17:30:00", revokeReason: "Session expired" },
+  ];
+
+  const authFactors: DBSchema["authFactors"] = [
+    { id: "af-1", userId: "uid-1", type: "totp", enabled: true, enrolledOn: "2024-06-01", lastUsed: "2026-09-03T08:15:00", label: "Google Authenticator" },
+    { id: "af-2", userId: "uid-4", type: "sms", enabled: true, enrolledOn: "2025-01-15", lastUsed: "2026-09-03T07:45:00", label: "+977-984****004" },
+    { id: "af-3", userId: "uid-1", type: "backup_codes", enabled: true, enrolledOn: "2024-06-01", label: "Recovery codes" },
+    { id: "af-4", userId: "uid-2", type: "email", enabled: false, enrolledOn: "2024-08-10", label: "Email OTP" },
+  ];
+
+  const roles: DBSchema["roles"] = [
+    { id: "role-1", tenantId: tenants[0]!.id, code: "SUPER_ADMIN", name: "Super Administrator", nameNe: "सुपर व्यवस्थापक", description: "Full platform access across all modules and campuses", isSystem: true, isDefault: false, priority: 100, permissions: [{ id: "perm-1", resource: "*", action: "*", effect: "allow" }], createdOn: "2024-01-15" },
+    { id: "role-2", tenantId: tenants[0]!.id, code: "PRINCIPAL", name: "Principal", nameNe: "प्रधानाध्यापक", description: "School head with approval authority for academics, staff and finance", isSystem: true, isDefault: false, priority: 90, permissions: [
+      { id: "perm-2", resource: "students", action: "read", effect: "allow" }, { id: "perm-3", resource: "students", action: "write", effect: "allow" },
+      { id: "perm-4", resource: "exams", action: "approve", effect: "allow" }, { id: "perm-5", resource: "fees", action: "approve", effect: "allow" },
+      { id: "perm-6", resource: "staff", action: "read", effect: "allow" }, { id: "perm-7", resource: "staff", action: "write", effect: "allow" },
+    ], createdOn: "2024-01-15" },
+    { id: "role-3", tenantId: tenants[0]!.id, code: "ACCOUNTANT", name: "Accountant", nameNe: "लेखापाल", description: "Finance module maker — invoices, receipts, fee assignment", isSystem: true, isDefault: false, priority: 70, permissions: [
+      { id: "perm-8", resource: "fees", action: "read", effect: "allow" }, { id: "perm-9", resource: "fees", action: "write", effect: "allow" },
+      { id: "perm-10", resource: "fees", action: "approve", effect: "deny" }, { id: "perm-11", resource: "reports", action: "read", effect: "allow" },
+    ], createdOn: "2024-01-15" },
+    { id: "role-4", tenantId: tenants[0]!.id, code: "TEACHER", name: "Teacher", nameNe: "शिक्षक", description: "Class teacher with attendance, marks entry and lesson plan access", isSystem: true, isDefault: true, priority: 50, permissions: [
+      { id: "perm-12", resource: "attendance", action: "write", effect: "allow" }, { id: "perm-13", resource: "exams", action: "write", effect: "allow" },
+      { id: "perm-14", resource: "students", action: "read", effect: "allow", conditions: "{\"scope\":\"assigned_class\"}" },
+    ], createdOn: "2024-01-15" },
+    { id: "role-5", tenantId: tenants[0]!.id, code: "ADMISSIONS", name: "Admissions Officer", nameNe: "भर्ना अधिकारी", description: "CRM, enquiry, application and conversion workflow", isSystem: false, isDefault: false, priority: 60, permissions: [
+      { id: "perm-15", resource: "admissions", action: "read", effect: "allow" }, { id: "perm-16", resource: "admissions", action: "write", effect: "allow" },
+      { id: "perm-17", resource: "students", action: "write", effect: "allow", conditions: "{\"stage\":\"enquiry\"}" },
+    ], createdOn: "2024-06-01" },
+    { id: "role-6", tenantId: tenants[0]!.id, code: "GUARDIAN", name: "Parent / Guardian", nameNe: "अभिभावक", description: "Read-only portal access for own ward's results, fees and attendance", isSystem: true, isDefault: false, priority: 20, permissions: [
+      { id: "perm-18", resource: "results", action: "read", effect: "allow", conditions: "{\"scope\":\"own_ward\"}" },
+      { id: "perm-19", resource: "fees", action: "read", effect: "allow", conditions: "{\"scope\":\"own_ward\"}" },
+    ], createdOn: "2024-01-15" },
+  ];
+
+  const userRoles: DBSchema["userRoles"] = [
+    { id: "ur-1", userId: "uid-1", userName: "Anish Karki", roleId: "role-1", roleName: "Super Administrator", scope: "tenant", assignedBy: "system", assignedOn: "2024-01-15", validFrom: "2024-01-15", isActive: true },
+    { id: "ur-2", userId: "uid-2", userName: "Ramesh Shrestha", roleId: "role-2", roleName: "Principal", scope: "campus", scopeId: campuses[0]!.id, scopeName: "Baneshwor Main Campus", assignedBy: "Anish Karki", assignedOn: "2024-02-01", validFrom: "2024-02-01", isActive: true },
+    { id: "ur-3", userId: "uid-3", userName: "Laxmi Poudel", roleId: "role-3", roleName: "Accountant", scope: "campus", scopeId: campuses[0]!.id, scopeName: "Baneshwor Main Campus", assignedBy: "Ramesh Shrestha", assignedOn: "2024-03-10", validFrom: "2024-03-10", isActive: true },
+    { id: "ur-4", userId: "uid-4", userName: "Suresh Thapa", roleId: "role-5", roleName: "Admissions Officer", scope: "tenant", assignedBy: "Anish Karki", assignedOn: "2024-04-01", validFrom: "2024-04-01", isActive: true },
+    { id: "ur-5", userId: "uid-5", userName: "Manoj Rai", roleId: "role-4", roleName: "Teacher", scope: "campus", scopeId: campuses[1]!.id, scopeName: "Bhaktapur Branch", assignedBy: "Ramesh Shrestha", assignedOn: "2024-05-15", validFrom: "2024-05-15", isActive: true },
+    { id: "ur-6", userId: "uid-6", userName: "Sita Adhikari", roleId: "role-6", roleName: "Parent / Guardian", scope: "tenant", assignedBy: "system", assignedOn: "2025-04-01", validFrom: "2025-04-01", isActive: true },
+    { id: "ur-7", userId: "uid-3", userName: "Laxmi Poudel", roleId: "role-4", roleName: "Teacher", scope: "campus", scopeId: campuses[0]!.id, scopeName: "Baneshwor Main Campus", assignedBy: "Ramesh Shrestha", assignedOn: "2024-03-10", validFrom: "2024-03-10", validTo: "2025-03-31", isActive: false },
+  ];
+
+  const dataScopes: DBSchema["dataScopes"] = [
+    { id: "ds-1", userId: "uid-2", userName: "Ramesh Shrestha", scopeType: "campus", scopeId: campuses[0]!.id, scopeName: "Baneshwor Main Campus", grantedBy: "Anish Karki", grantedOn: "2024-02-01" },
+    { id: "ds-2", userId: "uid-3", userName: "Laxmi Poudel", scopeType: "campus", scopeId: campuses[0]!.id, scopeName: "Baneshwor Main Campus", grantedBy: "Ramesh Shrestha", grantedOn: "2024-03-10" },
+    { id: "ds-3", userId: "uid-5", userName: "Manoj Rai", scopeType: "campus", scopeId: campuses[1]!.id, scopeName: "Bhaktapur Branch", grantedBy: "Ramesh Shrestha", grantedOn: "2024-05-15" },
+    { id: "ds-4", userId: "uid-5", userName: "Manoj Rai", scopeType: "class_section", scopeId: "cs-10a", scopeName: "Class 10 — Section A", grantedBy: "Ramesh Shrestha", grantedOn: "2026-04-15" },
+  ];
+
+  const delegations: DBSchema["delegations"] = [
+    { id: "del-1", delegatorId: "uid-2", delegatorName: "Ramesh Shrestha", delegateId: "uid-4", delegateName: "Suresh Thapa", reason: "Annual leave — Dashain vacation", scope: "exams.approve, fees.approve", validFrom: "2026-10-15", validTo: "2026-10-30", status: "active", createdOn: "2026-09-01" },
+    { id: "del-2", delegatorId: "uid-3", delegatorName: "Laxmi Poudel", delegateId: "uid-5", delegateName: "Manoj Rai", reason: "Maternity leave coverage", scope: "fees.read, reports.read", validFrom: "2026-07-01", validTo: "2026-12-31", status: "active", createdOn: "2026-06-25" },
+    { id: "del-3", delegatorId: "uid-1", delegatorName: "Anish Karki", delegateId: "uid-4", delegateName: "Suresh Thapa", reason: "System migration weekend", scope: "*", validFrom: "2026-08-24", validTo: "2026-08-26", status: "expired", createdOn: "2026-08-20" },
+  ];
+
+  const impersonationLogs: DBSchema["impersonationLogs"] = [
+    { id: "il-1", adminId: "uid-1", adminName: "Anish Karki", targetUserId: "uid-3", targetName: "Laxmi Poudel", reason: "Troubleshoot fee report permission error reported by user", startedAt: "2026-09-01T14:00:00", endedAt: "2026-09-01T14:22:00", actionsPerformed: 5, status: "ended" },
+    { id: "il-2", adminId: "uid-1", adminName: "Anish Karki", targetUserId: "uid-6", targetName: "Sita Adhikari", reason: "Verify guardian portal view for ward results", startedAt: "2026-08-28T11:00:00", endedAt: "2026-08-28T11:08:00", actionsPerformed: 3, status: "ended" },
+    { id: "il-3", adminId: "uid-1", adminName: "Anish Karki", targetUserId: "uid-7", targetName: "Test Locked User", reason: "Debug account lockout after 5 failed attempts", startedAt: "2026-09-02T09:30:00", actionsPerformed: 1, status: "active" },
+  ];
+
+  const dutyRules: DBSchema["dutyRules"] = [
+    { id: "dr-1", tenantId: tenants[0]!.id, name: "Maker-Checker Separation", description: "Same user cannot both create and approve financial transactions", conflictingRoles: ["ACCOUNTANT", "PRINCIPAL"], enforcement: "strict", isActive: true, createdBy: "Anish Karki", createdOn: "2024-06-01" },
+    { id: "dr-2", tenantId: tenants[0]!.id, name: "Exam Entry vs Result Approval", description: "Teacher entering marks cannot also approve final results for same class", conflictingRoles: ["TEACHER", "PRINCIPAL"], enforcement: "warning", isActive: true, createdBy: "Ramesh Shrestha", createdOn: "2025-01-10" },
+    { id: "dr-3", tenantId: tenants[0]!.id, name: "Admissions and Fee Waiver", description: "Admissions officer cannot approve fee waivers or scholarships", conflictingRoles: ["ADMISSIONS", "ACCOUNTANT"], enforcement: "strict", isActive: true, createdBy: "Anish Karki", createdOn: "2025-03-15" },
+    { id: "dr-4", tenantId: tenants[0]!.id, name: "IT Admin Finance Restriction", description: "IT admin should not have direct finance write access (advisory)", conflictingRoles: ["SUPER_ADMIN", "ACCOUNTANT"], enforcement: "advisory", isActive: true, exceptionNote: "Emergency break-glass override permitted with audit trail", createdBy: "Ramesh Shrestha", createdOn: "2024-06-01" },
+  ];
+
+  const dutyViolations: DBSchema["dutyViolations"] = [
+    { id: "dv-1", ruleId: "dr-1", ruleName: "Maker-Checker Separation", userId: "uid-3", userName: "Laxmi Poudel", roleA: "ACCOUNTANT", roleB: "PRINCIPAL", detectedOn: "2026-08-15", severity: "critical", status: "resolved", resolvedBy: "Anish Karki", resolvedOn: "2026-08-16", notes: "Temporary principal role removed; was granted during Ramesh's leave" },
+    { id: "dv-2", ruleId: "dr-2", ruleName: "Exam Entry vs Result Approval", userId: "uid-5", userName: "Manoj Rai", roleA: "TEACHER", roleB: "PRINCIPAL", detectedOn: "2026-09-01", severity: "high", status: "open", notes: "User has both roles on Bhaktapur Branch — needs review" },
+    { id: "dv-3", ruleId: "dr-4", ruleName: "IT Admin Finance Restriction", userId: "uid-1", userName: "Anish Karki", roleA: "SUPER_ADMIN", roleB: "ACCOUNTANT", detectedOn: "2026-07-20", severity: "medium", status: "waived", resolvedBy: "Ramesh Shrestha", resolvedOn: "2026-07-21", notes: "Approved exception — IT needs write access for system integration testing" },
+  ];
+
+  const privilegedAccess: DBSchema["privilegedAccess"] = [
+    { id: "pa-1", userId: "uid-1", userName: "Anish Karki", level: "elevated", resource: "database.admin", reason: "Monthly DB maintenance window", requestedBy: "Anish Karki", approvedBy: "Ramesh Shrestha", requestedOn: "2026-09-01", validFrom: "2026-09-03T02:00:00", validTo: "2026-09-03T06:00:00", status: "active", usedCount: 1, maxUses: 5 },
+    { id: "pa-2", userId: "uid-4", userName: "Suresh Thapa", level: "break_glass", resource: "fees.bulk_waiver", reason: "Emergency scholarship processing for earthquake-affected students", requestedBy: "Ramesh Shrestha", approvedBy: "Ramesh Shrestha", requestedOn: "2026-08-20", validFrom: "2026-08-20", validTo: "2026-08-22", status: "expired", usedCount: 3, maxUses: 10 },
+    { id: "pa-3", userId: "uid-2", userName: "Ramesh Shrestha", level: "emergency", resource: "system.config", reason: "Emergency config rollback after failed deployment", requestedBy: "Ramesh Shrestha", requestedOn: "2026-09-02", validFrom: "2026-09-02T18:00:00", validTo: "2026-09-02T23:59:00", status: "expired", usedCount: 2 },
+    { id: "pa-4", userId: "uid-3", userName: "Laxmi Poudel", level: "elevated", resource: "reports.audit_trail", reason: "Quarterly audit report extraction", requestedBy: "Laxmi Poudel", requestedOn: "2026-09-03", validFrom: "2026-09-05", validTo: "2026-09-07", status: "pending", usedCount: 0, maxUses: 3 },
+  ];
+
+  const accessReviews: DBSchema["accessReviews"] = [
+    { id: "ar-1", tenantId: tenants[0]!.id, reviewPeriod: "Q2 2026", reviewerId: "uid-2", reviewerName: "Ramesh Shrestha", scope: "All campus staff roles", totalIdentities: 173, reviewed: 173, approved: 165, revoked: 8, status: "certified", startedOn: "2026-07-01", completedOn: "2026-07-15", certifiedBy: "Anish Karki" },
+    { id: "ar-2", tenantId: tenants[0]!.id, reviewPeriod: "Q3 2026", reviewerId: "uid-2", reviewerName: "Ramesh Shrestha", scope: "Finance module access", totalIdentities: 42, reviewed: 28, approved: 26, revoked: 2, status: "in_progress", startedOn: "2026-09-01" },
+    { id: "ar-3", tenantId: tenants[0]!.id, reviewPeriod: "Annual 2026", reviewerId: "uid-1", reviewerName: "Anish Karki", scope: "Privileged and break-glass accounts", totalIdentities: 12, reviewed: 0, approved: 0, revoked: 0, status: "draft", startedOn: "2026-09-03" },
+  ];
+
+  // ── M03 School Academic Foundation and Catalog ────────────────────────────
+
+  const academicYears: DBSchema["academicYears"] = [
+    { id: "ay-1", tenantId: tenants[0]!.id, name: "2082 BS (2025/2026)", nameNe: "२०८२ बि.सं.", startDate: "2025-04-15", endDate: "2026-04-14", bsYear: "2082", status: "active", isCurrent: true, createdOn: "2025-03-01" },
+    { id: "ay-2", tenantId: tenants[0]!.id, name: "2081 BS (2024/2025)", nameNe: "२०८१ बि.सं.", startDate: "2024-04-15", endDate: "2025-04-14", bsYear: "2081", status: "closed", isCurrent: false, createdOn: "2024-03-01" },
+    { id: "ay-3", tenantId: tenants[0]!.id, name: "2083 BS (2026/2027)", nameNe: "२०८३ बि.सं.", startDate: "2026-04-15", endDate: "2027-04-14", bsYear: "2083", status: "planning", isCurrent: false, createdOn: "2026-02-15" },
+  ];
+
+  const terms: DBSchema["terms"] = [
+    { id: "tm-1", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", name: "First Term", nameNe: "पहिलो त्रैमासिक", startDate: "2025-04-15", endDate: "2025-07-15", sequence: 1, status: "completed" },
+    { id: "tm-2", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", name: "Second Term", nameNe: "दोस्रो त्रैमासिक", startDate: "2025-07-16", endDate: "2025-10-15", sequence: 2, status: "active" },
+    { id: "tm-3", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", name: "Third Term", nameNe: "तेस्रो त्रैमासिक", startDate: "2025-10-16", endDate: "2026-01-15", sequence: 3, status: "planned" },
+    { id: "tm-4", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", name: "Fourth Term", nameNe: "चौथो त्रैमासिक", startDate: "2026-01-16", endDate: "2026-04-14", sequence: 4, status: "planned" },
+  ];
+
+  const schoolLevels: DBSchema["schoolLevels"] = [
+    { id: "sl-1", tenantId: tenants[0]!.id, name: "Early Childhood Development (ECED)", nameNe: "प्रारम्भिक बाल विकास", code: "ECED", description: "Pre-primary and nursery education for ages 3–5", ageRange: "3–5", sequence: 1, isActive: true },
+    { id: "sl-2", tenantId: tenants[0]!.id, name: "Basic Education", nameNe: "आधारभूत शिक्षा", code: "Basic", description: "Classes 1–8 as per Nepal national curriculum", ageRange: "6–13", sequence: 2, isActive: true },
+    { id: "sl-3", tenantId: tenants[0]!.id, name: "Secondary Education", nameNe: "माध्यमिक शिक्षा", code: "Secondary", description: "Classes 9–10, SEE preparation", ageRange: "14–15", sequence: 3, isActive: true },
+    { id: "sl-4", tenantId: tenants[0]!.id, name: "Higher Secondary (+2/NEB)", nameNe: "उच्च माध्यमिक", code: "Plus2", description: "Classes 11–12 under NEB curriculum", ageRange: "16–17", sequence: 4, isActive: true },
+  ];
+
+  const gradeClasses: DBSchema["gradeClasses"] = [
+    { id: "gc-1", tenantId: tenants[0]!.id, levelId: "sl-1", levelName: "ECED", name: "Nursery", nameNe: "नर्सरी", code: "NUR", sequence: 1, isActive: true },
+    { id: "gc-2", tenantId: tenants[0]!.id, levelId: "sl-1", levelName: "ECED", name: "LKG", nameNe: "एल.के.जी.", code: "LKG", sequence: 2, isActive: true },
+    { id: "gc-3", tenantId: tenants[0]!.id, levelId: "sl-1", levelName: "ECED", name: "UKG", nameNe: "यू.के.जी.", code: "UKG", sequence: 3, isActive: true },
+    { id: "gc-4", tenantId: tenants[0]!.id, levelId: "sl-2", levelName: "Basic", name: "Class 1", nameNe: "कक्षा १", code: "C01", sequence: 4, isActive: true },
+    { id: "gc-5", tenantId: tenants[0]!.id, levelId: "sl-2", levelName: "Basic", name: "Class 5", nameNe: "कक्षा ५", code: "C05", sequence: 8, isActive: true },
+    { id: "gc-6", tenantId: tenants[0]!.id, levelId: "sl-2", levelName: "Basic", name: "Class 8", nameNe: "कक्षा ८", code: "C08", sequence: 11, isActive: true },
+    { id: "gc-7", tenantId: tenants[0]!.id, levelId: "sl-3", levelName: "Secondary", name: "Class 9", nameNe: "कक्षा ९", code: "C09", sequence: 12, isActive: true },
+    { id: "gc-8", tenantId: tenants[0]!.id, levelId: "sl-3", levelName: "Secondary", name: "Class 10", nameNe: "कक्षा १०", code: "C10", sequence: 13, isActive: true },
+    { id: "gc-9", tenantId: tenants[0]!.id, levelId: "sl-4", levelName: "Plus2", name: "Class 11", nameNe: "कक्षा ११", code: "C11", sequence: 14, isActive: true },
+    { id: "gc-10", tenantId: tenants[0]!.id, levelId: "sl-4", levelName: "Plus2", name: "Class 12", nameNe: "कक्षा १२", code: "C12", sequence: 15, isActive: true },
+  ];
+
+  const streams: DBSchema["streams"] = [
+    { id: "st-1", tenantId: tenants[0]!.id, name: "Science", nameNe: "विज्ञान", code: "SCI", description: "Physics, Chemistry, Biology/Math focus", gradeClassId: "gc-9", gradeClassName: "Class 11", isActive: true },
+    { id: "st-2", tenantId: tenants[0]!.id, name: "Management", nameNe: "व्यवस्थापन", code: "MGT", description: "Accountancy, Economics, Business Studies", gradeClassId: "gc-9", gradeClassName: "Class 11", isActive: true },
+    { id: "st-3", tenantId: tenants[0]!.id, name: "Humanities", nameNe: "मानविकी", code: "HUM", description: "Sociology, History, Political Science", gradeClassId: "gc-9", gradeClassName: "Class 11", isActive: true },
+    { id: "st-4", tenantId: tenants[0]!.id, name: "Education", nameNe: "शिक्षा", code: "EDU", description: "Pedagogy and educational foundations", gradeClassId: "gc-9", gradeClassName: "Class 11", isActive: true },
+  ];
+
+  const subjects: DBSchema["subjects"] = [
+    { id: "su-1", tenantId: tenants[0]!.id, name: "Nepali", nameNe: "नेपाली", code: "NEP", description: "Nepali language and literature", type: "core", levelId: "sl-2", levelName: "Basic", isActive: true },
+    { id: "su-2", tenantId: tenants[0]!.id, name: "English", nameNe: "अंग्रेजी", code: "ENG", description: "English language and literature", type: "core", levelId: "sl-2", levelName: "Basic", isActive: true },
+    { id: "su-3", tenantId: tenants[0]!.id, name: "Mathematics", nameNe: "गणित", code: "MATH", description: "Mathematics and problem solving", type: "core", levelId: "sl-2", levelName: "Basic", isActive: true },
+    { id: "su-4", tenantId: tenants[0]!.id, name: "Science", nameNe: "विज्ञान", code: "SCI", description: "General science", type: "core", levelId: "sl-2", levelName: "Basic", isActive: true },
+    { id: "su-5", tenantId: tenants[0]!.id, name: "Social Studies", nameNe: "सामाजिक अध्ययन", code: "SST", description: "Social studies and civic education", type: "core", levelId: "sl-2", levelName: "Basic", isActive: true },
+    { id: "su-6", tenantId: tenants[0]!.id, name: "Physics", nameNe: "भौतिकशास्त्र", code: "PHY", description: "Physics for +2 Science stream", type: "core", levelId: "sl-4", levelName: "Plus2", isActive: true },
+    { id: "su-7", tenantId: tenants[0]!.id, name: "Accountancy", nameNe: "लेखाशास्त्र", code: "ACC", description: "Financial accounting principles", type: "core", levelId: "sl-4", levelName: "Plus2", isActive: true },
+    { id: "su-8", tenantId: tenants[0]!.id, name: "Computer Science", nameNe: "कम्प्युटर विज्ञान", code: "CS", description: "Programming and computing fundamentals", type: "elective", levelId: "sl-4", levelName: "Plus2", isActive: true },
+  ];
+
+  const curriculumOfferings: DBSchema["curriculumOfferings"] = [
+    { id: "co-1", tenantId: tenants[0]!.id, subjectId: "su-1", subjectName: "Nepali", gradeClassId: "gc-4", gradeClassName: "Class 1", isCompulsory: true, fullMarks: 100, passMarks: 40, creditHours: 5, isActive: true },
+    { id: "co-2", tenantId: tenants[0]!.id, subjectId: "su-2", subjectName: "English", gradeClassId: "gc-4", gradeClassName: "Class 1", isCompulsory: true, fullMarks: 100, passMarks: 40, creditHours: 5, isActive: true },
+    { id: "co-3", tenantId: tenants[0]!.id, subjectId: "su-3", subjectName: "Mathematics", gradeClassId: "gc-8", gradeClassName: "Class 10", isCompulsory: true, fullMarks: 100, passMarks: 40, creditHours: 6, isActive: true },
+    { id: "co-4", tenantId: tenants[0]!.id, subjectId: "su-6", subjectName: "Physics", gradeClassId: "gc-9", gradeClassName: "Class 11", streamId: "st-1", streamName: "Science", isCompulsory: true, fullMarks: 100, passMarks: 40, creditHours: 6, isActive: true },
+    { id: "co-5", tenantId: tenants[0]!.id, subjectId: "su-7", subjectName: "Accountancy", gradeClassId: "gc-9", gradeClassName: "Class 11", streamId: "st-2", streamName: "Management", isCompulsory: true, fullMarks: 100, passMarks: 40, creditHours: 5, isActive: true },
+    { id: "co-6", tenantId: tenants[0]!.id, subjectId: "su-8", subjectName: "Computer Science", gradeClassId: "gc-9", gradeClassName: "Class 11", streamId: "st-1", streamName: "Science", isCompulsory: false, fullMarks: 100, passMarks: 40, creditHours: 4, isActive: true },
+  ];
+
+  const sections: DBSchema["sections"] = [
+    { id: "sc-1", tenantId: tenants[0]!.id, name: "A", nameNe: "क", gradeClassId: "gc-4", gradeClassName: "Class 1", academicYearId: "ay-1", academicYearName: "2082 BS", capacity: 40, enrolled: 36, classTeacherId: "uid-5", classTeacherName: "Manoj Rai", roomNo: "101", isActive: true },
+    { id: "sc-2", tenantId: tenants[0]!.id, name: "B", nameNe: "ख", gradeClassId: "gc-4", gradeClassName: "Class 1", academicYearId: "ay-1", academicYearName: "2082 BS", capacity: 40, enrolled: 38, classTeacherName: "Sita Adhikari", roomNo: "102", isActive: true },
+    { id: "sc-3", tenantId: tenants[0]!.id, name: "A", nameNe: "क", gradeClassId: "gc-8", gradeClassName: "Class 10", academicYearId: "ay-1", academicYearName: "2082 BS", capacity: 45, enrolled: 42, classTeacherId: "uid-5", classTeacherName: "Manoj Rai", roomNo: "301", isActive: true },
+    { id: "sc-4", tenantId: tenants[0]!.id, name: "Science A", nameNe: "विज्ञान क", gradeClassId: "gc-9", gradeClassName: "Class 11", academicYearId: "ay-1", academicYearName: "2082 BS", capacity: 35, enrolled: 30, classTeacherName: "Dr. Bikash Gurung", roomNo: "401", isActive: true },
+  ];
+
+  const houses: DBSchema["houses"] = [
+    { id: "hs-1", tenantId: tenants[0]!.id, name: "Sagarmatha", nameNe: "सगरमाथा", code: "SAG", color: "#3B82F6", description: "Named after Mt. Everest — symbol of determination", memberCount: 380 },
+    { id: "hs-2", tenantId: tenants[0]!.id, name: "Lumbini", nameNe: "लुम्बिनी", code: "LUM", color: "#10B981", description: "Birthplace of Buddha — symbol of peace and wisdom", memberCount: 365 },
+    { id: "hs-3", tenantId: tenants[0]!.id, name: "Machhapuchhre", nameNe: "मछापुच्छ्रे", code: "MAC", color: "#F59E0B", description: "Fishtail mountain — symbol of beauty and resilience", memberCount: 372 },
+    { id: "hs-4", tenantId: tenants[0]!.id, name: "Kanchenjunga", nameNe: "कञ्चनजङ्घा", code: "KAN", color: "#EF4444", description: "Third highest peak — symbol of strength and courage", memberCount: 351 },
+  ];
+
+  const cohorts: DBSchema["cohorts"] = [
+    { id: "ch-1", tenantId: tenants[0]!.id, name: "Class 10 — Batch 2082", nameNe: "कक्षा १० — ब्याच २०८२", academicYearId: "ay-1", academicYearName: "2082 BS", gradeClassId: "gc-8", gradeClassName: "Class 10", description: "SEE appearing batch 2082", studentCount: 84 },
+    { id: "ch-2", tenantId: tenants[0]!.id, name: "Class 12 Science — Batch 2082", nameNe: "कक्षा १२ विज्ञान — ब्याच २०८२", academicYearId: "ay-1", academicYearName: "2082 BS", gradeClassId: "gc-10", gradeClassName: "Class 12", description: "NEB +2 Science appearing batch", studentCount: 28 },
+    { id: "ch-3", tenantId: tenants[0]!.id, name: "Class 1 — Batch 2082", nameNe: "कक्षा १ — ब्याच २०८२", academicYearId: "ay-1", academicYearName: "2082 BS", gradeClassId: "gc-4", gradeClassName: "Class 1", description: "New admission cohort", studentCount: 74 },
+  ];
+
+  const gradingScales: DBSchema["gradingScales"] = [
+    {
+      id: "gs-1", tenantId: tenants[0]!.id, name: "SEE Grading Scale", nameNe: "SEE ग्रेडिङ स्केल",
+      description: "Nepal SEE standard grading scale (Class 10)",
+      grades: [
+        { letter: "A+", minMark: 90, maxMark: 100, gpa: 4.0, description: "Outstanding" },
+        { letter: "A", minMark: 80, maxMark: 89, gpa: 3.6, description: "Excellent" },
+        { letter: "B+", minMark: 70, maxMark: 79, gpa: 3.2, description: "Very Good" },
+        { letter: "B", minMark: 60, maxMark: 69, gpa: 2.8, description: "Good" },
+        { letter: "C+", minMark: 50, maxMark: 59, gpa: 2.4, description: "Above Average" },
+        { letter: "C", minMark: 40, maxMark: 49, gpa: 2.0, description: "Average" },
+        { letter: "D+", minMark: 30, maxMark: 39, gpa: 1.6, description: "Below Average" },
+        { letter: "D", minMark: 20, maxMark: 29, gpa: 1.2, description: "Adequate" },
+        { letter: "E", minMark: 0, maxMark: 19, gpa: 0.8, description: "Fail" },
+      ],
+      isActive: true, isDefault: true,
+    },
+    {
+      id: "gs-2", tenantId: tenants[0]!.id, name: "Basic Education Grading", nameNe: "आधारभूत ग्रेडिङ",
+      description: "Internal grading for Classes 1–8",
+      grades: [
+        { letter: "A", minMark: 80, maxMark: 100, gpa: 4.0, description: "Distinction" },
+        { letter: "B", minMark: 60, maxMark: 79, gpa: 3.0, description: "First Division" },
+        { letter: "C", minMark: 40, maxMark: 59, gpa: 2.0, description: "Second Division" },
+        { letter: "D", minMark: 0, maxMark: 39, gpa: 1.0, description: "Needs Improvement" },
+      ],
+      isActive: true, isDefault: false,
+    },
+  ];
+
+  const promotionRules: DBSchema["promotionRules"] = [
+    { id: "pr-1", tenantId: tenants[0]!.id, name: "Class 1→2 Promotion", nameNe: "कक्षा १→२ उन्नति", fromGradeId: "gc-4", fromGradeName: "Class 1", toGradeId: "gc-5", toGradeName: "Class 2", minGpa: 1.0, minAttendance: 60, maxBacklogs: 0, isActive: true },
+    { id: "pr-2", tenantId: tenants[0]!.id, name: "Class 8→9 Promotion", nameNe: "कक्षा ८→९ उन्नति", fromGradeId: "gc-6", fromGradeName: "Class 8", toGradeId: "gc-7", toGradeName: "Class 9", minGpa: 1.6, minAttendance: 75, maxBacklogs: 2, isActive: true },
+    { id: "pr-3", tenantId: tenants[0]!.id, name: "Class 9→10 Promotion", nameNe: "कक्षा ९→१० उन्नति", fromGradeId: "gc-7", fromGradeName: "Class 9", toGradeId: "gc-8", toGradeName: "Class 10", minGpa: 2.0, minAttendance: 80, maxBacklogs: 1, isActive: true },
+    { id: "pr-4", tenantId: tenants[0]!.id, name: "Class 11→12 Promotion", nameNe: "कक्षा ११→१२ उन्नति", fromGradeId: "gc-9", fromGradeName: "Class 11", toGradeId: "gc-10", toGradeName: "Class 12", minGpa: 2.0, minAttendance: 80, maxBacklogs: 1, isActive: true },
+  ];
+
+  const completionRules: DBSchema["completionRules"] = [
+    { id: "cr-1", tenantId: tenants[0]!.id, name: "SEE Completion (Class 10)", nameNe: "SEE उत्तीर्ण", gradeClassId: "gc-8", gradeClassName: "Class 10", minGpa: 1.6, minCreditHours: 0, requirements: "Pass all compulsory subjects with minimum D+ grade; minimum 1.6 overall GPA", isActive: true },
+    { id: "cr-2", tenantId: tenants[0]!.id, name: "NEB +2 Completion (Class 12)", nameNe: "NEB +2 उत्तीर्ण", gradeClassId: "gc-10", gradeClassName: "Class 12", minGpa: 2.0, minCreditHours: 24, requirements: "Pass all subjects; minimum 2.0 GPA; complete practical components", isActive: true },
+  ];
+
+  const academicPolicies: DBSchema["academicPolicies"] = [
+    { id: "ap-1", tenantId: tenants[0]!.id, name: "Minimum Attendance Policy", nameNe: "न्यूनतम उपस्थिति नीति", category: "attendance", description: "Students must maintain minimum 75% attendance to appear in final examinations. Below 60% results in automatic detention.", effectiveFrom: "2025-04-15", status: "published", approvedBy: "Ramesh Shrestha", createdOn: "2025-03-10" },
+    { id: "ap-2", tenantId: tenants[0]!.id, name: "Internal Assessment Weightage", nameNe: "आन्तरिक मूल्याङ्कन भार", category: "assessment", description: "Internal assessment contributes 25% to final marks. Includes unit tests, project work, and class participation.", effectiveFrom: "2025-04-15", status: "published", approvedBy: "Ramesh Shrestha", createdOn: "2025-03-10" },
+    { id: "ap-3", tenantId: tenants[0]!.id, name: "SEE Preparation Guidelines", nameNe: "SEE तयारी दिशानिर्देश", category: "examination", description: "Mock examinations conducted monthly from Mangsir. Pre-board examination mandatory in Falgun.", effectiveFrom: "2025-04-15", status: "published", createdOn: "2025-03-15" },
+    { id: "ap-4", tenantId: tenants[0]!.id, name: "Stream Selection Criteria", nameNe: "विषय छनोट मापदण्ड", category: "promotion", description: "Students must secure minimum 2.8 GPA in SEE to be eligible for Science stream. Management requires 2.4 GPA.", effectiveFrom: "2026-04-15", status: "draft", createdOn: "2026-02-01" },
+  ];
+
+  // ── M04 CRM, Enquiry and Admissions ──────────────────────────────────────
+
+  const campaigns: DBSchema["campaigns"] = [
+    { id: "cmp-1", tenantId: tenants[0]!.id, name: "SEE 2082 Admission Drive", nameNe: "SEE २०८२ भर्ना अभियान", code: "CMP-SEE-2082", channel: "web", startDate: "2025-11-01", endDate: "2026-03-31", budget: 150000, targetEnquiries: 200, actualEnquiries: 187, status: "completed", createdOn: "2025-10-15" },
+    { id: "cmp-2", tenantId: tenants[0]!.id, name: "ECED Open House 2081", nameNe: "ECED खुला घर २०८१", code: "CMP-ECED-2081", channel: "walk_in", startDate: "2025-02-15", endDate: "2025-04-15", budget: 50000, targetEnquiries: 80, actualEnquiries: 92, status: "completed", createdOn: "2025-02-01" },
+    { id: "cmp-3", tenantId: tenants[0]!.id, name: "Plus2 Science Fair", nameNe: "प्लस२ विज्ञान मेला", code: "CMP-P2SCI-2083", channel: "social", startDate: "2026-01-10", endDate: "2026-04-30", budget: 80000, targetEnquiries: 120, actualEnquiries: 64, status: "active", createdOn: "2026-01-05" },
+  ];
+
+  const enquiries: DBSchema["enquiries"] = [
+    { id: "enq-1", tenantId: tenants[0]!.id, campaignId: "cmp-1", campaignName: "SEE 2082 Admission Drive", studentName: "Aarav Sharma", studentNameNe: "आरव शर्मा", guardianName: "Dipak Sharma", guardianPhone: "+977-9841012345", guardianEmail: "dipak.sharma@gmail.com", address: "Baneshwor-32, Kathmandu", interestedGradeId: "gc-9", interestedGradeName: "Class 11", interestedStreamId: "st-1", interestedStreamName: "Science", source: "campaign", status: "applied", assignedTo: "uid-4", assignedToName: "Suresh Thapa", notes: "SEE GPA 3.85 — strong science background", createdOn: "2025-12-15" },
+    { id: "enq-2", tenantId: tenants[0]!.id, campaignId: "cmp-1", campaignName: "SEE 2082 Admission Drive", studentName: "Srijana Thapa", studentNameNe: "सृजना थापा", guardianName: "Bikash Thapa", guardianPhone: "+977-9851098765", address: "Suryabinayak-6, Bhaktapur", interestedGradeId: "gc-9", interestedGradeName: "Class 11", interestedStreamId: "st-2", interestedStreamName: "Management", source: "campaign", status: "interested", assignedTo: "uid-4", assignedToName: "Suresh Thapa", notes: "Interested in commerce stream — father runs a trading business", createdOn: "2026-01-05" },
+    { id: "enq-3", tenantId: tenants[0]!.id, campaignId: "cmp-2", campaignName: "ECED Open House 2081", studentName: "Anisha Maharjan", studentNameNe: "अनिशा महर्जन", guardianName: "Roshan Maharjan", guardianPhone: "+977-9841056789", guardianEmail: "roshan.maharjan@outlook.com", address: "Patan-14, Lalitpur", interestedGradeId: "gc-1", interestedGradeName: "Nursery", source: "walk_in", status: "converted", assignedTo: "uid-4", assignedToName: "Suresh Thapa", notes: "Visited during Open House — parents liked Montessori approach", createdOn: "2025-03-10" },
+    { id: "enq-4", tenantId: tenants[0]!.id, studentName: "Kiran Bhandari", studentNameNe: "किरण भण्डारी", guardianName: "Prakash Bhandari", guardianPhone: "+977-9812345678", address: "Koteshwor-35, Kathmandu", interestedGradeId: "gc-4", interestedGradeName: "Class 1", source: "referral", status: "visit_scheduled", assignedToName: "Suresh Thapa", notes: "Referred by existing parent — wants English medium", createdOn: "2026-08-20" },
+    { id: "enq-5", tenantId: tenants[0]!.id, campaignId: "cmp-3", campaignName: "Plus2 Science Fair", studentName: "Suman Gurung", studentNameNe: "सुमन गुरुङ", guardianName: "Dil Bahadur Gurung", guardianPhone: "+977-9861078901", guardianEmail: "dilbahadur.g@yahoo.com", address: "Pokhara-8, Kaski", interestedGradeId: "gc-9", interestedGradeName: "Class 11", interestedStreamId: "st-1", interestedStreamName: "Science", source: "campaign", status: "new", notes: "Enquired via Science Fair website form — SEE GPA 3.6", createdOn: "2026-08-28" },
+  ];
+
+  const enquiryInteractions: DBSchema["enquiryInteractions"] = [
+    { id: "int-1", tenantId: tenants[0]!.id, enquiryId: "enq-1", enquiryName: "Aarav Sharma", type: "call", occurredAt: "2025-12-20T10:30:00", performedBy: "uid-4", performedByName: "Suresh Thapa", notes: "Called guardian — confirmed interest in Science stream. Father asked about scholarship.", nextAction: "Schedule campus tour", nextFollowUp: "2025-12-27", outcome: "Positive — wants to visit" },
+    { id: "int-2", tenantId: tenants[0]!.id, enquiryId: "enq-1", enquiryName: "Aarav Sharma", type: "campus_tour", occurredAt: "2025-12-28T14:00:00", performedBy: "uid-4", performedByName: "Suresh Thapa", notes: "Family visited Baneshwor campus. Showed physics lab and computer lab. Very impressed.", nextAction: "Collect application form", outcome: "Will apply" },
+    { id: "int-3", tenantId: tenants[0]!.id, enquiryId: "enq-2", enquiryName: "Srijana Thapa", type: "call", occurredAt: "2026-01-10T11:00:00", performedBy: "uid-4", performedByName: "Suresh Thapa", notes: "Spoke with father — interested in Management stream. Asked about +2 fee structure.", nextAction: "Send fee details via WhatsApp", nextFollowUp: "2026-01-15" },
+    { id: "int-4", tenantId: tenants[0]!.id, enquiryId: "enq-4", enquiryName: "Kiran Bhandari", type: "visit", occurredAt: "2026-08-25T09:30:00", performedBy: "uid-4", performedByName: "Suresh Thapa", notes: "Parent and child visited primary section. Child interacted well with nursery teacher.", nextAction: "Submit Class 1 application", nextFollowUp: "2026-09-01", outcome: "Likely to apply" },
+  ];
+
+  const applications: DBSchema["applications"] = [
+    { id: "app-1", tenantId: tenants[0]!.id, applicationNo: "ADM-2083-0418", enquiryId: "enq-3", studentName: "Anisha Maharjan", studentNameNe: "अनिशा महर्जन", dateOfBirth: "2022-03-15", dateOfBirthBs: "२०७८ चैत २", gender: "female", guardianName: "Roshan Maharjan", guardianPhone: "+977-9841056789", guardianEmail: "roshan.maharjan@outlook.com", address: "Patan-14, Lalitpur", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", appliedGradeId: "gc-1", appliedGradeName: "Nursery", status: "admitted", submittedOn: "2025-03-20", reviewedBy: "Ramesh Shrestha", reviewedOn: "2025-04-01", createdOn: "2025-03-15" },
+    { id: "app-2", tenantId: tenants[0]!.id, applicationNo: "ADM-2083-0419", enquiryId: "enq-1", studentName: "Aarav Sharma", studentNameNe: "आरव शर्मा", dateOfBirth: "2010-08-22", dateOfBirthBs: "२०६७ भदौ ६", gender: "male", guardianName: "Dipak Sharma", guardianPhone: "+977-9841012345", guardianEmail: "dipak.sharma@gmail.com", address: "Baneshwor-32, Kathmandu", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", appliedGradeId: "gc-9", appliedGradeName: "Class 11", appliedStreamId: "st-1", appliedStreamName: "Science", previousSchool: "Shree Saraswati Secondary School", previousGrade: "Class 10 (SEE)", status: "eligible", submittedOn: "2026-01-05", reviewedBy: "Suresh Thapa", reviewedOn: "2026-01-10", createdOn: "2026-01-02" },
+    { id: "app-3", tenantId: tenants[0]!.id, applicationNo: "ADM-2083-0420", studentName: "Kiran Bhandari", studentNameNe: "किरण भण्डारी", dateOfBirth: "2020-11-05", dateOfBirthBs: "२०७७ कात्तिक २०", gender: "male", guardianName: "Prakash Bhandari", guardianPhone: "+977-9812345678", address: "Koteshwor-35, Kathmandu", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", appliedGradeId: "gc-4", appliedGradeName: "Class 1", status: "submitted", submittedOn: "2026-09-01", createdOn: "2026-08-28" },
+    { id: "app-4", tenantId: tenants[0]!.id, applicationNo: "ADM-2083-0421", studentName: "Srijana Thapa", studentNameNe: "सृजना थापा", dateOfBirth: "2010-05-18", dateOfBirthBs: "२०६७ जेठ ४", gender: "female", guardianName: "Bikash Thapa", guardianPhone: "+977-9851098765", address: "Suryabinayak-6, Bhaktapur", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", appliedGradeId: "gc-9", appliedGradeName: "Class 11", appliedStreamId: "st-2", appliedStreamName: "Management", previousSchool: "Bhaktapur Secondary School", previousGrade: "Class 10 (SEE)", status: "under_review", submittedOn: "2026-02-10", createdOn: "2026-02-05" },
+  ];
+
+  const applicationChoices: DBSchema["applicationChoices"] = [
+    { id: "ach-1", tenantId: tenants[0]!.id, applicationId: "app-1", offeringRef: "co-1", offeringName: "Nursery — Section A", preference: 1 },
+    { id: "ach-2", tenantId: tenants[0]!.id, applicationId: "app-2", offeringRef: "co-4", offeringName: "Class 11 Science — Physics", preference: 1 },
+    { id: "ach-3", tenantId: tenants[0]!.id, applicationId: "app-2", offeringRef: "co-6", offeringName: "Class 11 Science — Computer Science", preference: 2 },
+    { id: "ach-4", tenantId: tenants[0]!.id, applicationId: "app-3", offeringRef: "co-1", offeringName: "Class 1 — Section A", preference: 1 },
+    { id: "ach-5", tenantId: tenants[0]!.id, applicationId: "app-3", offeringRef: "co-2", offeringName: "Class 1 — Section B", preference: 2 },
+    { id: "ach-6", tenantId: tenants[0]!.id, applicationId: "app-4", offeringRef: "co-5", offeringName: "Class 11 Management — Accountancy", preference: 1 },
+  ];
+
+  const applicationDocuments: DBSchema["applicationDocuments"] = [
+    { id: "adoc-1", tenantId: tenants[0]!.id, applicationId: "app-1", documentType: "birth_certificate", documentName: "Birth Certificate (Nagarikta Pramanpatra)", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2025-03-22" },
+    { id: "adoc-2", tenantId: tenants[0]!.id, applicationId: "app-1", documentType: "photograph", documentName: "Passport-size Photo (35×45mm)", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2025-03-22" },
+    { id: "adoc-3", tenantId: tenants[0]!.id, applicationId: "app-1", documentType: "guardian_citizenship", documentName: "Guardian Citizenship Copy", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2025-03-22" },
+    { id: "adoc-4", tenantId: tenants[0]!.id, applicationId: "app-2", documentType: "see_transcript", documentName: "SEE Grade Sheet 2082", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-01-08", remarks: "GPA 3.85 — verified against OCEC records" },
+    { id: "adoc-5", tenantId: tenants[0]!.id, applicationId: "app-2", documentType: "see_character", documentName: "SEE Character Certificate", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-01-08" },
+    { id: "adoc-6", tenantId: tenants[0]!.id, applicationId: "app-2", documentType: "photograph", documentName: "Passport-size Photo (35×45mm)", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-01-08" },
+    { id: "adoc-7", tenantId: tenants[0]!.id, applicationId: "app-2", documentType: "citizenship", documentName: "Student Citizenship Copy", status: "missing", remarks: "Student below 16 — not required" },
+    { id: "adoc-8", tenantId: tenants[0]!.id, applicationId: "app-3", documentType: "birth_certificate", documentName: "Birth Certificate (Nagarikta Pramanpatra)", status: "received" },
+    { id: "adoc-9", tenantId: tenants[0]!.id, applicationId: "app-3", documentType: "photograph", documentName: "Passport-size Photo (35×45mm)", status: "received" },
+    { id: "adoc-10", tenantId: tenants[0]!.id, applicationId: "app-3", documentType: "guardian_citizenship", documentName: "Guardian Citizenship Copy", status: "missing" },
+    { id: "adoc-11", tenantId: tenants[0]!.id, applicationId: "app-4", documentType: "see_transcript", documentName: "SEE Grade Sheet 2082", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-02-12", remarks: "GPA 3.2 — meets Management stream criteria" },
+    { id: "adoc-12", tenantId: tenants[0]!.id, applicationId: "app-4", documentType: "see_character", documentName: "SEE Character Certificate", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-02-12" },
+    { id: "adoc-13", tenantId: tenants[0]!.id, applicationId: "app-4", documentType: "photograph", documentName: "Passport-size Photo (35×45mm)", status: "verified", verifiedBy: "Suresh Thapa", verifiedOn: "2026-02-12" },
+  ];
+
+  const eligibilityDecisions: DBSchema["eligibilityDecisions"] = [
+    { id: "ed-1", tenantId: tenants[0]!.id, applicationId: "app-1", applicationName: "Anisha Maharjan", ruleName: "Age Eligibility — Nursery (3–4 years)", outcome: "eligible", reason: "Applicant age 3 years 0 months at admission date — within 3–4 year range", decidedBy: "Suresh Thapa", decidedOn: "2025-03-25" },
+    { id: "ed-2", tenantId: tenants[0]!.id, applicationId: "app-2", applicationName: "Aarav Sharma", ruleName: "SEE GPA — Science Stream (≥2.8)", outcome: "eligible", reason: "SEE GPA 3.85 exceeds minimum 2.8 requirement for Science stream", decidedBy: "Suresh Thapa", decidedOn: "2026-01-10" },
+    { id: "ed-3", tenantId: tenants[0]!.id, applicationId: "app-4", applicationName: "Srijana Thapa", ruleName: "SEE GPA — Management Stream (≥2.4)", outcome: "eligible", reason: "SEE GPA 3.2 exceeds minimum 2.4 requirement for Management stream", decidedBy: "Suresh Thapa", decidedOn: "2026-02-12" },
+  ];
+
+  const selectionEvents: DBSchema["selectionEvents"] = [
+    { id: "se-1", tenantId: tenants[0]!.id, applicationId: "app-1", applicationName: "Anisha Maharjan", type: "interview", scheduledDate: "2025-03-28", scheduledTime: "10:00", venue: "Room 101 — Primary Block", panelMembers: "Kabita Gurung, Anita Maharjan", status: "completed", createdOn: "2025-03-25" },
+    { id: "se-2", tenantId: tenants[0]!.id, applicationId: "app-2", applicationName: "Aarav Sharma", type: "entrance_test", scheduledDate: "2026-01-15", scheduledTime: "09:00", venue: "Room 301 — Secondary Block", panelMembers: "Dr. Bikash Gurung, Nabin Joshi", status: "completed", createdOn: "2026-01-10" },
+    { id: "se-3", tenantId: tenants[0]!.id, applicationId: "app-4", applicationName: "Srijana Thapa", type: "both", scheduledDate: "2026-02-18", scheduledTime: "10:30", venue: "Room 401 — Plus2 Block", panelMembers: "Puja Shrestha, Deepak Adhikari", status: "scheduled", createdOn: "2026-02-12" },
+  ];
+
+  const selectionScores: DBSchema["selectionScores"] = [
+    { id: "ss-1", tenantId: tenants[0]!.id, selectionEventId: "se-1", criterion: "Communication Skills", maxScore: 25, score: 22, evaluatedBy: "Kabita Gurung" },
+    { id: "ss-2", tenantId: tenants[0]!.id, selectionEventId: "se-1", criterion: "Readiness & Social Skills", maxScore: 25, score: 20, evaluatedBy: "Anita Maharjan" },
+    { id: "ss-3", tenantId: tenants[0]!.id, selectionEventId: "se-1", criterion: "Motor Skills", maxScore: 25, score: 21, evaluatedBy: "Kabita Gurung" },
+    { id: "ss-4", tenantId: tenants[0]!.id, selectionEventId: "se-1", criterion: "Parent Engagement", maxScore: 25, score: 24, remarks: "Parents very supportive and involved", evaluatedBy: "Anita Maharjan" },
+    { id: "ss-5", tenantId: tenants[0]!.id, selectionEventId: "se-2", criterion: "Mathematics", maxScore: 40, score: 36, evaluatedBy: "Dr. Bikash Gurung" },
+    { id: "ss-6", tenantId: tenants[0]!.id, selectionEventId: "se-2", criterion: "Science", maxScore: 40, score: 38, evaluatedBy: "Dr. Bikash Gurung" },
+    { id: "ss-7", tenantId: tenants[0]!.id, selectionEventId: "se-2", criterion: "English", maxScore: 30, score: 25, evaluatedBy: "Nabin Joshi" },
+    { id: "ss-8", tenantId: tenants[0]!.id, selectionEventId: "se-2", criterion: "General Knowledge", maxScore: 20, score: 17, evaluatedBy: "Nabin Joshi" },
+  ];
+
+  const offers: DBSchema["offers"] = [
+    { id: "ofr-1", tenantId: tenants[0]!.id, applicationId: "app-1", applicationName: "Anisha Maharjan", offerType: "unconditional", offeredGradeId: "gc-1", offeredGradeName: "Nursery", validUntil: "2025-04-30", status: "accepted", issuedOn: "2025-04-01", issuedBy: "Ramesh Shrestha" },
+    { id: "ofr-2", tenantId: tenants[0]!.id, applicationId: "app-2", applicationName: "Aarav Sharma", offerType: "conditional", offeredGradeId: "gc-9", offeredGradeName: "Class 11", offeredStreamId: "st-1", offeredStreamName: "Science", conditions: "Must submit original SEE transcript and character certificate before Baisakh 15", validUntil: "2026-04-30", status: "offered", issuedOn: "2026-01-20", issuedBy: "Suresh Thapa" },
+    { id: "ofr-3", tenantId: tenants[0]!.id, applicationId: "app-4", applicationName: "Srijana Thapa", offerType: "waitlist", offeredGradeId: "gc-9", offeredGradeName: "Class 11", offeredStreamId: "st-2", offeredStreamName: "Management", conditions: "Subject to seat availability after first-round admissions close", validUntil: "2026-05-15", status: "waitlisted", issuedOn: "2026-02-25", issuedBy: "Suresh Thapa" },
+  ];
+
+  const offerAcceptances: DBSchema["offerAcceptances"] = [
+    { id: "oa-1", tenantId: tenants[0]!.id, offerId: "ofr-1", offerName: "Anisha Maharjan — Nursery", acceptedOn: "2025-04-10", acceptedBy: "Roshan Maharjan", depositPaid: true, depositAmount: 15000, remarks: "Admission fee paid via eSewa" },
+    { id: "oa-2", tenantId: tenants[0]!.id, offerId: "ofr-2", offerName: "Aarav Sharma — Class 11 Science", acceptedOn: "2026-02-05", acceptedBy: "Dipak Sharma", depositPaid: true, depositAmount: 25000, remarks: "Deposit paid — awaiting original documents" },
+  ];
+
+  const conversionCases: DBSchema["conversionCases"] = [
+    { id: "cvn-1", tenantId: tenants[0]!.id, acceptanceId: "oa-1", acceptanceName: "Anisha Maharjan — Nursery", applicationId: "app-1", studentName: "Anisha Maharjan", state: "completed", admissionNo: "STU-2082-1201", startedOn: "2025-04-10", completedOn: "2025-04-15", createdOn: "2025-04-10" },
+    { id: "cvn-2", tenantId: tenants[0]!.id, acceptanceId: "oa-2", acceptanceName: "Aarav Sharma — Class 11 Science", applicationId: "app-2", studentName: "Aarav Sharma", state: "in_progress", startedOn: "2026-02-05", createdOn: "2026-02-05" },
+  ];
+
+  const conversionSteps: DBSchema["conversionSteps"] = [
+    { id: "cvs-1", tenantId: tenants[0]!.id, conversionId: "cvn-1", stepCode: "student_record", stepName: "Create Student Record", status: "completed", startedOn: "2025-04-10", completedOn: "2025-04-11", retryCount: 0 },
+    { id: "cvs-2", tenantId: tenants[0]!.id, conversionId: "cvn-1", stepCode: "fee_plan", stepName: "Assign Fee Plan", status: "completed", startedOn: "2025-04-11", completedOn: "2025-04-12", retryCount: 0 },
+    { id: "cvs-3", tenantId: tenants[0]!.id, conversionId: "cvn-1", stepCode: "id_card", stepName: "Issue ID Card", status: "completed", startedOn: "2025-04-13", completedOn: "2025-04-14", retryCount: 0 },
+    { id: "cvs-4", tenantId: tenants[0]!.id, conversionId: "cvn-1", stepCode: "orientation", stepName: "Orientation & Welcome Kit", status: "completed", startedOn: "2025-04-14", completedOn: "2025-04-15", retryCount: 0 },
+    { id: "cvs-5", tenantId: tenants[0]!.id, conversionId: "cvn-2", stepCode: "student_record", stepName: "Create Student Record", status: "completed", startedOn: "2026-02-05", completedOn: "2026-02-06", retryCount: 0 },
+    { id: "cvs-6", tenantId: tenants[0]!.id, conversionId: "cvn-2", stepCode: "fee_plan", stepName: "Assign Fee Plan", status: "completed", startedOn: "2026-02-06", completedOn: "2026-02-07", retryCount: 0 },
+    { id: "cvs-7", tenantId: tenants[0]!.id, conversionId: "cvn-2", stepCode: "id_card", stepName: "Issue ID Card", status: "running", startedOn: "2026-02-08", retryCount: 0 },
+    { id: "cvs-8", tenantId: tenants[0]!.id, conversionId: "cvn-2", stepCode: "orientation", stepName: "Orientation & Welcome Kit", status: "pending", retryCount: 0 },
+  ];
+
+  // ── M05 Student Information and Lifecycle ────────────────────────────────
+
+  const persons: DBSchema["persons"] = [
+    { id: "per-1", tenantId: tenants[0]!.id, legalName: "Ram Bahadur Shrestha", officialName: "Ram Bahadur Shrestha", officialNameNe: "रम बहादुर श्रेष्ठ", preferredName: "Ram", dateOfBirth: "2012-03-15", dateOfBirthBs: "2068-12-02", gender: "male", nationality: "Nepali", dedupeKey: "ram-shrestha-20120315", createdOn: "2025-04-10" },
+    { id: "per-2", tenantId: tenants[0]!.id, legalName: "Sita Kumari Thapa", officialName: "Sita Kumari Thapa", officialNameNe: "सिता कुमारी थापा", preferredName: "Sita", dateOfBirth: "2011-07-22", dateOfBirthBs: "2068-04-07", gender: "female", nationality: "Nepali", dedupeKey: "sita-thapa-20110722", createdOn: "2025-04-10" },
+    { id: "per-3", tenantId: tenants[0]!.id, legalName: "Bikash Gurung", officialName: "Bikash Gurung", officialNameNe: "बिकाश गुरुङ", dateOfBirth: "2010-11-05", dateOfBirthBs: "2067-07-19", gender: "male", nationality: "Nepali", dedupeKey: "bikash-gurung-20101105", createdOn: "2025-04-12" },
+    { id: "per-4", tenantId: tenants[0]!.id, legalName: "Anisha Maharjan", officialName: "Anisha Maharjan", officialNameNe: "अनिशा महर्जन", preferredName: "Anisha", dateOfBirth: "2020-01-10", dateOfBirthBs: "2076-09-26", gender: "female", nationality: "Nepali", dedupeKey: "anisha-maharjan-20200110", createdOn: "2025-03-15" },
+    { id: "per-5", tenantId: tenants[0]!.id, legalName: "Kiran Bhandari", officialName: "Kiran Bhandari", officialNameNe: "किरण भण्डारी", dateOfBirth: "2019-06-18", dateOfBirthBs: "2076-03-04", gender: "male", nationality: "Nepali", dedupeKey: "kiran-bhandari-20190618", createdOn: "2026-08-22" },
+  ];
+
+  const students: DBSchema["students"] = [
+    { id: "stu-1", tenantId: tenants[0]!.id, personId: "per-1", personName: "Ram Bahadur Shrestha", admissionNo: "ADM-2081-001", admissionNumber: "ADM-2081-001", iemisId: "IEMIS-001-2081", status: "active", admittedOn: "2025-04-15", currentGradeId: "gc-4", currentGradeName: "Class 1", currentSectionId: "sc-1", currentSectionName: "A", createdOn: "2025-04-15" },
+    { id: "stu-2", tenantId: tenants[0]!.id, personId: "per-2", personName: "Sita Kumari Thapa", admissionNo: "ADM-2081-002", admissionNumber: "ADM-2081-002", iemisId: "IEMIS-002-2081", status: "active", admittedOn: "2025-04-15", currentGradeId: "gc-9", currentGradeName: "Class 11", currentSectionId: "sc-4", currentSectionName: "Science A", createdOn: "2025-04-15" },
+    { id: "stu-3", tenantId: tenants[0]!.id, personId: "per-3", personName: "Bikash Gurung", admissionNo: "ADM-2080-015", admissionNumber: "ADM-2080-015", iemisId: "IEMIS-015-2080", status: "active", admittedOn: "2024-04-16", currentGradeId: "gc-8", currentGradeName: "Class 10", currentSectionId: "sc-3", currentSectionName: "A", createdOn: "2024-04-16" },
+    { id: "stu-4", tenantId: tenants[0]!.id, personId: "per-4", personName: "Anisha Maharjan", admissionNo: "ADM-2081-003", admissionNumber: "ADM-2081-003", status: "active", admittedOn: "2025-04-15", currentGradeId: "gc-1", currentGradeName: "Nursery", createdOn: "2025-04-15" },
+    { id: "stu-5", tenantId: tenants[0]!.id, personId: "per-5", personName: "Kiran Bhandari", admissionNo: "ADM-2083-001", admissionNumber: "ADM-2083-001", status: "active", admittedOn: "2026-09-01", currentGradeId: "gc-4", currentGradeName: "Class 1", createdOn: "2026-09-01" },
+  ];
+
+  const guardians: DBSchema["guardians"] = [
+    { id: "grd-1", tenantId: tenants[0]!.id, personId: "per-g1", personName: "Hari Prasad Shrestha", name: "Hari Prasad Shrestha", phone: "+977-9841001001", email: "hari.shrestha@gmail.com", occupation: "Government Officer", relationToStudent: "Father", createdOn: "2025-04-10" },
+    { id: "grd-2", tenantId: tenants[0]!.id, personId: "per-g2", personName: "Kamala Thapa", name: "Kamala Thapa", phone: "+977-9851002002", occupation: "Teacher", relationToStudent: "Mother", createdOn: "2025-04-10" },
+    { id: "grd-3", tenantId: tenants[0]!.id, personId: "per-g3", personName: "Dil Bahadur Gurung", name: "Dil Bahadur Gurung", phone: "+977-9861003003", email: "dilbahadur.g@yahoo.com", occupation: "Businessman", relationToStudent: "Father", createdOn: "2025-04-12" },
+    { id: "grd-4", tenantId: tenants[0]!.id, personId: "per-g4", personName: "Roshan Maharjan", name: "Roshan Maharjan", phone: "+977-9841004004", email: "roshan.maharjan@outlook.com", occupation: "Engineer", relationToStudent: "Father", createdOn: "2025-03-15" },
+  ];
+
+  const studentGuardians: DBSchema["studentGuardians"] = [
+    { id: "sg-1", tenantId: tenants[0]!.id, studentId: "stu-1", studentName: "Ram Bahadur Shrestha", guardianId: "grd-1", guardianName: "Hari Prasad Shrestha", type: "parent", isPrimary: true, validFrom: "2025-04-10" },
+    { id: "sg-2", tenantId: tenants[0]!.id, studentId: "stu-2", studentName: "Sita Kumari Thapa", guardianId: "grd-2", guardianName: "Kamala Thapa", type: "parent", isPrimary: true, validFrom: "2025-04-10" },
+    { id: "sg-3", tenantId: tenants[0]!.id, studentId: "stu-3", studentName: "Bikash Gurung", guardianId: "grd-3", guardianName: "Dil Bahadur Gurung", type: "parent", isPrimary: true, validFrom: "2025-04-12" },
+    { id: "sg-4", tenantId: tenants[0]!.id, studentId: "stu-4", studentName: "Anisha Maharjan", guardianId: "grd-4", guardianName: "Roshan Maharjan", type: "parent", isPrimary: true, validFrom: "2025-03-15" },
+    { id: "sg-5", tenantId: tenants[0]!.id, studentId: "stu-5", studentName: "Kiran Bhandari", guardianId: "grd-1", guardianName: "Hari Prasad Shrestha", type: "guardian", isPrimary: true, validFrom: "2026-08-22" },
+  ];
+
+  const studentDocuments: DBSchema["studentDocuments"] = [
+    { id: "sd-1", tenantId: tenants[0]!.id, studentId: "stu-1", studentName: "Ram Bahadur Shrestha", type: "birth_certificate", documentName: "Birth Certificate — Ram Bahadur Shrestha", verifiedBy: "Suresh Thapa", verifiedOn: "2025-04-12", status: "verified", createdOn: "2025-04-10" },
+    { id: "sd-2", tenantId: tenants[0]!.id, studentId: "stu-2", studentName: "Sita Kumari Thapa", type: "photo", documentName: "Passport Photo — Sita Kumari Thapa", status: "pending", createdOn: "2025-04-10" },
+    { id: "sd-3", tenantId: tenants[0]!.id, studentId: "stu-3", studentName: "Bikash Gurung", type: "transcript", documentName: "SEE Transcript — Bikash Gurung", verifiedBy: "Suresh Thapa", verifiedOn: "2025-05-20", status: "verified", createdOn: "2025-05-15" },
+    { id: "sd-4", tenantId: tenants[0]!.id, studentId: "stu-4", studentName: "Anisha Maharjan", type: "birth_certificate", documentName: "Birth Certificate — Anisha Maharjan", verifiedBy: "Suresh Thapa", verifiedOn: "2025-03-20", status: "verified", createdOn: "2025-03-15" },
+  ];
+
+  const enrolments: DBSchema["enrolments"] = [
+    { id: "enr-1", tenantId: tenants[0]!.id, studentId: "stu-1", studentName: "Ram Bahadur Shrestha", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", gradeId: "gc-4", gradeName: "Class 1", sectionId: "sc-1", sectionName: "A", rollNumber: "101", status: "enrolled", effectiveFrom: "2025-04-15", createdOn: "2025-04-15" },
+    { id: "enr-2", tenantId: tenants[0]!.id, studentId: "stu-2", studentName: "Sita Kumari Thapa", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", gradeId: "gc-9", gradeName: "Class 11", sectionId: "sc-4", sectionName: "Science A", streamId: "st-1", streamName: "Science", rollNumber: "1101", status: "enrolled", effectiveFrom: "2025-04-15", createdOn: "2025-04-15" },
+    { id: "enr-3", tenantId: tenants[0]!.id, studentId: "stu-3", studentName: "Bikash Gurung", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", gradeId: "gc-8", gradeName: "Class 10", sectionId: "sc-3", sectionName: "A", rollNumber: "1001", status: "enrolled", effectiveFrom: "2025-04-15", createdOn: "2025-04-15" },
+    { id: "enr-4", tenantId: tenants[0]!.id, studentId: "stu-4", studentName: "Anisha Maharjan", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", gradeId: "gc-1", gradeName: "Nursery", rollNumber: "N01", status: "enrolled", effectiveFrom: "2025-04-15", createdOn: "2025-04-15" },
+    { id: "enr-5", tenantId: tenants[0]!.id, studentId: "stu-5", studentName: "Kiran Bhandari", academicYearId: "ay-1", academicYearName: "2082 BS (2025/2026)", gradeId: "gc-4", gradeName: "Class 1", rollNumber: "138", status: "enrolled", effectiveFrom: "2026-09-01", createdOn: "2026-09-01" },
+  ];
+
+  const subjectSelections: DBSchema["subjectSelections"] = [
+    { id: "ss-1", tenantId: tenants[0]!.id, enrolmentId: "enr-2", studentName: "Sita Kumari Thapa", subjectOfferingRef: "co-4", subjectName: "Physics", isCompulsory: true, status: "selected", createdOn: "2025-04-20" },
+    { id: "ss-2", tenantId: tenants[0]!.id, enrolmentId: "enr-2", studentName: "Sita Kumari Thapa", subjectOfferingRef: "co-6", subjectName: "Computer Science", isCompulsory: false, status: "selected", createdOn: "2025-04-20" },
+    { id: "ss-3", tenantId: tenants[0]!.id, enrolmentId: "enr-1", studentName: "Ram Bahadur Shrestha", subjectOfferingRef: "co-1", subjectName: "Nepali", isCompulsory: true, status: "selected", createdOn: "2025-04-15" },
+    { id: "ss-4", tenantId: tenants[0]!.id, enrolmentId: "enr-1", studentName: "Ram Bahadur Shrestha", subjectOfferingRef: "co-2", subjectName: "English", isCompulsory: true, status: "selected", createdOn: "2025-04-15" },
+  ];
+
+  const studentMovements: DBSchema["studentMovements"] = [
+    { id: "sm-1", tenantId: tenants[0]!.id, enrolmentId: "enr-3", studentName: "Bikash Gurung", type: "promotion", fromGradeName: "Class 9", toGradeName: "Class 10", effectiveDate: "2025-04-15", reason: "Promoted based on annual examination results — GPA 3.2", approvedBy: "Ramesh Shrestha", createdOn: "2025-04-15" },
+    { id: "sm-2", tenantId: tenants[0]!.id, enrolmentId: "enr-5", studentName: "Kiran Bhandari", type: "transfer_in", toGradeName: "Class 1", effectiveDate: "2026-09-01", reason: "Transferred from Little Angels Secondary School", createdOn: "2026-09-01" },
+    { id: "sm-3", tenantId: tenants[0]!.id, enrolmentId: "enr-1", studentName: "Ram Bahadur Shrestha", type: "promotion", fromGradeName: "Nursery", toGradeName: "Class 1", effectiveDate: "2025-04-15", reason: "Completed ECED and promoted to Basic Education", approvedBy: "Ramesh Shrestha", createdOn: "2025-04-15" },
+  ];
+
+  const progressionAudits: DBSchema["progressionAudits"] = [
+    { id: "pa-1", tenantId: tenants[0]!.id, enrolmentId: "enr-3", studentName: "Bikash Gurung", gradeName: "Class 9", academicYearName: "2081 BS (2024/2025)", ruleVersion: "PR-v2081", outcome: "promoted", gpa: 3.2, attendance: 88, backlogs: 0, remarks: "Strong performance across all subjects", decidedBy: "Ramesh Shrestha", decidedOn: "2025-03-25" },
+    { id: "pa-2", tenantId: tenants[0]!.id, enrolmentId: "enr-2", studentName: "Sita Kumari Thapa", gradeName: "Class 10", academicYearName: "2081 BS (2024/2025)", ruleVersion: "PR-v2081", outcome: "promoted", gpa: 3.6, attendance: 92, backlogs: 0, remarks: "SEE GPA 3.6 — eligible for Science stream", decidedBy: "Ramesh Shrestha", decidedOn: "2025-03-28" },
+  ];
+
+  const studentHolds: DBSchema["studentHolds"] = [
+    { id: "sh-1", tenantId: tenants[0]!.id, studentId: "stu-3", studentName: "Bikash Gurung", holdType: "financial", ownerModule: "M12 Fees & Finance", reason: "Outstanding tuition fee for Bhadra–Mangsir 2082 — NPR 12,000 pending", placedBy: "Finance Office", placedOn: "2025-12-15", status: "active" },
+    { id: "sh-2", tenantId: tenants[0]!.id, studentId: "stu-1", studentName: "Ram Bahadur Shrestha", holdType: "library", ownerModule: "M16 Library", reason: "Overdue library books — 2 books not returned since Kartik 2082", placedBy: "Library", placedOn: "2026-01-10", releasedBy: "Library", releasedOn: "2026-01-20", status: "released" },
+  ];
+
+  const clearanceCases: DBSchema["clearanceCases"] = [
+    { id: "cc-1", tenantId: tenants[0]!.id, studentId: "stu-2", studentName: "Sita Kumari Thapa", purpose: "transfer", status: "in_progress", initiatedBy: "Suresh Thapa", initiatedOn: "2026-08-25", createdOn: "2026-08-25" },
+  ];
+
+  const clearanceResponses: DBSchema["clearanceResponses"] = [
+    { id: "cr-1", tenantId: tenants[0]!.id, clearanceId: "cc-1", moduleCode: "M12", moduleName: "Fees & Finance", decision: "cleared", respondedBy: "Finance Office", respondedOn: "2026-08-26", remarks: "All dues cleared" },
+    { id: "cr-2", tenantId: tenants[0]!.id, clearanceId: "cc-1", moduleCode: "M16", moduleName: "Library", decision: "cleared", respondedBy: "Library", respondedOn: "2026-08-27", remarks: "All books returned" },
+    { id: "cr-3", tenantId: tenants[0]!.id, clearanceId: "cc-1", moduleCode: "M17", moduleName: "Transport", decision: "not_applicable", respondedBy: "Transport Office", respondedOn: "2026-08-27", remarks: "Student not using school transport" },
+  ];
+
+  const identityCards: DBSchema["identityCards"] = [
+    { id: "idc-1", tenantId: tenants[0]!.id, studentId: "stu-1", studentName: "Ram Bahadur Shrestha", cardType: "student_id", serial: "SID-2082-001", issuedOn: "2025-05-01", validUntil: "2026-04-14", status: "active", createdOn: "2025-05-01" },
+    { id: "idc-2", tenantId: tenants[0]!.id, studentId: "stu-2", studentName: "Sita Kumari Thapa", cardType: "library", serial: "LIB-2082-015", issuedOn: "2025-05-05", validUntil: "2026-04-14", status: "active", createdOn: "2025-05-05" },
+    { id: "idc-3", tenantId: tenants[0]!.id, studentId: "stu-3", studentName: "Bikash Gurung", cardType: "rfid", serial: "RFID-2082-042", issuedOn: "2025-05-10", validUntil: "2026-04-14", status: "active", createdOn: "2025-05-10" },
+  ];
+
+  // ── M06 Curriculum, Teaching and Quality ──────────────────────────────────
+
+  const curriculumMaps: DBSchema["curriculumMaps"] = [
+    { id: "cm-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, offeringRef: "co-4", version: 1, status: "published", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "cm-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, offeringRef: "co-1", version: 1, status: "published", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const learningOutcomes: DBSchema["learningOutcomes"] = [
+    { id: "lo-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, curriculumMapId: "cm-1", code: "LO-PHY-01", description: "Understand Newton's laws of motion", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "lo-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, curriculumMapId: "cm-1", code: "LO-PHY-02", description: "Apply conservation of energy principles", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "lo-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, curriculumMapId: "cm-2", code: "LO-NEP-01", description: "Read and comprehend Nepali prose and poetry", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const syllabusPlans: DBSchema["syllabusPlans"] = [
+    { id: "sp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, offeringRef: "co-4", academicPeriodRef: "ay-1", name: "Physics — Class 11 Science", status: "published", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "sp-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, offeringRef: "co-1", academicPeriodRef: "ay-1", name: "Nepali — Class 1", status: "published", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const contentPlanItems: DBSchema["contentPlanItems"] = [
+    { id: "cpi-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, syllabusPlanId: "sp-1", sequence: "1", topic: "Introduction to Mechanics", resources: "Textbook, Lab kit", assessmentMethod: "Unit Test", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "cpi-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, syllabusPlanId: "sp-1", sequence: "2", topic: "Work, Energy and Power", resources: "Simulation, Worksheets", assessmentMethod: "Practical", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "cpi-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, syllabusPlanId: "sp-2", sequence: "1", topic: "स्वर व्यंजन और बार्नमाला", resources: "Story cards, Flash cards", assessmentMethod: "Oral", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const teachingAssignments: DBSchema["teachingAssignments"] = [
+    { id: "ta-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", sectionRef: "sc-3", sectionName: "Class 10 A", offeringRef: "co-3", subjectName: "Mathematics", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ta-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", sectionRef: "sc-4", sectionName: "Science A", offeringRef: "co-4", subjectName: "Physics", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const lessonPlans: DBSchema["lessonPlans"] = [
+    { id: "lp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-2", localDate: "2025-08-18", status: "completed", objectives: "Students will understand Newton's First Law", methods: "Lecture + Demonstration", resources: "Cart, Books, Whiteboard", homework: "Exercise 1.1", assessmentCheck: "Exit ticket", createdOn: "2025-08-18", updatedOn: "2025-08-18" },
+    { id: "lp-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-1", localDate: "2025-08-19", status: "active", objectives: "Solve quadratic equations", methods: "Guided Practice", resources: "Worksheet, Calculator", homework: "Problems 1–10", assessmentCheck: "Board work", createdOn: "2025-08-19", updatedOn: "2025-08-19" },
+  ];
+
+  const coverageEntries: DBSchema["coverageEntries"] = [
+    { id: "ce-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, lessonPlanId: "lp-1", completedAt: "2025-08-18T10:30:00", notes: "Completed with extra examples", createdOn: "2025-08-18", updatedOn: "2025-08-18" },
+    { id: "ce-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, lessonPlanId: "lp-2", completedAt: "2025-08-19T14:00:00", notes: "Coverage delayed — syllabus re-sequenced", createdOn: "2025-08-19", updatedOn: "2025-08-19" },
+    { id: "ce-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, lessonPlanId: "lp-1", completedAt: "2025-08-20T09:45:00", notes: "Remedial class completed", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+  ];
+
+  const workloadAllocations: DBSchema["workloadAllocations"] = [
+    { id: "wa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", activityType: "teaching", units: "25 periods/week", periodStart: "2025-04-15", periodEnd: "2026-04-14", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "wa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", activityType: "assessment", units: "3 hours/week", periodStart: "2025-04-15", periodEnd: "2026-04-14", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "wa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-2", staffName: "Ramesh Shrestha", activityType: "administration", units: "10 hours/week", periodStart: "2025-04-15", periodEnd: "2026-04-14", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "wa-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-3", staffName: "Laxmi Poudel", activityType: "guidance", units: "5 hours/week", periodStart: "2025-04-15", periodEnd: "2026-04-14", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const qualityReviews: DBSchema["qualityReviews"] = [
+    { id: "qr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, scopeType: "faculty", scopeId: "uid-5", reviewType: "internal", cycle: "Term 2 2082", status: "in_progress", findings: "Good lesson planning; needs more student engagement", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "qr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, scopeType: "subject", scopeId: "su-6", reviewType: "internal", cycle: "Annual 2082", status: "completed", findings: "Lab equipment sufficient; curriculum up to date", createdOn: "2025-06-15", updatedOn: "2025-06-20" },
+    { id: "qr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, scopeType: "school", scopeId: campuses[0]!.id, reviewType: "external", cycle: "Annual 2082", status: "certified", findings: "Affiliation standards met — NEB re-accreditation passed", createdOn: "2025-05-01", updatedOn: "2025-05-20" },
+  ];
+
+  const qualityEvidences: DBSchema["qualityEvidences"] = [
+    { id: "qe-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-1", objectRef: "lp-1", objectType: "lesson_plan", description: "Sample lesson plan for Newton's laws", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "qe-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-2", objectRef: "su-6", objectType: "subject", description: "Physics lab inventory 2082", createdOn: "2025-06-15", updatedOn: "2025-06-15" },
+    { id: "qe-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-3", objectRef: "camp-main", objectType: "campus", description: "External audit report — campus infrastructure", createdOn: "2025-05-10", updatedOn: "2025-05-10" },
+    { id: "qe-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-1", objectRef: "lp-2", objectType: "lesson_plan", description: "Mathematics remediation plan evidenced", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+
+  const moderationReviews: DBSchema["moderationReviews"] = [
+    { id: "mr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-1", subjectRef: "su-6", subjectName: "Physics", outcome: "agreed", remarks: "Teaching standard meets expectation", reviewerId: "uid-2", reviewerName: "Ramesh Shrestha", isAnonymous: false, createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "mr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-2", subjectRef: "su-3", subjectName: "Mathematics", outcome: "revised", remarks: "Grading rubric updated for consistency", reviewerId: "uid-1", reviewerName: "Anish Karki", isAnonymous: true, createdOn: "2025-06-18", updatedOn: "2025-06-18" },
+    { id: "mr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-3", subjectRef: "su-2", subjectName: "English", outcome: "pending", remarks: "Awaiting external moderator", reviewerId: "uid-4", reviewerName: "Suresh Thapa", isAnonymous: false, createdOn: "2025-09-06", updatedOn: "2025-09-06" },
+  ];
+
+  const reviewActions: DBSchema["reviewActions"] = [
+    { id: "ra-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-1", ownerRef: "uid-5", ownerName: "Manoj Rai", dueDate: "2025-09-30", status: "open", action: "Increase student participation in practicals", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "ra-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-2", ownerRef: "uid-3", ownerName: "Laxmi Poudel", dueDate: "2025-07-15", status: "completed", action: "Update lab safety checklist", createdOn: "2025-06-20", updatedOn: "2025-07-10" },
+    { id: "ra-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reviewId: "qr-3", ownerRef: "uid-2", ownerName: "Ramesh Shrestha", dueDate: "2025-06-01", status: "in_progress", action: "Submit affiliation renewal dossier", createdOn: "2025-05-15", updatedOn: "2025-05-15" },
+  ];
+
+  // ── M07 Scheduling, Attendance and Time ──────────────────────────────────
+
+  const timetables: DBSchema["timetables"] = [
+    { id: "tt-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", academicPeriodName: "2082 BS (2025/2026)", campusId: "camp-main", campusName: "Baneshwor Main Campus", version: 1, name: "Class 10 — Term 2 Timetable", status: "published", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "tt-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", academicPeriodName: "2082 BS (2025/2026)", campusId: "camp-main", campusName: "Baneshwor Main Campus", version: 1, name: "Class 1 — Term 2 Timetable", status: "approved", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "tt-3", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, academicPeriodRef: "ay-1", academicPeriodName: "2082 BS (2025/2026)", campusId: "camp-bkt", campusName: "Bhaktapur Branch", version: 1, name: "Bhaktapur — Draft Timetable", status: "draft", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const timetableSlots: DBSchema["timetableSlots"] = [
+    { id: "ts-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-1", timetableName: "Class 10 — Term 2 Timetable", dayPattern: "Mon", startTime: "10:00", endTime: "10:45", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ts-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-1", timetableName: "Class 10 — Term 2 Timetable", dayPattern: "Mon", startTime: "10:45", endTime: "11:30", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ts-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-2", timetableName: "Class 1 — Term 2 Timetable", dayPattern: "Tue", startTime: "09:00", endTime: "09:40", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ts-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-1", timetableName: "Class 10 — Term 2 Timetable", dayPattern: "Wed", startTime: "13:00", endTime: "13:45", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const timetableAssignments: DBSchema["timetableAssignments"] = [
+    { id: "ta-101", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-1", slotId: "ts-1", slotLabel: "Mon 10:00-10:45", sectionRef: "sc-3", sectionName: "Class 10 A", offeringRef: "co-3", offeringName: "Mathematics", staffRef: "uid-5", staffName: "Manoj Rai", locationRef: "loc-rm-201", locationName: "Room 201", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ta-102", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-1", slotId: "ts-2", slotLabel: "Mon 10:45-11:30", sectionRef: "sc-3", sectionName: "Class 10 A", offeringRef: "co-3", offeringName: "Mathematics", staffRef: "uid-5", staffName: "Manoj Rai", locationRef: "loc-lab-comp", locationName: "Computer Laboratory", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "ta-103", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timetableId: "tt-2", slotId: "ts-3", slotLabel: "Tue 09:00-09:40", sectionRef: "sc-1", sectionName: "Class 1 A", offeringRef: "co-1", offeringName: "Nepali", staffRef: "uid-5", staffName: "Manoj Rai", locationRef: "loc-rm-101", locationName: "Room 101", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const substitutions: DBSchema["substitutions"] = [
+    { id: "sub-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-101", assignmentLabel: "Class 10 A — Mathematics", localDate: "2025-09-04", replacementStaffRef: "uid-2", replacementStaffName: "Ramesh Shrestha", reason: "Manoj Rai on leave — Dashain", status: "approved", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "sub-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-102", assignmentLabel: "Class 10 A — Mathematics", localDate: "2025-09-05", replacementStaffRef: "uid-3", replacementStaffName: "Laxmi Poudel", reason: "Timetable swap for lab maintenance", status: "pending", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "sub-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-103", assignmentLabel: "Class 1 A — Nepali", localDate: "2025-09-05", replacementStaffRef: "uid-5", replacementStaffName: "Manoj Rai", reason: "Cover for sick leave", status: "completed", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "sub-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentId: "ta-101", assignmentLabel: "Class 10 A — Mathematics", localDate: "2025-09-06", replacementStaffRef: "uid-4", replacementStaffName: "Suresh Thapa", reason: "Exam invigilation duty", status: "pending", createdOn: "2025-09-06", updatedOn: "2025-09-06" },
+  ];
+
+  const attendanceSessions: DBSchema["attendanceSessions"] = [
+    { id: "asess-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentRef: "ta-101", localDate: "2025-09-03", status: "finalized", courseOfferingId: "co-3", courseOfferingName: "Mathematics", sectionId: "sc-3", sectionName: "Class 10 A", sessionDate: "2025-09-03", periodNo: 1, scheduledStartAt: "2025-09-03T10:00:00", scheduledEndAt: "2025-09-03T10:45:00", finalizedAt: "2025-09-03T11:00:00", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "asess-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentRef: "ta-103", localDate: "2025-09-03", status: "open", courseOfferingId: "co-1", courseOfferingName: "Nepali", sectionId: "sc-1", sectionName: "Class 1 A", sessionDate: "2025-09-03", periodNo: 1, scheduledStartAt: "2025-09-03T09:00:00", scheduledEndAt: "2025-09-03T09:40:00", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "asess-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentRef: "ta-101", localDate: "2025-09-04", status: "scheduled", courseOfferingId: "co-3", courseOfferingName: "Mathematics", sectionId: "sc-3", sectionName: "Class 10 A", sessionDate: "2025-09-04", periodNo: 1, scheduledStartAt: "2025-09-04T10:00:00", scheduledEndAt: "2025-09-04T10:45:00", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "asess-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentRef: "ta-102", localDate: "2025-09-04", status: "finalized", courseOfferingId: "co-6", courseOfferingName: "Computer Science", sectionId: "sc-4", sectionName: "Science A", sessionDate: "2025-09-04", periodNo: 2, scheduledStartAt: "2025-09-04T10:45:00", scheduledEndAt: "2025-09-04T11:30:00", finalizedAt: "2025-09-04T12:00:00", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "asess-5", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, assignmentRef: "ta-103", localDate: "2025-09-04", status: "cancelled", courseOfferingId: "co-1", courseOfferingName: "Nepali", sectionId: "sc-1", sectionName: "Class 1 A", sessionDate: "2025-09-04", periodNo: 1, scheduledStartAt: "2025-09-04T09:00:00", scheduledEndAt: "2025-09-04T09:40:00", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+  ];
+
+  const studentAttendances: DBSchema["studentAttendances"] = [
+    { id: "sa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-1", sessionLabel: "2025-09-03 — Class 10 A", studentRef: "stu-3", studentName: "Bikash Gurung", status: "present", recordedAt: "2025-09-03T10:05:00", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "sa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-1", sessionLabel: "2025-09-03 — Class 10 A", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", status: "late", recordedAt: "2025-09-03T10:12:00", remarks: "Traffic delay", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "sa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-2", sessionLabel: "2025-09-03 — Class 1 A", studentRef: "stu-4", studentName: "Anisha Maharjan", status: "absent", recordedAt: "2025-09-03T09:10:00", remarks: "Sick leave", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "sa-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-2", sessionLabel: "2025-09-03 — Class 1 A", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", status: "present", recordedAt: "2025-09-03T09:02:00", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "sa-5", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-4", sessionLabel: "2025-09-04 — Science A", studentRef: "stu-2", studentName: "Sita Kumari Thapa", status: "present", recordedAt: "2025-09-04T10:50:00", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "sa-6", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-4", sessionLabel: "2025-09-04 — Science A", studentRef: "stu-3", studentName: "Bikash Gurung", status: "excused", recordedAt: "2025-09-04T10:55:00", remarks: "Inter-school competition", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "sa-7", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-1", sessionLabel: "2025-09-03 — Class 10 A", studentRef: "stu-2", studentName: "Sita Kumari Thapa", status: "present", recordedAt: "2025-09-03T10:06:00", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+  ];
+
+  const attendanceCorrections: DBSchema["attendanceCorrections"] = [
+    { id: "ac-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-1", studentRef: "stu-3", studentName: "Bikash Gurung", fromStatus: "absent", toStatus: "present", reason: "Biometric punch missed — verified via CCTV", approval: "Ramesh Shrestha", status: "approved", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "ac-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-2", studentRef: "stu-4", studentName: "Anisha Maharjan", fromStatus: "absent", toStatus: "excused", reason: "Medical certificate submitted", status: "pending", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "ac-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-4", studentRef: "stu-2", studentName: "Sita Kumari Thapa", fromStatus: "late", toStatus: "present", reason: "Bus delay verified — traffic jam on Ring Road", approval: "Anish Karki", status: "draft", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "ac-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, sessionId: "asess-1", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", fromStatus: "late", toStatus: "present", reason: "Late punch due to fingerprint reader error", status: "rejected", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+  ];
+
+  const attendanceAlerts: DBSchema["attendanceAlerts"] = [
+    { id: "aa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", ruleVersion: "v1-threshold-75", alertType: "chronic_absence", message: "Attendance below 75% — 12 absent days in last 30 days", status: "open", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "aa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-4", studentName: "Anisha Maharjan", ruleVersion: "v1-late-3", alertType: "late_pattern", message: "3 consecutive late arrivals", status: "acknowledged", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "aa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", ruleVersion: "v1-sudden-drop", alertType: "sudden_drop", message: "Sudden drop: 95% → 60% this month", status: "open", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "aa-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", ruleVersion: "v1-course-risk", alertType: "course_risk", message: "Course-level risk: Mathematics attendance 68%", status: "resolved", createdOn: "2025-09-02", updatedOn: "2025-09-04" },
+  ];
+
+  const shifts: DBSchema["shifts"] = [
+    { id: "shift-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, campusId: "camp-main", campusName: "Baneshwor Main Campus", code: "MOR-08", name: "Morning Shift", startTime: "08:00", endTime: "14:00", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "shift-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, campusId: "camp-main", campusName: "Baneshwor Main Campus", code: "DAY-10", name: "Day Shift", startTime: "10:00", endTime: "16:00", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "shift-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, campusId: "camp-bkt", campusName: "Bhaktapur Branch", code: "EVE-14", name: "Evening Shift", startTime: "14:00", endTime: "18:00", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+
+  const staffRosters: DBSchema["staffRosters"] = [
+    { id: "roster-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", localDate: "2025-09-03", shiftId: "shift-1", shiftName: "Morning Shift", status: "scheduled", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+    { id: "roster-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-2", staffName: "Ramesh Shrestha", localDate: "2025-09-03", shiftId: "shift-2", shiftName: "Day Shift", status: "completed", createdOn: "2025-09-02", updatedOn: "2025-09-03" },
+    { id: "roster-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-4", staffName: "Suresh Thapa", localDate: "2025-09-04", shiftId: "shift-1", shiftName: "Morning Shift", status: "absent", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "roster-4", tenantId: tenants[0]!.id, schoolId: campuses[1]!.id, staffRef: "uid-5", staffName: "Manoj Rai", localDate: "2025-09-04", shiftId: "shift-3", shiftName: "Evening Shift", status: "on_leave", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+  ];
+
+  const timeEntries: DBSchema["timeEntries"] = [
+    { id: "te-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", occurredAt: "2025-09-03T07:58:00", source: "biometric", status: "approved", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "te-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-2", staffName: "Ramesh Shrestha", occurredAt: "2025-09-03T10:05:00", source: "manual", status: "pending", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "te-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-4", staffName: "Suresh Thapa", occurredAt: "2025-09-03T08:15:00", source: "qr", status: "approved", createdOn: "2025-09-03", updatedOn: "2025-09-03" },
+    { id: "te-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", occurredAt: "2025-09-04T07:45:00", source: "rfid", status: "rejected", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+  ];
+
+  const timeAdjustments: DBSchema["timeAdjustments"] = [
+    { id: "tadj-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timeEntryId: "te-2", staffName: "Ramesh Shrestha", reason: "Late arrival due to traffic — supporting doc attached", approval: "Anish Karki", status: "pending", createdOn: "2025-09-04", updatedOn: "2025-09-04" },
+    { id: "tadj-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timeEntryId: "te-4", staffName: "Manoj Rai", reason: "RFID missed — manual correction requested", approval: "Ramesh Shrestha", status: "approved", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+    { id: "tadj-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, timeEntryId: "te-3", staffName: "Suresh Thapa", reason: "QR scan duplicate — deduplication", approval: "", status: "draft", createdOn: "2025-09-05", updatedOn: "2025-09-05" },
+  ];
+
+  return {
+    tenants, institution, legalEntities, campuses, orgUnits, locations,
+    holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
+    userIdentities, authSessions, authFactors, roles, userRoles, dataScopes,
+    delegations, impersonationLogs, dutyRules, dutyViolations, privilegedAccess, accessReviews,
+    // M03
+    academicYears, terms, schoolLevels, gradeClasses, streams,
+    subjects, curriculumOfferings, sections, houses, cohorts,
+    gradingScales, promotionRules, completionRules, academicPolicies,
+    // M04
+    campaigns, enquiries, enquiryInteractions, applications, applicationChoices,
+    applicationDocuments, eligibilityDecisions, selectionEvents, selectionScores,
+    offers, offerAcceptances, conversionCases, conversionSteps,
+    // M05
+    persons, students, guardians, studentGuardians, studentDocuments,
+    enrolments, subjectSelections, studentMovements, progressionAudits,
+    studentHolds, clearanceCases, clearanceResponses, identityCards,
+    // M06
+    curriculumMaps, learningOutcomes, syllabusPlans, contentPlanItems,
+    teachingAssignments, lessonPlans, coverageEntries, workloadAllocations,
+    qualityReviews, qualityEvidences, moderationReviews, reviewActions,
+    // M07
+    timetables, timetableSlots, timetableAssignments, substitutions,
+    attendanceSessions, studentAttendances, attendanceCorrections, attendanceAlerts,
+    shifts, staffRosters, timeEntries, timeAdjustments,
+  };
+}

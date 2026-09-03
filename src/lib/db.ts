@@ -1,0 +1,246 @@
+// Minimal promise-based IndexedDB wrapper acting as the fake backend.
+import type { DBSchema, StoreName } from "./types";
+import { seedData } from "./seed";
+
+const DB_NAME = "shikshya-erp-m01";
+const DB_VERSION = 8;
+
+let dbPromise: Promise<IDBDatabase> | null = null;
+
+function openDB(): Promise<IDBDatabase> {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      const stores: StoreName[] = [
+        "tenants",
+        "institution",
+        "legalEntities",
+        "campuses",
+        "orgUnits",
+        "locations",
+        "holidays",
+        "calendarYears",
+        "locale",
+        "sequences",
+        "featureFlags",
+        "configVersions",
+        "audit",
+        // M02 stores
+        "userIdentities",
+        "authSessions",
+        "authFactors",
+        "roles",
+        "userRoles",
+        "dataScopes",
+        "delegations",
+        "impersonationLogs",
+        "dutyRules",
+        "dutyViolations",
+        "privilegedAccess",
+        "accessReviews",
+        // M03 stores
+        "academicYears",
+        "terms",
+        "schoolLevels",
+        "gradeClasses",
+        "streams",
+        "subjects",
+        "curriculumOfferings",
+        "sections",
+        "houses",
+        "cohorts",
+        "gradingScales",
+        "promotionRules",
+        "completionRules",
+        "academicPolicies",
+        // M04 stores
+        "campaigns",
+        "enquiries",
+        "enquiryInteractions",
+        "applications",
+        "applicationChoices",
+        "applicationDocuments",
+        "eligibilityDecisions",
+        "selectionEvents",
+        "selectionScores",
+        "offers",
+        "offerAcceptances",
+        "conversionCases",
+        "conversionSteps",
+        // M05 stores
+        "persons",
+        "students",
+        "guardians",
+        "studentGuardians",
+        "studentDocuments",
+        "enrolments",
+        "subjectSelections",
+        "studentMovements",
+        "progressionAudits",
+        "studentHolds",
+        "clearanceCases",
+        "clearanceResponses",
+        "identityCards",
+        // M06 stores
+        "curriculumMaps",
+        "learningOutcomes",
+        "syllabusPlans",
+        "contentPlanItems",
+        "teachingAssignments",
+        "lessonPlans",
+        "coverageEntries",
+        "workloadAllocations",
+        "qualityReviews",
+        "qualityEvidences",
+        "moderationReviews",
+        "reviewActions",
+        // M07 stores
+        "timetables",
+        "timetableSlots",
+        "timetableAssignments",
+        "substitutions",
+        "attendanceSessions",
+        "studentAttendances",
+        "attendanceCorrections",
+        "attendanceAlerts",
+        "shifts",
+        "staffRosters",
+        "timeEntries",
+        "timeAdjustments",
+      ];
+      stores.forEach((s) => {
+        if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
+      });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return dbPromise;
+}
+
+function tx<T>(
+  store: StoreName,
+  mode: IDBTransactionMode,
+  fn: (s: IDBObjectStore) => IDBRequest<T>
+): Promise<T> {
+  return openDB().then(
+    (db) =>
+      new Promise<T>((resolve, reject) => {
+        const t = db.transaction(store, mode);
+        const req = fn(t.objectStore(store));
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      })
+  );
+}
+
+const ALL_STORES: StoreName[] = [
+  "tenants", "institution", "legalEntities", "campuses", "orgUnits", "locations",
+  "holidays", "calendarYears", "locale", "sequences", "featureFlags", "configVersions", "audit",
+  "userIdentities", "authSessions", "authFactors", "roles", "userRoles", "dataScopes",
+  "delegations", "impersonationLogs", "dutyRules", "dutyViolations", "privilegedAccess", "accessReviews",
+  // M03 stores
+  "academicYears", "terms", "schoolLevels", "gradeClasses", "streams",
+  "subjects", "curriculumOfferings", "sections", "houses", "cohorts",
+  "gradingScales", "promotionRules", "completionRules", "academicPolicies",
+  // M04 stores
+  "campaigns", "enquiries", "enquiryInteractions", "applications", "applicationChoices",
+  "applicationDocuments", "eligibilityDecisions", "selectionEvents", "selectionScores",
+  "offers", "offerAcceptances", "conversionCases", "conversionSteps",
+  // M05 stores
+  "persons", "students", "guardians", "studentGuardians", "studentDocuments",
+  "enrolments", "subjectSelections", "studentMovements", "progressionAudits",
+  "studentHolds", "clearanceCases", "clearanceResponses", "identityCards",
+  // M06 stores
+  "curriculumMaps", "learningOutcomes", "syllabusPlans", "contentPlanItems",
+  "teachingAssignments", "lessonPlans", "coverageEntries", "workloadAllocations",
+  "qualityReviews", "qualityEvidences", "moderationReviews", "reviewActions",
+  // M07 stores
+  "timetables", "timetableSlots", "timetableAssignments", "substitutions",
+  "attendanceSessions", "studentAttendances", "attendanceCorrections", "attendanceAlerts",
+  "shifts", "staffRosters", "timeEntries", "timeAdjustments",
+];
+
+async function ensureSeeded(): Promise<void> {
+  const db = await openDB();
+  const existing = await new Promise<number>((resolve) => {
+    const t = db.transaction("tenants", "readonly");
+    const req = t.objectStore("tenants").count();
+    req.onsuccess = () => resolve(req.result);
+  });
+  if (existing === 0) {
+    const seed = seedData();
+    await new Promise<void>((resolve, reject) => {
+      const t = db.transaction(ALL_STORES, "readwrite");
+      (Object.keys(seed) as StoreName[]).forEach((k) => {
+        const store = t.objectStore(k);
+        (seed[k] as { id: string }[]).forEach((item) => store.put(item));
+      });
+      t.oncomplete = () => resolve();
+      t.onerror = () => reject(t.error);
+    });
+    return;
+  }
+  const seed = seedData();
+  const incrementalStores: StoreName[] = [
+    "persons", "students", "guardians", "studentGuardians", "studentDocuments",
+    "enrolments", "subjectSelections", "studentMovements", "progressionAudits",
+    "studentHolds", "clearanceCases", "clearanceResponses", "identityCards",
+    "curriculumMaps", "learningOutcomes", "syllabusPlans", "contentPlanItems",
+    "teachingAssignments", "lessonPlans", "coverageEntries", "workloadAllocations",
+    "qualityReviews", "qualityEvidences", "moderationReviews", "reviewActions",
+    "timetables", "timetableSlots", "timetableAssignments", "substitutions",
+    "attendanceSessions", "studentAttendances", "attendanceCorrections", "attendanceAlerts",
+    "shifts", "staffRosters", "timeEntries", "timeAdjustments",
+  ];
+  const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
+  if (missing.length === 0) {
+    let needsSeed = false;
+    for (const s of incrementalStores) {
+      const expected = (seed[s] as { id: string }[])?.length ?? 0;
+      const count = await new Promise<number>((resolve) => {
+        try {
+          const t = db.transaction(s, "readonly");
+          const req = t.objectStore(s).count();
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => resolve(0);
+          t.onerror = () => resolve(0);
+        } catch { resolve(0); }
+      });
+      if (count === 0 || count < expected) { needsSeed = true; break; }
+    }
+    if (!needsSeed) return;
+  }
+  // Seed only stores that actually exist (guards against partial upgrade)
+  const seedableStores = incrementalStores.filter((s) => db.objectStoreNames.contains(s));
+  if (seedableStores.length === 0) return;
+  await new Promise<void>((resolve, reject) => {
+    const t = db.transaction(seedableStores, "readwrite");
+    seedableStores.forEach((k) => {
+      try {
+        const store = t.objectStore(k);
+        (seed[k] as { id: string }[]).forEach((item) => store.put(item));
+      } catch {}
+    });
+    t.oncomplete = () => resolve();
+    t.onerror = () => reject(t.error);
+  });
+}
+
+export async function dbGetAll<K extends StoreName>(store: K): Promise<DBSchema[K]> {
+  await ensureSeeded();
+  const rows = await tx<DBSchema[K]>(store, "readonly", (s) => s.getAll() as IDBRequest<DBSchema[K]>);
+  return rows;
+}
+
+export async function dbPut<K extends StoreName>(store: K, item: DBSchema[K][number]): Promise<void> {
+  await ensureSeeded();
+  await tx(store, "readwrite", (s) => s.put(item));
+}
+
+export async function dbDelete(store: StoreName, id: string): Promise<void> {
+  await ensureSeeded();
+  await tx(store, "readwrite", (s) => s.delete(id));
+}

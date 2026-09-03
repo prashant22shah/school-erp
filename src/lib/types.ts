@@ -1,0 +1,1533 @@
+// ── M01 Product, Tenant and School Institution Core — domain types ──────────
+
+export type TenantStatus =
+  | "trial"
+  | "active"
+  | "suspended"
+  | "read_only"
+  | "archived"
+  | "terminated";
+
+export type Environment = "sandbox" | "training" | "production";
+
+export type Edition = "basic" | "standard" | "premium" | "enterprise";
+
+export interface Tenant {
+  id: string;
+  code: string; // immutable
+  name: string;
+  nameNe?: string;
+  edition: Edition;
+  status: TenantStatus;
+  environment: Environment;
+  contactEmail: string;
+  phone?: string;
+  createdOn: string;
+  validFrom: string;
+  validTo?: string;
+  licensedModules: string[];
+  userLimit: number;
+  storageLimitGb: number;
+  usage: { users: number; students: number; storageGb: number; apiCallsK: number };
+}
+
+export type CampusStatus = "open" | "closing" | "closed" | "archived";
+
+export interface Campus {
+  id: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  status: CampusStatus;
+  type: "main" | "branch";
+  address: string;
+  province: string;
+  district: string;
+  localLevel: string;
+  ward: number;
+  phone: string;
+  email: string;
+  head: string;
+  gradeFrom: string;
+  gradeTo: string;
+  brandingColor: string;
+  studentCount: number;
+  openedOn: string;
+}
+
+export interface LegalEntity {
+  id: string;
+  name: string;
+  type: "company" | "trust" | "community" | "government";
+  pan: string;
+  registrationNumber: string;
+  address: string;
+  isPrimary: boolean;
+}
+
+export interface Institution {
+  id: string;
+  legalName: string;
+  name: string;
+  nameNe: string;
+  iemisCode: string;
+  registrationNumber: string;
+  schoolType: string;
+  province: string;
+  district: string;
+  localLevel: string;
+  ward: number;
+  establishedOn: string;
+  governingBody: string;
+  recognition: string;
+  affiliation: string;
+  pan: string;
+  website: string;
+  email: string;
+  phone: string;
+  moto: string;
+}
+
+export type OrgUnitType = "academic" | "administrative" | "support";
+
+export interface OrgUnit {
+  id: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  type: OrgUnitType;
+  parentId: string | null;
+  head: string;
+  headRole: string;
+  staffCount: number;
+  budgetCode?: string;
+  status: "active" | "inactive";
+}
+
+export type LocationType =
+  | "site"
+  | "building"
+  | "floor"
+  | "room"
+  | "lab"
+  | "hall"
+  | "field";
+
+export type BookingPolicy = "open" | "approval" | "restricted" | "closed";
+
+export interface LocationNode {
+  id: string;
+  name: string;
+  code: string;
+  type: LocationType;
+  parentId: string | null;
+  capacity?: number;
+  accessibility: boolean;
+  equipment: string[];
+  safetyRating?: number; // 1..5, only rooms/labs/halls
+  bookingPolicy: BookingPolicy;
+  barcode: string;
+  shared: boolean;
+  department?: string;
+  status: "available" | "occupied" | "maintenance";
+}
+
+export interface Holiday {
+  id: string;
+  name: string;
+  nameNe: string;
+  date: string; // AD
+  dateBs: string; // BS display (prototype static mapping)
+  type: "public" | "school" | "festival";
+}
+
+export interface CalendarYear {
+  id: string;
+  academicYear: string;
+  adRange: string;
+  bsRange: string;
+  totalDays: number;
+  workingDays: number;
+  status: "current" | "upcoming" | "completed";
+}
+
+export interface LocaleSettings {
+  id: string;
+  timezone: string;
+  weekStart: "sunday" | "monday";
+  dateFormat: string;
+  numberFormat: string;
+  language: "en" | "ne" | "both";
+  calendarSystem: "BS" | "AD" | "both";
+  fiscalYearStart: string;
+}
+
+export interface DocSequence {
+  id: string;
+  docType: string;
+  description: string;
+  prefix: string;
+  currentNumber: number;
+  padLength: number;
+  period: string;
+  locked: boolean;
+  lastIssued?: string;
+}
+
+export type FeatureCategory = "academics" | "finance" | "transport" | "library" | "communication" | "hr";
+
+export interface FeatureFlag {
+  id: string;
+  featureCode: string;
+  name: string;
+  description: string;
+  category: FeatureCategory;
+  enabled: boolean;
+  scope: "tenant" | "campus" | "role";
+  campusId?: string | null;
+  role?: string | null;
+  effectiveFrom: string;
+}
+
+export type ConfigStatus = "draft" | "in_review" | "approved" | "published" | "rejected";
+
+export interface ConfigVersion {
+  id: string;
+  version: string;
+  status: ConfigStatus;
+  createdBy: string;
+  createdOn: string;
+  approvedBy?: string;
+  notes: string;
+  changes: number;
+  targetEnv: Environment;
+}
+
+export interface AuditEntry {
+  id: string;
+  ts: string;
+  actor: string;
+  action: string;
+  entity: string;
+  detail: string;
+  recordsAffected: number;
+}
+
+// ── M02 Identity, Access and Delegation — domain types ──────────────────────
+
+export type IdentityStatus = "active" | "inactive" | "locked" | "suspended" | "pending_activation" | "archived";
+
+export type IdentityType = "staff" | "student" | "guardian" | "vendor" | "admin" | "service_account";
+
+export interface UserIdentity {
+  id: string;
+  tenantId: string;
+  schoolId?: string;
+  username: string;
+  email: string;
+  phone?: string;
+  displayName: string;
+  displayNameNe?: string;
+  type: IdentityType;
+  status: IdentityStatus;
+  passwordHash?: string;
+  mfaEnabled: boolean;
+  mfaMethod?: "totp" | "sms" | "email";
+  lastLogin?: string;
+  failedAttempts: number;
+  lockedUntil?: string;
+  passwordChangedOn?: string;
+  mustChangePassword: boolean;
+  avatar?: string;
+  personId?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type AuthProvider = "local" | "google" | "microsoft" | "sso" | "saml";
+
+export interface AuthSession {
+  id: string;
+  userId: string;
+  provider: AuthProvider;
+  issuedAt: string;
+  expiresAt: string;
+  ip: string;
+  userAgent: string;
+  isActive: boolean;
+  revokedAt?: string;
+  revokeReason?: string;
+}
+
+export interface AuthFactor {
+  id: string;
+  userId: string;
+  type: "totp" | "sms" | "email" | "backup_codes";
+  enabled: boolean;
+  enrolledOn: string;
+  lastUsed?: string;
+  label?: string;
+}
+
+export type PermissionEffect = "allow" | "deny";
+
+export interface Permission {
+  id: string;
+  resource: string;
+  action: string;
+  effect: PermissionEffect;
+  conditions?: string;
+}
+
+export interface Role {
+  id: string;
+  tenantId: string;
+  code: string;
+  name: string;
+  nameNe?: string;
+  description: string;
+  isSystem: boolean;
+  isDefault: boolean;
+  priority: number;
+  permissions: Permission[];
+  createdOn: string;
+}
+
+export interface UserRole {
+  id: string;
+  userId: string;
+  userName: string;
+  roleId: string;
+  roleName: string;
+  scope: "tenant" | "campus" | "org_unit";
+  scopeId?: string;
+  scopeName?: string;
+  assignedBy: string;
+  assignedOn: string;
+  validFrom: string;
+  validTo?: string;
+  isActive: boolean;
+}
+
+export interface DataScope {
+  id: string;
+  userId: string;
+  userName: string;
+  scopeType: "tenant" | "campus" | "org_unit" | "class_section";
+  scopeId: string;
+  scopeName: string;
+  grantedBy: string;
+  grantedOn: string;
+}
+
+export interface Delegation {
+  id: string;
+  delegatorId: string;
+  delegatorName: string;
+  delegateId: string;
+  delegateName: string;
+  reason: string;
+  scope: string;
+  validFrom: string;
+  validTo: string;
+  status: "active" | "expired" | "revoked";
+  revokedBy?: string;
+  revokedOn?: string;
+  createdOn: string;
+}
+
+export interface ImpersonationLog {
+  id: string;
+  adminId: string;
+  adminName: string;
+  targetUserId: string;
+  targetName: string;
+  reason: string;
+  startedAt: string;
+  endedAt?: string;
+  actionsPerformed: number;
+  status: "active" | "ended" | "forced_end";
+}
+
+export interface DutyRule {
+  id: string;
+  tenantId: string;
+  name: string;
+  description: string;
+  conflictingRoles: [string, string];
+  enforcement: "strict" | "warning" | "advisory";
+  isActive: boolean;
+  exceptionNote?: string;
+  createdBy: string;
+  createdOn: string;
+}
+
+export interface DutyViolation {
+  id: string;
+  ruleId: string;
+  ruleName: string;
+  userId: string;
+  userName: string;
+  roleA: string;
+  roleB: string;
+  detectedOn: string;
+  severity: "critical" | "high" | "medium";
+  status: "open" | "acknowledged" | "resolved" | "waived";
+  resolvedBy?: string;
+  resolvedOn?: string;
+  notes?: string;
+}
+
+export type PrivilegeLevel = "standard" | "elevated" | "emergency" | "break_glass";
+
+export interface PrivilegedAccess {
+  id: string;
+  userId: string;
+  userName: string;
+  level: PrivilegeLevel;
+  resource: string;
+  reason: string;
+  requestedBy: string;
+  approvedBy?: string;
+  requestedOn: string;
+  validFrom: string;
+  validTo: string;
+  status: "pending" | "approved" | "active" | "expired" | "revoked";
+  conditions?: string;
+  usedCount: number;
+  maxUses?: number;
+}
+
+export interface AccessReview {
+  id: string;
+  tenantId: string;
+  reviewPeriod: string;
+  reviewerId: string;
+  reviewerName: string;
+  scope: string;
+  totalIdentities: number;
+  reviewed: number;
+  approved: number;
+  revoked: number;
+  status: "draft" | "in_progress" | "completed" | "certified";
+  startedOn: string;
+  completedOn?: string;
+  certifiedBy?: string;
+}
+
+// ── M03 School Academic Foundation and Catalog — domain types ───────────────
+
+export type AcademicYearStatus = "planning" | "active" | "closed";
+
+export interface AcademicYear {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  startDate: string;
+  endDate: string;
+  bsYear?: string;
+  status: AcademicYearStatus;
+  isCurrent: boolean;
+  createdOn: string;
+}
+
+export interface Term {
+  id: string;
+  academicYearId: string;
+  academicYearName: string;
+  name: string;
+  nameNe?: string;
+  startDate: string;
+  endDate: string;
+  sequence: number;
+  status: "planned" | "active" | "completed";
+}
+
+export type SchoolLevelCode = "ECED" | "Basic" | "Secondary" | "Plus2";
+
+export interface SchoolLevel {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  code: SchoolLevelCode;
+  description: string;
+  ageRange?: string;
+  sequence: number;
+  isActive: boolean;
+}
+
+export interface GradeClass {
+  id: string;
+  tenantId: string;
+  levelId: string;
+  levelName: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  sequence: number;
+  isActive: boolean;
+}
+
+export interface Stream {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  description: string;
+  gradeClassId: string;
+  gradeClassName: string;
+  isActive: boolean;
+}
+
+export type SubjectType = "core" | "elective" | "practical" | "extra";
+
+export interface Subject {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  description: string;
+  type: SubjectType;
+  levelId: string;
+  levelName: string;
+  isActive: boolean;
+}
+
+export interface CurriculumOffering {
+  id: string;
+  tenantId: string;
+  subjectId: string;
+  subjectName: string;
+  gradeClassId: string;
+  gradeClassName: string;
+  streamId?: string;
+  streamName?: string;
+  isCompulsory: boolean;
+  fullMarks: number;
+  passMarks: number;
+  creditHours?: number;
+  isActive: boolean;
+}
+
+export interface Section {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  gradeClassId: string;
+  gradeClassName: string;
+  academicYearId: string;
+  academicYearName: string;
+  capacity: number;
+  enrolled: number;
+  classTeacherId?: string;
+  classTeacherName?: string;
+  roomNo?: string;
+  isActive: boolean;
+}
+
+export interface House {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  color: string;
+  description: string;
+  memberCount: number;
+}
+
+export interface Cohort {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  academicYearId: string;
+  academicYearName: string;
+  gradeClassId: string;
+  gradeClassName: string;
+  description: string;
+  studentCount: number;
+}
+
+export interface GradeEntry {
+  letter: string;
+  minMark: number;
+  maxMark: number;
+  gpa: number;
+  description: string;
+}
+
+export interface GradingScale {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  description: string;
+  grades: GradeEntry[];
+  isActive: boolean;
+  isDefault: boolean;
+}
+
+export interface PromotionRule {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  fromGradeId: string;
+  fromGradeName: string;
+  toGradeId: string;
+  toGradeName: string;
+  minGpa: number;
+  minAttendance: number;
+  maxBacklogs: number;
+  isActive: boolean;
+}
+
+export interface CompletionRule {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  gradeClassId: string;
+  gradeClassName: string;
+  minGpa: number;
+  minCreditHours: number;
+  requirements: string;
+  isActive: boolean;
+}
+
+export type PolicyCategory = "attendance" | "assessment" | "promotion" | "discipline" | "examination" | "general";
+
+export type PolicyStatus = "draft" | "approved" | "published" | "archived";
+
+export interface AcademicPolicy {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  category: PolicyCategory;
+  description: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  status: PolicyStatus;
+  approvedBy?: string;
+  createdOn: string;
+}
+
+// ── M04 CRM, Enquiry and Admissions — domain types ───────────────────────
+
+export type CampaignStatus = "draft" | "active" | "paused" | "completed" | "archived";
+
+export interface Campaign {
+  id: string;
+  tenantId: string;
+  name: string;
+  nameNe?: string;
+  code: string;
+  channel: "web" | "walk_in" | "referral" | "agent" | "fair" | "social";
+  startDate: string;
+  endDate: string;
+  budget?: number;
+  targetEnquiries: number;
+  actualEnquiries: number;
+  status: CampaignStatus;
+  createdOn: string;
+}
+
+export type EnquiryStatus = "new" | "contacted" | "interested" | "visit_scheduled" | "applied" | "converted" | "lost";
+export type EnquirySource = "web" | "walk_in" | "referral" | "agent" | "fair" | "social" | "campaign";
+
+export interface Enquiry {
+  id: string;
+  tenantId: string;
+  campaignId?: string;
+  campaignName?: string;
+  studentName: string;
+  studentNameNe?: string;
+  guardianName: string;
+  guardianPhone: string;
+  guardianEmail?: string;
+  address?: string;
+  interestedGradeId: string;
+  interestedGradeName: string;
+  interestedStreamId?: string;
+  interestedStreamName?: string;
+  source: EnquirySource;
+  status: EnquiryStatus;
+  assignedTo?: string;
+  assignedToName?: string;
+  notes?: string;
+  createdOn: string;
+}
+
+export type InteractionType = "call" | "visit" | "campus_tour" | "email" | "whatsapp" | "follow_up";
+
+export interface EnquiryInteraction {
+  id: string;
+  tenantId: string;
+  enquiryId: string;
+  enquiryName: string;
+  type: InteractionType;
+  occurredAt: string;
+  performedBy: string;
+  performedByName: string;
+  notes: string;
+  nextAction?: string;
+  nextFollowUp?: string;
+  outcome?: string;
+}
+
+export type ApplicationStatus = "draft" | "submitted" | "under_review" | "eligible" | "not_eligible" | "admitted" | "rejected" | "withdrawn";
+
+export interface Application {
+  id: string;
+  tenantId: string;
+  applicationNo: string;
+  enquiryId?: string;
+  studentName: string;
+  studentNameNe?: string;
+  dateOfBirth: string;
+  dateOfBirthBs?: string;
+  gender: "male" | "female" | "other";
+  guardianName: string;
+  guardianPhone: string;
+  guardianEmail?: string;
+  address: string;
+  academicYearId: string;
+  academicYearName: string;
+  appliedGradeId: string;
+  appliedGradeName: string;
+  appliedStreamId?: string;
+  appliedStreamName?: string;
+  previousSchool?: string;
+  previousGrade?: string;
+  status: ApplicationStatus;
+  submittedOn?: string;
+  reviewedBy?: string;
+  reviewedOn?: string;
+  createdOn: string;
+}
+
+export interface ApplicationChoice {
+  id: string;
+  tenantId: string;
+  applicationId: string;
+  offeringRef: string;
+  offeringName: string;
+  preference: number;
+}
+
+export type DocumentStatus = "missing" | "received" | "verified" | "rejected" | "expired" | "waived";
+
+export interface ApplicationDocument {
+  id: string;
+  tenantId: string;
+  applicationId: string;
+  documentType: string;
+  documentName: string;
+  status: DocumentStatus;
+  verifiedBy?: string;
+  verifiedOn?: string;
+  remarks?: string;
+}
+
+export type EligibilityOutcome = "pending" | "eligible" | "not_eligible" | "conditional" | "manual_review";
+
+export interface EligibilityDecision {
+  id: string;
+  tenantId: string;
+  applicationId: string;
+  applicationName: string;
+  ruleName: string;
+  outcome: EligibilityOutcome;
+  reason: string;
+  decidedBy: string;
+  decidedOn: string;
+  remarks?: string;
+}
+
+export type SelectionEventType = "entrance_test" | "interview" | "both";
+
+export interface SelectionEvent {
+  id: string;
+  tenantId: string;
+  applicationId: string;
+  applicationName: string;
+  type: SelectionEventType;
+  scheduledDate: string;
+  scheduledTime?: string;
+  venue?: string;
+  panelMembers?: string;
+  status: "scheduled" | "completed" | "cancelled" | "rescheduled";
+  createdOn: string;
+}
+
+export interface SelectionScore {
+  id: string;
+  tenantId: string;
+  selectionEventId: string;
+  criterion: string;
+  maxScore: number;
+  score: number;
+  remarks?: string;
+  evaluatedBy: string;
+}
+
+export type OfferStatus = "pending" | "offered" | "accepted" | "declined" | "waitlisted" | "expired" | "withdrawn";
+
+export interface Offer {
+  id: string;
+  tenantId: string;
+  applicationId: string;
+  applicationName: string;
+  offerType: "unconditional" | "conditional" | "waitlist";
+  offeredGradeId: string;
+  offeredGradeName: string;
+  offeredStreamId?: string;
+  offeredStreamName?: string;
+  conditions?: string;
+  validUntil: string;
+  status: OfferStatus;
+  issuedOn: string;
+  issuedBy: string;
+}
+
+export interface OfferAcceptance {
+  id: string;
+  tenantId: string;
+  offerId: string;
+  offerName: string;
+  acceptedOn: string;
+  acceptedBy: string;
+  depositPaid: boolean;
+  depositAmount?: number;
+  remarks?: string;
+}
+
+export type ConversionState = "pending" | "in_progress" | "completed" | "failed" | "cancelled";
+
+export interface ConversionCase {
+  id: string;
+  tenantId: string;
+  acceptanceId: string;
+  acceptanceName: string;
+  applicationId: string;
+  studentName: string;
+  state: ConversionState;
+  admissionNo?: string;
+  startedOn: string;
+  completedOn?: string;
+  createdOn: string;
+}
+
+export type StepStatus = "pending" | "running" | "completed" | "failed" | "skipped";
+
+export interface ConversionStep {
+  id: string;
+  tenantId: string;
+  conversionId: string;
+  stepCode: string;
+  stepName: string;
+  status: StepStatus;
+  startedOn?: string;
+  completedOn?: string;
+  errorMessage?: string;
+  retryCount: number;
+}
+
+// ── M05 Student Information and Lifecycle — domain types ─────────────────
+
+export type Gender = "male" | "female" | "other";
+
+export interface Person {
+  id: string;
+  tenantId: string;
+  legalName: string;
+  officialName: string;
+  officialNameNe?: string;
+  preferredName?: string;
+  dateOfBirth: string;
+  dateOfBirthBs?: string;
+  gender: Gender;
+  nationality: string;
+  photoUrl?: string;
+  dedupeKey: string;
+  createdOn: string;
+}
+
+export type StudentStatus = "active" | "inactive" | "graduated" | "transferred" | "expelled" | "withdrawn";
+
+export interface Student {
+  id: string;
+  tenantId: string;
+  personId: string;
+  personName: string;
+  admissionNo: string;
+  admissionNumber: string;
+  iemisId?: string;
+  status: StudentStatus;
+  admittedOn: string;
+  completionDate?: string;
+  currentGradeId?: string;
+  currentGradeName?: string;
+  currentSectionId?: string;
+  currentSectionName?: string;
+  createdOn: string;
+}
+
+export interface Guardian {
+  id: string;
+  tenantId: string;
+  personId: string;
+  personName: string;
+  name: string;
+  phone: string;
+  email?: string;
+  occupation?: string;
+  relationToStudent: string;
+  createdOn: string;
+}
+
+export type RelationshipType = "parent" | "guardian" | "emergency_contact" | "pickup_authorized";
+
+export interface StudentGuardian {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  guardianId: string;
+  guardianName: string;
+  type: RelationshipType;
+  isPrimary: boolean;
+  validFrom: string;
+  validTo?: string;
+}
+
+export type StudentDocType = "birth_certificate" | "citizenship" | "photo" | "transcript" | "migration" | "character_certificate" | "medical" | "other";
+
+export interface StudentDocument {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  type: StudentDocType;
+  documentName: string;
+  fileRef?: string;
+  verifiedBy?: string;
+  verifiedOn?: string;
+  status: "pending" | "verified" | "rejected";
+  createdOn: string;
+}
+
+export type EnrolmentStatus = "enrolled" | "promoted" | "repeated" | "transferred" | "withdrawn" | "completed";
+
+export interface Enrolment {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  academicYearId: string;
+  academicYearName: string;
+  gradeId: string;
+  gradeName: string;
+  sectionId?: string;
+  sectionName?: string;
+  streamId?: string;
+  streamName?: string;
+  rollNumber?: string;
+  status: EnrolmentStatus;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  createdOn: string;
+}
+
+export interface SubjectSelection {
+  id: string;
+  tenantId: string;
+  enrolmentId: string;
+  studentName: string;
+  subjectOfferingRef: string;
+  subjectName: string;
+  isCompulsory: boolean;
+  status: "selected" | "dropped" | "completed";
+  createdOn: string;
+}
+
+export type MovementType = "promotion" | "repeat" | "transfer_in" | "transfer_out" | "withdrawal" | "re_admission";
+
+export interface StudentMovement {
+  id: string;
+  tenantId: string;
+  enrolmentId: string;
+  studentName: string;
+  type: MovementType;
+  fromGradeName?: string;
+  toGradeName?: string;
+  fromSectionName?: string;
+  toSectionName?: string;
+  effectiveDate: string;
+  reason?: string;
+  approvedBy?: string;
+  createdOn: string;
+}
+
+export type AuditOutcome = "promoted" | "conditionally_promoted" | "repeated" | "completed" | "failed";
+
+export interface ProgressionAudit {
+  id: string;
+  tenantId: string;
+  enrolmentId: string;
+  studentName: string;
+  gradeName: string;
+  academicYearName: string;
+  ruleVersion: string;
+  outcome: AuditOutcome;
+  gpa?: number;
+  attendance?: number;
+  backlogs?: number;
+  remarks?: string;
+  decidedBy: string;
+  decidedOn: string;
+  recordHash?: string;
+}
+
+export type HoldType = "academic" | "financial" | "disciplinary" | "library" | "transport" | "administrative";
+
+export interface StudentHold {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  holdType: HoldType;
+  ownerModule: string;
+  reason: string;
+  placedBy: string;
+  placedOn: string;
+  releasedBy?: string;
+  releasedOn?: string;
+  status: "active" | "released" | "expired";
+}
+
+export interface ClearanceCase {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  purpose: "transfer" | "graduation" | "withdrawal" | "library" | "general";
+  status: "pending" | "in_progress" | "cleared" | "blocked";
+  initiatedBy: string;
+  initiatedOn: string;
+  completedOn?: string;
+  createdOn: string;
+}
+
+export interface ClearanceResponse {
+  id: string;
+  tenantId: string;
+  clearanceId: string;
+  moduleCode: string;
+  moduleName: string;
+  decision: "cleared" | "not_cleared" | "not_applicable";
+  respondedBy: string;
+  respondedOn: string;
+  remarks?: string;
+}
+
+export type CardType = "student_id" | "library" | "transport" | "rfid";
+
+export interface IdentityCard {
+  id: string;
+  tenantId: string;
+  studentId: string;
+  studentName: string;
+  cardType: CardType;
+  serial: string;
+  issuedOn: string;
+  validUntil: string;
+  status: "active" | "lost" | "expired" | "replaced";
+  replacedBy?: string;
+  createdOn: string;
+}
+
+// ── M06 Curriculum, Teaching and Quality — domain types ──────────────────────
+
+export type CurriculumMapStatus = "draft" | "submitted" | "verified" | "approved" | "published" | "superseded";
+
+export interface CurriculumMap {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  offeringRef: string;
+  version: number;
+  status: CurriculumMapStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface LearningOutcome {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  curriculumMapId: string;
+  code: string;
+  description: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type SyllabusStatus = "draft" | "approved" | "published" | "archived";
+
+export interface SyllabusPlan {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  offeringRef: string;
+  academicPeriodRef: string;
+  name: string;
+  status: SyllabusStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface ContentPlanItem {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  syllabusPlanId: string;
+  sequence: string;
+  topic: string;
+  resources?: string;
+  assessmentMethod?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface TeachingAssignment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  sectionRef: string;
+  sectionName: string;
+  offeringRef: string;
+  subjectName: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type LessonPlanStatus = "draft" | "submitted" | "approved" | "active" | "completed" | "cancelled";
+
+export interface LessonPlan {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  assignmentId: string;
+  localDate: string;
+  status: LessonPlanStatus;
+  objectives: string;
+  methods: string;
+  resources: string;
+  homework?: string;
+  assessmentCheck: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface CoverageEntry {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  lessonPlanId: string;
+  completedAt: string;
+  notes?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ActivityType = "teaching" | "assessment" | "administration" | "guidance" | "extra_curricular";
+
+export interface WorkloadAllocation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  activityType: ActivityType;
+  units: string;
+  periodStart: string;
+  periodEnd: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ReviewScopeType = "school" | "faculty" | "subject" | "affiliation";
+export type ReviewType = "internal" | "external" | "affiliation" | "moderation";
+export type ReviewStatus = "draft" | "in_progress" | "completed" | "certified";
+
+export interface QualityReview {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  scopeType: ReviewScopeType;
+  scopeId: string;
+  reviewType: ReviewType;
+  cycle: string;
+  status: ReviewStatus;
+  findings?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface QualityEvidence {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  reviewId: string;
+  objectRef: string;
+  objectType: string;
+  description: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ModerationOutcome = "agreed" | "disagreed" | "revised" | "pending";
+
+export interface ModerationReview {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  reviewId: string;
+  subjectRef: string;
+  subjectName: string;
+  outcome: ModerationOutcome;
+  remarks: string;
+  reviewerId: string;
+  reviewerName: string;
+  isAnonymous: boolean;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ReviewActionStatus = "draft" | "open" | "in_progress" | "completed" | "overdue";
+
+export interface ReviewAction {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  reviewId: string;
+  ownerRef: string;
+  ownerName: string;
+  dueDate: string;
+  status: ReviewActionStatus;
+  action: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── M07 Scheduling, Attendance and Time — domain types ───────────────────────
+
+export type TimetableStatus = "draft" | "approved" | "published" | "archived";
+
+export interface Timetable {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  academicPeriodRef: string;
+  academicPeriodName?: string;
+  campusId: string;
+  campusName?: string;
+  version: number;
+  name: string;
+  status: TimetableStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface TimetableSlot {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  timetableId: string;
+  timetableName?: string;
+  dayPattern: string;
+  startTime: string;
+  endTime: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface TimetableAssignment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  timetableId: string;
+  slotId: string;
+  slotLabel?: string;
+  sectionRef: string;
+  sectionName: string;
+  offeringRef: string;
+  offeringName: string;
+  staffRef: string;
+  staffName: string;
+  locationRef?: string;
+  locationName?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type SubstitutionStatus = "pending" | "approved" | "rejected" | "completed";
+
+export interface Substitution {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  assignmentId: string;
+  assignmentLabel?: string;
+  localDate: string;
+  replacementStaffRef: string;
+  replacementStaffName: string;
+  reason?: string;
+  status: SubstitutionStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type AttendanceSessionStatus = "scheduled" | "open" | "finalized" | "cancelled";
+
+export interface AttendanceSession {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  assignmentRef?: string;
+  localDate: string;
+  status: AttendanceSessionStatus;
+  courseOfferingId?: string;
+  courseOfferingName?: string;
+  sectionId: string;
+  sectionName: string;
+  sessionDate: string;
+  periodNo?: number;
+  scheduledStartAt: string;
+  scheduledEndAt: string;
+  finalizedAt?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type StudentAttendanceStatus = "present" | "absent" | "late" | "excused" | "leave" | "half_day" | "unknown";
+
+export interface StudentAttendance {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  sessionId: string;
+  sessionLabel?: string;
+  studentRef: string;
+  studentName: string;
+  status: StudentAttendanceStatus;
+  recordedAt: string;
+  remarks?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CorrectionStatus = "draft" | "pending" | "approved" | "rejected";
+
+export interface AttendanceCorrection {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  sessionId: string;
+  studentRef: string;
+  studentName: string;
+  fromStatus: StudentAttendanceStatus;
+  toStatus: StudentAttendanceStatus;
+  reason: string;
+  approval?: string;
+  status: CorrectionStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type AlertStatus = "open" | "acknowledged" | "resolved" | "dismissed";
+
+export interface AttendanceAlert {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  ruleVersion: string;
+  alertType: string;
+  message?: string;
+  status: AlertStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface Shift {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  campusId: string;
+  campusName?: string;
+  code: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RosterStatus = "scheduled" | "completed" | "absent" | "on_leave";
+
+export interface StaffRoster {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  localDate: string;
+  shiftId: string;
+  shiftName?: string;
+  status: RosterStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type TimeSource = "manual" | "qr" | "rfid" | "biometric" | "device";
+export type TimeEntryStatus = "pending" | "approved" | "rejected";
+
+export interface TimeEntry {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  occurredAt: string;
+  source: TimeSource;
+  status: TimeEntryStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface TimeAdjustment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  timeEntryId: string;
+  staffName?: string;
+  reason: string;
+  approval?: string;
+  status: CorrectionStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── Database schema ─────────────────────────────────────────────────────────
+
+export interface DBSchema {
+  tenants: Tenant[];
+  institution: Institution[];
+  legalEntities: LegalEntity[];
+  campuses: Campus[];
+  orgUnits: OrgUnit[];
+  locations: LocationNode[];
+  holidays: Holiday[];
+  calendarYears: CalendarYear[];
+  locale: LocaleSettings[];
+  sequences: DocSequence[];
+  featureFlags: FeatureFlag[];
+  configVersions: ConfigVersion[];
+  audit: AuditEntry[];
+  // M02 stores
+  userIdentities: UserIdentity[];
+  authSessions: AuthSession[];
+  authFactors: AuthFactor[];
+  roles: Role[];
+  userRoles: UserRole[];
+  dataScopes: DataScope[];
+  delegations: Delegation[];
+  impersonationLogs: ImpersonationLog[];
+  dutyRules: DutyRule[];
+  dutyViolations: DutyViolation[];
+  privilegedAccess: PrivilegedAccess[];
+  accessReviews: AccessReview[];
+  // M03 stores
+  academicYears: AcademicYear[];
+  terms: Term[];
+  schoolLevels: SchoolLevel[];
+  gradeClasses: GradeClass[];
+  streams: Stream[];
+  subjects: Subject[];
+  curriculumOfferings: CurriculumOffering[];
+  sections: Section[];
+  houses: House[];
+  cohorts: Cohort[];
+  gradingScales: GradingScale[];
+  promotionRules: PromotionRule[];
+  completionRules: CompletionRule[];
+  academicPolicies: AcademicPolicy[];
+  // M04 stores
+  campaigns: Campaign[];
+  enquiries: Enquiry[];
+  enquiryInteractions: EnquiryInteraction[];
+  applications: Application[];
+  applicationChoices: ApplicationChoice[];
+  applicationDocuments: ApplicationDocument[];
+  eligibilityDecisions: EligibilityDecision[];
+  selectionEvents: SelectionEvent[];
+  selectionScores: SelectionScore[];
+  offers: Offer[];
+  offerAcceptances: OfferAcceptance[];
+  conversionCases: ConversionCase[];
+  conversionSteps: ConversionStep[];
+  // M05 stores
+  persons: Person[];
+  students: Student[];
+  guardians: Guardian[];
+  studentGuardians: StudentGuardian[];
+  studentDocuments: StudentDocument[];
+  enrolments: Enrolment[];
+  subjectSelections: SubjectSelection[];
+  studentMovements: StudentMovement[];
+  progressionAudits: ProgressionAudit[];
+  studentHolds: StudentHold[];
+  clearanceCases: ClearanceCase[];
+  clearanceResponses: ClearanceResponse[];
+  identityCards: IdentityCard[];
+  // M06 stores
+  curriculumMaps: CurriculumMap[];
+  learningOutcomes: LearningOutcome[];
+  syllabusPlans: SyllabusPlan[];
+  contentPlanItems: ContentPlanItem[];
+  teachingAssignments: TeachingAssignment[];
+  lessonPlans: LessonPlan[];
+  coverageEntries: CoverageEntry[];
+  workloadAllocations: WorkloadAllocation[];
+  qualityReviews: QualityReview[];
+  qualityEvidences: QualityEvidence[];
+  moderationReviews: ModerationReview[];
+  reviewActions: ReviewAction[];
+  // M07 stores
+  timetables: Timetable[];
+  timetableSlots: TimetableSlot[];
+  timetableAssignments: TimetableAssignment[];
+  substitutions: Substitution[];
+  attendanceSessions: AttendanceSession[];
+  studentAttendances: StudentAttendance[];
+  attendanceCorrections: AttendanceCorrection[];
+  attendanceAlerts: AttendanceAlert[];
+  shifts: Shift[];
+  staffRosters: StaffRoster[];
+  timeEntries: TimeEntry[];
+  timeAdjustments: TimeAdjustment[];
+}
+
+export type StoreName = keyof DBSchema;
