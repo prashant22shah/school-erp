@@ -30,6 +30,10 @@ import type {
   Payment, CreditNote, VendorBill, ExpenseClaim, BankAccount, Budget,
   StaffProfile, Position, Recruitment, LeaveRequest, PerformanceReview, Compensation,
   PayrollRun, Payslip, Separation, StaffContract,
+  LibraryResource, LibraryHolding, LibraryMember, LibraryLoan, LibraryReservation,
+  LibraryAcquisition, DigitalResource,
+  Vehicle, TransportRoute, BusStop, RouteSchedule, RiderAssignment, BoardingLog,
+  GpsTrack, VehicleMaintenance,
 } from "@/lib/types";
 
 export const keys = {
@@ -187,6 +191,23 @@ export const keys = {
   payslips: ["payslips"] as const,
   separations: ["separations"] as const,
   staffContracts: ["staffContracts"] as const,
+  // M16
+  libraryResources: ["libraryResources"] as const,
+  libraryHoldings: ["libraryHoldings"] as const,
+  libraryMembers: ["libraryMembers"] as const,
+  libraryLoans: ["libraryLoans"] as const,
+  libraryReservations: ["libraryReservations"] as const,
+  libraryAcquisitions: ["libraryAcquisitions"] as const,
+  digitalResources: ["digitalResources"] as const,
+  // M17
+  vehicles: ["vehicles"] as const,
+  transportRoutes: ["transportRoutes"] as const,
+  busStops: ["busStops"] as const,
+  routeSchedules: ["routeSchedules"] as const,
+  riderAssignments: ["riderAssignments"] as const,
+  boardingLogs: ["boardingLogs"] as const,
+  gpsTracks: ["gpsTracks"] as const,
+  vehicleMaintenance: ["vehicleMaintenance"] as const,
 };
 
 // ── Queries ──────────────────────────────────────────────────────────────────
@@ -344,6 +365,23 @@ export const usePayrollRuns = () => useQuery({ queryKey: keys.payrollRuns, query
 export const usePayslips = () => useQuery({ queryKey: keys.payslips, queryFn: api.listPayslips });
 export const useSeparations = () => useQuery({ queryKey: keys.separations, queryFn: api.listSeparations });
 export const useStaffContracts = () => useQuery({ queryKey: keys.staffContracts, queryFn: api.listStaffContracts });
+// M16
+export const useLibraryResources = () => useQuery({ queryKey: keys.libraryResources, queryFn: api.listLibraryResources });
+export const useLibraryHoldings = () => useQuery({ queryKey: keys.libraryHoldings, queryFn: api.listLibraryHoldings });
+export const useLibraryMembers = () => useQuery({ queryKey: keys.libraryMembers, queryFn: api.listLibraryMembers });
+export const useLibraryLoans = () => useQuery({ queryKey: keys.libraryLoans, queryFn: api.listLibraryLoans });
+export const useLibraryReservations = () => useQuery({ queryKey: keys.libraryReservations, queryFn: api.listLibraryReservations });
+export const useLibraryAcquisitions = () => useQuery({ queryKey: keys.libraryAcquisitions, queryFn: api.listLibraryAcquisitions });
+export const useDigitalResources = () => useQuery({ queryKey: keys.digitalResources, queryFn: api.listDigitalResources });
+// M17
+export const useVehicles = () => useQuery({ queryKey: keys.vehicles, queryFn: api.listVehicles });
+export const useTransportRoutes = () => useQuery({ queryKey: keys.transportRoutes, queryFn: api.listTransportRoutes });
+export const useBusStops = () => useQuery({ queryKey: keys.busStops, queryFn: api.listBusStops });
+export const useRouteSchedules = () => useQuery({ queryKey: keys.routeSchedules, queryFn: api.listRouteSchedules });
+export const useRiderAssignments = () => useQuery({ queryKey: keys.riderAssignments, queryFn: api.listRiderAssignments });
+export const useBoardingLogs = () => useQuery({ queryKey: keys.boardingLogs, queryFn: api.listBoardingLogs });
+export const useGpsTracks = () => useQuery({ queryKey: keys.gpsTracks, queryFn: api.listGpsTracks });
+export const useVehicleMaintenance = () => useQuery({ queryKey: keys.vehicleMaintenance, queryFn: api.listVehicleMaintenance });
 
 // ── Mutations ────────────────────────────────────────────────────────────────
 function useErpMutation<TIn, TOut>(
@@ -642,3 +680,35 @@ export const useSaveSeparation = () => useErpMutation<Separation, Separation>(ap
 export const useDeleteSeparation = () => useErpMutation<Separation, void>(api.deleteSeparation, [keys.separations, keys.audit]);
 export const useSaveStaffContract = () => useErpMutation<StaffContract, StaffContract>(api.saveStaffContract, [keys.staffContracts, keys.audit]);
 export const useDeleteStaffContract = () => useErpMutation<StaffContract, void>(api.deleteStaffContract, [keys.staffContracts, keys.audit]);
+// M16
+export const useSaveLibraryResource = () => useErpMutation<LibraryResource, LibraryResource>(api.saveLibraryResource, [keys.libraryResources, keys.audit]);
+export const useDeleteLibraryResource = () => useErpMutation<LibraryResource, void>(api.deleteLibraryResource, [keys.libraryResources, keys.audit]);
+export const useSaveLibraryHolding = () => useErpMutation<LibraryHolding, LibraryHolding>(api.saveLibraryHolding, [keys.libraryHoldings, keys.audit]);
+export const useDeleteLibraryHolding = () => useErpMutation<LibraryHolding, void>(api.deleteLibraryHolding, [keys.libraryHoldings, keys.audit]);
+export const useSaveLibraryMember = () => useErpMutation<LibraryMember, LibraryMember>(api.saveLibraryMember, [keys.libraryMembers, keys.audit]);
+export const useDeleteLibraryMember = () => useErpMutation<LibraryMember, void>(api.deleteLibraryMember, [keys.libraryMembers, keys.audit]);
+export const useSaveLibraryLoan = () => useErpMutation<LibraryLoan, LibraryLoan>(api.saveLibraryLoan, [keys.libraryLoans, keys.audit]);
+export const useDeleteLibraryLoan = () => useErpMutation<LibraryLoan, void>(api.deleteLibraryLoan, [keys.libraryLoans, keys.audit]);
+export const useSaveLibraryReservation = () => useErpMutation<LibraryReservation, LibraryReservation>(api.saveLibraryReservation, [keys.libraryReservations, keys.audit]);
+export const useDeleteLibraryReservation = () => useErpMutation<LibraryReservation, void>(api.deleteLibraryReservation, [keys.libraryReservations, keys.audit]);
+export const useSaveLibraryAcquisition = () => useErpMutation<LibraryAcquisition, LibraryAcquisition>(api.saveLibraryAcquisition, [keys.libraryAcquisitions, keys.audit]);
+export const useDeleteLibraryAcquisition = () => useErpMutation<LibraryAcquisition, void>(api.deleteLibraryAcquisition, [keys.libraryAcquisitions, keys.audit]);
+export const useSaveDigitalResource = () => useErpMutation<DigitalResource, DigitalResource>(api.saveDigitalResource, [keys.digitalResources, keys.audit]);
+export const useDeleteDigitalResource = () => useErpMutation<DigitalResource, void>(api.deleteDigitalResource, [keys.digitalResources, keys.audit]);
+// M17
+export const useSaveVehicle = () => useErpMutation<Vehicle, Vehicle>(api.saveVehicle, [keys.vehicles, keys.audit]);
+export const useDeleteVehicle = () => useErpMutation<Vehicle, void>(api.deleteVehicle, [keys.vehicles, keys.audit]);
+export const useSaveTransportRoute = () => useErpMutation<TransportRoute, TransportRoute>(api.saveTransportRoute, [keys.transportRoutes, keys.audit]);
+export const useDeleteTransportRoute = () => useErpMutation<TransportRoute, void>(api.deleteTransportRoute, [keys.transportRoutes, keys.audit]);
+export const useSaveBusStop = () => useErpMutation<BusStop, BusStop>(api.saveBusStop, [keys.busStops, keys.audit]);
+export const useDeleteBusStop = () => useErpMutation<BusStop, void>(api.deleteBusStop, [keys.busStops, keys.audit]);
+export const useSaveRouteSchedule = () => useErpMutation<RouteSchedule, RouteSchedule>(api.saveRouteSchedule, [keys.routeSchedules, keys.audit]);
+export const useDeleteRouteSchedule = () => useErpMutation<RouteSchedule, void>(api.deleteRouteSchedule, [keys.routeSchedules, keys.audit]);
+export const useSaveRiderAssignment = () => useErpMutation<RiderAssignment, RiderAssignment>(api.saveRiderAssignment, [keys.riderAssignments, keys.audit]);
+export const useDeleteRiderAssignment = () => useErpMutation<RiderAssignment, void>(api.deleteRiderAssignment, [keys.riderAssignments, keys.audit]);
+export const useSaveBoardingLog = () => useErpMutation<BoardingLog, BoardingLog>(api.saveBoardingLog, [keys.boardingLogs, keys.audit]);
+export const useDeleteBoardingLog = () => useErpMutation<BoardingLog, void>(api.deleteBoardingLog, [keys.boardingLogs, keys.audit]);
+export const useSaveGpsTrack = () => useErpMutation<GpsTrack, GpsTrack>(api.saveGpsTrack, [keys.gpsTracks, keys.audit]);
+export const useDeleteGpsTrack = () => useErpMutation<GpsTrack, void>(api.deleteGpsTrack, [keys.gpsTracks, keys.audit]);
+export const useSaveVehicleMaintenance = () => useErpMutation<VehicleMaintenance, VehicleMaintenance>(api.saveVehicleMaintenance, [keys.vehicleMaintenance, keys.audit]);
+export const useDeleteVehicleMaintenance = () => useErpMutation<VehicleMaintenance, void>(api.deleteVehicleMaintenance, [keys.vehicleMaintenance, keys.audit]);

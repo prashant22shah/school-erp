@@ -89,6 +89,16 @@ import LeaveRequestsPage from "@/pages/leave-requests";
 import PerformancePage from "@/pages/performance";
 import PayrollPage from "@/pages/payroll";
 import SeparationsPage from "@/pages/separations";
+// M16 pages
+import LibraryCatalogPage from "@/pages/library-catalog";
+import LibraryHoldingsPage from "@/pages/library-holdings";
+import LibraryCirculationPage from "@/pages/library-circulation";
+import LibraryAcquisitionsPage from "@/pages/library-acquisitions";
+// M17 pages
+import FleetPage from "@/pages/fleet";
+import TransportRoutesPage from "@/pages/transport-routes";
+import TransportRidersPage from "@/pages/transport-riders";
+import TransportOperationsPage from "@/pages/transport-operations";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -228,6 +238,16 @@ export default function App() {
               <Route path="performance" element={<PerformancePage />} />
               <Route path="payroll" element={<PayrollPage />} />
               <Route path="separations" element={<SeparationsPage />} />
+              {/* M16 */}
+              <Route path="library-catalog" element={<LibraryCatalogPage />} />
+              <Route path="library-holdings" element={<LibraryHoldingsPage />} />
+              <Route path="library-circulation" element={<LibraryCirculationPage />} />
+              <Route path="library-acquisitions" element={<LibraryAcquisitionsPage />} />
+              {/* M17 */}
+              <Route path="fleet" element={<FleetPage />} />
+              <Route path="transport-routes" element={<TransportRoutesPage />} />
+              <Route path="transport-riders" element={<TransportRidersPage />} />
+              <Route path="transport-operations" element={<TransportOperationsPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

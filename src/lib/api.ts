@@ -32,6 +32,10 @@ import type {
   Payment, CreditNote, VendorBill, ExpenseClaim, BankAccount, Budget,
   StaffProfile, Position, Recruitment, LeaveRequest, PerformanceReview, Compensation,
   PayrollRun, Payslip, Separation, StaffContract,
+  LibraryResource, LibraryHolding, LibraryMember, LibraryLoan, LibraryReservation,
+  LibraryAcquisition, DigitalResource,
+  Vehicle, TransportRoute, BusStop, RouteSchedule, RiderAssignment, BoardingLog,
+  GpsTrack, VehicleMaintenance,
 } from "./types";
 
 const delay = (ms?: number) => new Promise<void>((r) => setTimeout(r, ms ?? 220 + Math.random() * 380));
@@ -455,6 +459,53 @@ interface ErpApi {
   listStaffContracts(): Promise<StaffContract[]>;
   saveStaffContract(c: StaffContract): Promise<StaffContract>;
   deleteStaffContract(c: StaffContract): Promise<void>;
+  // M16
+  listLibraryResources(): Promise<LibraryResource[]>;
+  saveLibraryResource(r: LibraryResource): Promise<LibraryResource>;
+  deleteLibraryResource(r: LibraryResource): Promise<void>;
+  listLibraryHoldings(): Promise<LibraryHolding[]>;
+  saveLibraryHolding(h: LibraryHolding): Promise<LibraryHolding>;
+  deleteLibraryHolding(h: LibraryHolding): Promise<void>;
+  listLibraryMembers(): Promise<LibraryMember[]>;
+  saveLibraryMember(m: LibraryMember): Promise<LibraryMember>;
+  deleteLibraryMember(m: LibraryMember): Promise<void>;
+  listLibraryLoans(): Promise<LibraryLoan[]>;
+  saveLibraryLoan(l: LibraryLoan): Promise<LibraryLoan>;
+  deleteLibraryLoan(l: LibraryLoan): Promise<void>;
+  listLibraryReservations(): Promise<LibraryReservation[]>;
+  saveLibraryReservation(r: LibraryReservation): Promise<LibraryReservation>;
+  deleteLibraryReservation(r: LibraryReservation): Promise<void>;
+  listLibraryAcquisitions(): Promise<LibraryAcquisition[]>;
+  saveLibraryAcquisition(a: LibraryAcquisition): Promise<LibraryAcquisition>;
+  deleteLibraryAcquisition(a: LibraryAcquisition): Promise<void>;
+  listDigitalResources(): Promise<DigitalResource[]>;
+  saveDigitalResource(d: DigitalResource): Promise<DigitalResource>;
+  deleteDigitalResource(d: DigitalResource): Promise<void>;
+  // M17
+  listVehicles(): Promise<Vehicle[]>;
+  saveVehicle(v: Vehicle): Promise<Vehicle>;
+  deleteVehicle(v: Vehicle): Promise<void>;
+  listTransportRoutes(): Promise<TransportRoute[]>;
+  saveTransportRoute(r: TransportRoute): Promise<TransportRoute>;
+  deleteTransportRoute(r: TransportRoute): Promise<void>;
+  listBusStops(): Promise<BusStop[]>;
+  saveBusStop(b: BusStop): Promise<BusStop>;
+  deleteBusStop(b: BusStop): Promise<void>;
+  listRouteSchedules(): Promise<RouteSchedule[]>;
+  saveRouteSchedule(r: RouteSchedule): Promise<RouteSchedule>;
+  deleteRouteSchedule(r: RouteSchedule): Promise<void>;
+  listRiderAssignments(): Promise<RiderAssignment[]>;
+  saveRiderAssignment(r: RiderAssignment): Promise<RiderAssignment>;
+  deleteRiderAssignment(r: RiderAssignment): Promise<void>;
+  listBoardingLogs(): Promise<BoardingLog[]>;
+  saveBoardingLog(b: BoardingLog): Promise<BoardingLog>;
+  deleteBoardingLog(b: BoardingLog): Promise<void>;
+  listGpsTracks(): Promise<GpsTrack[]>;
+  saveGpsTrack(g: GpsTrack): Promise<GpsTrack>;
+  deleteGpsTrack(g: GpsTrack): Promise<void>;
+  listVehicleMaintenance(): Promise<VehicleMaintenance[]>;
+  saveVehicleMaintenance(v: VehicleMaintenance): Promise<VehicleMaintenance>;
+  deleteVehicleMaintenance(v: VehicleMaintenance): Promise<void>;
 }
 
 async function logAudit(action: string, entity: string, detail: string, recordsAffected = 1) {
@@ -1196,6 +1247,59 @@ Object.assign(apiMethods, {
   listStaffContracts: async (): Promise<StaffContract[]> => { await delay(); return dbGetAll("staffContracts"); },
   saveStaffContract: async (c: StaffContract): Promise<StaffContract> => { await delay(300); await dbPut("staffContracts", c); await logAudit("STAFF_CONTRACT_SAVED", "staff_contract", `Contract saved — ${c.staffName} (${c.contractType}, ${c.status})`); return c; },
   deleteStaffContract: async (c: StaffContract): Promise<void> => { await delay(220); await dbDelete("staffContracts", c.id); await logAudit("STAFF_CONTRACT_DELETED", "staff_contract", `Contract deleted — ${c.staffName}`); },
+});
+
+// ── M16 Library and Learning Resources ─────────────────────────────────
+Object.assign(apiMethods, {
+  listLibraryResources: async (): Promise<LibraryResource[]> => { await delay(); return dbGetAll("libraryResources"); },
+  saveLibraryResource: async (r: LibraryResource): Promise<LibraryResource> => { await delay(300); await dbPut("libraryResources", r); await logAudit("LIB_RESOURCE_SAVED", "library_resource", `Library resource saved — ${r.title} (${r.type}, ${r.status})`); return r; },
+  deleteLibraryResource: async (r: LibraryResource): Promise<void> => { await delay(220); await dbDelete("libraryResources", r.id); await logAudit("LIB_RESOURCE_DELETED", "library_resource", `Library resource deleted — ${r.title}`); },
+  listLibraryHoldings: async (): Promise<LibraryHolding[]> => { await delay(); return dbGetAll("libraryHoldings"); },
+  saveLibraryHolding: async (h: LibraryHolding): Promise<LibraryHolding> => { await delay(300); await dbPut("libraryHoldings", h); await logAudit("LIB_HOLDING_SAVED", "library_holding", `Holding saved — ${h.barcode} ${h.copyNo} (${h.status})`); return h; },
+  deleteLibraryHolding: async (h: LibraryHolding): Promise<void> => { await delay(220); await dbDelete("libraryHoldings", h.id); await logAudit("LIB_HOLDING_DELETED", "library_holding", `Holding deleted — ${h.barcode}`); },
+  listLibraryMembers: async (): Promise<LibraryMember[]> => { await delay(); return dbGetAll("libraryMembers"); },
+  saveLibraryMember: async (m: LibraryMember): Promise<LibraryMember> => { await delay(300); await dbPut("libraryMembers", m); await logAudit("LIB_MEMBER_SAVED", "library_member", `Member saved — ${m.userName} (${m.memberType}, ${m.status})`); return m; },
+  deleteLibraryMember: async (m: LibraryMember): Promise<void> => { await delay(220); await dbDelete("libraryMembers", m.id); await logAudit("LIB_MEMBER_DELETED", "library_member", `Member deleted — ${m.userName}`); },
+  listLibraryLoans: async (): Promise<LibraryLoan[]> => { await delay(); return dbGetAll("libraryLoans"); },
+  saveLibraryLoan: async (l: LibraryLoan): Promise<LibraryLoan> => { await delay(300); await dbPut("libraryLoans", l); await logAudit("LIB_LOAN_SAVED", "library_loan", `Loan saved — ${l.memberName} → ${l.resourceTitle ?? l.holdingId} (${l.status})`); return l; },
+  deleteLibraryLoan: async (l: LibraryLoan): Promise<void> => { await delay(220); await dbDelete("libraryLoans", l.id); await logAudit("LIB_LOAN_DELETED", "library_loan", `Loan deleted — ${l.id}`); },
+  listLibraryReservations: async (): Promise<LibraryReservation[]> => { await delay(); return dbGetAll("libraryReservations"); },
+  saveLibraryReservation: async (r: LibraryReservation): Promise<LibraryReservation> => { await delay(300); await dbPut("libraryReservations", r); await logAudit("LIB_RESERVATION_SAVED", "library_reservation", `Reservation saved — ${r.memberName} → ${r.resourceTitle ?? r.resourceId} (${r.status})`); return r; },
+  deleteLibraryReservation: async (r: LibraryReservation): Promise<void> => { await delay(220); await dbDelete("libraryReservations", r.id); await logAudit("LIB_RESERVATION_DELETED", "library_reservation", `Reservation deleted — ${r.id}`); },
+  listLibraryAcquisitions: async (): Promise<LibraryAcquisition[]> => { await delay(); return dbGetAll("libraryAcquisitions"); },
+  saveLibraryAcquisition: async (a: LibraryAcquisition): Promise<LibraryAcquisition> => { await delay(300); await dbPut("libraryAcquisitions", a); await logAudit("LIB_ACQUISITION_SAVED", "library_acquisition", `Acquisition saved — ${a.title} ${a.orderNo} (${a.status})`); return a; },
+  deleteLibraryAcquisition: async (a: LibraryAcquisition): Promise<void> => { await delay(220); await dbDelete("libraryAcquisitions", a.id); await logAudit("LIB_ACQUISITION_DELETED", "library_acquisition", `Acquisition deleted — ${a.title}`); },
+  listDigitalResources: async (): Promise<DigitalResource[]> => { await delay(); return dbGetAll("digitalResources"); },
+  saveDigitalResource: async (d: DigitalResource): Promise<DigitalResource> => { await delay(300); await dbPut("digitalResources", d); await logAudit("DIGITAL_RESOURCE_SAVED", "digital_resource", `Digital resource saved — ${d.title} (${d.provider}, ${d.status})`); return d; },
+  deleteDigitalResource: async (d: DigitalResource): Promise<void> => { await delay(220); await dbDelete("digitalResources", d.id); await logAudit("DIGITAL_RESOURCE_DELETED", "digital_resource", `Digital resource deleted — ${d.title}`); },
+});
+
+// ── M17 Transport and Fleet ────────────────────────────────────────────
+Object.assign(apiMethods, {
+  listVehicles: async (): Promise<Vehicle[]> => { await delay(); return dbGetAll("vehicles"); },
+  saveVehicle: async (v: Vehicle): Promise<Vehicle> => { await delay(320); await dbPut("vehicles", v); await logAudit("VEHICLE_SAVED", "vehicle", `Vehicle saved — ${v.registrationNo} (${v.type}, ${v.status})`); return v; },
+  deleteVehicle: async (v: Vehicle): Promise<void> => { await delay(220); await dbDelete("vehicles", v.id); await logAudit("VEHICLE_DELETED", "vehicle", `Vehicle deleted — ${v.registrationNo}`); },
+  listTransportRoutes: async (): Promise<TransportRoute[]> => { await delay(); return dbGetAll("transportRoutes"); },
+  saveTransportRoute: async (r: TransportRoute): Promise<TransportRoute> => { await delay(300); await dbPut("transportRoutes", r); await logAudit("ROUTE_SAVED", "transport_route", `Route saved — ${r.code} ${r.name} (${r.status})`); return r; },
+  deleteTransportRoute: async (r: TransportRoute): Promise<void> => { await delay(220); await dbDelete("transportRoutes", r.id); await logAudit("ROUTE_DELETED", "transport_route", `Route deleted — ${r.name}`); },
+  listBusStops: async (): Promise<BusStop[]> => { await delay(); return dbGetAll("busStops"); },
+  saveBusStop: async (b: BusStop): Promise<BusStop> => { await delay(300); await dbPut("busStops", b); await logAudit("BUS_STOP_SAVED", "bus_stop", `Stop saved — ${b.name} (Seq ${b.sequence})`); return b; },
+  deleteBusStop: async (b: BusStop): Promise<void> => { await delay(220); await dbDelete("busStops", b.id); await logAudit("BUS_STOP_DELETED", "bus_stop", `Stop deleted — ${b.name}`); },
+  listRouteSchedules: async (): Promise<RouteSchedule[]> => { await delay(); return dbGetAll("routeSchedules"); },
+  saveRouteSchedule: async (r: RouteSchedule): Promise<RouteSchedule> => { await delay(300); await dbPut("routeSchedules", r); await logAudit("ROUTE_SCHEDULE_SAVED", "route_schedule", `Schedule saved — ${r.routeName ?? r.routeId} ${r.dayPattern}`); return r; },
+  deleteRouteSchedule: async (r: RouteSchedule): Promise<void> => { await delay(220); await dbDelete("routeSchedules", r.id); await logAudit("ROUTE_SCHEDULE_DELETED", "route_schedule", `Schedule deleted — ${r.id}`); },
+  listRiderAssignments: async (): Promise<RiderAssignment[]> => { await delay(); return dbGetAll("riderAssignments"); },
+  saveRiderAssignment: async (r: RiderAssignment): Promise<RiderAssignment> => { await delay(320); await dbPut("riderAssignments", r); await logAudit("RIDER_ASSIGNMENT_SAVED", "rider_assignment", `Rider saved — ${r.riderName} → ${r.routeName ?? r.routeId} (${r.status})`); return r; },
+  deleteRiderAssignment: async (r: RiderAssignment): Promise<void> => { await delay(220); await dbDelete("riderAssignments", r.id); await logAudit("RIDER_ASSIGNMENT_DELETED", "rider_assignment", `Rider deleted — ${r.riderName}`); },
+  listBoardingLogs: async (): Promise<BoardingLog[]> => { await delay(); return dbGetAll("boardingLogs"); },
+  saveBoardingLog: async (b: BoardingLog): Promise<BoardingLog> => { await delay(300); await dbPut("boardingLogs", b); await logAudit("BOARDING_LOG_SAVED", "boarding_log", `Boarding saved — ${b.riderName} (${b.boardingStatus})`); return b; },
+  deleteBoardingLog: async (b: BoardingLog): Promise<void> => { await delay(220); await dbDelete("boardingLogs", b.id); await logAudit("BOARDING_LOG_DELETED", "boarding_log", `Boarding deleted — ${b.id}`); },
+  listGpsTracks: async (): Promise<GpsTrack[]> => { await delay(); return dbGetAll("gpsTracks"); },
+  saveGpsTrack: async (g: GpsTrack): Promise<GpsTrack> => { await delay(300); await dbPut("gpsTracks", g); await logAudit("GPS_TRACK_SAVED", "gps_track", `GPS saved — ${g.vehicleNo ?? g.vehicleId} ${g.status} @ ${g.latitude},${g.longitude}`); return g; },
+  deleteGpsTrack: async (g: GpsTrack): Promise<void> => { await delay(220); await dbDelete("gpsTracks", g.id); await logAudit("GPS_TRACK_DELETED", "gps_track", `GPS deleted — ${g.id}`); },
+  listVehicleMaintenance: async (): Promise<VehicleMaintenance[]> => { await delay(); return dbGetAll("vehicleMaintenance"); },
+  saveVehicleMaintenance: async (v: VehicleMaintenance): Promise<VehicleMaintenance> => { await delay(300); await dbPut("vehicleMaintenance", v); await logAudit("VEHICLE_MAINTENANCE_SAVED", "vehicle_maintenance", `Maintenance saved — ${v.vehicleNo ?? v.vehicleId} ${v.type} (${v.status})`); return v; },
+  deleteVehicleMaintenance: async (v: VehicleMaintenance): Promise<void> => { await delay(220); await dbDelete("vehicleMaintenance", v.id); await logAudit("VEHICLE_MAINTENANCE_DELETED", "vehicle_maintenance", `Maintenance deleted — ${v.id}`); },
 });
 
 export const api = apiMethods as ErpApi;

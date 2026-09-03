@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 12;
+const DB_VERSION = 14;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -167,6 +167,23 @@ function openDB(): Promise<IDBDatabase> {
         "payslips",
         "separations",
         "staffContracts",
+        // M16 stores
+        "libraryResources",
+        "libraryHoldings",
+        "libraryMembers",
+        "libraryLoans",
+        "libraryReservations",
+        "libraryAcquisitions",
+        "digitalResources",
+        // M17 stores
+        "vehicles",
+        "transportRoutes",
+        "busStops",
+        "routeSchedules",
+        "riderAssignments",
+        "boardingLogs",
+        "gpsTracks",
+        "vehicleMaintenance",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -235,6 +252,12 @@ const ALL_STORES: StoreName[] = [
   // M13 stores
   "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
   "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
+  // M16 stores
+  "libraryResources", "libraryHoldings", "libraryMembers", "libraryLoans", "libraryReservations",
+  "libraryAcquisitions", "digitalResources",
+  // M17 stores
+  "vehicles", "transportRoutes", "busStops", "routeSchedules", "riderAssignments",
+  "boardingLogs", "gpsTracks", "vehicleMaintenance",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -279,6 +302,10 @@ async function ensureSeeded(): Promise<void> {
     "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "bankAccounts", "budgets",
     "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
     "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
+    "libraryResources", "libraryHoldings", "libraryMembers", "libraryLoans", "libraryReservations",
+    "libraryAcquisitions", "digitalResources",
+    "vehicles", "transportRoutes", "busStops", "routeSchedules", "riderAssignments",
+    "boardingLogs", "gpsTracks", "vehicleMaintenance",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {

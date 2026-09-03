@@ -20,6 +20,10 @@ import {
   Monitor, Smartphone, Accessibility, Ticket,
   // M12 icons
   Receipt, Wallet, Tag, PiggyBank, DollarSign, Briefcase, UserPlus, CalendarOff,
+  // M16 icons
+  Package,
+  // M17 icons
+  Bus, Route, Navigation, Wrench,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -144,6 +148,20 @@ const m13Nav: NavItem[] = [
   { to: "/separations", label: "Separation & Contracts", labelNe: "अवकाश", icon: Briefcase, micro: "M13.10" },
 ];
 
+const m16Nav: NavItem[] = [
+  { to: "/library-catalog", label: "Catalog & Digital", labelNe: "सूची तथा डिजिटल", icon: BookOpen, micro: "M16.01" },
+  { to: "/library-holdings", label: "Holdings & Shelving", labelNe: "प्रति तथा शेल्फ", icon: Layers, micro: "M16.02" },
+  { to: "/library-circulation", label: "Circulation", labelNe: "परिचालन", icon: ClipboardList, micro: "M16.03" },
+  { to: "/library-acquisitions", label: "Acquisitions & Serials", labelNe: "खरिद तथा शृङ्खला", icon: Package, micro: "M16.04" },
+];
+
+const m17Nav: NavItem[] = [
+  { to: "/fleet", label: "Fleet & Compliance", labelNe: "फ्लीट", icon: Bus, micro: "M17.01" },
+  { to: "/transport-routes", label: "Routes & Schedules", labelNe: "मार्ग तालिका", icon: Route, micro: "M17.02" },
+  { to: "/transport-riders", label: "Riders & Boarding", labelNe: "यात्रु बोर्डिङ", icon: Users, micro: "M17.03" },
+  { to: "/transport-operations", label: "GPS & Maintenance", labelNe: "जिपिएस मर्मत", icon: Navigation, micro: "M17.05" },
+];
+
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
   const filtered = items.filter((item) => canAccess(role, item.to));
   if (filtered.length === 0) return null;
@@ -197,7 +215,7 @@ export function AppShell() {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Shikshya ERP</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M13</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M17</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -213,6 +231,8 @@ export function AppShell() {
           <NavSection label="Portals & Self-Service" items={m11Nav} role={role} />
           <NavSection label="Finance & Accounting" items={m12Nav} role={role} />
           <NavSection label="HR & Payroll" items={m13Nav} role={role} />
+          <NavSection label="Library & Resources" items={m16Nav} role={role} />
+          <NavSection label="Transport & Fleet" items={m17Nav} role={role} />
         </nav>
 
         {/* User + Logout */}
@@ -274,7 +294,7 @@ export function AppShell() {
           <Outlet />
         </main>
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground">
-          Shikshya ERP · Modules 1–13 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Design prototype (fake data, IndexedDB)
+          Shikshya ERP · Modules 1–17 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Library & Resources · Transport & Fleet · Design prototype (fake data, IndexedDB)
         </footer>
       </div>
     </div>

@@ -2291,6 +2291,281 @@ export interface StaffContract {
   updatedOn: string;
 }
 
+// ── M16 Library and Learning Resources — domain types ───────────────────────
+
+export type ResourceType = "book" | "journal" | "reference" | "digital" | "av" | "thesis";
+export type ResourceStatus = "available" | "restricted" | "archived" | "lost";
+export interface LibraryResource {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  accessionNo: string;
+  title: string;
+  subtitle?: string;
+  author: string;
+  isbn?: string;
+  publisher?: string;
+  publishedYear?: number;
+  language: string;
+  category: string;
+  type: ResourceType;
+  shelfRef?: string;
+  tags?: string[];
+  status: ResourceStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type HoldingCondition = "new" | "good" | "worn" | "damaged" | "lost" | "withdrawn";
+export type HoldingStatusM16 = "available" | "issued" | "reserved" | "maintenance" | "lost";
+export interface LibraryHolding {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  resourceId: string;
+  resourceTitle?: string;
+  copyNo: string;
+  barcode: string;
+  location: string;
+  condition: HoldingCondition;
+  status: HoldingStatusM16;
+  acquiredOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type MemberType = "student" | "staff" | "external";
+export type LibraryMemberStatus = "active" | "suspended" | "expired" | "blocked";
+export interface LibraryMember {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  userRef: string;
+  userName: string;
+  memberType: MemberType;
+  cardNo: string;
+  enrolledOn: string;
+  validUntil: string;
+  status: LibraryMemberStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type LoanStatus = "issued" | "returned" | "overdue" | "lost" | "renewed";
+export interface LibraryLoan {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  memberId: string;
+  memberName?: string;
+  holdingId: string;
+  resourceTitle?: string;
+  issuedOn: string;
+  dueOn: string;
+  returnedOn?: string;
+  status: LoanStatus;
+  fineAmount: number;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ReservationStatus = "pending" | "ready" | "collected" | "cancelled" | "expired";
+export interface LibraryReservation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  memberId: string;
+  memberName?: string;
+  resourceId: string;
+  resourceTitle?: string;
+  reservedOn: string;
+  expiresOn?: string;
+  status: ReservationStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type AcquisitionStatus = "draft" | "ordered" | "received" | "cataloged" | "cancelled";
+export type AcquisitionSource = "purchase" | "donation" | "exchange" | "subscription";
+export interface LibraryAcquisition {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  resourceId?: string;
+  title: string;
+  vendorName: string;
+  orderNo: string;
+  source: AcquisitionSource;
+  quantity: number;
+  unitCost: number;
+  totalCost: number;
+  status: AcquisitionStatus;
+  orderedOn: string;
+  receivedOn?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type DigitalAccessStatus = "active" | "expired" | "revoked";
+export interface DigitalResource {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  title: string;
+  provider: string;
+  url?: string;
+  licenseKey?: string;
+  accessType: "open" | "subscription" | "per_user";
+  validFrom: string;
+  validUntil?: string;
+  status: DigitalAccessStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── M17 Transport and Fleet — domain types ─────────────────────────────────
+
+export type VehicleType = "bus" | "minibus" | "van" | "car";
+export type VehicleStatus = "active" | "maintenance" | "retired" | "idle";
+export interface Vehicle {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  registrationNo: string;
+  type: VehicleType;
+  capacity: number;
+  driverName?: string;
+  driverContact?: string;
+  fitnessUntil: string;
+  insuranceUntil: string;
+  permitUntil: string;
+  pollutionUntil: string;
+  status: VehicleStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RouteStatus = "active" | "inactive" | "archived";
+export interface TransportRoute {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  code: string;
+  name: string;
+  direction: "pickup" | "drop" | "both";
+  vehicleId?: string;
+  vehicleNo?: string;
+  totalDistanceKm: number;
+  estimatedMins: number;
+  status: RouteStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface BusStop {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  routeId: string;
+  routeName?: string;
+  name: string;
+  sequence: number;
+  arrivalTime?: string;
+  latitude?: number;
+  longitude?: number;
+  status: "active" | "inactive";
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ScheduleStatus = "active" | "suspended" | "cancelled";
+export interface RouteSchedule {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  routeId: string;
+  routeName?: string;
+  dayPattern: string;
+  departureTime: string;
+  arrivalTime: string;
+  status: ScheduleStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RiderType = "student" | "staff";
+export type AssignmentStatus = "active" | "inactive" | "pending" | "cancelled";
+export interface RiderAssignment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  riderRef: string;
+  riderName: string;
+  riderType: RiderType;
+  routeId: string;
+  routeName?: string;
+  stopId?: string;
+  stopName?: string;
+  vehicleId?: string;
+  pickupTime?: string;
+  status: AssignmentStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type BoardingStatus = "boarded" | "alighted" | "absent" | "no_show";
+export interface BoardingLog {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  riderAssignmentId?: string;
+  riderName: string;
+  routeId?: string;
+  vehicleId?: string;
+  logDate: string;
+  boardingStatus: BoardingStatus;
+  recordedOn: string;
+  remarks?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type GpsStatus = "moving" | "stopped" | "idle" | "offline";
+export interface GpsTrack {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  vehicleId: string;
+  vehicleNo?: string;
+  latitude: number;
+  longitude: number;
+  speedKmph: number;
+  heading?: number;
+  status: GpsStatus;
+  trackedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type MaintenanceType = "fuel" | "service" | "repair" | "inspection" | "tyre" | "other";
+export type MaintenanceStatus = "scheduled" | "in_progress" | "completed" | "cancelled";
+export interface VehicleMaintenance {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  vehicleId: string;
+  vehicleNo?: string;
+  type: MaintenanceType;
+  description: string;
+  cost: number;
+  odometerKm?: number;
+  performedOn?: string;
+  nextDueOn?: string;
+  status: MaintenanceStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -2447,6 +2722,23 @@ export interface DBSchema {
   payslips: Payslip[];
   separations: Separation[];
   staffContracts: StaffContract[];
+  // M16 stores
+  libraryResources: LibraryResource[];
+  libraryHoldings: LibraryHolding[];
+  libraryMembers: LibraryMember[];
+  libraryLoans: LibraryLoan[];
+  libraryReservations: LibraryReservation[];
+  libraryAcquisitions: LibraryAcquisition[];
+  digitalResources: DigitalResource[];
+  // M17 stores
+  vehicles: Vehicle[];
+  transportRoutes: TransportRoute[];
+  busStops: BusStop[];
+  routeSchedules: RouteSchedule[];
+  riderAssignments: RiderAssignment[];
+  boardingLogs: BoardingLog[];
+  gpsTracks: GpsTrack[];
+  vehicleMaintenance: VehicleMaintenance[];
 }
 
 export type StoreName = keyof DBSchema;

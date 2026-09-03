@@ -1072,6 +1072,82 @@ export function seedData() {
     { id: "scn-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-4", staffName: "Bikash Tamang", contractType: "contract", startDate: "2021-04-12", endDate: "2026-04-11", salary: 42000, status: "active", createdOn: "2021-04-12", updatedOn: "2025-04-15" },
   ];
 
+  // ── M16 Library seed ──────────────────────────────────────────────────
+  const libraryResources: DBSchema["libraryResources"] = [
+    { id: "lr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, accessionNo: "ACC-0001", title: "Hamro Nepali Byakaran", author: "D. R. Pokharel", isbn: "9789937012345", publisher: "Sunrise Publications", publishedYear: 2021, language: "ne", category: "Language", type: "book", shelfRef: "A-01-03", tags: ["nepali", "grammar"], status: "available", createdOn: "2022-04-10", updatedOn: "2025-08-01" },
+    { id: "lr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, accessionNo: "ACC-0002", title: "Physics for Class 12", author: "H. C. Verma", isbn: "9788126512340", publisher: "Bharti Bhawan", publishedYear: 2022, language: "en", category: "Science", type: "book", shelfRef: "S-11-02", status: "available", createdOn: "2022-06-12", updatedOn: "2025-08-10" },
+    { id: "lr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, accessionNo: "ACC-0003", title: "Journal of Nepal Science", author: "NAST", publisher: "NAST", publishedYear: 2024, language: "en", category: "Research", type: "journal", shelfRef: "J-01-01", status: "restricted", createdOn: "2024-01-20", updatedOn: "2025-07-15" },
+    { id: "lr-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, accessionNo: "ACC-0004", title: "Digital Atlas of Nepal", author: "Survey Dept", publisher: "GoN", publishedYear: 2023, language: "en", category: "Geography", type: "digital", shelfRef: "D-02-01", tags: ["maps", "gis"], status: "available", createdOn: "2023-08-05", updatedOn: "2025-08-20" },
+  ];
+  const libraryHoldings: DBSchema["libraryHoldings"] = [
+    { id: "lh-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resourceId: "lr-1", resourceTitle: "Hamro Nepali Byakaran", copyNo: "C-001", barcode: "BC-100001", location: "A-01-03", condition: "good", status: "available", acquiredOn: "2022-04-12", createdOn: "2022-04-12", updatedOn: "2025-08-01" },
+    { id: "lh-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resourceId: "lr-1", resourceTitle: "Hamro Nepali Byakaran", copyNo: "C-002", barcode: "BC-100002", location: "A-01-03", condition: "worn", status: "issued", acquiredOn: "2022-04-12", createdOn: "2022-04-12", updatedOn: "2025-08-25" },
+    { id: "lh-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resourceId: "lr-2", resourceTitle: "Physics for Class 12", copyNo: "C-001", barcode: "BC-200001", location: "S-11-02", condition: "new", status: "reserved", acquiredOn: "2022-06-14", createdOn: "2022-06-14", updatedOn: "2025-08-28" },
+    { id: "lh-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resourceId: "lr-4", resourceTitle: "Digital Atlas of Nepal", copyNo: "C-001", barcode: "BC-400001", location: "D-02-01", condition: "good", status: "available", acquiredOn: "2023-08-10", createdOn: "2023-08-10", updatedOn: "2025-08-20" },
+  ];
+  const libraryMembers: DBSchema["libraryMembers"] = [
+    { id: "lm-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-5", userName: "Manoj Rai", memberType: "staff", cardNo: "LIB-S-001", enrolledOn: "2022-04-15", validUntil: "2026-04-14", status: "active", createdOn: "2022-04-15", updatedOn: "2025-04-15" },
+    { id: "lm-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "enrol-1", userName: "Aarav Shrestha", memberType: "student", cardNo: "LIB-ST-882", enrolledOn: "2024-04-15", validUntil: "2026-04-14", status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+    { id: "lm-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "sp-2", userName: "Manoj Rai", memberType: "staff", cardNo: "LIB-S-042", enrolledOn: "2020-06-10", validUntil: "2025-12-31", status: "suspended", createdOn: "2020-06-10", updatedOn: "2025-08-10" },
+  ];
+  const libraryLoans: DBSchema["libraryLoans"] = [
+    { id: "ll-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, memberId: "lm-2", memberName: "Aarav Shrestha", holdingId: "lh-2", resourceTitle: "Hamro Nepali Byakaran", issuedOn: "2025-08-20", dueOn: "2025-09-03", status: "issued", fineAmount: 0, createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "ll-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, memberId: "lm-1", memberName: "Manoj Rai", holdingId: "lh-1", resourceTitle: "Hamro Nepali Byakaran", issuedOn: "2025-08-01", dueOn: "2025-08-15", returnedOn: "2025-08-14", status: "returned", fineAmount: 0, createdOn: "2025-08-01", updatedOn: "2025-08-14" },
+    { id: "ll-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, memberId: "lm-2", memberName: "Aarav Shrestha", holdingId: "lh-3", resourceTitle: "Physics for Class 12", issuedOn: "2025-08-10", dueOn: "2025-08-24", status: "overdue", fineAmount: 150, createdOn: "2025-08-10", updatedOn: "2025-08-25" },
+  ];
+  const libraryReservations: DBSchema["libraryReservations"] = [
+    { id: "lres-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, memberId: "lm-2", memberName: "Aarav Shrestha", resourceId: "lr-2", resourceTitle: "Physics for Class 12", reservedOn: "2025-08-25", expiresOn: "2025-09-01", status: "pending", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "lres-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, memberId: "lm-1", memberName: "Manoj Rai", resourceId: "lr-3", resourceTitle: "Journal of Nepal Science", reservedOn: "2025-08-20", status: "ready", createdOn: "2025-08-20", updatedOn: "2025-08-22" },
+  ];
+  const libraryAcquisitions: DBSchema["libraryAcquisitions"] = [
+    { id: "la-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Chemistry Lab Manual 11-12", vendorName: "Himalayan Books", orderNo: "PO-LIB-2025-011", source: "purchase", quantity: 30, unitCost: 850, totalCost: 25500, status: "ordered", orderedOn: "2025-08-18", createdOn: "2025-08-18", updatedOn: "2025-08-18" },
+    { id: "la-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, resourceId: "lr-4", title: "Digital Atlas of Nepal", vendorName: "Survey Dept", orderNo: "PO-LIB-2025-009", source: "donation", quantity: 1, unitCost: 0, totalCost: 0, status: "cataloged", orderedOn: "2023-08-01", receivedOn: "2023-08-10", createdOn: "2023-08-10", updatedOn: "2023-08-10" },
+    { id: "la-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Nepal Yearbook 2082 Serial", vendorName: "Ekta Books", orderNo: "PO-LIB-2025-012", source: "subscription", quantity: 12, unitCost: 1200, totalCost: 14400, status: "received", orderedOn: "2025-07-01", receivedOn: "2025-08-28", createdOn: "2025-07-01", updatedOn: "2025-08-28" },
+  ];
+  const digitalResources: DBSchema["digitalResources"] = [
+    { id: "dr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Pustakalaya E-Library", provider: "OLE Nepal", url: "https://pustakalaya.org", accessType: "subscription", validFrom: "2025-04-15", validUntil: "2026-04-14", status: "active", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "dr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Khan Academy Nepali", provider: "Khan Academy", url: "https://ne.khanacademy.org", accessType: "open", validFrom: "2024-01-01", status: "active", createdOn: "2024-01-01", updatedOn: "2025-01-01" },
+  ];
+
+  // ── M17 Transport seed ────────────────────────────────────────────────
+  const vehicles: DBSchema["vehicles"] = [
+    { id: "veh-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, registrationNo: "Ba 1 Pa 2345", type: "bus", capacity: 35, driverName: "Hari Bahadur", driverContact: "9841002001", fitnessUntil: "2026-03-15", insuranceUntil: "2026-07-20", permitUntil: "2026-07-20", pollutionUntil: "2025-12-31", status: "active", createdOn: "2023-06-12", updatedOn: "2025-08-01" },
+    { id: "veh-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, registrationNo: "Ba 1 Pa 7890", type: "minibus", capacity: 22, driverName: "Shyam Thapa", driverContact: "9841002002", fitnessUntil: "2025-10-15", insuranceUntil: "2025-11-30", permitUntil: "2025-11-30", pollutionUntil: "2025-09-15", status: "maintenance", createdOn: "2021-08-10", updatedOn: "2025-08-28" },
+    { id: "veh-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, registrationNo: "Ba 2 Cha 1122", type: "van", capacity: 14, driverName: "Gita Gurung", driverContact: "9841002003", fitnessUntil: "2026-01-20", insuranceUntil: "2026-05-10", permitUntil: "2026-05-10", pollutionUntil: "2026-05-10", status: "active", createdOn: "2022-04-05", updatedOn: "2025-08-15" },
+  ];
+  const transportRoutes: DBSchema["transportRoutes"] = [
+    { id: "tr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "R-01", name: "Baneshwor – Koteshwor Loop", direction: "both", vehicleId: "veh-1", vehicleNo: "Ba 1 Pa 2345", totalDistanceKm: 8.5, estimatedMins: 35, status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+    { id: "tr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "R-02", name: "Bhaktapur – Baneshwor Express", direction: "pickup", vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", totalDistanceKm: 14.2, estimatedMins: 55, status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-10" },
+    { id: "tr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "R-03", name: "Satdobato Feeder", direction: "both", totalDistanceKm: 6.0, estimatedMins: 25, status: "inactive", createdOn: "2024-04-15", updatedOn: "2025-07-20" },
+  ];
+  const busStops: DBSchema["busStops"] = [
+    { id: "bs-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, routeId: "tr-1", routeName: "Baneshwor – Koteshwor Loop", name: "Baneshwor Chowk", sequence: 1, arrivalTime: "06:45", latitude: 27.691, longitude: 85.335, status: "active", createdOn: "2024-04-15", updatedOn: "2024-04-15" },
+    { id: "bs-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, routeId: "tr-1", routeName: "Baneshwor – Koteshwor Loop", name: "Koteshwor Chowk", sequence: 2, arrivalTime: "07:00", latitude: 27.678, longitude: 85.35, status: "active", createdOn: "2024-04-15", updatedOn: "2024-04-15" },
+    { id: "bs-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, routeId: "tr-2", routeName: "Bhaktapur – Baneshwor Express", name: "Suryabinayak", sequence: 1, arrivalTime: "06:30", latitude: 27.666, longitude: 85.436, status: "active", createdOn: "2024-04-15", updatedOn: "2024-04-15" },
+  ];
+  const routeSchedules: DBSchema["routeSchedules"] = [
+    { id: "rs-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, routeId: "tr-1", routeName: "Baneshwor – Koteshwor Loop", dayPattern: "Mon-Sat", departureTime: "06:45", arrivalTime: "07:30", status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+    { id: "rs-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, routeId: "tr-2", routeName: "Bhaktapur – Baneshwor Express", dayPattern: "Mon-Fri", departureTime: "06:30", arrivalTime: "07:35", status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+  ];
+  const riderAssignments: DBSchema["riderAssignments"] = [
+    { id: "ra-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, riderRef: "enrol-1", riderName: "Aarav Shrestha", riderType: "student", routeId: "tr-1", routeName: "Baneshwor – Koteshwor Loop", stopId: "bs-1", stopName: "Baneshwor Chowk", vehicleId: "veh-1", pickupTime: "06:45", status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+    { id: "ra-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, riderRef: "sp-2", riderName: "Manoj Rai", riderType: "staff", routeId: "tr-2", routeName: "Bhaktapur – Baneshwor Express", stopId: "bs-3", stopName: "Suryabinayak", pickupTime: "06:30", status: "active", createdOn: "2024-04-15", updatedOn: "2025-08-01" },
+    { id: "ra-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, riderRef: "enrol-2", riderName: "Sita Kumari", riderType: "student", routeId: "tr-1", routeName: "Baneshwor – Koteshwor Loop", stopId: "bs-2", stopName: "Koteshwor Chowk", pickupTime: "07:00", status: "pending", createdOn: "2025-08-10", updatedOn: "2025-08-10" },
+  ];
+  const boardingLogs: DBSchema["boardingLogs"] = [
+    { id: "bl-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, riderAssignmentId: "ra-1", riderName: "Aarav Shrestha", routeId: "tr-1", vehicleId: "veh-1", logDate: "2025-08-31", boardingStatus: "boarded", recordedOn: "2025-08-31T06:46:00", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+    { id: "bl-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, riderAssignmentId: "ra-2", riderName: "Manoj Rai", routeId: "tr-2", vehicleId: "veh-2", logDate: "2025-08-31", boardingStatus: "absent", recordedOn: "2025-08-31T06:35:00", remarks: "Informed leave", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+  ];
+  const gpsTracks: DBSchema["gpsTracks"] = [
+    { id: "gps-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-1", vehicleNo: "Ba 1 Pa 2345", latitude: 27.6915, longitude: 85.335, speedKmph: 28, heading: 90, status: "moving", trackedOn: "2025-08-31T06:50:00", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+    { id: "gps-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", latitude: 27.670, longitude: 85.430, speedKmph: 0, status: "stopped", trackedOn: "2025-08-31T06:55:00", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+  ];
+  const vehicleMaintenance: DBSchema["vehicleMaintenance"] = [
+    { id: "vm-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", type: "service", description: "Quarterly engine service", cost: 18000, odometerKm: 45200, performedOn: "2025-08-20", nextDueOn: "2025-11-20", status: "completed", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "vm-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-1", vehicleNo: "Ba 1 Pa 2345", type: "fuel", description: "Diesel refill 60L", cost: 9800, odometerKm: 38900, performedOn: "2025-08-30", status: "completed", createdOn: "2025-08-30", updatedOn: "2025-08-30" },
+    { id: "vm-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", type: "repair", description: "Brake pad replacement", cost: 6500, status: "scheduled", createdOn: "2025-08-28", updatedOn: "2025-08-28" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -1113,5 +1189,11 @@ export function seedData() {
     // M13
     staffProfiles, positions, recruitments, leaveRequests, performanceReviews,
     compensations, payrollRuns, payslips, separations, staffContracts,
+    // M16
+    libraryResources, libraryHoldings, libraryMembers, libraryLoans, libraryReservations,
+    libraryAcquisitions, digitalResources,
+    // M17
+    vehicles, transportRoutes, busStops, routeSchedules, riderAssignments,
+    boardingLogs, gpsTracks, vehicleMaintenance,
   };
 }

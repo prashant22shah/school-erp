@@ -92,6 +92,8 @@ const ALL_ADMIN_ROUTES = [
   "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
   "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
   "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
+  "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
+  "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -110,6 +112,8 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
     "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
     "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
+    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
+    "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
   ],
 
   accountant: [
@@ -129,18 +133,22 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
     "/portal-announcements", "/portal-access", "/mobile-devices", "/accessibility",
+    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
     "/staff", "/leave-requests", "/performance", "/payroll", "/separations",
+    "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
   ],
 
   student: [
     "/calendar",
     "/subjects",
     "/students",
+    "/library-catalog", "/library-circulation",
   ],
 
   parent: [
     "/calendar",
     "/students",
+    "/library-catalog",
   ],
 };
 
