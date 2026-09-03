@@ -285,7 +285,7 @@ export function AppShell() {
 
       {/* Main */}
       <div className="flex min-h-screen flex-1 flex-col lg:pl-64">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-card/80 px-4 backdrop-blur-md sm:px-6">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-card/80 px-4 backdrop-blur-md sm:px-6 lg:hidden">
           <div className="flex items-center gap-2 lg:hidden">
             <div className="rounded-lg bg-gradient-to-br from-indigo-400 to-violet-500 p-1.5 text-white">
               <School className="h-4 w-4" />
