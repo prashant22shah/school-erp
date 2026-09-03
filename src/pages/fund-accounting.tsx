@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Landmark, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Landmark, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { useFunds, useDeleteFund } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { Fund } from "@/lib/types";
 
 const typeVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -40,7 +41,7 @@ export default function FundAccountingPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Landmark} title="Fund Accounting" titleNe="कोष लेखा" microModule="M12.22" description="Restricted funds, endowments and project-based fund tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Fund</Button>} />
+      <PageHeader icon={Landmark} title="Fund Accounting" titleNe="कोष लेखा" microModule="M12.22" description="Restricted funds, endowments and project-based fund tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="funds">New Fund</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Landmark className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Funds</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Landmark className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Balance</p><p className="text-lg font-bold">NPR {totalBalance.toLocaleString()}</p></div></CardContent></Card>
@@ -53,7 +54,7 @@ export default function FundAccountingPage() {
 
         <TabsContent value="funds" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Code</TableHead><TableHead>Name</TableHead><TableHead>Type</TableHead><TableHead>Balance</TableHead><TableHead>Restricted</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{f.code}</code></TableCell><TableCell><span className="text-sm font-medium">{f.name}</span></TableCell><TableCell><Badge variant={typeVariant[f.type] ?? "secondary"} className="capitalize">{f.type}</Badge></TableCell><TableCell><span className="text-sm font-mono">NPR {f.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant={f.isRestricted ? "warning" : "secondary"}>{f.isRestricted ? "Yes" : "No"}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(f); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(f)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Code</TableHead><TableHead>Name</TableHead><TableHead>Type</TableHead><TableHead>Balance</TableHead><TableHead>Restricted</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{f.code}</code></TableCell><TableCell><span className="text-sm font-medium">{f.name}</span></TableCell><TableCell><Badge variant={typeVariant[f.type] ?? "secondary"} className="capitalize">{f.type}</Badge></TableCell><TableCell><span className="text-sm font-mono">NPR {f.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant={f.isRestricted ? "warning" : "secondary"}>{f.isRestricted ? "Yes" : "No"}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="funds" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

@@ -5,13 +5,14 @@ import { SectionFormDialog } from "@/pages/section-form-dialog";
 import { HouseFormDialog } from "@/pages/house-form-dialog";
 import { CohortFormDialog } from "@/pages/cohort-form-dialog";
 import { useSections, useHouses, useCohorts, useDeleteSection } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import type { Section, House, Cohort } from "@/lib/types";
 
 export default function SectionHouseCohortPage() {
@@ -57,15 +58,21 @@ export default function SectionHouseCohortPage() {
         description="Class sections with capacity, school houses and student cohorts."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingSection(undefined); setSectionDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New section
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingHouse(undefined); setHouseDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New house
-            </Button>
-            <Button onClick={() => { setEditingCohort(undefined); setCohortDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New cohort
-            </Button>
+            <CanCreate resource="sections">
+              <Button variant="outline" onClick={() => { setEditingSection(undefined); setSectionDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New section
+              </Button>
+            </CanCreate>
+            <CanCreate resource="sections">
+              <Button variant="outline" onClick={() => { setEditingHouse(undefined); setHouseDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New house
+              </Button>
+            </CanCreate>
+            <CanCreate resource="sections">
+              <Button onClick={() => { setEditingCohort(undefined); setCohortDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New cohort
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -137,16 +144,7 @@ export default function SectionHouseCohortPage() {
                         <TableCell><span className="text-sm">{s.classTeacherName ?? "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{s.roomNo ?? "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingSection(s); setSectionDialogOpen(true); }}><Pencil /> Edit section</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteSection.mutate(s)}><Trash2 /> Delete section</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="sections" onEdit={() => { setEditingSection(s); setSectionDialogOpen(true); }} onDelete={() => deleteSection.mutate(s)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -189,14 +187,7 @@ export default function SectionHouseCohortPage() {
                         <TableCell><span className="text-sm">{h.description || "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{h.memberCount}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingHouse(h); setHouseDialogOpen(true); }}><Pencil /> Edit house</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="sections" onEdit={() => { setEditingHouse(h); setHouseDialogOpen(true); }} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -234,14 +225,7 @@ export default function SectionHouseCohortPage() {
                         <TableCell><span className="text-sm">{c.description || "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{c.studentCount}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCohort(c); setCohortDialogOpen(true); }}><Pencil /> Edit cohort</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="sections" onEdit={() => { setEditingCohort(c); setCohortDialogOpen(true); }} />
                         </TableCell>
                       </TableRow>
                     ))}

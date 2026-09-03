@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Monitor, Search, Plus, Pencil, Trash2, BookOpen, Key, Clock } from "lucide-react";
+import { Monitor, Search, BookOpen, Key, Clock, Plus } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { DigitalResourceFormDialog } from "@/pages/digital-resource-form-dialog";
 import { useDigitalResources, useDeleteDigitalResource } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { DigitalResource } from "@/lib/types";
 
@@ -69,9 +70,7 @@ export default function DigitalResourceAccessPage() {
         microModule="M16.05"
         description="Digital resources — subscriptions, access logs and license management."
         actions={
-          <Button onClick={() => { setEditing(undefined); setOpen(true); }}>
-            <Plus className="h-4 w-4" /> New Resource
-          </Button>
+          <CanCreate resource="digitalResources"><Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Resource</Button></CanCreate>
         }
       />
 
@@ -98,7 +97,7 @@ export default function DigitalResourceAccessPage() {
 
         <TabsContent value="resources" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Provider</TableHead><TableHead>Access Type</TableHead><TableHead>Valid From</TableHead><TableHead>Valid Until</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><div className="flex flex-col"><span className="font-medium">{r.title}</span><code className="text-xs text-muted-foreground">{r.url ?? "—"}</code></div></TableCell><TableCell><span className="text-sm">{r.provider}</span></TableCell><TableCell><Badge variant={accessVariant[r.accessType] ?? "secondary"} className="capitalize">{r.accessType.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(r.validFrom)}</span></TableCell><TableCell><span className="text-sm">{r.validUntil ? fmtDate(r.validUntil) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(r); setOpen(true); }}><Pencil /> Edit resource</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(r)}><Trash2 /> Delete resource</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Provider</TableHead><TableHead>Access Type</TableHead><TableHead>Valid From</TableHead><TableHead>Valid Until</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><div className="flex flex-col"><span className="font-medium">{r.title}</span><code className="text-xs text-muted-foreground">{r.url ?? "—"}</code></div></TableCell><TableCell><span className="text-sm">{r.provider}</span></TableCell><TableCell><Badge variant={accessVariant[r.accessType] ?? "secondary"} className="capitalize">{r.accessType.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(r.validFrom)}</span></TableCell><TableCell><span className="text-sm">{r.validUntil ? fmtDate(r.validUntil) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="digitalResources" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

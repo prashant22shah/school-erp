@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Landmark, PiggyBank, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Landmark, PiggyBank, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { BankAccountFormDialog } from "@/pages/bank-account-form-dialog";
 import { BudgetFormDialog } from "@/pages/budget-form-dialog";
@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { BankAccount, Budget } from "@/lib/types";
 
@@ -63,8 +64,8 @@ export default function BankBudgetPage() {
         description="Bank accounts, balances and departmental budgets."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingBank(undefined); setBankOpen(true); }}><Plus className="h-4 w-4" /> New Bank Account</Button>
-            <Button onClick={() => { setEditingBudget(undefined); setBudgetOpen(true); }}><Plus className="h-4 w-4" /> New Budget</Button>
+            <Button variant="outline" onClick={() => { setEditingBank(undefined); setBankOpen(true); }}><CanCreate resource="bankAccounts">New Bank Account</CanCreate></Button>
+            <Button onClick={() => { setEditingBudget(undefined); setBudgetOpen(true); }}> New Budget</Button>
           </div>
         }
       />
@@ -83,13 +84,13 @@ export default function BankBudgetPage() {
 
         <TabsContent value="banks" className="mt-4">
           {banks.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Bank</TableHead><TableHead>Account No</TableHead><TableHead>Account Name</TableHead><TableHead>Balance</TableHead><TableHead>Currency</TableHead><TableHead>Active</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredBanks.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5 font-medium">{b.bankName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{b.accountNo}</code></TableCell><TableCell><span className="text-sm">{b.accountName}</span></TableCell><TableCell><span className="text-sm font-mono">{b.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant="secondary">{b.currency}</Badge></TableCell><TableCell><Badge variant={b.isActive ? "success" : "secondary"}>{b.isActive ? "Active" : "Inactive"}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingBank(b); setBankOpen(true); }}><Pencil /> Edit account</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteBank.mutate(b)}><Trash2 /> Delete account</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Bank</TableHead><TableHead>Account No</TableHead><TableHead>Account Name</TableHead><TableHead>Balance</TableHead><TableHead>Currency</TableHead><TableHead>Active</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredBanks.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5 font-medium">{b.bankName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{b.accountNo}</code></TableCell><TableCell><span className="text-sm">{b.accountName}</span></TableCell><TableCell><span className="text-sm font-mono">{b.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant="secondary">{b.currency}</Badge></TableCell><TableCell><Badge variant={b.isActive ? "success" : "secondary"}>{b.isActive ? "Active" : "Inactive"}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="bankAccounts" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="budgets" className="mt-4">
           {budgets.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Department</TableHead><TableHead>Fiscal Year</TableHead><TableHead>Allocated</TableHead><TableHead>Utilized</TableHead><TableHead>Remaining</TableHead><TableHead>Status</TableHead><TableHead>Updated</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredBudgets.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5 font-medium">{b.department}</TableCell><TableCell><Badge variant="secondary">{b.fiscalYearName ?? b.fiscalYearId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{b.allocatedAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{b.utilizedAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{(b.allocatedAmount - b.utilizedAmount).toLocaleString()}</span></TableCell><TableCell><Badge variant={budgetStatusVariant[b.status] ?? "secondary"} className="capitalize">{b.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{fmtDate(b.updatedOn)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingBudget(b); setBudgetOpen(true); }}><Pencil /> Edit budget</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteBudget.mutate(b)}><Trash2 /> Delete budget</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Department</TableHead><TableHead>Fiscal Year</TableHead><TableHead>Allocated</TableHead><TableHead>Utilized</TableHead><TableHead>Remaining</TableHead><TableHead>Status</TableHead><TableHead>Updated</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredBudgets.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5 font-medium">{b.department}</TableCell><TableCell><Badge variant="secondary">{b.fiscalYearName ?? b.fiscalYearId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{b.allocatedAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{b.utilizedAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{(b.allocatedAmount - b.utilizedAmount).toLocaleString()}</span></TableCell><TableCell><Badge variant={budgetStatusVariant[b.status] ?? "secondary"} className="capitalize">{b.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{fmtDate(b.updatedOn)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="budgets" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

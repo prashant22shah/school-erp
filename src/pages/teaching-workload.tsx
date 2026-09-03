@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { WorkloadAllocation } from "@/lib/types";
 
 const activityTypeVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -41,9 +43,11 @@ export default function TeachingWorkloadPage() {
         microModule="M06.04"
         description="Staff workload allocations by activity type and period."
         actions={
-          <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New Allocation
-          </Button>
+          <CanCreate resource="teachingWorkload">
+            <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New Allocation
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -92,16 +96,7 @@ export default function TeachingWorkloadPage() {
                     <TableCell><span className="text-sm">{a.periodStart}</span></TableCell>
                     <TableCell><span className="text-sm">{a.periodEnd}</span></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => { setEditing(a); setDialogOpen(true); }}><Pencil /> Edit allocation</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteAllocation.mutate(a)}><Trash2 /> Delete allocation</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <RowActionMenu resource="teachingWorkload" onEdit={() => { setEditing(a); setDialogOpen(true); }} onDelete={() => deleteAllocation.mutate(a)} editLabel="Edit allocation" deleteLabel="Delete allocation" />
                     </TableCell>
                   </TableRow>
                 ))}

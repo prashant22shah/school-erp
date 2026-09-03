@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CalendarOff, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { CalendarOff, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { LeaveRequestFormDialog } from "@/pages/leave-request-form-dialog";
 import { useLeaveRequests, useDeleteLeaveRequest } from "@/hooks/use-erp";
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { LeaveRequest } from "@/lib/types";
 
@@ -49,7 +50,7 @@ export default function LeaveRequestsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={CalendarOff} title="Leave Requests" titleNe="बिदा अनुरोध" microModule="M13.04" description="Staff leave applications, approvals and balances." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Leave Request</Button>} />
+      <PageHeader icon={CalendarOff} title="Leave Requests" titleNe="बिदा अनुरोध" microModule="M13.04" description="Staff leave applications, approvals and balances." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="leaveRequests">New Leave Request</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><CalendarOff className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Requests</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><CalendarOff className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Pending</p><p className="text-lg font-bold">{pending}</p></div></CardContent></Card>
@@ -57,7 +58,7 @@ export default function LeaveRequestsPage() {
       </div>
       <div className="flex items-center gap-3"><div className="relative w-full sm:max-w-xs"><Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" /><Input placeholder="Search leave requests…" className="pl-8" value={q} onChange={(e) => setQ(e.target.value)} /></div></div>
       {query.isLoading ? <LoadingBlock /> : (
-        <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Staff</TableHead><TableHead>Type</TableHead><TableHead>From</TableHead><TableHead>To</TableHead><TableHead>Days</TableHead><TableHead>Status</TableHead><TableHead>Reason</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.staffName}</TableCell><TableCell><Badge variant={leaveTypeVariant[r.leaveType] ?? "secondary"} className="capitalize">{r.leaveType}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(r.fromDate)}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.toDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{r.days}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="line-clamp-1 max-w-[200px] text-sm text-muted-foreground">{r.reason}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(r); setOpen(true); }}><Pencil /> Edit request</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(r)}><Trash2 /> Delete request</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+        <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Staff</TableHead><TableHead>Type</TableHead><TableHead>From</TableHead><TableHead>To</TableHead><TableHead>Days</TableHead><TableHead>Status</TableHead><TableHead>Reason</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.staffName}</TableCell><TableCell><Badge variant={leaveTypeVariant[r.leaveType] ?? "secondary"} className="capitalize">{r.leaveType}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(r.fromDate)}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.toDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{r.days}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="line-clamp-1 max-w-[200px] text-sm text-muted-foreground">{r.reason}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="leaveRequests" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
       )}
       <LeaveRequestFormDialog open={open} onOpenChange={setOpen} leaveRequest={editing} />
     </div>

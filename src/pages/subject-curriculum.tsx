@@ -4,13 +4,14 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { SubjectFormDialog } from "@/pages/subject-form-dialog";
 import { CurriculumOfferingFormDialog } from "@/pages/curriculum-offering-form-dialog";
 import { useSubjects, useCurriculumOfferings, useDeleteSubject, useDeleteCurriculumOffering } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import type { Subject, CurriculumOffering } from "@/lib/types";
 
 const typeVariant: Record<string, "default" | "info" | "warning" | "secondary"> = {
@@ -53,12 +54,16 @@ export default function SubjectCurriculumPage() {
         description="Subject catalog and curriculum offerings — subjects mapped to grades with marks configuration."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingSubject(undefined); setSubjectDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New subject
-            </Button>
-            <Button onClick={() => { setEditingOffering(undefined); setOfferingDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New offering
-            </Button>
+            <CanCreate resource="subjects">
+              <Button variant="outline" onClick={() => { setEditingSubject(undefined); setSubjectDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New subject
+              </Button>
+            </CanCreate>
+            <CanCreate resource="subjects">
+              <Button onClick={() => { setEditingOffering(undefined); setOfferingDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New offering
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -123,16 +128,7 @@ export default function SubjectCurriculumPage() {
                         <TableCell><Badge variant="secondary">{s.levelName}</Badge></TableCell>
                         <TableCell>{s.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingSubject(s); setSubjectDialogOpen(true); }}><Pencil /> Edit subject</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteSubject.mutate(s)}><Trash2 /> Delete subject</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="subjects" onEdit={() => { setEditingSubject(s); setSubjectDialogOpen(true); }} onDelete={() => deleteSubject.mutate(s)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -171,16 +167,7 @@ export default function SubjectCurriculumPage() {
                         <TableCell><span className="text-sm">{o.creditHours ?? "—"}</span></TableCell>
                         <TableCell>{o.isCompulsory ? <Badge variant="success">Yes</Badge> : <Badge variant="secondary">No</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingOffering(o); setOfferingDialogOpen(true); }}><Pencil /> Edit offering</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteOffering.mutate(o)}><Trash2 /> Delete offering</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="subjects" onEdit={() => { setEditingOffering(o); setOfferingDialogOpen(true); }} onDelete={() => deleteOffering.mutate(o)} />
                         </TableCell>
                       </TableRow>
                     ))}

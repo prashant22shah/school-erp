@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FileBarChart, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { FileBarChart, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { useFinancialStatements, useDeleteFinancialStatement } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { FinancialStatement } from "@/lib/types";
 
@@ -46,7 +47,7 @@ export default function FinancialStatementsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={FileBarChart} title="Financial Statements" titleNe="वित्तीय विवरण" microModule="M12.24" description="Balance sheet, income statement, cash flow and trial balance reports." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> Generate Statement</Button>} />
+      <PageHeader icon={FileBarChart} title="Financial Statements" titleNe="वित्तीय विवरण" microModule="M12.24" description="Balance sheet, income statement, cash flow and trial balance reports." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="financialStatements">Generate Statement</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><FileBarChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Statements</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><FileBarChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Final</p><p className="text-lg font-bold">{final}</p></div></CardContent></Card>
@@ -59,7 +60,7 @@ export default function FinancialStatementsPage() {
 
         <TabsContent value="statements" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Type</TableHead><TableHead>Fiscal Year</TableHead><TableHead>As Of</TableHead><TableHead>Debit</TableHead><TableHead>Credit</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5 font-medium">{f.name}</TableCell><TableCell><Badge variant={typeVariant[f.type] ?? "secondary"} className="capitalize">{f.type.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{f.fiscalYearName}</span></TableCell><TableCell><span className="text-sm">{fmtDate(f.asOfDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{f.totalDebit.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{f.totalCredit.toLocaleString()}</span></TableCell><TableCell><Badge variant={statusVariant[f.status] ?? "secondary"} className="capitalize">{f.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(f); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(f)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Type</TableHead><TableHead>Fiscal Year</TableHead><TableHead>As Of</TableHead><TableHead>Debit</TableHead><TableHead>Credit</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5 font-medium">{f.name}</TableCell><TableCell><Badge variant={typeVariant[f.type] ?? "secondary"} className="capitalize">{f.type.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{f.fiscalYearName}</span></TableCell><TableCell><span className="text-sm">{fmtDate(f.asOfDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{f.totalDebit.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{f.totalCredit.toLocaleString()}</span></TableCell><TableCell><Badge variant={statusVariant[f.status] ?? "secondary"} className="capitalize">{f.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="financialStatements" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

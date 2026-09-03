@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useSaveOrgUnit } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
 import { uid } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import type { OrgUnit, OrgUnitType } from "@/lib/types";
@@ -197,7 +198,7 @@ export default function Organization() {
         titleNe="विद्यालय संरचना"
         microModule="M01.03"
         description="Org units, reporting lines, section heads and matrix ownership (subject department × campus)."
-        actions={<Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}><Plus className="h-4 w-4" /> Add org unit</Button>}
+        actions={<CanCreate resource="orgUnits"><Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}><Plus className="h-4 w-4" /> Add org unit</Button></CanCreate>}
       />
 
       {error && (

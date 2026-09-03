@@ -3,6 +3,8 @@ import { UserCheck, Search, Plus, Pencil, Trash2, ArrowRightLeft, Clock, CheckCi
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { ConversionCaseFormDialog } from "@/pages/conversion-case-form-dialog";
 import { useConversionCases, useConversionSteps, useDeleteConversionCase, useDeleteConversionStep } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,9 +57,11 @@ export default function ApplicantConversion() {
         microModule="M04.07"
         description="Convert accepted applicants into enrolled students through a multi-step process."
         actions={
-          <Button onClick={() => { setEditingCase(undefined); setCaseDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New conversion
-          </Button>
+          <CanCreate resource="conversions">
+            <Button onClick={() => { setEditingCase(undefined); setCaseDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New conversion
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -119,16 +123,7 @@ export default function ApplicantConversion() {
                         <TableCell><span className="text-xs">{fmtDate(c.startedOn)}</span></TableCell>
                         <TableCell><span className="text-xs">{c.completedOn ? fmtDate(c.completedOn) : "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCase(c); setCaseDialogOpen(true); }}><Pencil /> Edit case</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCase.mutate(c)}><Trash2 /> Delete case</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="conversions" onEdit={() => { setEditingCase(c); setCaseDialogOpen(true); }} onDelete={() => deleteCase.mutate(c)} />
                         </TableCell>
                       </TableRow>
                     ))}

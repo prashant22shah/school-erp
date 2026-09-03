@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { RowActionMenu } from "@/components/row-action-menu";
+import { CanCreate } from "@/components/permission-gate";
 import type { CurriculumMap, LearningOutcome } from "@/lib/types";
 
 const mapStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -53,12 +54,16 @@ export default function CurriculumMappingPage() {
         description="Curriculum maps and learning outcomes aligned to offerings."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingMap(undefined); setMapDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Map
-            </Button>
-            <Button onClick={() => { setEditingOutcome(undefined); setOutcomeDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Outcome
-            </Button>
+            <CanCreate resource="curriculumMaps">
+              <Button variant="outline" onClick={() => { setEditingMap(undefined); setMapDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Map
+              </Button>
+            </CanCreate>
+            <CanCreate resource="curriculumMaps">
+              <Button onClick={() => { setEditingOutcome(undefined); setOutcomeDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Outcome
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -111,16 +116,7 @@ export default function CurriculumMappingPage() {
                         <TableCell><span className="text-sm font-mono">v{m.version}</span></TableCell>
                         <TableCell><Badge variant={mapStatusVariant[m.status] ?? "secondary"} className="capitalize">{m.status.replace("_", " ")}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingMap(m); setMapDialogOpen(true); }}><Pencil /> Edit map</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMap.mutate(m)}><Trash2 /> Delete map</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="curriculumMaps" onEdit={() => { setEditingMap(m); setMapDialogOpen(true); }} onDelete={() => deleteMap.mutate(m)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -151,16 +147,7 @@ export default function CurriculumMappingPage() {
                         <TableCell><Badge variant="secondary">{o.curriculumMapId}</Badge></TableCell>
                         <TableCell><span className="text-sm">{o.description}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingOutcome(o); setOutcomeDialogOpen(true); }}><Pencil /> Edit outcome</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteOutcome.mutate(o)}><Trash2 /> Delete outcome</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="curriculumMaps" onEdit={() => { setEditingOutcome(o); setOutcomeDialogOpen(true); }} onDelete={() => deleteOutcome.mutate(o)} />
                         </TableCell>
                       </TableRow>
                     ))}

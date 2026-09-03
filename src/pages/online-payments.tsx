@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CreditCard, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { CreditCard, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { useOnlinePaymentTransactions, useDeleteOnlinePaymentTransaction } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { OnlinePaymentTransaction } from "@/lib/types";
 
@@ -51,7 +52,7 @@ export default function OnlinePaymentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={CreditCard} title="Online Payments" titleNe="अनलाइन भुक्तानी" microModule="M12.11" description="Digital payment gateway integration, eSewa, Khalti and IME Pay." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Transaction</Button>} />
+      <PageHeader icon={CreditCard} title="Online Payments" titleNe="अनलाइन भुक्तानी" microModule="M12.11" description="Digital payment gateway integration, eSewa, Khalti and IME Pay." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="onlinePayments">New Transaction</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><CreditCard className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Transactions</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><CreditCard className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Completed</p><p className="text-lg font-bold">{completed}</p></div></CardContent></Card>
@@ -65,7 +66,7 @@ export default function OnlinePaymentsPage() {
 
         <TabsContent value="transactions" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Amount</TableHead><TableHead>Gateway</TableHead><TableHead>Ref</TableHead><TableHead>Status</TableHead><TableHead>Date</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.studentName}</TableCell><TableCell><span className="text-sm font-mono">NPR {p.amount.toLocaleString()}</span></TableCell><TableCell><Badge variant={gatewayVariant[p.gateway] ?? "secondary"} className="capitalize">{p.gateway.replace("_", " ")}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{p.transactionRef}</code></TableCell><TableCell><Badge variant={statusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(p.initiatedAt)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(p); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(p)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Amount</TableHead><TableHead>Gateway</TableHead><TableHead>Ref</TableHead><TableHead>Status</TableHead><TableHead>Date</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.studentName}</TableCell><TableCell><span className="text-sm font-mono">NPR {p.amount.toLocaleString()}</span></TableCell><TableCell><Badge variant={gatewayVariant[p.gateway] ?? "secondary"} className="capitalize">{p.gateway.replace("_", " ")}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{p.transactionRef}</code></TableCell><TableCell><Badge variant={statusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(p.initiatedAt)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="onlinePayments" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

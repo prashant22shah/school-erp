@@ -4,6 +4,8 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { SelectionEventFormDialog } from "@/pages/selection-event-form-dialog";
 import { OfferFormDialog } from "@/pages/offer-form-dialog";
 import { useSelectionEvents, useSelectionScores, useOffers, useOfferAcceptances, useDeleteSelectionEvent, useDeleteSelectionScore, useDeleteOffer, useDeleteOfferAcceptance } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,12 +77,16 @@ export default function SelectionOffer() {
         description="Manage entrance tests, interviews, selection scores, admission offers and acceptances."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingEvent(undefined); setEventDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New event
-            </Button>
-            <Button onClick={() => { setEditingOffer(undefined); setOfferDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New offer
-            </Button>
+            <CanCreate resource="selections">
+              <Button variant="outline" onClick={() => { setEditingEvent(undefined); setEventDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New event
+              </Button>
+            </CanCreate>
+            <CanCreate resource="selections">
+              <Button onClick={() => { setEditingOffer(undefined); setOfferDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New offer
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -147,16 +153,7 @@ export default function SelectionOffer() {
                         <TableCell><span className="text-sm max-w-[150px] truncate inline-block">{e.panelMembers ?? "—"}</span></TableCell>
                         <TableCell><Badge variant={eventStatusVariant[e.status] ?? "secondary"} className="capitalize">{e.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingEvent(e); setEventDialogOpen(true); }}><Pencil /> Edit event</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteEvent.mutate(e)}><Trash2 /> Delete event</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="selections" onEdit={() => { setEditingEvent(e); setEventDialogOpen(true); }} onDelete={() => deleteEvent.mutate(e)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -240,16 +237,7 @@ export default function SelectionOffer() {
                         <TableCell><span className="text-xs">{fmtDate(o.issuedOn)}</span></TableCell>
                         <TableCell><Badge variant={offerStatusVariant[o.status] ?? "secondary"} className="capitalize">{o.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingOffer(o); setOfferDialogOpen(true); }}><Pencil /> Edit offer</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteOffer.mutate(o)}><Trash2 /> Delete offer</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="selections" onEdit={() => { setEditingOffer(o); setOfferDialogOpen(true); }} onDelete={() => deleteOffer.mutate(o)} />
                         </TableCell>
                       </TableRow>
                     ))}

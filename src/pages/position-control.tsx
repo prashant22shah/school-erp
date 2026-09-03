@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Briefcase, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Briefcase, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { PositionFormDialog } from "@/pages/position-form-dialog";
 import { usePositions, useDeletePosition } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Position } from "@/lib/types";
 
@@ -44,7 +45,7 @@ export default function PositionControlPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Briefcase} title="Position & Establishment" titleNe="पद तथा स्थापना" microModule="M13.02" description="Manage positions, sanctioned strength and establishment planning." actions={<Button onClick={() => { setEditingPos(undefined); setPosOpen(true); }}><Plus className="h-4 w-4" /> New Position</Button>} />
+      <PageHeader icon={Briefcase} title="Position & Establishment" titleNe="पद तथा स्थापना" microModule="M13.02" description="Manage positions, sanctioned strength and establishment planning." actions={<Button onClick={() => { setEditingPos(undefined); setPosOpen(true); }}><CanCreate resource="positions">New Position</CanCreate></Button>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Briefcase className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Positions</p><p className="text-lg font-bold">{totalPositions}</p></div></CardContent></Card>
@@ -60,7 +61,7 @@ export default function PositionControlPage() {
 
         <TabsContent value="positions" className="mt-4">
           {positions.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Department</TableHead><TableHead>Grade</TableHead><TableHead>Sanctioned</TableHead><TableHead>Filled</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredPositions.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.title}</TableCell><TableCell><Badge variant="secondary">{p.department}</Badge></TableCell><TableCell><span className="text-sm">{p.grade}</span></TableCell><TableCell><span className="text-sm font-mono">{p.headCount}</span></TableCell><TableCell><span className="text-sm font-mono">{p.isVacant ? 0 : p.headCount}</span></TableCell><TableCell><Badge variant={p.isVacant ? "warning" : "success"}>{p.isVacant ? "Vacant" : "Filled"}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingPos(p); setPosOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePosition.mutate(p)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Department</TableHead><TableHead>Grade</TableHead><TableHead>Sanctioned</TableHead><TableHead>Filled</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredPositions.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.title}</TableCell><TableCell><Badge variant="secondary">{p.department}</Badge></TableCell><TableCell><span className="text-sm">{p.grade}</span></TableCell><TableCell><span className="text-sm font-mono">{p.headCount}</span></TableCell><TableCell><span className="text-sm font-mono">{p.isVacant ? 0 : p.headCount}</span></TableCell><TableCell><Badge variant={p.isVacant ? "warning" : "success"}>{p.isVacant ? "Vacant" : "Filled"}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="positions" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

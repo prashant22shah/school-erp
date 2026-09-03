@@ -10,13 +10,14 @@ import {
   usePersons, useStudents, useGuardians, useStudentGuardians, useStudentDocuments,
   useDeletePerson, useDeleteStudent, useDeleteGuardian, useDeleteStudentGuardian, useDeleteStudentDocument,
 } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Person, Student, Guardian, StudentGuardian, StudentDocument } from "@/lib/types";
 
@@ -105,15 +106,21 @@ export default function StudentMasterPage() {
         description="Person master, student records, guardians, relationships and documents."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingPerson(undefined); setPersonDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New person
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingStudent(undefined); setStudentDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New student
-            </Button>
-            <Button onClick={() => { setEditingGuardian(undefined); setGuardianDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New guardian
-            </Button>
+            <CanCreate resource="students">
+              <Button variant="outline" onClick={() => { setEditingPerson(undefined); setPersonDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New person
+              </Button>
+            </CanCreate>
+            <CanCreate resource="students">
+              <Button variant="outline" onClick={() => { setEditingStudent(undefined); setStudentDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New student
+              </Button>
+            </CanCreate>
+            <CanCreate resource="students">
+              <Button onClick={() => { setEditingGuardian(undefined); setGuardianDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New guardian
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -184,16 +191,7 @@ export default function StudentMasterPage() {
                         <TableCell><span className="text-sm">{fmtDate(p.dateOfBirth)}</span></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(p.createdOn)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingPerson(p); setPersonDialogOpen(true); }}><Pencil /> Edit person</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePerson.mutate(p)}><Trash2 /> Delete person</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="students" onEdit={() => { setEditingPerson(p); setPersonDialogOpen(true); }} onDelete={() => deletePerson.mutate(p)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -236,16 +234,7 @@ export default function StudentMasterPage() {
                         <TableCell><Badge variant={studentStatusVariant[st.status] ?? "secondary"} className="capitalize">{st.status}</Badge></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(st.admittedOn)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingStudent(st); setStudentDialogOpen(true); }}><Pencil /> Edit student</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteStudent.mutate(st)}><Trash2 /> Delete student</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="students" onEdit={() => { setEditingStudent(st); setStudentDialogOpen(true); }} onDelete={() => deleteStudent.mutate(st)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -288,16 +277,7 @@ export default function StudentMasterPage() {
                         <TableCell><span className="text-sm">{g.relationToStudent}</span></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(g.createdOn)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingGuardian(g); setGuardianDialogOpen(true); }}><Pencil /> Edit guardian</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteGuardian.mutate(g)}><Trash2 /> Delete guardian</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="students" onEdit={() => { setEditingGuardian(g); setGuardianDialogOpen(true); }} onDelete={() => deleteGuardian.mutate(g)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -335,16 +315,7 @@ export default function StudentMasterPage() {
                         <TableCell><span className="text-sm">{fmtDate(r.validFrom)}</span></TableCell>
                         <TableCell><span className="text-sm">{r.validTo ? fmtDate(r.validTo) : "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingRel(r); setRelDialogOpen(true); }}><Pencil /> Edit relationship</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteStudentGuardian.mutate(r)}><Trash2 /> Delete relationship</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="students" onEdit={() => { setEditingRel(r); setRelDialogOpen(true); }} onDelete={() => deleteStudentGuardian.mutate(r)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -382,16 +353,7 @@ export default function StudentMasterPage() {
                         <TableCell><span className="text-sm">{d.verifiedBy ?? "—"}</span></TableCell>
                         <TableCell><span className="text-sm">{d.verifiedOn ? fmtDate(d.verifiedOn) : "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingDoc(d); setDocDialogOpen(true); }}><Pencil /> Edit document</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteStudentDocument.mutate(d)}><Trash2 /> Delete document</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="students" onEdit={() => { setEditingDoc(d); setDocDialogOpen(true); }} onDelete={() => deleteStudentDocument.mutate(d)} />
                         </TableCell>
                       </TableRow>
                     ))}

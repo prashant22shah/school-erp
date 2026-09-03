@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { SyllabusPlan, ContentPlanItem } from "@/lib/types";
 
 const syllabusStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -53,12 +55,16 @@ export default function SyllabusContentPage() {
         description="Syllabus plans and content items organized by sequence and assessment method."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingPlan(undefined); setPlanDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Plan
-            </Button>
-            <Button onClick={() => { setEditingItem(undefined); setItemDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Item
-            </Button>
+            <CanCreate resource="syllabusPlans">
+              <Button variant="outline" onClick={() => { setEditingPlan(undefined); setPlanDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Plan
+              </Button>
+            </CanCreate>
+            <CanCreate resource="syllabusPlans">
+              <Button onClick={() => { setEditingItem(undefined); setItemDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Item
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -113,16 +119,7 @@ export default function SyllabusContentPage() {
                         <TableCell><Badge variant="secondary">{p.academicPeriodRef}</Badge></TableCell>
                         <TableCell><Badge variant={syllabusStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingPlan(p); setPlanDialogOpen(true); }}><Pencil /> Edit plan</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePlan.mutate(p)}><Trash2 /> Delete plan</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="syllabusPlans" onEdit={() => { setEditingPlan(p); setPlanDialogOpen(true); }} onDelete={() => deletePlan.mutate(p)} editLabel="Edit plan" deleteLabel="Delete plan" />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -155,16 +152,7 @@ export default function SyllabusContentPage() {
                         <TableCell><span className="text-sm font-mono">{i.sequence}</span></TableCell>
                         <TableCell><span className="text-sm">{i.assessmentMethod ?? "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingItem(i); setItemDialogOpen(true); }}><Pencil /> Edit item</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteItem.mutate(i)}><Trash2 /> Delete item</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="syllabusPlans" onEdit={() => { setEditingItem(i); setItemDialogOpen(true); }} onDelete={() => deleteItem.mutate(i)} editLabel="Edit item" deleteLabel="Delete item" />
                         </TableCell>
                       </TableRow>
                     ))}

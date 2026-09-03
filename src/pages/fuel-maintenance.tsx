@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Wrench, Search, Plus, Pencil, Trash2, Fuel, CalendarClock, AlertTriangle } from "lucide-react";
+import { Wrench, Search, Fuel, CalendarClock, AlertTriangle } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { VehicleMaintenanceFormDialog } from "@/pages/vehicle-maintenance-form-dialog";
 import { useVehicleMaintenance, useDeleteVehicleMaintenance } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { VehicleMaintenance } from "@/lib/types";
 
@@ -74,9 +75,9 @@ export default function FuelMaintenancePage() {
         microModule="M17.06"
         description="Vehicle fuel logs, maintenance scheduling and parts inventory."
         actions={
-          <Button onClick={() => { setEditing(undefined); setOpen(true); }}>
-            <Plus className="h-4 w-4" /> New Record
-          </Button>
+          <CanCreate resource="vehicleMaintenance"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>
+             New Record
+          </Button></CanCreate>
         }
       />
 
@@ -103,13 +104,13 @@ export default function FuelMaintenancePage() {
 
         <TabsContent value="fuel" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Vehicle</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Cost (NPR)</TableHead><TableHead>Odometer (km)</TableHead><TableHead>Date</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.filter((m) => m.type === "fuel").map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.vehicleNo ?? m.vehicleId}</code></TableCell><TableCell><Badge variant={typeVariant[m.type] ?? "secondary"} className="capitalize">{m.type}</Badge></TableCell><TableCell><span className="text-sm">{m.description}</span></TableCell><TableCell><span className="text-sm font-mono">{m.cost.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{m.odometerKm?.toLocaleString() ?? "—"}</span></TableCell><TableCell><span className="text-sm">{m.performedOn ? fmtDate(m.performedOn) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[m.status] ?? "secondary"} className="capitalize">{m.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(m); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(m)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Vehicle</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Cost (NPR)</TableHead><TableHead>Odometer (km)</TableHead><TableHead>Date</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.filter((m) => m.type === "fuel").map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.vehicleNo ?? m.vehicleId}</code></TableCell><TableCell><Badge variant={typeVariant[m.type] ?? "secondary"} className="capitalize">{m.type}</Badge></TableCell><TableCell><span className="text-sm">{m.description}</span></TableCell><TableCell><span className="text-sm font-mono">{m.cost.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{m.odometerKm?.toLocaleString() ?? "—"}</span></TableCell><TableCell><span className="text-sm">{m.performedOn ? fmtDate(m.performedOn) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[m.status] ?? "secondary"} className="capitalize">{m.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="vehicleMaintenance" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="maintenance" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Vehicle</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Cost (NPR)</TableHead><TableHead>Performed</TableHead><TableHead>Next Due</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.vehicleNo ?? m.vehicleId}</code></TableCell><TableCell><Badge variant={typeVariant[m.type] ?? "secondary"} className="capitalize">{m.type}</Badge></TableCell><TableCell><span className="text-sm">{m.description}</span></TableCell><TableCell><span className="text-sm font-mono">{m.cost.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{m.performedOn ? fmtDate(m.performedOn) : "—"}</span></TableCell><TableCell><span className="text-sm">{m.nextDueOn ? fmtDate(m.nextDueOn) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[m.status] ?? "secondary"} className="capitalize">{m.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(m); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(m)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Vehicle</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Cost (NPR)</TableHead><TableHead>Performed</TableHead><TableHead>Next Due</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.vehicleNo ?? m.vehicleId}</code></TableCell><TableCell><Badge variant={typeVariant[m.type] ?? "secondary"} className="capitalize">{m.type}</Badge></TableCell><TableCell><span className="text-sm">{m.description}</span></TableCell><TableCell><span className="text-sm font-mono">{m.cost.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{m.performedOn ? fmtDate(m.performedOn) : "—"}</span></TableCell><TableCell><span className="text-sm">{m.nextDueOn ? fmtDate(m.nextDueOn) : "—"}</span></TableCell><TableCell><Badge variant={statusVariant[m.status] ?? "secondary"} className="capitalize">{m.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="vehicleMaintenance" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

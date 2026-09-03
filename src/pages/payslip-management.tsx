@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Receipt, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Receipt, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { PayslipFormDialog } from "@/pages/payslip-form-dialog";
 import { usePayslips, useDeletePayslip } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Payslip } from "@/lib/types";
 
@@ -55,7 +56,7 @@ export default function PayslipManagementPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Receipt} title="Payslips & Disbursement" titleNe="तलबपत्र" microModule="M13.09" description="Generate payslips, manage disbursements and view history." actions={<Button onClick={() => { setEditingSlip(undefined); setSlipOpen(true); }}><Plus className="h-4 w-4" /> New Payslip</Button>} />
+      <PageHeader icon={Receipt} title="Payslips & Disbursement" titleNe="तलबपत्र" microModule="M13.09" description="Generate payslips, manage disbursements and view history." actions={<Button onClick={() => { setEditingSlip(undefined); setSlipOpen(true); }}><CanCreate resource="payslips">New Payslip</CanCreate></Button>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Receipt className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Payslips</p><p className="text-lg font-bold">{totalPayslips}</p></div></CardContent></Card>
@@ -71,7 +72,7 @@ export default function PayslipManagementPage() {
 
         <TabsContent value="payslips" className="mt-4">
           {payslips.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Staff</TableHead><TableHead>Period</TableHead><TableHead>Gross</TableHead><TableHead>Deductions</TableHead><TableHead>Net</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredSlips.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.staffName}</TableCell><TableCell><Badge variant="secondary">{p.payrollMonth ?? "—"}</Badge></TableCell><TableCell><span className="text-sm font-mono">{p.gross.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono text-muted-foreground">{p.deductions.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono font-semibold">{p.net.toLocaleString()}</span></TableCell><TableCell><Badge variant={payslipStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingSlip(p); setSlipOpen(true); }}><Pencil /> Edit payslip</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePayslip.mutate(p)}><Trash2 /> Delete payslip</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}{filteredSlips.length === 0 && <TableRow><TableCell colSpan={7} className="py-8 text-center text-sm text-muted-foreground">No payslips found.</TableCell></TableRow>}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Staff</TableHead><TableHead>Period</TableHead><TableHead>Gross</TableHead><TableHead>Deductions</TableHead><TableHead>Net</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredSlips.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5 font-medium">{p.staffName}</TableCell><TableCell><Badge variant="secondary">{p.payrollMonth ?? "—"}</Badge></TableCell><TableCell><span className="text-sm font-mono">{p.gross.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono text-muted-foreground">{p.deductions.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono font-semibold">{p.net.toLocaleString()}</span></TableCell><TableCell><Badge variant={payslipStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="payslips" /></TableCell></TableRow>))}{filteredSlips.length === 0 && <TableRow><TableCell colSpan={7} className="py-8 text-center text-sm text-muted-foreground">No payslips found.</TableCell></TableRow>}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

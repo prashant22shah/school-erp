@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { Marksheet, Transcript } from "@/lib/types";
 
 const marksheetStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -53,8 +55,12 @@ export default function MarksheetsPage() {
         description="Issue marksheets per exam and consolidated transcripts."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingMs(undefined); setMsOpen(true); }}><Plus className="h-4 w-4" /> New Marksheet</Button>
-            <Button onClick={() => { setEditingTr(undefined); setTrOpen(true); }}><Plus className="h-4 w-4" /> New Transcript</Button>
+            <CanCreate resource="marksheets">
+              <Button variant="outline" onClick={() => { setEditingMs(undefined); setMsOpen(true); }}><Plus className="h-4 w-4" /> New Marksheet</Button>
+            </CanCreate>
+            <CanCreate resource="marksheets">
+              <Button onClick={() => { setEditingTr(undefined); setTrOpen(true); }}><Plus className="h-4 w-4" /> New Transcript</Button>
+            </CanCreate>
           </div>
         }
       />
@@ -74,13 +80,13 @@ export default function MarksheetsPage() {
 
         <TabsContent value="marksheets" className="mt-4">
           {marksheets.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Serial</TableHead><TableHead>Period</TableHead><TableHead>Exam</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredMarksheets.map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5 font-medium">{m.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.serial}</code></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.academicPeriodRef}</code></TableCell><TableCell><span className="text-sm text-muted-foreground">{m.examId ?? "—"}</span></TableCell><TableCell><Badge variant={marksheetStatusVariant[m.status] ?? "secondary"} className="capitalize">{m.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{m.issuedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingMs(m); setMsOpen(true); }}><Pencil /> Edit marksheet</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMarksheet.mutate(m)}><Trash2 /> Delete marksheet</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Serial</TableHead><TableHead>Period</TableHead><TableHead>Exam</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredMarksheets.map((m) => (<TableRow key={m.id} className="group"><TableCell className="pl-5 font-medium">{m.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.serial}</code></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{m.academicPeriodRef}</code></TableCell><TableCell><span className="text-sm text-muted-foreground">{m.examId ?? "—"}</span></TableCell><TableCell><Badge variant={marksheetStatusVariant[m.status] ?? "secondary"} className="capitalize">{m.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{m.issuedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="marksheets" onEdit={() => { setEditingMs(m); setMsOpen(true); }} onDelete={() => deleteMarksheet.mutate(m)} editLabel="Edit marksheet" deleteLabel="Delete marksheet" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="transcripts" className="mt-4">
           {transcripts.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>From</TableHead><TableHead>To</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredTranscripts.map((t) => (<TableRow key={t.id} className="group"><TableCell className="pl-5 font-medium">{t.studentName}</TableCell><TableCell><Badge variant="secondary">{t.fromPeriod}</Badge></TableCell><TableCell><Badge variant="secondary">{t.toPeriod}</Badge></TableCell><TableCell><Badge variant={transcriptStatusVariant[t.status] ?? "secondary"} className="capitalize">{t.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{t.issuedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingTr(t); setTrOpen(true); }}><Pencil /> Edit transcript</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteTranscript.mutate(t)}><Trash2 /> Delete transcript</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>From</TableHead><TableHead>To</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredTranscripts.map((t) => (<TableRow key={t.id} className="group"><TableCell className="pl-5 font-medium">{t.studentName}</TableCell><TableCell><Badge variant="secondary">{t.fromPeriod}</Badge></TableCell><TableCell><Badge variant="secondary">{t.toPeriod}</Badge></TableCell><TableCell><Badge variant={transcriptStatusVariant[t.status] ?? "secondary"} className="capitalize">{t.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{t.issuedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="marksheets" onEdit={() => { setEditingTr(t); setTrOpen(true); }} onDelete={() => deleteTranscript.mutate(t)} editLabel="Edit transcript" deleteLabel="Delete transcript" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

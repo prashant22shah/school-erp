@@ -3,13 +3,14 @@ import { FileText, Search, Plus, Pencil, Trash2, CheckCircle2, Clock, Archive } 
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { AcademicPolicyFormDialog } from "@/pages/academic-policy-form-dialog";
 import { useAcademicPolicies, useDeleteAcademicPolicy } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { AcademicPolicy } from "@/lib/types";
 
@@ -47,9 +48,11 @@ export default function AcademicPolicyPage() {
         microModule="M03.06"
         description="School academic policy registry — attendance, assessment, promotion, discipline and examination policies."
         actions={
-          <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New policy
-          </Button>
+          <CanCreate resource="academicPolicies">
+            <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New policy
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -115,16 +118,7 @@ export default function AcademicPolicyPage() {
                         <TableCell><span className="text-sm">{p.approvedBy ?? "—"}</span></TableCell>
                         <TableCell><Badge variant={statusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditing(p); setDialogOpen(true); }}><Pencil /> Edit policy</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePolicy.mutate(p)}><Trash2 /> Delete policy</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="academicPolicies" onEdit={() => { setEditing(p); setDialogOpen(true); }} onDelete={() => deletePolicy.mutate(p)} />
                         </TableCell>
                       </TableRow>
                     ))}

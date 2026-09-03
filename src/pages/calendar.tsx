@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { fmtDate, todayISO, uid } from "@/lib/utils";
+import { CanCreate } from "@/components/permission-gate";
 import type { Holiday, LocaleSettings } from "@/lib/types";
 
 const FESTIVAL_ICON: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -151,9 +152,11 @@ export default function CalendarPage() {
                     <CardTitle className="text-base">Holidays & closed days — 2083 BS</CardTitle>
                     <CardDescription>Nepali (BS) dates shown alongside AD for display</CardDescription>
                   </div>
-                  <Button size="sm" onClick={() => setHolidayDialog(true)}>
-                    <Plus className="h-4 w-4" /> Add day
-                  </Button>
+                  <CanCreate resource="calendars">
+                    <Button size="sm" onClick={() => setHolidayDialog(true)}>
+                      <Plus className="h-4 w-4" /> Add day
+                    </Button>
+                  </CanCreate>
                 </CardHeader>
                 <CardContent className="p-0">
                   <Table>

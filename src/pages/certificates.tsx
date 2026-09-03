@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { Certificate, CertificateRequest } from "@/lib/types";
 
 const certStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -53,8 +55,12 @@ export default function CertificatesPage() {
         description="Issue certificates and manage guardian/student requests."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingCert(undefined); setCertOpen(true); }}><Plus className="h-4 w-4" /> New Certificate</Button>
-            <Button onClick={() => { setEditingReq(undefined); setReqOpen(true); }}><Plus className="h-4 w-4" /> New Request</Button>
+            <CanCreate resource="certificates">
+              <Button variant="outline" onClick={() => { setEditingCert(undefined); setCertOpen(true); }}><Plus className="h-4 w-4" /> New Certificate</Button>
+            </CanCreate>
+            <CanCreate resource="certificates">
+              <Button onClick={() => { setEditingReq(undefined); setReqOpen(true); }}><Plus className="h-4 w-4" /> New Request</Button>
+            </CanCreate>
           </div>
         }
       />
@@ -74,13 +80,13 @@ export default function CertificatesPage() {
 
         <TabsContent value="certificates" className="mt-4">
           {certs.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Type</TableHead><TableHead>Serial</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead>Valid Until</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCerts.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5 font-medium">{c.studentName}</TableCell><TableCell><Badge variant="secondary" className="capitalize">{c.type}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.serial}</code></TableCell><TableCell><Badge variant={certStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{c.issuedOn.slice(0, 10)}</span></TableCell><TableCell><span className="text-sm font-mono">{c.validUntil ? c.validUntil.slice(0, 10) : "—"}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingCert(c); setCertOpen(true); }}><Pencil /> Edit certificate</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCert.mutate(c)}><Trash2 /> Delete certificate</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Type</TableHead><TableHead>Serial</TableHead><TableHead>Status</TableHead><TableHead>Issued On</TableHead><TableHead>Valid Until</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCerts.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5 font-medium">{c.studentName}</TableCell><TableCell><Badge variant="secondary" className="capitalize">{c.type}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.serial}</code></TableCell><TableCell><Badge variant={certStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{c.issuedOn.slice(0, 10)}</span></TableCell><TableCell><span className="text-sm font-mono">{c.validUntil ? c.validUntil.slice(0, 10) : "—"}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="certificates" onEdit={() => { setEditingCert(c); setCertOpen(true); }} onDelete={() => deleteCert.mutate(c)} editLabel="Edit certificate" deleteLabel="Delete certificate" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="requests" className="mt-4">
           {requests.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Type</TableHead><TableHead>Purpose</TableHead><TableHead>Status</TableHead><TableHead>Requested On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRequests.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.studentName}</TableCell><TableCell><Badge variant="secondary" className="capitalize">{r.certificateType}</Badge></TableCell><TableCell><span className="line-clamp-1 text-sm text-muted-foreground">{r.purpose}</span></TableCell><TableCell><Badge variant={reqStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.requestedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingReq(r); setReqOpen(true); }}><Pencil /> Edit request</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteReq.mutate(r)}><Trash2 /> Delete request</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Type</TableHead><TableHead>Purpose</TableHead><TableHead>Status</TableHead><TableHead>Requested On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRequests.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.studentName}</TableCell><TableCell><Badge variant="secondary" className="capitalize">{r.certificateType}</Badge></TableCell><TableCell><span className="line-clamp-1 text-sm text-muted-foreground">{r.purpose}</span></TableCell><TableCell><Badge variant={reqStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.requestedOn.slice(0, 10)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="certificates" onEdit={() => { setEditingReq(r); setReqOpen(true); }} onDelete={() => deleteReq.mutate(r)} editLabel="Edit request" deleteLabel="Delete request" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

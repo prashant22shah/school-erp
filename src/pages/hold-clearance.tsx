@@ -6,13 +6,14 @@ import { ClearanceCaseFormDialog } from "@/pages/clearance-case-form-dialog";
 import { ClearanceResponseFormDialog } from "@/pages/clearance-response-form-dialog";
 import { IdentityCardFormDialog } from "@/pages/identity-card-form-dialog";
 import { useStudentHolds, useClearanceCases, useClearanceResponses, useIdentityCards, useDeleteStudentHold, useDeleteClearanceCase, useDeleteClearanceResponse, useDeleteIdentityCard } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { StudentHold, ClearanceCase, ClearanceResponse, IdentityCard } from "@/lib/types";
 
@@ -132,18 +133,26 @@ export default function HoldClearancePage() {
         description="Student holds, clearance cases, module responses and identity cards."
         actions={
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => { setEditingHold(undefined); setHoldDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New hold
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingCase(undefined); setCaseDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New clearance
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingResponse(undefined); setResponseDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New response
-            </Button>
-            <Button onClick={() => { setEditingCard(undefined); setCardDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New ID card
-            </Button>
+            <CanCreate resource="holds">
+              <Button variant="outline" onClick={() => { setEditingHold(undefined); setHoldDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New hold
+              </Button>
+            </CanCreate>
+            <CanCreate resource="holds">
+              <Button variant="outline" onClick={() => { setEditingCase(undefined); setCaseDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New clearance
+              </Button>
+            </CanCreate>
+            <CanCreate resource="holds">
+              <Button variant="outline" onClick={() => { setEditingResponse(undefined); setResponseDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New response
+              </Button>
+            </CanCreate>
+            <CanCreate resource="holds">
+              <Button onClick={() => { setEditingCard(undefined); setCardDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New ID card
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -215,16 +224,7 @@ export default function HoldClearancePage() {
                         <TableCell><span className="text-sm">{fmtDate(h.placedOn)}</span></TableCell>
                         <TableCell><Badge variant={holdStatusVariant[h.status] ?? "secondary"}>{h.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingHold(h); setHoldDialogOpen(true); }}><Pencil /> Edit hold</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteHold.mutate(h)}><Trash2 /> Delete hold</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="holds" onEdit={() => { setEditingHold(h); setHoldDialogOpen(true); }} onDelete={() => deleteHold.mutate(h)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -265,16 +265,7 @@ export default function HoldClearancePage() {
                         <TableCell><span className="text-sm">{fmtDate(c.initiatedOn)}</span></TableCell>
                         <TableCell><span className="text-sm">{c.completedOn ? fmtDate(c.completedOn) : "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCase(c); setCaseDialogOpen(true); }}><Pencil /> Edit case</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCase.mutate(c)}><Trash2 /> Delete case</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="holds" onEdit={() => { setEditingCase(c); setCaseDialogOpen(true); }} onDelete={() => deleteCase.mutate(c)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -317,16 +308,7 @@ export default function HoldClearancePage() {
                         <TableCell><span className="text-sm">{fmtDate(r.respondedOn)}</span></TableCell>
                         <TableCell><span className="text-sm text-muted-foreground">{r.remarks ?? "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingResponse(r); setResponseDialogOpen(true); }}><Pencil /> Edit response</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteResponse.mutate(r)}><Trash2 /> Delete response</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="holds" onEdit={() => { setEditingResponse(r); setResponseDialogOpen(true); }} onDelete={() => deleteResponse.mutate(r)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -367,16 +349,7 @@ export default function HoldClearancePage() {
                         <TableCell><span className="text-sm">{fmtDate(c.validUntil)}</span></TableCell>
                         <TableCell><Badge variant={cardStatusVariant[c.status] ?? "secondary"}>{c.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCard(c); setCardDialogOpen(true); }}><Pencil /> Edit card</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCard.mutate(c)}><Trash2 /> Delete card</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="holds" onEdit={() => { setEditingCard(c); setCardDialogOpen(true); }} onDelete={() => deleteCard.mutate(c)} />
                         </TableCell>
                       </TableRow>
                     ))}

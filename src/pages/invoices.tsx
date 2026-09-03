@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FileText, Receipt, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { FileText, Receipt, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { InvoiceFormDialog } from "@/pages/invoice-form-dialog";
 import { CreditNoteFormDialog } from "@/pages/credit-note-form-dialog";
@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Invoice, CreditNote } from "@/lib/types";
 
@@ -71,8 +72,8 @@ export default function InvoicesPage() {
         description="Student invoices, balances and credit note adjustments."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingInv(undefined); setInvOpen(true); }}><Plus className="h-4 w-4" /> New Invoice</Button>
-            <Button onClick={() => { setEditingCredit(undefined); setCreditOpen(true); }}><Plus className="h-4 w-4" /> New Credit Note</Button>
+            <Button variant="outline" onClick={() => { setEditingInv(undefined); setInvOpen(true); }}><CanCreate resource="invoices">New Invoice</CanCreate></Button>
+            <Button onClick={() => { setEditingCredit(undefined); setCreditOpen(true); }}> New Credit Note</Button>
           </div>
         }
       />
@@ -91,13 +92,13 @@ export default function InvoicesPage() {
 
         <TabsContent value="invoices" className="mt-4">
           {invoices.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice No</TableHead><TableHead>Student</TableHead><TableHead>Issue / Due</TableHead><TableHead>Amount</TableHead><TableHead>Paid / Balance</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredInvoices.map((inv) => (<TableRow key={inv.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{inv.invoiceNo}</code></TableCell><TableCell className="font-medium">{inv.studentName}</TableCell><TableCell><span className="text-sm">{fmtDate(inv.issueDate)} / {fmtDate(inv.dueDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{inv.amount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{inv.paidAmount.toLocaleString()} / {inv.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant={invoiceStatusVariant[inv.status] ?? "secondary"} className="capitalize">{inv.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingInv(inv); setInvOpen(true); }}><Pencil /> Edit invoice</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteInvoice.mutate(inv)}><Trash2 /> Delete invoice</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice No</TableHead><TableHead>Student</TableHead><TableHead>Issue / Due</TableHead><TableHead>Amount</TableHead><TableHead>Paid / Balance</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredInvoices.map((inv) => (<TableRow key={inv.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{inv.invoiceNo}</code></TableCell><TableCell className="font-medium">{inv.studentName}</TableCell><TableCell><span className="text-sm">{fmtDate(inv.issueDate)} / {fmtDate(inv.dueDate)}</span></TableCell><TableCell><span className="text-sm font-mono">{inv.amount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{inv.paidAmount.toLocaleString()} / {inv.balance.toLocaleString()}</span></TableCell><TableCell><Badge variant={invoiceStatusVariant[inv.status] ?? "secondary"} className="capitalize">{inv.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="invoices" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="credits" className="mt-4">
           {creditNotes.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice</TableHead><TableHead>Amount</TableHead><TableHead>Reason</TableHead><TableHead>Status</TableHead><TableHead>Created</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCredits.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{c.invoiceNo ?? c.invoiceId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{c.amount.toLocaleString()}</span></TableCell><TableCell><span className="line-clamp-1 max-w-[280px] text-sm text-muted-foreground">{c.reason}</span></TableCell><TableCell><Badge variant={creditStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(c.createdOn)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingCredit(c); setCreditOpen(true); }}><Pencil /> Edit credit note</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCredit.mutate(c)}><Trash2 /> Delete credit note</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice</TableHead><TableHead>Amount</TableHead><TableHead>Reason</TableHead><TableHead>Status</TableHead><TableHead>Created</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCredits.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{c.invoiceNo ?? c.invoiceId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{c.amount.toLocaleString()}</span></TableCell><TableCell><span className="line-clamp-1 max-w-[280px] text-sm text-muted-foreground">{c.reason}</span></TableCell><TableCell><Badge variant={creditStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(c.createdOn)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="invoices" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

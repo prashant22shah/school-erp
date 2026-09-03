@@ -9,10 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import { TenantStatusBadge, EditionBadge, EnvBadge } from "@/components/status-badges";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Tenant } from "@/lib/types";
 
@@ -52,9 +51,11 @@ export default function Tenants() {
         microModule="M01.01"
         description="Institution tenants with immutable codes, lifecycle states, licensed modules, quotas and usage metering."
         actions={
-          <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New tenant
-          </Button>
+          <CanCreate resource="tenants">
+            <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New tenant
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -143,22 +144,7 @@ export default function Tenants() {
                         <div className="mt-0.5"><Badge variant="secondary" className="text-[10px]">{t.licensedModules.length} modules</Badge></div>
                       </TableCell>
                       <TableCell className="pr-5 text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">
-                              ⋯
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => { setEditing(t); setDialogOpen(true); }}>
-                              <Pencil /> Edit & entitlements
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(t)}>
-                              <Trash2 /> Remove tenant
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <RowActionMenu resource="tenants" onEdit={() => { setEditing(t); setDialogOpen(true); }} onDelete={() => del.mutate(t)} />
                       </TableCell>
                     </TableRow>
                   );

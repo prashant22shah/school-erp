@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { ModerationReview, ReviewAction } from "@/lib/types";
 
 const outcomeVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -57,12 +59,16 @@ export default function FacultyReviewPage() {
         description="Moderation reviews and review actions for faculty quality assurance."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingModeration(undefined); setModerationDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Moderation
-            </Button>
-            <Button onClick={() => { setEditingAction(undefined); setActionDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Action
-            </Button>
+            <CanCreate resource="facultyReviews">
+              <Button variant="outline" onClick={() => { setEditingModeration(undefined); setModerationDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Moderation
+              </Button>
+            </CanCreate>
+            <CanCreate resource="facultyReviews">
+              <Button onClick={() => { setEditingAction(undefined); setActionDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Action
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -117,16 +123,7 @@ export default function FacultyReviewPage() {
                         <TableCell><span className="text-sm">{m.reviewerName}</span></TableCell>
                         <TableCell><Badge variant={m.isAnonymous ? "warning" : "secondary"}>{m.isAnonymous ? "Yes" : "No"}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingModeration(m); setModerationDialogOpen(true); }}><Pencil /> Edit moderation</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteModeration.mutate(m)}><Trash2 /> Delete moderation</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="facultyReviews" onEdit={() => { setEditingModeration(m); setModerationDialogOpen(true); }} onDelete={() => deleteModeration.mutate(m)} editLabel="Edit moderation" deleteLabel="Delete moderation" />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -159,16 +156,7 @@ export default function FacultyReviewPage() {
                         <TableCell><span className="text-sm">{a.dueDate}</span></TableCell>
                         <TableCell><Badge variant={actionStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status.replace("_", " ")}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingAction(a); setActionDialogOpen(true); }}><Pencil /> Edit action</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteAction.mutate(a)}><Trash2 /> Delete action</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="facultyReviews" onEdit={() => { setEditingAction(a); setActionDialogOpen(true); }} onDelete={() => deleteAction.mutate(a)} editLabel="Edit action" deleteLabel="Delete action" />
                         </TableCell>
                       </TableRow>
                     ))}

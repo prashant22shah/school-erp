@@ -5,13 +5,14 @@ import { SchoolLevelFormDialog } from "@/pages/school-level-form-dialog";
 import { GradeClassFormDialog } from "@/pages/grade-class-form-dialog";
 import { StreamFormDialog } from "@/pages/stream-form-dialog";
 import { useSchoolLevels, useGradeClasses, useStreams, useSaveSchoolLevel, useDeleteGradeClass, useDeleteStream } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import type { SchoolLevel, GradeClass, Stream } from "@/lib/types";
 
 export default function LevelGradeStreamPage() {
@@ -58,15 +59,21 @@ export default function LevelGradeStreamPage() {
         description="School levels, grades/classes and academic streams catalog."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingLevel(undefined); setLevelDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New level
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingGc(undefined); setGcDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New grade/class
-            </Button>
-            <Button onClick={() => { setEditingStream(undefined); setStreamDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New stream
-            </Button>
+            <CanCreate resource="schoolLevels">
+              <Button variant="outline" onClick={() => { setEditingLevel(undefined); setLevelDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New level
+              </Button>
+            </CanCreate>
+            <CanCreate resource="schoolLevels">
+              <Button variant="outline" onClick={() => { setEditingGc(undefined); setGcDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New grade/class
+              </Button>
+            </CanCreate>
+            <CanCreate resource="schoolLevels">
+              <Button onClick={() => { setEditingStream(undefined); setStreamDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New stream
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -132,14 +139,7 @@ export default function LevelGradeStreamPage() {
                         <TableCell><span className="text-sm font-mono">{l.sequence}</span></TableCell>
                         <TableCell>{l.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingLevel(l); setLevelDialogOpen(true); }}><Pencil /> Edit level</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="schoolLevels" onEdit={() => { setEditingLevel(l); setLevelDialogOpen(true); }} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -177,16 +177,7 @@ export default function LevelGradeStreamPage() {
                         <TableCell><span className="text-sm font-mono">{g.sequence}</span></TableCell>
                         <TableCell>{g.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingGc(g); setGcDialogOpen(true); }}><Pencil /> Edit grade</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteGradeClass.mutate(g)}><Trash2 /> Delete grade</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="schoolLevels" onEdit={() => { setEditingGc(g); setGcDialogOpen(true); }} onDelete={() => deleteGradeClass.mutate(g)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -224,16 +215,7 @@ export default function LevelGradeStreamPage() {
                         <TableCell><span className="text-sm">{st.description || "—"}</span></TableCell>
                         <TableCell>{st.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingStream(st); setStreamDialogOpen(true); }}><Pencil /> Edit stream</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteStream.mutate(st)}><Trash2 /> Delete stream</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="schoolLevels" onEdit={() => { setEditingStream(st); setStreamDialogOpen(true); }} onDelete={() => deleteStream.mutate(st)} />
                         </TableCell>
                       </TableRow>
                     ))}

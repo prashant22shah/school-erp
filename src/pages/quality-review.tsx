@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { QualityReview, QualityEvidence } from "@/lib/types";
 
 const reviewStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -52,12 +54,16 @@ export default function QualityReviewPage() {
         description="Quality reviews and evidence tracking."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingReview(undefined); setReviewDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Review
-            </Button>
-            <Button onClick={() => { setEditingEvidence(undefined); setEvidenceDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Evidence
-            </Button>
+            <CanCreate resource="qualityReviews">
+              <Button variant="outline" onClick={() => { setEditingReview(undefined); setReviewDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Review
+              </Button>
+            </CanCreate>
+            <CanCreate resource="qualityReviews">
+              <Button onClick={() => { setEditingEvidence(undefined); setEvidenceDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Evidence
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -114,16 +120,7 @@ export default function QualityReviewPage() {
                         <TableCell><Badge variant={reviewStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status.replace("_", " ")}</Badge></TableCell>
                         <TableCell><span className="line-clamp-1 text-sm text-muted-foreground">{r.findings ?? "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingReview(r); setReviewDialogOpen(true); }}><Pencil /> Edit review</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteReview.mutate(r)}><Trash2 /> Delete review</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="qualityReviews" onEdit={() => { setEditingReview(r); setReviewDialogOpen(true); }} onDelete={() => deleteReview.mutate(r)} editLabel="Edit review" deleteLabel="Delete review" />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -156,16 +153,7 @@ export default function QualityReviewPage() {
                         <TableCell><span className="line-clamp-1 text-sm">{e.description}</span></TableCell>
                         <TableCell><Badge variant="secondary">{e.reviewId}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingEvidence(e); setEvidenceDialogOpen(true); }}><Pencil /> Edit evidence</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteEvidence.mutate(e)}><Trash2 /> Delete evidence</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="qualityReviews" onEdit={() => { setEditingEvidence(e); setEvidenceDialogOpen(true); }} onDelete={() => deleteEvidence.mutate(e)} editLabel="Edit evidence" deleteLabel="Delete evidence" />
                         </TableCell>
                       </TableRow>
                     ))}

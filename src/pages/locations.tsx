@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useSaveLocation } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
 import { uid, cn } from "@/lib/utils";
 import type { LocationNode, LocationType, BookingPolicy } from "@/lib/types";
 
@@ -212,7 +213,7 @@ export default function Locations() {
         titleNe="स्थान तथा सुविधा"
         microModule="M01.04"
         description="Sites, buildings, floors, rooms, labs, halls and fields with capacity, accessibility, QR codes and booking policy."
-        actions={<Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}><Plus className="h-4 w-4" /> Add location</Button>}
+        actions={<CanCreate resource="locations"><Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}><Plus className="h-4 w-4" /> Add location</Button></CanCreate>}
       />
 
       {error && (

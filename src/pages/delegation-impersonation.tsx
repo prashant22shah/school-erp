@@ -3,6 +3,7 @@ import { ArrowRightLeft, Search, Plus, Ban, Eye, Clock, UserCheck, AlertTriangle
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { DelegationFormDialog } from "@/pages/delegation-form-dialog";
 import { useDelegations, useImpersonationLogs, useRevokeDelegation } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,9 +38,11 @@ export default function DelegationImpersonation() {
         microModule="M02.04"
         description="Temporary authority delegation during leave and admin impersonation for troubleshooting — with full audit trail."
         actions={
-          <Button onClick={() => setDialogOpen(true)}>
-            <Plus className="h-4 w-4" /> New delegation
-          </Button>
+          <CanCreate resource="delegations">
+            <Button onClick={() => setDialogOpen(true)}>
+              <Plus className="h-4 w-4" /> New delegation
+            </Button>
+          </CanCreate>
         }
       />
 

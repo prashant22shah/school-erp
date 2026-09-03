@@ -3,6 +3,8 @@ import { FileText, Search, Plus, Pencil, Trash2, Send, Eye, CheckCircle2, FileCh
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { ApplicationFormDialog } from "@/pages/application-form-dialog";
 import { useApplications, useApplicationDocuments, useEligibilityDecisions, useDeleteApplication, useDeleteApplicationDocument, useDeleteEligibilityDecision } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,9 +70,11 @@ export default function ApplicationPortal() {
         microModule="M04.03 + M04.04"
         description="Manage admission applications, document verification, and eligibility decisions."
         actions={
-          <Button onClick={() => { setEditingApp(undefined); setAppDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New application
-          </Button>
+          <CanCreate resource="applications">
+            <Button onClick={() => { setEditingApp(undefined); setAppDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New application
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -142,16 +146,7 @@ export default function ApplicationPortal() {
                         <TableCell><Badge variant={appStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status.replace("_", " ")}</Badge></TableCell>
                         <TableCell><span className="text-xs">{a.submittedOn ? fmtDate(a.submittedOn) : "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingApp(a); setAppDialogOpen(true); }}><Pencil /> Edit application</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteApplication.mutate(a)}><Trash2 /> Delete application</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="applications" onEdit={() => { setEditingApp(a); setAppDialogOpen(true); }} onDelete={() => deleteApplication.mutate(a)} />
                         </TableCell>
                       </TableRow>
                     ))}

@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CampusStatusBadge } from "@/components/status-badges";
+import { CanCreate } from "@/components/permission-gate";
 import { uid, initials } from "@/lib/utils";
 import type { Campus, Institution, LegalEntity } from "@/lib/types";
 
@@ -120,7 +121,7 @@ export default function InstitutionPage() {
         titleNe="विद्यालय, कानुनी निकाय र क्याम्पस"
         microModule="M01.02"
         description="School identity, IEMIS & registration records, governing legal entities, and campus master with lifecycle."
-        actions={<Button onClick={() => setCampusDialog(true)}><Plus className="h-4 w-4" /> Open new campus</Button>}
+        actions={<CanCreate resource="institutions"><Button onClick={() => setCampusDialog(true)}><Plus className="h-4 w-4" /> Open new campus</Button></CanCreate>}
       />
 
       {i && (

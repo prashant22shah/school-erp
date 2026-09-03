@@ -4,6 +4,8 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { CampaignFormDialog } from "@/pages/campaign-form-dialog";
 import { EnquiryFormDialog } from "@/pages/enquiry-form-dialog";
 import { useCampaigns, useEnquiries, useEnquiryInteractions, useDeleteCampaign, useDeleteEnquiry, useDeleteEnquiryInteraction } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -67,12 +69,16 @@ export default function CampaignEnquiry() {
         description="Manage marketing campaigns, capture student enquiries, and track counselling follow-ups."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingCampaign(undefined); setCampaignDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New campaign
-            </Button>
-            <Button onClick={() => { setEditingEnquiry(undefined); setEnquiryDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New enquiry
-            </Button>
+            <CanCreate resource="campaigns">
+              <Button variant="outline" onClick={() => { setEditingCampaign(undefined); setCampaignDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New campaign
+              </Button>
+            </CanCreate>
+            <CanCreate resource="campaigns">
+              <Button onClick={() => { setEditingEnquiry(undefined); setEnquiryDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New enquiry
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -147,16 +153,7 @@ export default function CampaignEnquiry() {
                         </TableCell>
                         <TableCell><Badge variant={campaignStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCampaign(c); setCampaignDialogOpen(true); }}><Pencil /> Edit campaign</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCampaign.mutate(c)}><Trash2 /> Delete campaign</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="campaigns" onEdit={() => { setEditingCampaign(c); setCampaignDialogOpen(true); }} onDelete={() => deleteCampaign.mutate(c)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -200,16 +197,7 @@ export default function CampaignEnquiry() {
                         <TableCell><span className="text-sm">{e.assignedToName ?? "—"}</span></TableCell>
                         <TableCell><span className="text-xs">{fmtDate(e.createdOn)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingEnquiry(e); setEnquiryDialogOpen(true); }}><Pencil /> Edit enquiry</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteEnquiry.mutate(e)}><Trash2 /> Delete enquiry</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="campaigns" onEdit={() => { setEditingEnquiry(e); setEnquiryDialogOpen(true); }} onDelete={() => deleteEnquiry.mutate(e)} />
                         </TableCell>
                       </TableRow>
                     ))}

@@ -3,6 +3,7 @@ import { Crown, Search, Plus, Shield, AlertTriangle, Clock, CheckCircle2, XCircl
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { PrivilegedAccessFormDialog } from "@/pages/privileged-access-form-dialog";
 import { usePrivilegedAccess, useAccessReviews, useSavePrivilegedAccess } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -65,9 +66,11 @@ export default function PrivilegedAccessPage() {
         microModule="M02.06"
         description="Elevated, emergency and break-glass access requests with time-bound approval, usage limits and periodic access review certification."
         actions={
-          <Button onClick={() => setDialogOpen(true)}>
-            <Plus className="h-4 w-4" /> Request access
-          </Button>
+          <CanCreate resource="privilegedAccess">
+            <Button onClick={() => setDialogOpen(true)}>
+              <Plus className="h-4 w-4" /> Request access
+            </Button>
+          </CanCreate>
         }
       />
 

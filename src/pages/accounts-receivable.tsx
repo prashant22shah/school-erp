@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Receipt, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Receipt, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { useAccountsReceivable, useDeleteAccountsReceivable } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { AccountsReceivable } from "@/lib/types";
 
@@ -42,7 +43,7 @@ export default function AccountsReceivablePage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Receipt} title="Accounts Receivable" titleNe="बक्सा खाता" microModule="M12.08" description="Outstanding student balances, aging and collection tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Entry</Button>} />
+      <PageHeader icon={Receipt} title="Accounts Receivable" titleNe="बक्सा खाता" microModule="M12.08" description="Outstanding student balances, aging and collection tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="accountsReceivable">New Entry</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Receipt className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total AR</p><p className="text-lg font-bold">NPR {totalAR.toLocaleString()}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Receipt className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Current</p><p className="text-lg font-bold">{current}</p></div></CardContent></Card>
@@ -56,7 +57,7 @@ export default function AccountsReceivablePage() {
 
         <TabsContent value="receivables" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Invoice</TableHead><TableHead>Total</TableHead><TableHead>Balance</TableHead><TableHead>Due Date</TableHead><TableHead>Aging Days</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.invoiceNumber}</code></TableCell><TableCell><span className="text-sm font-mono">{r.totalAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{r.balanceAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.dueDate)}</span></TableCell><TableCell><span className="text-sm">{r.agingDays}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(r); setOpen(true); }}><Pencil /> Edit</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(r)}><Trash2 /> Delete</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Invoice</TableHead><TableHead>Total</TableHead><TableHead>Balance</TableHead><TableHead>Due Date</TableHead><TableHead>Aging Days</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.invoiceNumber}</code></TableCell><TableCell><span className="text-sm font-mono">{r.totalAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm font-mono">{r.balanceAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.dueDate)}</span></TableCell><TableCell><span className="text-sm">{r.agingDays}</span></TableCell><TableCell><Badge variant={statusVariant[r.status] ?? "secondary"} className="capitalize">{r.status.replace("_", " ")}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="accountsReceivable" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

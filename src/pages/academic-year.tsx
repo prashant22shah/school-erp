@@ -4,13 +4,14 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { AcademicYearFormDialog } from "@/pages/academic-year-form-dialog";
 import { TermFormDialog } from "@/pages/term-form-dialog";
 import { useAcademicYears, useTerms, useDeleteAcademicYear, useDeleteTerm } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { AcademicYear, Term } from "@/lib/types";
 
@@ -55,12 +56,16 @@ export default function AcademicYearPage() {
         description="Manage academic years, terms and school calendar boundaries."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingYear(undefined); setYearDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New year
-            </Button>
-            <Button onClick={() => { setEditingTerm(undefined); setTermDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New term
-            </Button>
+            <CanCreate resource="academicYears">
+              <Button variant="outline" onClick={() => { setEditingYear(undefined); setYearDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New year
+              </Button>
+            </CanCreate>
+            <CanCreate resource="academicYears">
+              <Button onClick={() => { setEditingTerm(undefined); setTermDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New term
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -126,16 +131,7 @@ export default function AcademicYearPage() {
                         <TableCell><Badge variant={statusVariant[y.status] ?? "secondary"} className="capitalize">{y.status}</Badge></TableCell>
                         <TableCell>{y.isCurrent ? <Badge variant="success">Current</Badge> : <span className="text-xs text-muted-foreground">—</span>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingYear(y); setYearDialogOpen(true); }}><Pencil /> Edit year</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteYear.mutate(y)}><Trash2 /> Delete year</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="academicYears" onEdit={() => { setEditingYear(y); setYearDialogOpen(true); }} onDelete={() => deleteYear.mutate(y)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -175,16 +171,7 @@ export default function AcademicYearPage() {
                         <TableCell><span className="text-sm">{fmtDate(t.endDate)}</span></TableCell>
                         <TableCell><Badge variant={statusVariant[t.status] ?? "secondary"} className="capitalize">{t.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingTerm(t); setTermDialogOpen(true); }}><Pencil /> Edit term</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteTerm.mutate(t)}><Trash2 /> Delete term</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="academicYears" onEdit={() => { setEditingTerm(t); setTermDialogOpen(true); }} onDelete={() => deleteTerm.mutate(t)} />
                         </TableCell>
                       </TableRow>
                     ))}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Landmark, Layers, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Landmark, Layers, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { FiscalYearFormDialog } from "@/pages/fiscal-year-form-dialog";
 import { ChartOfAccountFormDialog } from "@/pages/chart-of-account-form-dialog";
@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { FiscalYear, ChartOfAccount } from "@/lib/types";
 
@@ -71,8 +72,8 @@ export default function FinanceSetupPage() {
         description="Fiscal years and chart of accounts — accounting foundation."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingFy(undefined); setFyOpen(true); }}><Plus className="h-4 w-4" /> New Fiscal Year</Button>
-            <Button onClick={() => { setEditingCoa(undefined); setCoaOpen(true); }}><Plus className="h-4 w-4" /> New Account</Button>
+            <CanCreate resource="fiscalYears"><Button variant="outline" onClick={() => { setEditingFy(undefined); setFyOpen(true); }}>New Fiscal Year</Button></CanCreate>
+            <CanCreate resource="chartOfAccounts"><Button onClick={() => { setEditingCoa(undefined); setCoaOpen(true); }}>New Account</Button></CanCreate>
           </div>
         }
       />
@@ -91,13 +92,13 @@ export default function FinanceSetupPage() {
 
         <TabsContent value="fiscal-years" className="mt-4">
           {fiscalYears.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Period</TableHead><TableHead>Status</TableHead><TableHead>Updated</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredFy.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5 font-medium">{f.name}</TableCell><TableCell><span className="text-sm">{fmtDate(f.startDate)} — {fmtDate(f.endDate)}</span></TableCell><TableCell><Badge variant={fyStatusVariant[f.status] ?? "secondary"} className="capitalize">{f.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{fmtDate(f.updatedOn)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingFy(f); setFyOpen(true); }}><Pencil /> Edit fiscal year</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteFy.mutate(f)}><Trash2 /> Delete fiscal year</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Period</TableHead><TableHead>Status</TableHead><TableHead>Updated</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredFy.map((f) => (<TableRow key={f.id} className="group"><TableCell className="pl-5 font-medium">{f.name}</TableCell><TableCell><span className="text-sm">{fmtDate(f.startDate)} — {fmtDate(f.endDate)}</span></TableCell><TableCell><Badge variant={fyStatusVariant[f.status] ?? "secondary"} className="capitalize">{f.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{fmtDate(f.updatedOn)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="fiscalYears" onEdit={() => { setEditingFy(f); setFyOpen(true); }} onDelete={() => deleteFy.mutate(f)} /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="coa" className="mt-4">
           {coa.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Code</TableHead><TableHead>Name</TableHead><TableHead>Type</TableHead><TableHead>Parent</TableHead><TableHead>Active</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCoa.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.code}</code></TableCell><TableCell className="font-medium">{c.name}</TableCell><TableCell><Badge variant={coaTypeVariant[c.type] ?? "secondary"} className="capitalize">{c.type}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{c.parentName ?? "—"}</span></TableCell><TableCell><Badge variant={c.isActive ? "success" : "secondary"}>{c.isActive ? "Active" : "Inactive"}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingCoa(c); setCoaOpen(true); }}><Pencil /> Edit account</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteCoa.mutate(c)}><Trash2 /> Delete account</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Code</TableHead><TableHead>Name</TableHead><TableHead>Type</TableHead><TableHead>Parent</TableHead><TableHead>Active</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredCoa.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.code}</code></TableCell><TableCell className="font-medium">{c.name}</TableCell><TableCell><Badge variant={coaTypeVariant[c.type] ?? "secondary"} className="capitalize">{c.type}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{c.parentName ?? "—"}</span></TableCell><TableCell><Badge variant={c.isActive ? "success" : "secondary"}>{c.isActive ? "Active" : "Inactive"}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="chartOfAccounts" onEdit={() => { setEditingCoa(c); setCoaOpen(true); }} onDelete={() => deleteCoa.mutate(c)} /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

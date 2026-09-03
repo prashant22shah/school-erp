@@ -3,12 +3,14 @@ import { Plus, Search, Pencil, Trash2, Users, Shield, Lock, Unlock } from "lucid
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { IdentityFormDialog } from "@/pages/identity-form-dialog";
 import { useUserIdentities, useDeleteUserIdentity } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { UserIdentity, IdentityStatus, IdentityType } from "@/lib/types";
 
@@ -79,9 +81,11 @@ export default function IdentityLifecycle() {
         microModule="M02.01"
         description="User identity registry — create, activate, lock, suspend and archive user accounts with lifecycle state management."
         actions={
-          <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New identity
-          </Button>
+          <CanCreate resource="userIdentities">
+            <Button onClick={() => { setEditing(undefined); setDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New identity
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -175,18 +179,17 @@ export default function IdentityLifecycle() {
                         ) : <span className="text-xs text-muted-foreground">0</span>}
                       </TableCell>
                       <TableCell className="pr-5 text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => { setEditing(u); setDialogOpen(true); }}><Pencil /> Edit identity</DropdownMenuItem>
-                            <DropdownMenuItem><Lock /> Lock account</DropdownMenuItem>
-                            <DropdownMenuItem><Unlock /> Unlock account</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(u)}><Trash2 /> Archive identity</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <RowActionMenu
+                          resource="userIdentities"
+                          onEdit={() => { setEditing(u); setDialogOpen(true); }}
+                          onDelete={() => del.mutate(u)}
+                          extraItems={
+                            <>
+                              <DropdownMenuItem><Lock /> Lock account</DropdownMenuItem>
+                              <DropdownMenuItem><Unlock /> Unlock account</DropdownMenuItem>
+                            </>
+                          }
+                        />
                       </TableCell>
                     </TableRow>
                   );

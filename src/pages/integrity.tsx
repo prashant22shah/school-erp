@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { RowActionMenu } from "@/components/row-action-menu";
+import { CanCreate } from "@/components/permission-gate";
 import type { IntegrityCase } from "@/lib/types";
 
 const statusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -30,7 +31,7 @@ export default function IntegrityPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={ShieldAlert} title="Integrity & Discipline" titleNe="अनुशासन" microModule="M08.08" description="Malpractice, cheating and disruption cases." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Case</Button>} />
+      <PageHeader icon={ShieldAlert} title="Integrity & Discipline" titleNe="अनुशासन" microModule="M08.08" description="Malpractice, cheating and disruption cases." actions={<CanCreate resource="integrityCases"><Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Case</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><ShieldAlert className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total cases</p><p className="text-lg font-bold">{cases.data?.length ?? 0}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><ShieldAlert className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Open / Under Review</p><p className="text-lg font-bold">{(cases.data ?? []).filter((c) => c.status === "open" || c.status === "under_review").length}</p></div></CardContent></Card>
@@ -38,7 +39,7 @@ export default function IntegrityPage() {
       </div>
       <div className="flex items-center gap-3"><div className="relative w-full sm:max-w-xs"><Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" /><Input placeholder="Search integrity cases…" className="pl-8" value={q} onChange={(e) => setQ(e.target.value)} /></div></div>
       {cases.isLoading ? <LoadingBlock /> : (
-        <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Exam</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5 font-medium">{c.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.examId.slice(0,8)}</code></TableCell><TableCell><Badge variant="secondary" className="capitalize">{c.type}</Badge></TableCell><TableCell><span className="line-clamp-1 max-w-[280px] text-sm text-muted-foreground">{c.description}</span></TableCell><TableCell><Badge variant={statusVariant[c.status] ?? "secondary"} className="capitalize">{c.status.replace("_"," ")}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(c); setOpen(true); }}><Pencil /> Edit case</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(c)}><Trash2 /> Delete case</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+        <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Exam</TableHead><TableHead>Type</TableHead><TableHead>Description</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((c) => (<TableRow key={c.id} className="group"><TableCell className="pl-5 font-medium">{c.studentName}</TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{c.examId.slice(0,8)}</code></TableCell><TableCell><Badge variant="secondary" className="capitalize">{c.type}</Badge></TableCell><TableCell><span className="line-clamp-1 max-w-[280px] text-sm text-muted-foreground">{c.description}</span></TableCell><TableCell><Badge variant={statusVariant[c.status] ?? "secondary"} className="capitalize">{c.status.replace("_"," ")}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="integrityCases" onEdit={() => { setEditing(c); setOpen(true); }} onDelete={() => del.mutate(c)} /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
       )}
       <IntegrityCaseFormDialog open={open} onOpenChange={setOpen} integrityCase={editing} />
     </div>

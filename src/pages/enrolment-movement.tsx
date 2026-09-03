@@ -6,13 +6,14 @@ import { SubjectSelectionFormDialog } from "@/pages/subject-selection-form-dialo
 import { StudentMovementFormDialog } from "@/pages/student-movement-form-dialog";
 import { ProgressionAuditFormDialog } from "@/pages/progression-audit-form-dialog";
 import { useEnrolments, useSubjectSelections, useStudentMovements, useProgressionAudits, useDeleteEnrolment, useDeleteSubjectSelection, useDeleteStudentMovement, useDeleteProgressionAudit } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Enrolment, SubjectSelection, StudentMovement, ProgressionAudit } from "@/lib/types";
 
@@ -143,18 +144,26 @@ export default function EnrolmentMovementPage() {
         description="Student enrolment, subject choices, movement tracking and progression audit."
         actions={
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => { setEditingEnrolment(undefined); setEnrolmentDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New enrolment
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingSubject(undefined); setSubjectDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New subject choice
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingMovement(undefined); setMovementDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New movement
-            </Button>
-            <Button onClick={() => { setEditingAudit(undefined); setAuditDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New audit
-            </Button>
+            <CanCreate resource="enrolments">
+              <Button variant="outline" onClick={() => { setEditingEnrolment(undefined); setEnrolmentDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New enrolment
+              </Button>
+            </CanCreate>
+            <CanCreate resource="enrolments">
+              <Button variant="outline" onClick={() => { setEditingSubject(undefined); setSubjectDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New subject choice
+              </Button>
+            </CanCreate>
+            <CanCreate resource="enrolments">
+              <Button variant="outline" onClick={() => { setEditingMovement(undefined); setMovementDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New movement
+              </Button>
+            </CanCreate>
+            <CanCreate resource="enrolments">
+              <Button onClick={() => { setEditingAudit(undefined); setAuditDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New audit
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -229,16 +238,7 @@ export default function EnrolmentMovementPage() {
                         <TableCell><Badge variant={enrolmentStatusVariant[e.status] ?? "secondary"}>{e.status}</Badge></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(e.effectiveFrom)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingEnrolment(e); setEnrolmentDialogOpen(true); }}><Pencil /> Edit enrolment</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteEnrolment.mutate(e)}><Trash2 /> Delete enrolment</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="enrolments" onEdit={() => { setEditingEnrolment(e); setEnrolmentDialogOpen(true); }} onDelete={() => deleteEnrolment.mutate(e)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -278,16 +278,7 @@ export default function EnrolmentMovementPage() {
                         <TableCell><Badge variant={subjectStatusVariant[ss.status] ?? "secondary"}>{ss.status}</Badge></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(ss.createdOn)}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingSubject(ss); setSubjectDialogOpen(true); }}><Pencil /> Edit</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteSubjectSelection.mutate(ss)}><Trash2 /> Delete</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="enrolments" onEdit={() => { setEditingSubject(ss); setSubjectDialogOpen(true); }} onDelete={() => deleteSubjectSelection.mutate(ss)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -330,16 +321,7 @@ export default function EnrolmentMovementPage() {
                         <TableCell><span className="text-sm">{m.reason ?? "—"}</span></TableCell>
                         <TableCell><span className="text-sm">{m.approvedBy ?? "—"}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingMovement(m); setMovementDialogOpen(true); }}><Pencil /> Edit movement</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteStudentMovement.mutate(m)}><Trash2 /> Delete movement</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="enrolments" onEdit={() => { setEditingMovement(m); setMovementDialogOpen(true); }} onDelete={() => deleteStudentMovement.mutate(m)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -383,16 +365,7 @@ export default function EnrolmentMovementPage() {
                         <TableCell><span className="text-sm font-mono">{a.attendance != null ? `${a.attendance}%` : "—"}</span></TableCell>
                         <TableCell><span className="text-sm">{a.decidedBy}</span></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingAudit(a); setAuditDialogOpen(true); }}><Pencil /> Edit audit</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteAudit.mutate(a)}><Trash2 /> Delete audit</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="enrolments" onEdit={() => { setEditingAudit(a); setAuditDialogOpen(true); }} onDelete={() => deleteAudit.mutate(a)} />
                         </TableCell>
                       </TableRow>
                     ))}

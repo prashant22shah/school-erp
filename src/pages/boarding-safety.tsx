@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ShieldCheck, Search, Plus, Pencil, Trash2, Bus, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Search, Bus, AlertTriangle, CheckCircle2, Plus } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { BoardingLogFormDialog } from "@/pages/boarding-log-form-dialog";
 import { useBoardingLogs, useDeleteBoardingLog } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { BoardingLog } from "@/lib/types";
 
@@ -76,9 +77,7 @@ export default function BoardingSafetyPage() {
         microModule="M17.04"
         description="Boarding logs, safety checklists and incident tracking."
         actions={
-          <Button onClick={() => { setEditing(undefined); setOpen(true); }}>
-            <Plus className="h-4 w-4" /> New Boarding Log
-          </Button>
+          <CanCreate resource="boardingLogs"><Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Boarding Log</Button></CanCreate>
         }
       />
 
@@ -105,7 +104,7 @@ export default function BoardingSafetyPage() {
 
         <TabsContent value="boarding" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Rider</TableHead><TableHead>Route</TableHead><TableHead>Vehicle</TableHead><TableHead>Date</TableHead><TableHead>Status</TableHead><TableHead>Recorded On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5"><span className="font-medium">{b.riderName}</span></TableCell><TableCell><span className="text-sm">{b.routeId ?? "—"}</span></TableCell><TableCell><span className="text-sm">{b.vehicleId ?? "—"}</span></TableCell><TableCell><span className="text-sm">{fmtDate(b.logDate)}</span></TableCell><TableCell><Badge variant={boardingVariant[b.boardingStatus] ?? "secondary"} className="capitalize">{b.boardingStatus.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(b.recordedOn)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(b); setOpen(true); }}><Pencil /> Edit log</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(b)}><Trash2 /> Delete log</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Rider</TableHead><TableHead>Route</TableHead><TableHead>Vehicle</TableHead><TableHead>Date</TableHead><TableHead>Status</TableHead><TableHead>Recorded On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((b) => (<TableRow key={b.id} className="group"><TableCell className="pl-5"><span className="font-medium">{b.riderName}</span></TableCell><TableCell><span className="text-sm">{b.routeId ?? "—"}</span></TableCell><TableCell><span className="text-sm">{b.vehicleId ?? "—"}</span></TableCell><TableCell><span className="text-sm">{fmtDate(b.logDate)}</span></TableCell><TableCell><Badge variant={boardingVariant[b.boardingStatus] ?? "secondary"} className="capitalize">{b.boardingStatus.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(b.recordedOn)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="boardingLogs" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

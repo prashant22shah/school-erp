@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { DollarSign, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { DollarSign, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { CompensationFormDialog } from "@/pages/compensation-form-dialog";
 import { useCompensations, useDeleteCompensation } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Compensation } from "@/lib/types";
 
@@ -61,7 +62,7 @@ export default function CompensationBenefitsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={DollarSign} title="Compensation & Benefits" titleNe="सुविधा तथा लाभ" microModule="M13.06" description="Salary structure, benefit plans, allowances and deductions." actions={<Button onClick={() => { setEditingComp(undefined); setCompOpen(true); }}><Plus className="h-4 w-4" /> New Component</Button>} />
+      <PageHeader icon={DollarSign} title="Compensation & Benefits" titleNe="सुविधा तथा लाभ" microModule="M13.06" description="Salary structure, benefit plans, allowances and deductions." actions={<Button onClick={() => { setEditingComp(undefined); setCompOpen(true); }}><CanCreate resource="compensation">New Component</CanCreate></Button>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><DollarSign className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Staff</p><p className="text-lg font-bold">{totalStaff}</p></div></CardContent></Card>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { BookOpen, Layers, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { BookOpen, Layers, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { LibraryResourceFormDialog } from "@/pages/library-resource-form-dialog";
 import { DigitalResourceFormDialog } from "@/pages/digital-resource-form-dialog";
@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { LibraryResource, DigitalResource } from "@/lib/types";
 
@@ -84,8 +85,8 @@ export default function LibraryCatalogPage() {
         description="Catalog, metadata and digital resource access — library foundation."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingResource(undefined); setResourceOpen(true); }}><Plus className="h-4 w-4" /> New Resource</Button>
-            <Button onClick={() => { setEditingDigital(undefined); setDigitalOpen(true); }}><Plus className="h-4 w-4" /> New Digital</Button>
+            <Button variant="outline" onClick={() => { setEditingResource(undefined); setResourceOpen(true); }}><CanCreate resource="libraryResources">New Resource</CanCreate></Button>
+            <Button onClick={() => { setEditingDigital(undefined); setDigitalOpen(true); }}> New Digital</Button>
           </div>
         }
       />
@@ -104,13 +105,13 @@ export default function LibraryCatalogPage() {
 
         <TabsContent value="catalog" className="mt-4">
           {libraryResources.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Accession No</TableHead><TableHead>Title</TableHead><TableHead>Author</TableHead><TableHead>Category</TableHead><TableHead>Type</TableHead><TableHead>Shelf</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredResources.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.accessionNo}</code></TableCell><TableCell><div className="flex flex-col"><span className="font-medium">{r.title}</span>{r.subtitle && <span className="text-xs text-muted-foreground">{r.subtitle}</span>}</div></TableCell><TableCell><span className="text-sm">{r.author}</span></TableCell><TableCell><Badge variant="secondary">{r.category}</Badge></TableCell><TableCell><Badge variant={resourceTypeVariant[r.type] ?? "secondary"} className="capitalize">{r.type}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{r.shelfRef ?? "—"}</span></TableCell><TableCell><Badge variant={resourceStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingResource(r); setResourceOpen(true); }}><Pencil /> Edit resource</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteResource.mutate(r)}><Trash2 /> Delete resource</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Accession No</TableHead><TableHead>Title</TableHead><TableHead>Author</TableHead><TableHead>Category</TableHead><TableHead>Type</TableHead><TableHead>Shelf</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredResources.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.accessionNo}</code></TableCell><TableCell><div className="flex flex-col"><span className="font-medium">{r.title}</span>{r.subtitle && <span className="text-xs text-muted-foreground">{r.subtitle}</span>}</div></TableCell><TableCell><span className="text-sm">{r.author}</span></TableCell><TableCell><Badge variant="secondary">{r.category}</Badge></TableCell><TableCell><Badge variant={resourceTypeVariant[r.type] ?? "secondary"} className="capitalize">{r.type}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{r.shelfRef ?? "—"}</span></TableCell><TableCell><Badge variant={resourceStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="libraryResources" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="digital" className="mt-4">
           {digitalResources.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Provider</TableHead><TableHead>Access Type</TableHead><TableHead>Valid From</TableHead><TableHead>Valid Until</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredDigital.map((d) => (<TableRow key={d.id} className="group"><TableCell className="pl-5 font-medium">{d.title}</TableCell><TableCell><span className="text-sm">{d.provider}</span></TableCell><TableCell><Badge variant={accessTypeVariant[d.accessType] ?? "secondary"} className="capitalize">{d.accessType.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(d.validFrom)}</span></TableCell><TableCell><span className="text-sm">{d.validUntil ? fmtDate(d.validUntil) : "—"}</span></TableCell><TableCell><Badge variant={digitalStatusVariant[d.status] ?? "secondary"} className="capitalize">{d.status}</Badge></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingDigital(d); setDigitalOpen(true); }}><Pencil /> Edit digital</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteDigital.mutate(d)}><Trash2 /> Delete digital</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Title</TableHead><TableHead>Provider</TableHead><TableHead>Access Type</TableHead><TableHead>Valid From</TableHead><TableHead>Valid Until</TableHead><TableHead>Status</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredDigital.map((d) => (<TableRow key={d.id} className="group"><TableCell className="pl-5 font-medium">{d.title}</TableCell><TableCell><span className="text-sm">{d.provider}</span></TableCell><TableCell><Badge variant={accessTypeVariant[d.accessType] ?? "secondary"} className="capitalize">{d.accessType.replace("_", " ")}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(d.validFrom)}</span></TableCell><TableCell><span className="text-sm">{d.validUntil ? fmtDate(d.validUntil) : "—"}</span></TableCell><TableCell><Badge variant={digitalStatusVariant[d.status] ?? "secondary"} className="capitalize">{d.status}</Badge></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="digitalResources" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

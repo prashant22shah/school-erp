@@ -4,13 +4,14 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { DutyRuleFormDialog } from "@/pages/duty-rule-form-dialog";
 import { ViolationResolveDialog } from "@/pages/violation-resolve-dialog";
 import { useDutyRules, useDutyViolations, useDeleteDutyRule } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { fmtDate } from "@/lib/utils";
 import type { DutyRule, DutyViolation } from "@/lib/types";
 
@@ -62,9 +63,11 @@ export default function SegregationOfDuties() {
         microModule="M02.05"
         description="Conflict-of-interest rules preventing incompatible role combinations — with violation detection, severity tracking and resolution workflow."
         actions={
-          <Button onClick={() => { setEditingRule(undefined); setRuleDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New SoD rule
-          </Button>
+          <CanCreate resource="dutyRules">
+            <Button onClick={() => { setEditingRule(undefined); setRuleDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New SoD rule
+            </Button>
+          </CanCreate>
         }
       />
 
@@ -137,16 +140,7 @@ export default function SegregationOfDuties() {
                           <TableCell>{r.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Disabled</Badge>}</TableCell>
                           <TableCell><span className="text-xs">{fmtDate(r.createdOn)}</span></TableCell>
                           <TableCell className="pr-5 text-right">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => { setEditingRule(r); setRuleDialogOpen(true); }}><Pencil /> Edit rule</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteRule.mutate(r)}><Trash2 /> Delete rule</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            <RowActionMenu resource="dutyRules" onEdit={() => { setEditingRule(r); setRuleDialogOpen(true); }} onDelete={() => deleteRule.mutate(r)} />
                           </TableCell>
                         </TableRow>
                       );

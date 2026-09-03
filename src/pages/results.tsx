@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import type { ResultRun, ResultLine } from "@/lib/types";
 
 const runStatusVariant: Record<string, "default" | "info" | "warning" | "secondary" | "success"> = {
@@ -55,8 +57,12 @@ export default function ResultsPage() {
         description="Compute, review and publish examination results and student outcomes."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingRun(undefined); setRunOpen(true); }}><Plus className="h-4 w-4" /> New Result Run</Button>
-            <Button onClick={() => { setEditingLine(undefined); setLineOpen(true); }}><Plus className="h-4 w-4" /> New Result Line</Button>
+            <CanCreate resource="results">
+              <Button variant="outline" onClick={() => { setEditingRun(undefined); setRunOpen(true); }}><Plus className="h-4 w-4" /> New Result Run</Button>
+            </CanCreate>
+            <CanCreate resource="results">
+              <Button onClick={() => { setEditingLine(undefined); setLineOpen(true); }}><Plus className="h-4 w-4" /> New Result Line</Button>
+            </CanCreate>
           </div>
         }
       />
@@ -76,13 +82,13 @@ export default function ResultsPage() {
 
         <TabsContent value="runs" className="mt-4">
           {runs.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Exam</TableHead><TableHead>Period</TableHead><TableHead>Status</TableHead><TableHead>Computed</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRuns.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.name}</TableCell><TableCell><Badge variant="secondary">{r.examName ?? r.examId}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.academicPeriodRef}</code></TableCell><TableCell><Badge variant={runStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.computedOn ? r.computedOn.slice(0, 10) : "—"}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingRun(r); setRunOpen(true); }}><Pencil /> Edit run</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteRun.mutate(r)}><Trash2 /> Delete run</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Name</TableHead><TableHead>Exam</TableHead><TableHead>Period</TableHead><TableHead>Status</TableHead><TableHead>Computed</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRuns.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5 font-medium">{r.name}</TableCell><TableCell><Badge variant="secondary">{r.examName ?? r.examId}</Badge></TableCell><TableCell><code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.academicPeriodRef}</code></TableCell><TableCell><Badge variant={runStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.computedOn ? r.computedOn.slice(0, 10) : "—"}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="results" onEdit={() => { setEditingRun(r); setRunOpen(true); }} onDelete={() => deleteRun.mutate(r)} editLabel="Edit run" deleteLabel="Delete run" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
         <TabsContent value="lines" className="mt-4">
           {lines.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Run</TableHead><TableHead>Total</TableHead><TableHead>GPA</TableHead><TableHead>Grade</TableHead><TableHead>Outcome</TableHead><TableHead>Rank</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredLines.map((l) => (<TableRow key={l.id} className="group"><TableCell className="pl-5 font-medium">{l.studentName}</TableCell><TableCell><Badge variant="secondary">{l.resultRunName ?? l.resultRunId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{l.totalMarks}</span></TableCell><TableCell><span className="text-sm">{l.gpa ?? "—"}</span></TableCell><TableCell><Badge variant="secondary">{l.grade ?? "—"}</Badge></TableCell><TableCell><Badge variant={outcomeVariant[l.outcome] ?? "secondary"} className="capitalize">{l.outcome}</Badge></TableCell><TableCell><span className="text-sm">{l.rank ?? "—"}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingLine(l); setLineOpen(true); }}><Pencil /> Edit line</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteLine.mutate(l)}><Trash2 /> Delete line</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Student</TableHead><TableHead>Run</TableHead><TableHead>Total</TableHead><TableHead>GPA</TableHead><TableHead>Grade</TableHead><TableHead>Outcome</TableHead><TableHead>Rank</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredLines.map((l) => (<TableRow key={l.id} className="group"><TableCell className="pl-5 font-medium">{l.studentName}</TableCell><TableCell><Badge variant="secondary">{l.resultRunName ?? l.resultRunId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm font-mono">{l.totalMarks}</span></TableCell><TableCell><span className="text-sm">{l.gpa ?? "—"}</span></TableCell><TableCell><Badge variant="secondary">{l.grade ?? "—"}</Badge></TableCell><TableCell><Badge variant={outcomeVariant[l.outcome] ?? "secondary"} className="capitalize">{l.outcome}</Badge></TableCell><TableCell><span className="text-sm">{l.rank ?? "—"}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="results" onEdit={() => { setEditingLine(l); setLineOpen(true); }} onDelete={() => deleteLine.mutate(l)} editLabel="Edit line" deleteLabel="Delete line" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
       </Tabs>

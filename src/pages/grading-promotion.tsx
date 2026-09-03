@@ -5,13 +5,14 @@ import { GradingScaleFormDialog } from "@/pages/grading-scale-form-dialog";
 import { PromotionRuleFormDialog } from "@/pages/promotion-rule-form-dialog";
 import { CompletionRuleFormDialog } from "@/pages/completion-rule-form-dialog";
 import { useGradingScales, usePromotionRules, useCompletionRules, useDeleteGradingScale, useDeletePromotionRule } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import type { GradingScale, PromotionRule, CompletionRule } from "@/lib/types";
 
 export default function GradingPromotionPage() {
@@ -58,15 +59,21 @@ export default function GradingPromotionPage() {
         description="Grading scales, promotion rules and completion criteria for student progression."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingScale(undefined); setScaleDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New scale
-            </Button>
-            <Button variant="outline" onClick={() => { setEditingRule(undefined); setRuleDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New promotion rule
-            </Button>
-            <Button onClick={() => { setEditingCompletion(undefined); setCompletionDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New completion rule
-            </Button>
+            <CanCreate resource="gradingScales">
+              <Button variant="outline" onClick={() => { setEditingScale(undefined); setScaleDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New scale
+              </Button>
+            </CanCreate>
+            <CanCreate resource="gradingScales">
+              <Button variant="outline" onClick={() => { setEditingRule(undefined); setRuleDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New promotion rule
+              </Button>
+            </CanCreate>
+            <CanCreate resource="gradingScales">
+              <Button onClick={() => { setEditingCompletion(undefined); setCompletionDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New completion rule
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -137,16 +144,7 @@ export default function GradingPromotionPage() {
                         <TableCell>{sc.isDefault ? <Badge variant="success">Default</Badge> : <span className="text-xs text-muted-foreground">—</span>}</TableCell>
                         <TableCell>{sc.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingScale(sc); setScaleDialogOpen(true); }}><Pencil /> Edit scale</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteScale.mutate(sc)}><Trash2 /> Delete scale</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="gradingScales" onEdit={() => { setEditingScale(sc); setScaleDialogOpen(true); }} onDelete={() => deleteScale.mutate(sc)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -188,16 +186,7 @@ export default function GradingPromotionPage() {
                         <TableCell><span className="text-sm font-mono">{r.maxBacklogs}</span></TableCell>
                         <TableCell>{r.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingRule(r); setRuleDialogOpen(true); }}><Pencil /> Edit rule</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deletePromotionRule.mutate(r)}><Trash2 /> Delete rule</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="gradingScales" onEdit={() => { setEditingRule(r); setRuleDialogOpen(true); }} onDelete={() => deletePromotionRule.mutate(r)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -237,14 +226,7 @@ export default function GradingPromotionPage() {
                         <TableCell><span className="text-sm">{cr.requirements || "—"}</span></TableCell>
                         <TableCell>{cr.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingCompletion(cr); setCompletionDialogOpen(true); }}><Pencil /> Edit rule</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="gradingScales" onEdit={() => { setEditingCompletion(cr); setCompletionDialogOpen(true); }} />
                         </TableCell>
                       </TableRow>
                     ))}

@@ -5,6 +5,8 @@ import { RoleFormDialog } from "@/pages/role-form-dialog";
 import { UserRoleFormDialog } from "@/pages/user-role-form-dialog";
 import { DataScopeFormDialog } from "@/pages/data-scope-form-dialog";
 import { useRoles, useUserRoles, useDataScopes, useDeleteRole, useDeleteUserRole, useDeleteDataScope } from "@/hooks/use-erp";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,12 +56,16 @@ export default function RbacAbac() {
         description="Role-based and attribute-based access control — roles, permissions, user-role assignments and data scope boundaries."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingRole(undefined); setRoleDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New role
-            </Button>
-            <Button onClick={() => { setEditingUr(undefined); setUrDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> Assign role
-            </Button>
+            <CanCreate resource="roles">
+              <Button variant="outline" onClick={() => { setEditingRole(undefined); setRoleDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New role
+              </Button>
+            </CanCreate>
+            <CanCreate resource="roles">
+              <Button onClick={() => { setEditingUr(undefined); setUrDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> Assign role
+              </Button>
+            </CanCreate>
           </div>
         }
       />
@@ -140,20 +146,7 @@ export default function RbacAbac() {
                           {r.isDefault && <Badge variant="success" className="ml-1">Default</Badge>}
                         </TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingRole(r); setRoleDialogOpen(true); }}><Pencil /> Edit role</DropdownMenuItem>
-                              {!r.isSystem && (
-                                <>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteRole.mutate(r)}><Trash2 /> Delete role</DropdownMenuItem>
-                                </>
-                              )}
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="roles" onEdit={() => { setEditingRole(r); setRoleDialogOpen(true); }} onDelete={!r.isSystem ? () => deleteRole.mutate(r) : undefined} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -198,20 +191,7 @@ export default function RbacAbac() {
                           {ur.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}
                         </TableCell>
                         <TableCell className="pr-5 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => { setEditingUr(ur); setUrDialogOpen(true); }}><Pencil /> Edit assignment</DropdownMenuItem>
-                              {ur.isActive && (
-                                <>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteUserRole.mutate(ur)}><Trash2 /> Revoke</DropdownMenuItem>
-                                </>
-                              )}
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <RowActionMenu resource="roles" onEdit={() => { setEditingUr(ur); setUrDialogOpen(true); }} onDelete={ur.isActive ? () => deleteUserRole.mutate(ur) : undefined} />
                         </TableCell>
                       </TableRow>
                     ))}

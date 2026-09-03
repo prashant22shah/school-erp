@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Calculator, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Calculator, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { PayrollRunFormDialog } from "@/pages/payroll-run-form-dialog";
 import { usePayrollRuns, useDeletePayrollRun } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { PayrollRun } from "@/lib/types";
 
@@ -59,7 +60,7 @@ export default function PayrollRulesPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Calculator} title="Payroll Rules & Calculation" titleNe="तलब नियम" microModule="M13.07/M13.08" description="Payroll rules configuration, runs and approval workflow." actions={<Button onClick={() => { setEditingRun(undefined); setRunOpen(true); }}><Plus className="h-4 w-4" /> New Payroll Run</Button>} />
+      <PageHeader icon={Calculator} title="Payroll Rules & Calculation" titleNe="तलब नियम" microModule="M13.07/M13.08" description="Payroll rules configuration, runs and approval workflow." actions={<Button onClick={() => { setEditingRun(undefined); setRunOpen(true); }}><CanCreate resource="payrollRules">New Payroll Run</CanCreate></Button>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Calculator className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Active Rules</p><p className="text-lg font-bold">{activeRules}</p></div></CardContent></Card>
@@ -75,7 +76,7 @@ export default function PayrollRulesPage() {
 
         <TabsContent value="runs" className="mt-4">
           {payrollRuns.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Period</TableHead><TableHead>Status</TableHead><TableHead>Total Amount</TableHead><TableHead>Run On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRuns.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{r.month}/{r.year}</Badge></TableCell><TableCell><Badge variant={payrollStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.totalAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.runOn)}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditingRun(r); setRunOpen(true); }}><Pencil /> Edit run</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteRun.mutate(r)}><Trash2 /> Delete run</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}{filteredRuns.length === 0 && <TableRow><TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">No payroll runs found.</TableCell></TableRow>}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Period</TableHead><TableHead>Status</TableHead><TableHead>Total Amount</TableHead><TableHead>Run On</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filteredRuns.map((r) => (<TableRow key={r.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{r.month}/{r.year}</Badge></TableCell><TableCell><Badge variant={payrollStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell><TableCell><span className="text-sm font-mono">{r.totalAmount.toLocaleString()}</span></TableCell><TableCell><span className="text-sm">{fmtDate(r.runOn)}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="payrollRules" /></TableCell></TableRow>))}{filteredRuns.length === 0 && <TableRow><TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">No payroll runs found.</TableCell></TableRow>}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 

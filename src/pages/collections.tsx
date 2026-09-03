@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Wallet, Search, Plus, Pencil, Trash2 } from "lucide-react";
+import { Wallet, Search } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { PaymentFormDialog } from "@/pages/payment-form-dialog";
 import { usePayments, useDeletePayment } from "@/hooks/use-erp";
@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { CanCreate } from "@/components/permission-gate";
+import { RowActionMenu } from "@/components/row-action-menu";
 import { fmtDate } from "@/lib/utils";
 import type { Payment } from "@/lib/types";
 
@@ -50,7 +51,7 @@ export default function CollectionsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Wallet} title="Collections & Payments" titleNe="सङ्कलन" microModule="M12.10/M12.11/M12.13" description="Receipts, payment methods and collection summary." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><Plus className="h-4 w-4" /> New Payment</Button>} />
+      <PageHeader icon={Wallet} title="Collections & Payments" titleNe="सङ्कलन" microModule="M12.10/M12.11/M12.13" description="Receipts, payment methods and collection summary." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="payments">New Payment</CanCreate></Button>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Wallet className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Payments</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Wallet className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Completed</p><p className="text-lg font-bold">{completed}</p></div></CardContent></Card>
@@ -64,7 +65,7 @@ export default function CollectionsPage() {
 
         <TabsContent value="payments" className="mt-4">
           {query.isLoading ? <LoadingBlock /> : (
-            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice</TableHead><TableHead>Student</TableHead><TableHead>Amount</TableHead><TableHead>Method</TableHead><TableHead>Paid On</TableHead><TableHead>Status</TableHead><TableHead>Reference</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{p.invoiceNo ?? p.invoiceId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm">{p.studentName ?? "—"}</span></TableCell><TableCell><span className="text-sm font-mono">{p.amount.toLocaleString()}</span></TableCell><TableCell><Badge variant={methodVariant[p.method] ?? "secondary"} className="capitalize">{p.method}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(p.paidOn)}</span></TableCell><TableCell><Badge variant={statusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{p.reference ?? "—"}</span></TableCell><TableCell className="pr-5 text-right"><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => { setEditing(p); setOpen(true); }}><Pencil /> Edit payment</DropdownMenuItem><DropdownMenuSeparator /><DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => del.mutate(p)}><Trash2 /> Delete payment</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
+            <Card className="animate-fade-up"><CardContent className="p-0"><Table><TableHeader><TableRow><TableHead className="pl-5">Invoice</TableHead><TableHead>Student</TableHead><TableHead>Amount</TableHead><TableHead>Method</TableHead><TableHead>Paid On</TableHead><TableHead>Status</TableHead><TableHead>Reference</TableHead><TableHead className="pr-5" /></TableRow></TableHeader><TableBody>{filtered.map((p) => (<TableRow key={p.id} className="group"><TableCell className="pl-5"><Badge variant="secondary">{p.invoiceNo ?? p.invoiceId.slice(0, 8)}</Badge></TableCell><TableCell><span className="text-sm">{p.studentName ?? "—"}</span></TableCell><TableCell><span className="text-sm font-mono">{p.amount.toLocaleString()}</span></TableCell><TableCell><Badge variant={methodVariant[p.method] ?? "secondary"} className="capitalize">{p.method}</Badge></TableCell><TableCell><span className="text-sm">{fmtDate(p.paidOn)}</span></TableCell><TableCell><Badge variant={statusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell><TableCell><span className="text-sm text-muted-foreground">{p.reference ?? "—"}</span></TableCell><TableCell className="pr-5 text-right"><RowActionMenu resource="payments" /></TableCell></TableRow>))}</TableBody></Table></CardContent></Card>
           )}
         </TabsContent>
 
