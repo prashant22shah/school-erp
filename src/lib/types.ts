@@ -1837,6 +1837,460 @@ export interface CompletionRecord {
   updatedOn: string;
 }
 
+// ── M11 Portals, Mobile and Self-Service — domain types ──────────────────────
+
+export type PortalAudience = "all" | "student" | "parent" | "teacher" | "staff";
+export type PortalAnnouncementStatus = "draft" | "published" | "archived";
+
+export interface PortalAnnouncement {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  title: string;
+  body: string;
+  targetAudience: PortalAudience;
+  publishOn: string;
+  expiresOn?: string;
+  status: PortalAnnouncementStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PortalKind = "student" | "parent" | "teacher" | "admin" | "kiosk";
+export interface PortalAccessLog {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  portal: PortalKind;
+  userRef: string;
+  userName: string;
+  action: string;
+  ip?: string;
+  accessedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type KioskStatus = "active" | "ended" | "error";
+export interface KioskSession {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  kioskId: string;
+  location: string;
+  startedAt: string;
+  endedAt?: string;
+  status: KioskStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type DevicePlatform = "android" | "ios" | "web";
+export type DeviceStatus = "active" | "blocked" | "expired";
+export interface MobileDevice {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  userRef: string;
+  userName: string;
+  deviceName: string;
+  platform: DevicePlatform;
+  lastSyncOn?: string;
+  status: DeviceStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type SyncStatus = "pending" | "synced" | "failed";
+export interface OfflineSyncLog {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  deviceId: string;
+  deviceName?: string;
+  entityType: string;
+  recordsSynced: number;
+  status: SyncStatus;
+  syncedOn?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface AccessibilityProfile {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  userRef: string;
+  userName: string;
+  theme: "light" | "dark" | "high_contrast";
+  fontScale: number;
+  language: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type TicketStatus = "open" | "in_progress" | "resolved" | "closed";
+export type TicketPriority = "low" | "medium" | "high" | "urgent";
+export interface PortalTicket {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  requesterRef: string;
+  requesterName: string;
+  category: "access" | "content" | "technical" | "other";
+  subject: string;
+  description?: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── M12 Finance, Fees and Accounting — domain types ──────────────────────────
+
+export type FiscalYearStatus = "draft" | "open" | "closed" | "locked";
+export interface FiscalYear {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  status: FiscalYearStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type AccountType = "asset" | "liability" | "income" | "expense" | "equity";
+export interface ChartOfAccount {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  code: string;
+  name: string;
+  type: AccountType;
+  parentId?: string;
+  parentName?: string;
+  isActive: boolean;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type JournalStatus = "draft" | "posted" | "reversed";
+export interface JournalEntry {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  fiscalYearId: string;
+  fiscalYearName?: string;
+  entryNo: string;
+  entryDate: string;
+  description: string;
+  totalDebit: number;
+  totalCredit: number;
+  status: JournalStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface FeeStructure {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  academicPeriodRef: string;
+  academicPeriodName?: string;
+  name: string;
+  code: string;
+  amount: number;
+  frequency: "one_time" | "monthly" | "term" | "annual";
+  isActive: boolean;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type FeeAssignmentStatus = "assigned" | "invoiced" | "waived";
+export interface FeeAssignment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  feeStructureId: string;
+  feeStructureName?: string;
+  amount: number;
+  discountAmount: number;
+  dueDate: string;
+  status: FeeAssignmentStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type InvoiceStatus = "draft" | "issued" | "paid" | "overdue" | "cancelled";
+export interface Invoice {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  studentRef: string;
+  studentName: string;
+  academicPeriodRef: string;
+  invoiceNo: string;
+  issueDate: string;
+  dueDate: string;
+  amount: number;
+  paidAmount: number;
+  balance: number;
+  status: InvoiceStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PaymentMethod = "cash" | "bank" | "online" | "wallet";
+export type PaymentStatus = "pending" | "completed" | "failed" | "refunded";
+export interface Payment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  invoiceId: string;
+  invoiceNo?: string;
+  studentName?: string;
+  amount: number;
+  method: PaymentMethod;
+  paidOn: string;
+  status: PaymentStatus;
+  reference?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type CreditNoteStatus = "draft" | "approved" | "applied" | "rejected";
+export interface CreditNote {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  invoiceId: string;
+  invoiceNo?: string;
+  amount: number;
+  reason: string;
+  status: CreditNoteStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type VendorBillStatus = "draft" | "approved" | "paid" | "overdue";
+export interface VendorBill {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  vendorName: string;
+  billNo: string;
+  billDate: string;
+  amount: number;
+  dueDate: string;
+  status: VendorBillStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ExpenseClaimStatus = "draft" | "submitted" | "approved" | "rejected" | "paid";
+export interface ExpenseClaim {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  category: string;
+  amount: number;
+  claimDate: string;
+  status: ExpenseClaimStatus;
+  description?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface BankAccount {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  bankName: string;
+  accountNo: string;
+  accountName: string;
+  balance: number;
+  currency: string;
+  isActive: boolean;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type BudgetStatus = "draft" | "approved" | "locked";
+export interface Budget {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  fiscalYearId: string;
+  fiscalYearName?: string;
+  department: string;
+  allocatedAmount: number;
+  utilizedAmount: number;
+  status: BudgetStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+// ── M13 Human Resources and Payroll — domain types ───────────────────────────
+
+export type StaffStatus = "active" | "on_leave" | "suspended" | "resigned" | "retired";
+export interface StaffProfile {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffCode: string;
+  name: string;
+  department: string;
+  designation: string;
+  joinDate: string;
+  status: StaffStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface Position {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  title: string;
+  department: string;
+  grade: string;
+  isVacant: boolean;
+  headCount: number;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type RecruitmentStage = "applied" | "shortlisted" | "interviewed" | "offered" | "hired" | "rejected";
+export interface Recruitment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  positionId: string;
+  positionTitle?: string;
+  applicantName: string;
+  stage: RecruitmentStage;
+  appliedOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type LeaveType = "sick" | "casual" | "annual" | "maternity" | "unpaid";
+export type LeaveStatus = "pending" | "approved" | "rejected" | "cancelled";
+export interface LeaveRequest {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  leaveType: LeaveType;
+  fromDate: string;
+  toDate: string;
+  days: number;
+  status: LeaveStatus;
+  reason: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ReviewStatus2 = "draft" | "submitted" | "approved" | "acknowledged";
+export interface PerformanceReview {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  period: string;
+  rating: number;
+  reviewer: string;
+  status: ReviewStatus2;
+  remarks?: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export interface Compensation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  component: "basic" | "allowance" | "bonus" | "deduction";
+  amount: number;
+  effectiveFrom: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PayrollStatus = "draft" | "computed" | "approved" | "paid" | "cancelled";
+export interface PayrollRun {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  month: number;
+  year: number;
+  status: PayrollStatus;
+  totalAmount: number;
+  runOn: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type PayslipStatus = "draft" | "issued" | "paid";
+export interface Payslip {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  payrollRunId: string;
+  payrollMonth?: string;
+  staffRef: string;
+  staffName: string;
+  gross: number;
+  deductions: number;
+  net: number;
+  status: PayslipStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type SeparationType = "resignation" | "retirement" | "termination" | "transfer";
+export type SeparationStatus = "pending" | "approved" | "completed" | "cancelled";
+export interface Separation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  type: SeparationType;
+  lastWorkingDate: string;
+  status: SeparationStatus;
+  reason: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
+export type ContractType = "permanent" | "contract" | "probation" | "temporary";
+export type ContractStatus = "active" | "expired" | "terminated";
+export interface StaffContract {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  staffRef: string;
+  staffName: string;
+  contractType: ContractType;
+  startDate: string;
+  endDate?: string;
+  salary: number;
+  status: ContractStatus;
+  createdOn: string;
+  updatedOn: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -1961,6 +2415,38 @@ export interface DBSchema {
   certificateRequests: CertificateRequest[];
   digitalCredentials: DigitalCredential[];
   completionRecords: CompletionRecord[];
+  // M11 stores
+  portalAnnouncements: PortalAnnouncement[];
+  portalAccessLogs: PortalAccessLog[];
+  kioskSessions: KioskSession[];
+  mobileDevices: MobileDevice[];
+  offlineSyncLogs: OfflineSyncLog[];
+  accessibilityProfiles: AccessibilityProfile[];
+  portalTickets: PortalTicket[];
+  // M12 stores
+  fiscalYears: FiscalYear[];
+  chartOfAccounts: ChartOfAccount[];
+  journalEntries: JournalEntry[];
+  feeStructures: FeeStructure[];
+  feeAssignments: FeeAssignment[];
+  invoices: Invoice[];
+  payments: Payment[];
+  creditNotes: CreditNote[];
+  vendorBills: VendorBill[];
+  expenseClaims: ExpenseClaim[];
+  bankAccounts: BankAccount[];
+  budgets: Budget[];
+  // M13 stores
+  staffProfiles: StaffProfile[];
+  positions: Position[];
+  recruitments: Recruitment[];
+  leaveRequests: LeaveRequest[];
+  performanceReviews: PerformanceReview[];
+  compensations: Compensation[];
+  payrollRuns: PayrollRun[];
+  payslips: Payslip[];
+  separations: Separation[];
+  staffContracts: StaffContract[];
 }
 
 export type StoreName = keyof DBSchema;

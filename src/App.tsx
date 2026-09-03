@@ -67,6 +67,28 @@ import MarksheetsPage from "@/pages/marksheets";
 import CertificatesPage from "@/pages/certificates";
 import CredentialsPage from "@/pages/credentials";
 import CompletionsPage from "@/pages/completions";
+// M11 pages
+import PortalAnnouncementsPage from "@/pages/portal-announcements";
+import PortalAccessPage from "@/pages/portal-access";
+import KioskSessionsPage from "@/pages/kiosk-sessions";
+import MobileDevicesPage from "@/pages/mobile-devices";
+import AccessibilityPage from "@/pages/accessibility";
+// M12 pages
+import FinanceSetupPage from "@/pages/finance-setup";
+import JournalsPage from "@/pages/journals";
+import FeeCatalogPage from "@/pages/fee-catalog";
+import FeeAssignmentsPage from "@/pages/fee-assignments";
+import InvoicesPage from "@/pages/invoices";
+import CollectionsPage from "@/pages/collections";
+import VendorBillsPage from "@/pages/vendor-bills";
+import BankBudgetPage from "@/pages/bank-budget";
+// M13 pages
+import StaffPage from "@/pages/staff";
+import RecruitmentPage from "@/pages/recruitment";
+import LeaveRequestsPage from "@/pages/leave-requests";
+import PerformancePage from "@/pages/performance";
+import PayrollPage from "@/pages/payroll";
+import SeparationsPage from "@/pages/separations";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -184,6 +206,28 @@ export default function App() {
               <Route path="certificates" element={<CertificatesPage />} />
               <Route path="credentials" element={<CredentialsPage />} />
               <Route path="completions" element={<CompletionsPage />} />
+              {/* M11 */}
+              <Route path="portal-announcements" element={<PortalAnnouncementsPage />} />
+              <Route path="portal-access" element={<PortalAccessPage />} />
+              <Route path="kiosk-sessions" element={<KioskSessionsPage />} />
+              <Route path="mobile-devices" element={<MobileDevicesPage />} />
+              <Route path="accessibility" element={<AccessibilityPage />} />
+              {/* M12 */}
+              <Route path="finance-setup" element={<FinanceSetupPage />} />
+              <Route path="journals" element={<JournalsPage />} />
+              <Route path="fee-catalog" element={<FeeCatalogPage />} />
+              <Route path="fee-assignments" element={<FeeAssignmentsPage />} />
+              <Route path="invoices" element={<InvoicesPage />} />
+              <Route path="collections" element={<CollectionsPage />} />
+              <Route path="vendor-bills" element={<VendorBillsPage />} />
+              <Route path="bank-budget" element={<BankBudgetPage />} />
+              {/* M13 */}
+              <Route path="staff" element={<StaffPage />} />
+              <Route path="recruitment" element={<RecruitmentPage />} />
+              <Route path="leave-requests" element={<LeaveRequestsPage />} />
+              <Route path="performance" element={<PerformancePage />} />
+              <Route path="payroll" element={<PayrollPage />} />
+              <Route path="separations" element={<SeparationsPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -24,6 +24,12 @@ import type {
   PracticalExam, IntegrityCase, RecheckRequest,
   ResultRun, ResultLine, ResultPublication, ResultCorrection, Marksheet, Transcript,
   Certificate, CertificateRequest, DigitalCredential, CompletionRecord,
+  PortalAnnouncement, PortalAccessLog, KioskSession, MobileDevice, OfflineSyncLog,
+  AccessibilityProfile, PortalTicket,
+  FiscalYear, ChartOfAccount, JournalEntry, FeeStructure, FeeAssignment, Invoice,
+  Payment, CreditNote, VendorBill, ExpenseClaim, BankAccount, Budget,
+  StaffProfile, Position, Recruitment, LeaveRequest, PerformanceReview, Compensation,
+  PayrollRun, Payslip, Separation, StaffContract,
 } from "@/lib/types";
 
 export const keys = {
@@ -149,6 +155,38 @@ export const keys = {
   certificateRequests: ["certificateRequests"] as const,
   digitalCredentials: ["digitalCredentials"] as const,
   completionRecords: ["completionRecords"] as const,
+  // M11
+  portalAnnouncements: ["portalAnnouncements"] as const,
+  portalAccessLogs: ["portalAccessLogs"] as const,
+  kioskSessions: ["kioskSessions"] as const,
+  mobileDevices: ["mobileDevices"] as const,
+  offlineSyncLogs: ["offlineSyncLogs"] as const,
+  accessibilityProfiles: ["accessibilityProfiles"] as const,
+  portalTickets: ["portalTickets"] as const,
+  // M12
+  fiscalYears: ["fiscalYears"] as const,
+  chartOfAccounts: ["chartOfAccounts"] as const,
+  journalEntries: ["journalEntries"] as const,
+  feeStructures: ["feeStructures"] as const,
+  feeAssignments: ["feeAssignments"] as const,
+  invoices: ["invoices"] as const,
+  payments: ["payments"] as const,
+  creditNotes: ["creditNotes"] as const,
+  vendorBills: ["vendorBills"] as const,
+  expenseClaims: ["expenseClaims"] as const,
+  bankAccounts: ["bankAccounts"] as const,
+  budgets: ["budgets"] as const,
+  // M13
+  staffProfiles: ["staffProfiles"] as const,
+  positions: ["positions"] as const,
+  recruitments: ["recruitments"] as const,
+  leaveRequests: ["leaveRequests"] as const,
+  performanceReviews: ["performanceReviews"] as const,
+  compensations: ["compensations"] as const,
+  payrollRuns: ["payrollRuns"] as const,
+  payslips: ["payslips"] as const,
+  separations: ["separations"] as const,
+  staffContracts: ["staffContracts"] as const,
 };
 
 // ── Queries ──────────────────────────────────────────────────────────────────
@@ -274,6 +312,38 @@ export const useCertificates = () => useQuery({ queryKey: keys.certificates, que
 export const useCertificateRequests = () => useQuery({ queryKey: keys.certificateRequests, queryFn: api.listCertificateRequests });
 export const useDigitalCredentials = () => useQuery({ queryKey: keys.digitalCredentials, queryFn: api.listDigitalCredentials });
 export const useCompletionRecords = () => useQuery({ queryKey: keys.completionRecords, queryFn: api.listCompletionRecords });
+// M11
+export const usePortalAnnouncements = () => useQuery({ queryKey: keys.portalAnnouncements, queryFn: api.listPortalAnnouncements });
+export const usePortalAccessLogs = () => useQuery({ queryKey: keys.portalAccessLogs, queryFn: api.listPortalAccessLogs });
+export const useKioskSessions = () => useQuery({ queryKey: keys.kioskSessions, queryFn: api.listKioskSessions });
+export const useMobileDevices = () => useQuery({ queryKey: keys.mobileDevices, queryFn: api.listMobileDevices });
+export const useOfflineSyncLogs = () => useQuery({ queryKey: keys.offlineSyncLogs, queryFn: api.listOfflineSyncLogs });
+export const useAccessibilityProfiles = () => useQuery({ queryKey: keys.accessibilityProfiles, queryFn: api.listAccessibilityProfiles });
+export const usePortalTickets = () => useQuery({ queryKey: keys.portalTickets, queryFn: api.listPortalTickets });
+// M12
+export const useFiscalYears = () => useQuery({ queryKey: keys.fiscalYears, queryFn: api.listFiscalYears });
+export const useChartOfAccounts = () => useQuery({ queryKey: keys.chartOfAccounts, queryFn: api.listChartOfAccounts });
+export const useJournalEntries = () => useQuery({ queryKey: keys.journalEntries, queryFn: api.listJournalEntries });
+export const useFeeStructures = () => useQuery({ queryKey: keys.feeStructures, queryFn: api.listFeeStructures });
+export const useFeeAssignments = () => useQuery({ queryKey: keys.feeAssignments, queryFn: api.listFeeAssignments });
+export const useInvoices = () => useQuery({ queryKey: keys.invoices, queryFn: api.listInvoices });
+export const usePayments = () => useQuery({ queryKey: keys.payments, queryFn: api.listPayments });
+export const useCreditNotes = () => useQuery({ queryKey: keys.creditNotes, queryFn: api.listCreditNotes });
+export const useVendorBills = () => useQuery({ queryKey: keys.vendorBills, queryFn: api.listVendorBills });
+export const useExpenseClaims = () => useQuery({ queryKey: keys.expenseClaims, queryFn: api.listExpenseClaims });
+export const useBankAccounts = () => useQuery({ queryKey: keys.bankAccounts, queryFn: api.listBankAccounts });
+export const useBudgets = () => useQuery({ queryKey: keys.budgets, queryFn: api.listBudgets });
+// M13
+export const useStaffProfiles = () => useQuery({ queryKey: keys.staffProfiles, queryFn: api.listStaffProfiles });
+export const usePositions = () => useQuery({ queryKey: keys.positions, queryFn: api.listPositions });
+export const useRecruitments = () => useQuery({ queryKey: keys.recruitments, queryFn: api.listRecruitments });
+export const useLeaveRequests = () => useQuery({ queryKey: keys.leaveRequests, queryFn: api.listLeaveRequests });
+export const usePerformanceReviews = () => useQuery({ queryKey: keys.performanceReviews, queryFn: api.listPerformanceReviews });
+export const useCompensations = () => useQuery({ queryKey: keys.compensations, queryFn: api.listCompensations });
+export const usePayrollRuns = () => useQuery({ queryKey: keys.payrollRuns, queryFn: api.listPayrollRuns });
+export const usePayslips = () => useQuery({ queryKey: keys.payslips, queryFn: api.listPayslips });
+export const useSeparations = () => useQuery({ queryKey: keys.separations, queryFn: api.listSeparations });
+export const useStaffContracts = () => useQuery({ queryKey: keys.staffContracts, queryFn: api.listStaffContracts });
 
 // ── Mutations ────────────────────────────────────────────────────────────────
 function useErpMutation<TIn, TOut>(
@@ -511,3 +581,64 @@ export const useSaveDigitalCredential = () => useErpMutation<DigitalCredential, 
 export const useDeleteDigitalCredential = () => useErpMutation<DigitalCredential, void>(api.deleteDigitalCredential, [keys.digitalCredentials, keys.audit]);
 export const useSaveCompletionRecord = () => useErpMutation<CompletionRecord, CompletionRecord>(api.saveCompletionRecord, [keys.completionRecords, keys.audit]);
 export const useDeleteCompletionRecord = () => useErpMutation<CompletionRecord, void>(api.deleteCompletionRecord, [keys.completionRecords, keys.audit]);
+// M11
+export const useSavePortalAnnouncement = () => useErpMutation<PortalAnnouncement, PortalAnnouncement>(api.savePortalAnnouncement, [keys.portalAnnouncements, keys.audit]);
+export const useDeletePortalAnnouncement = () => useErpMutation<PortalAnnouncement, void>(api.deletePortalAnnouncement, [keys.portalAnnouncements, keys.audit]);
+export const useSavePortalAccessLog = () => useErpMutation<PortalAccessLog, PortalAccessLog>(api.savePortalAccessLog, [keys.portalAccessLogs, keys.audit]);
+export const useDeletePortalAccessLog = () => useErpMutation<PortalAccessLog, void>(api.deletePortalAccessLog, [keys.portalAccessLogs, keys.audit]);
+export const useSaveKioskSession = () => useErpMutation<KioskSession, KioskSession>(api.saveKioskSession, [keys.kioskSessions, keys.audit]);
+export const useDeleteKioskSession = () => useErpMutation<KioskSession, void>(api.deleteKioskSession, [keys.kioskSessions, keys.audit]);
+export const useSaveMobileDevice = () => useErpMutation<MobileDevice, MobileDevice>(api.saveMobileDevice, [keys.mobileDevices, keys.audit]);
+export const useDeleteMobileDevice = () => useErpMutation<MobileDevice, void>(api.deleteMobileDevice, [keys.mobileDevices, keys.audit]);
+export const useSaveOfflineSyncLog = () => useErpMutation<OfflineSyncLog, OfflineSyncLog>(api.saveOfflineSyncLog, [keys.offlineSyncLogs, keys.audit]);
+export const useDeleteOfflineSyncLog = () => useErpMutation<OfflineSyncLog, void>(api.deleteOfflineSyncLog, [keys.offlineSyncLogs, keys.audit]);
+export const useSaveAccessibilityProfile = () => useErpMutation<AccessibilityProfile, AccessibilityProfile>(api.saveAccessibilityProfile, [keys.accessibilityProfiles, keys.audit]);
+export const useDeleteAccessibilityProfile = () => useErpMutation<AccessibilityProfile, void>(api.deleteAccessibilityProfile, [keys.accessibilityProfiles, keys.audit]);
+export const useSavePortalTicket = () => useErpMutation<PortalTicket, PortalTicket>(api.savePortalTicket, [keys.portalTickets, keys.audit]);
+export const useDeletePortalTicket = () => useErpMutation<PortalTicket, void>(api.deletePortalTicket, [keys.portalTickets, keys.audit]);
+// M12
+export const useSaveFiscalYear = () => useErpMutation<FiscalYear, FiscalYear>(api.saveFiscalYear, [keys.fiscalYears, keys.audit]);
+export const useDeleteFiscalYear = () => useErpMutation<FiscalYear, void>(api.deleteFiscalYear, [keys.fiscalYears, keys.audit]);
+export const useSaveChartOfAccount = () => useErpMutation<ChartOfAccount, ChartOfAccount>(api.saveChartOfAccount, [keys.chartOfAccounts, keys.audit]);
+export const useDeleteChartOfAccount = () => useErpMutation<ChartOfAccount, void>(api.deleteChartOfAccount, [keys.chartOfAccounts, keys.audit]);
+export const useSaveJournalEntry = () => useErpMutation<JournalEntry, JournalEntry>(api.saveJournalEntry, [keys.journalEntries, keys.audit]);
+export const useDeleteJournalEntry = () => useErpMutation<JournalEntry, void>(api.deleteJournalEntry, [keys.journalEntries, keys.audit]);
+export const useSaveFeeStructure = () => useErpMutation<FeeStructure, FeeStructure>(api.saveFeeStructure, [keys.feeStructures, keys.audit]);
+export const useDeleteFeeStructure = () => useErpMutation<FeeStructure, void>(api.deleteFeeStructure, [keys.feeStructures, keys.audit]);
+export const useSaveFeeAssignment = () => useErpMutation<FeeAssignment, FeeAssignment>(api.saveFeeAssignment, [keys.feeAssignments, keys.audit]);
+export const useDeleteFeeAssignment = () => useErpMutation<FeeAssignment, void>(api.deleteFeeAssignment, [keys.feeAssignments, keys.audit]);
+export const useSaveInvoice = () => useErpMutation<Invoice, Invoice>(api.saveInvoice, [keys.invoices, keys.audit]);
+export const useDeleteInvoice = () => useErpMutation<Invoice, void>(api.deleteInvoice, [keys.invoices, keys.audit]);
+export const useSavePayment = () => useErpMutation<Payment, Payment>(api.savePayment, [keys.payments, keys.audit]);
+export const useDeletePayment = () => useErpMutation<Payment, void>(api.deletePayment, [keys.payments, keys.audit]);
+export const useSaveCreditNote = () => useErpMutation<CreditNote, CreditNote>(api.saveCreditNote, [keys.creditNotes, keys.audit]);
+export const useDeleteCreditNote = () => useErpMutation<CreditNote, void>(api.deleteCreditNote, [keys.creditNotes, keys.audit]);
+export const useSaveVendorBill = () => useErpMutation<VendorBill, VendorBill>(api.saveVendorBill, [keys.vendorBills, keys.audit]);
+export const useDeleteVendorBill = () => useErpMutation<VendorBill, void>(api.deleteVendorBill, [keys.vendorBills, keys.audit]);
+export const useSaveExpenseClaim = () => useErpMutation<ExpenseClaim, ExpenseClaim>(api.saveExpenseClaim, [keys.expenseClaims, keys.audit]);
+export const useDeleteExpenseClaim = () => useErpMutation<ExpenseClaim, void>(api.deleteExpenseClaim, [keys.expenseClaims, keys.audit]);
+export const useSaveBankAccount = () => useErpMutation<BankAccount, BankAccount>(api.saveBankAccount, [keys.bankAccounts, keys.audit]);
+export const useDeleteBankAccount = () => useErpMutation<BankAccount, void>(api.deleteBankAccount, [keys.bankAccounts, keys.audit]);
+export const useSaveBudget = () => useErpMutation<Budget, Budget>(api.saveBudget, [keys.budgets, keys.audit]);
+export const useDeleteBudget = () => useErpMutation<Budget, void>(api.deleteBudget, [keys.budgets, keys.audit]);
+// M13
+export const useSaveStaffProfile = () => useErpMutation<StaffProfile, StaffProfile>(api.saveStaffProfile, [keys.staffProfiles, keys.audit]);
+export const useDeleteStaffProfile = () => useErpMutation<StaffProfile, void>(api.deleteStaffProfile, [keys.staffProfiles, keys.audit]);
+export const useSavePosition = () => useErpMutation<Position, Position>(api.savePosition, [keys.positions, keys.audit]);
+export const useDeletePosition = () => useErpMutation<Position, void>(api.deletePosition, [keys.positions, keys.audit]);
+export const useSaveRecruitment = () => useErpMutation<Recruitment, Recruitment>(api.saveRecruitment, [keys.recruitments, keys.audit]);
+export const useDeleteRecruitment = () => useErpMutation<Recruitment, void>(api.deleteRecruitment, [keys.recruitments, keys.audit]);
+export const useSaveLeaveRequest = () => useErpMutation<LeaveRequest, LeaveRequest>(api.saveLeaveRequest, [keys.leaveRequests, keys.audit]);
+export const useDeleteLeaveRequest = () => useErpMutation<LeaveRequest, void>(api.deleteLeaveRequest, [keys.leaveRequests, keys.audit]);
+export const useSavePerformanceReview = () => useErpMutation<PerformanceReview, PerformanceReview>(api.savePerformanceReview, [keys.performanceReviews, keys.audit]);
+export const useDeletePerformanceReview = () => useErpMutation<PerformanceReview, void>(api.deletePerformanceReview, [keys.performanceReviews, keys.audit]);
+export const useSaveCompensation = () => useErpMutation<Compensation, Compensation>(api.saveCompensation, [keys.compensations, keys.audit]);
+export const useDeleteCompensation = () => useErpMutation<Compensation, void>(api.deleteCompensation, [keys.compensations, keys.audit]);
+export const useSavePayrollRun = () => useErpMutation<PayrollRun, PayrollRun>(api.savePayrollRun, [keys.payrollRuns, keys.audit]);
+export const useDeletePayrollRun = () => useErpMutation<PayrollRun, void>(api.deletePayrollRun, [keys.payrollRuns, keys.audit]);
+export const useSavePayslip = () => useErpMutation<Payslip, Payslip>(api.savePayslip, [keys.payslips, keys.audit]);
+export const useDeletePayslip = () => useErpMutation<Payslip, void>(api.deletePayslip, [keys.payslips, keys.audit]);
+export const useSaveSeparation = () => useErpMutation<Separation, Separation>(api.saveSeparation, [keys.separations, keys.audit]);
+export const useDeleteSeparation = () => useErpMutation<Separation, void>(api.deleteSeparation, [keys.separations, keys.audit]);
+export const useSaveStaffContract = () => useErpMutation<StaffContract, StaffContract>(api.saveStaffContract, [keys.staffContracts, keys.audit]);
+export const useDeleteStaffContract = () => useErpMutation<StaffContract, void>(api.deleteStaffContract, [keys.staffContracts, keys.audit]);

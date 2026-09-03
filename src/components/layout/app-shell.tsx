@@ -16,6 +16,10 @@ import {
   FileText as FileTextM08, HelpCircle, FileCheck, Building2, Scale, FlaskConical, RefreshCw,
   // M09 icons
   BadgeCheck, Trophy,
+  // M11 icons
+  Monitor, Smartphone, Accessibility, Ticket,
+  // M12 icons
+  Receipt, Wallet, Tag, PiggyBank, DollarSign, Briefcase, UserPlus, CalendarOff,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -112,6 +116,34 @@ const m09Nav: NavItem[] = [
   { to: "/completions", label: "Class 10/12 Completion", labelNe: "उत्तीर्ण", icon: Trophy, micro: "M09.07" },
 ];
 
+const m11Nav: NavItem[] = [
+  { to: "/portal-announcements", label: "Portal Announcements", labelNe: "सूचना", icon: Megaphone, micro: "M11.01" },
+  { to: "/portal-access", label: "Portal Access Logs", labelNe: "पहुँच लग", icon: ShieldCheck, micro: "M11.02" },
+  { to: "/kiosk-sessions", label: "Kiosk Sessions", labelNe: "कियोस्क", icon: Monitor, micro: "M11.05" },
+  { to: "/mobile-devices", label: "Mobile & Offline", labelNe: "मोबाइल", icon: Smartphone, micro: "M11.06" },
+  { to: "/accessibility", label: "Accessibility & Tickets", labelNe: "पहुँचयोग्यता", icon: Accessibility, micro: "M11.07" },
+];
+
+const m12Nav: NavItem[] = [
+  { to: "/finance-setup", label: "Finance Setup", labelNe: "वित्त सेटअप", icon: Landmark, micro: "M12.01" },
+  { to: "/journals", label: "Journals", labelNe: "जर्नल", icon: BookOpen, micro: "M12.03" },
+  { to: "/fee-catalog", label: "Fee Catalog", labelNe: "शुल्क सूची", icon: Tag, micro: "M12.05" },
+  { to: "/fee-assignments", label: "Fee Assignments", labelNe: "शुल्क नियुक्ति", icon: UserCheck, micro: "M12.06" },
+  { to: "/invoices", label: "Invoices & Credit Notes", labelNe: "बीजक", icon: Receipt, micro: "M12.07" },
+  { to: "/collections", label: "Collections & Payments", labelNe: "भुक्तानी", icon: Wallet, micro: "M12.10" },
+  { to: "/vendor-bills", label: "Vendor & Claims", labelNe: "विक्रेता", icon: Building2, micro: "M12.14" },
+  { to: "/bank-budget", label: "Bank & Budget", labelNe: "बैंक बजेट", icon: PiggyBank, micro: "M12.17" },
+];
+
+const m13Nav: NavItem[] = [
+  { to: "/staff", label: "Staff & Positions", labelNe: "कर्मचारी", icon: Users, micro: "M13.01" },
+  { to: "/recruitment", label: "Recruitment", labelNe: "भर्ती", icon: UserPlus, micro: "M13.03" },
+  { to: "/leave-requests", label: "Leave & Absence", labelNe: "बिदा", icon: CalendarOff, micro: "M13.04" },
+  { to: "/performance", label: "Performance & Comp", labelNe: "प्रदर्शन", icon: Award, micro: "M13.05" },
+  { to: "/payroll", label: "Payroll & Payslips", labelNe: "तलब", icon: DollarSign, micro: "M13.07" },
+  { to: "/separations", label: "Separation & Contracts", labelNe: "अवकाश", icon: Briefcase, micro: "M13.10" },
+];
+
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
   const filtered = items.filter((item) => canAccess(role, item.to));
   if (filtered.length === 0) return null;
@@ -165,7 +197,7 @@ export function AppShell() {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Shikshya ERP</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M09</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M13</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -178,6 +210,9 @@ export function AppShell() {
           <NavSection label="Scheduling & Attendance" items={m07Nav} role={role} />
           <NavSection label="Assessment & Exams" items={m08Nav} role={role} />
           <NavSection label="Results & Certificates" items={m09Nav} role={role} />
+          <NavSection label="Portals & Self-Service" items={m11Nav} role={role} />
+          <NavSection label="Finance & Accounting" items={m12Nav} role={role} />
+          <NavSection label="HR & Payroll" items={m13Nav} role={role} />
         </nav>
 
         {/* User + Logout */}
@@ -239,7 +274,7 @@ export function AppShell() {
           <Outlet />
         </main>
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground">
-          Shikshya ERP · Modules 1–9 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Design prototype (fake data, IndexedDB)
+          Shikshya ERP · Modules 1–13 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Design prototype (fake data, IndexedDB)
         </footer>
       </div>
     </div>

@@ -89,6 +89,9 @@ const ALL_ADMIN_ROUTES = [
   "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
   "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
   "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
+  "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
+  "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
+  "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -104,11 +107,17 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
     "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
+    "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
+    "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
+    "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
   ],
 
   accountant: [
     "/institution", "/calendar",
     "/students", "/enrolments", "/holds",
+    "/portal-announcements", "/portal-access",
+    "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
+    "/staff", "/payroll",
   ],
 
   teacher: [
@@ -119,6 +128,8 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/timetable", "/substitutions", "/attendance", "/attendance-corrections", "/shifts", "/attendance-alerts",
     "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
+    "/portal-announcements", "/portal-access", "/mobile-devices", "/accessibility",
+    "/staff", "/leave-requests", "/performance", "/payroll", "/separations",
   ],
 
   student: [

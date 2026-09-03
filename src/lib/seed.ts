@@ -926,6 +926,152 @@ export function seedData() {
     { id: "comp-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", gradeClassRef: "gc-8", academicPeriodRef: "ay-2", type: "SEE", status: "certified", completedOn: "2024-06-30", createdOn: "2024-06-30", updatedOn: "2024-06-30" },
   ];
 
+  // ── M11 portals seed ────────────────────────────────────────────────
+  const portalAnnouncements: DBSchema["portalAnnouncements"] = [
+    { id: "pa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "SEE Routine Published", body: "SEE exam routine for 2082 published on student portal", targetAudience: "student", publishOn: "2025-04-01", expiresOn: "2025-06-01", status: "published", createdOn: "2025-04-01", updatedOn: "2025-04-01" },
+    { id: "pa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Parent-Teacher Meeting", body: "PTM scheduled 2026-05-10 for all parents", targetAudience: "parent", publishOn: "2026-05-01", status: "published", createdOn: "2026-05-01", updatedOn: "2026-05-01" },
+    { id: "pa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Teacher Training Workshop", body: "Digital teaching workshop for teachers", targetAudience: "teacher", publishOn: "2026-06-15", status: "draft", createdOn: "2026-06-10", updatedOn: "2026-06-10" },
+    { id: "pa-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Dashain Holiday Notice", body: "School closed for Dashain 2026-10-14 to 2026-10-22", targetAudience: "all", publishOn: "2026-10-05", status: "published", createdOn: "2026-10-01", updatedOn: "2026-10-01" },
+  ];
+  const portalAccessLogs: DBSchema["portalAccessLogs"] = [
+    { id: "pal-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, portal: "student", userRef: "stu-1", userName: "Ram Bahadur Shrestha", action: "login", ip: "202.51.78.12", accessedOn: "2026-09-01T08:10:00", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+    { id: "pal-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, portal: "parent", userRef: "uid-6", userName: "Sita Adhikari", action: "view_result", ip: "202.51.78.14", accessedOn: "2026-09-01T09:00:00", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+    { id: "pal-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, portal: "teacher", userRef: "uid-5", userName: "Manoj Rai", action: "marks_entry", accessedOn: "2026-09-02T11:00:00", createdOn: "2026-09-02", updatedOn: "2026-09-02" },
+  ];
+  const kioskSessions: DBSchema["kioskSessions"] = [
+    { id: "ks-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, kioskId: "KIOSK-01", location: "Front Desk", startedAt: "2026-09-01T08:00:00", endedAt: "2026-09-01T16:00:00", status: "ended", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+    { id: "ks-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, kioskId: "KIOSK-02", location: "Library", startedAt: "2026-09-02T09:00:00", status: "active", createdOn: "2026-09-02", updatedOn: "2026-09-02" },
+    { id: "ks-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, kioskId: "KIOSK-01", location: "Front Desk", startedAt: "2026-09-03T08:05:00", status: "error", createdOn: "2026-09-03", updatedOn: "2026-09-03" },
+  ];
+  const mobileDevices: DBSchema["mobileDevices"] = [
+    { id: "md-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-5", userName: "Manoj Rai", deviceName: "Manoj - Galaxy A55", platform: "android", lastSyncOn: "2026-09-01T18:00:00", status: "active", createdOn: "2026-08-15", updatedOn: "2026-09-01" },
+    { id: "md-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-2", userName: "Ramesh Shrestha", deviceName: "Ramesh iPhone 14", platform: "ios", status: "active", createdOn: "2026-08-20", updatedOn: "2026-08-20" },
+    { id: "md-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-6", userName: "Sita Adhikari", deviceName: "Sita - Web", platform: "web", lastSyncOn: "2026-09-02T10:00:00", status: "active", createdOn: "2026-08-01", updatedOn: "2026-09-02" },
+  ];
+  const offlineSyncLogs: DBSchema["offlineSyncLogs"] = [
+    { id: "osl-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, deviceId: "md-1", deviceName: "Manoj - Galaxy A55", entityType: "attendance", recordsSynced: 42, status: "synced", syncedOn: "2026-09-01T18:05:00", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+    { id: "osl-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, deviceId: "md-1", entityType: "marks", recordsSynced: 12, status: "pending", createdOn: "2026-09-02", updatedOn: "2026-09-02" },
+    { id: "osl-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, deviceId: "md-2", entityType: "leave", recordsSynced: 1, status: "failed", syncedOn: "2026-09-01T19:00:00", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+  ];
+  const accessibilityProfiles: DBSchema["accessibilityProfiles"] = [
+    { id: "ap-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-6", userName: "Sita Adhikari", theme: "high_contrast", fontScale: 1.25, language: "ne", createdOn: "2026-08-01", updatedOn: "2026-08-01" },
+    { id: "ap-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, userRef: "uid-5", userName: "Manoj Rai", theme: "light", fontScale: 1, language: "en", createdOn: "2026-08-15", updatedOn: "2026-08-15" },
+  ];
+  const portalTickets: DBSchema["portalTickets"] = [
+    { id: "ptk-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, requesterRef: "stu-1", requesterName: "Ram Bahadur Shrestha", category: "access", subject: "Cannot view result", description: "Result page shows blank", status: "open", priority: "high", createdOn: "2026-09-01", updatedOn: "2026-09-01" },
+    { id: "ptk-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, requesterRef: "uid-6", requesterName: "Sita Adhikari", category: "technical", subject: "OTP not received", status: "in_progress", priority: "medium", createdOn: "2026-09-02", updatedOn: "2026-09-02" },
+    { id: "ptk-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, requesterRef: "uid-5", requesterName: "Manoj Rai", category: "content", subject: "Question paper PDF missing", status: "resolved", priority: "low", createdOn: "2026-08-30", updatedOn: "2026-09-01" },
+  ];
+
+  // ── M12 finance seed ──────────────────────────────────────────────
+  const fiscalYears: DBSchema["fiscalYears"] = [
+    { id: "fy-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "FY 2081/82", startDate: "2024-07-16", endDate: "2025-07-15", status: "closed", createdOn: "2024-07-16", updatedOn: "2025-07-15" },
+    { id: "fy-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "FY 2082/83", startDate: "2025-07-16", endDate: "2026-07-15", status: "open", createdOn: "2025-07-16", updatedOn: "2025-07-16" },
+    { id: "fy-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "FY 2083/84", startDate: "2026-07-16", endDate: "2027-07-15", status: "draft", createdOn: "2026-06-01", updatedOn: "2026-06-01" },
+  ];
+  const chartOfAccounts: DBSchema["chartOfAccounts"] = [
+    { id: "coa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "1000", name: "Assets", type: "asset", isActive: true, createdOn: "2024-07-16", updatedOn: "2024-07-16" },
+    { id: "coa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "1100", name: "Cash & Bank", type: "asset", parentId: "coa-1", parentName: "Assets", isActive: true, createdOn: "2024-07-16", updatedOn: "2024-07-16" },
+    { id: "coa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "4000", name: "Fee Income", type: "income", isActive: true, createdOn: "2024-07-16", updatedOn: "2024-07-16" },
+    { id: "coa-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "5000", name: "Salaries Expense", type: "expense", isActive: true, createdOn: "2024-07-16", updatedOn: "2024-07-16" },
+  ];
+  const journalEntries: DBSchema["journalEntries"] = [
+    { id: "je-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", fiscalYearName: "FY 2082/83", entryNo: "JE-2082-001", entryDate: "2025-08-01", description: "Tuition fee collection July", totalDebit: 850000, totalCredit: 850000, status: "posted", createdOn: "2025-08-01", updatedOn: "2025-08-01" },
+    { id: "je-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", fiscalYearName: "FY 2082/83", entryNo: "JE-2082-002", entryDate: "2025-08-15", description: "Salary payroll August", totalDebit: 620000, totalCredit: 620000, status: "posted", createdOn: "2025-08-15", updatedOn: "2025-08-15" },
+    { id: "je-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", entryNo: "JE-2082-003", entryDate: "2025-09-01", description: "Lab equipment purchase", totalDebit: 120000, totalCredit: 120000, status: "draft", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+  const feeStructures: DBSchema["feeStructures"] = [
+    { id: "fs-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", academicPeriodName: "2082 BS", name: "Tuition - Class 10", code: "FEE-TU10", amount: 3500, frequency: "monthly", isActive: true, createdOn: "2025-03-01", updatedOn: "2025-03-01" },
+    { id: "fs-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "Admission Fee", code: "FEE-ADM", amount: 15000, frequency: "one_time", isActive: true, createdOn: "2025-03-01", updatedOn: "2025-03-01" },
+    { id: "fs-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "Transport Fee", code: "FEE-TRN", amount: 2000, frequency: "monthly", isActive: true, createdOn: "2025-03-01", updatedOn: "2025-03-01" },
+    { id: "fs-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, academicPeriodRef: "ay-1", name: "Lab Fee - Science", code: "FEE-LAB", amount: 8000, frequency: "annual", isActive: true, createdOn: "2025-03-01", updatedOn: "2025-03-01" },
+  ];
+  const feeAssignments: DBSchema["feeAssignments"] = [
+    { id: "fa-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", feeStructureId: "fs-1", feeStructureName: "Tuition - Class 10", amount: 3500, discountAmount: 500, dueDate: "2025-09-10", status: "assigned", createdOn: "2025-08-01", updatedOn: "2025-08-01" },
+    { id: "fa-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", feeStructureId: "fs-1", amount: 3500, discountAmount: 0, dueDate: "2025-09-10", status: "invoiced", createdOn: "2025-08-01", updatedOn: "2025-08-05" },
+    { id: "fa-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", feeStructureId: "fs-2", amount: 15000, discountAmount: 0, dueDate: "2025-04-15", status: "invoiced", createdOn: "2025-04-10", updatedOn: "2025-04-12" },
+  ];
+  const invoices: DBSchema["invoices"] = [
+    { id: "inv-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", academicPeriodRef: "ay-1", invoiceNo: "INV-2082-1001", issueDate: "2025-08-05", dueDate: "2025-09-10", amount: 42000, paidAmount: 3000, balance: 39000, status: "issued", createdOn: "2025-08-05", updatedOn: "2025-08-05" },
+    { id: "inv-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-2", studentName: "Sita Kumari Thapa", academicPeriodRef: "ay-1", invoiceNo: "INV-2082-1002", issueDate: "2025-08-05", dueDate: "2025-09-10", amount: 3500, paidAmount: 3500, balance: 0, status: "paid", createdOn: "2025-08-05", updatedOn: "2025-08-20" },
+    { id: "inv-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentRef: "stu-3", studentName: "Bikash Gurung", academicPeriodRef: "ay-1", invoiceNo: "INV-2082-1003", issueDate: "2025-07-20", dueDate: "2025-08-20", amount: 18000, paidAmount: 0, balance: 18000, status: "overdue", createdOn: "2025-07-20", updatedOn: "2025-07-20" },
+  ];
+  const payments: DBSchema["payments"] = [
+    { id: "pay-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-2", invoiceNo: "INV-2082-1002", studentName: "Sita Kumari Thapa", amount: 3500, method: "online", paidOn: "2025-08-20", status: "completed", reference: "eSewa TXN 88921", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "pay-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-1", studentName: "Ram Bahadur Shrestha", amount: 3000, method: "cash", paidOn: "2025-08-25", status: "completed", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "pay-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-3", studentName: "Bikash Gurung", amount: 5000, method: "bank", paidOn: "2025-08-28", status: "pending", reference: "NMB 4821", createdOn: "2025-08-28", updatedOn: "2025-08-28" },
+  ];
+  const creditNotes: DBSchema["creditNotes"] = [
+    { id: "cn-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-1", invoiceNo: "INV-2082-1001", amount: 2000, reason: "Sibling discount adjustment", status: "approved", createdOn: "2025-08-10", updatedOn: "2025-08-12" },
+    { id: "cn-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-3", amount: 1500, reason: "Excess transport fee", status: "draft", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+  ];
+  const vendorBills: DBSchema["vendorBills"] = [
+    { id: "vb-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vendorName: "Himalayan Stationery Suppliers", billNo: "VB-2025-088", billDate: "2025-08-10", amount: 45000, dueDate: "2025-09-10", status: "approved", createdOn: "2025-08-10", updatedOn: "2025-08-10" },
+    { id: "vb-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vendorName: "Everest Lab Equipments", billNo: "VB-2025-089", billDate: "2025-08-20", amount: 120000, dueDate: "2025-09-20", status: "draft", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+  ];
+  const expenseClaims: DBSchema["expenseClaims"] = [
+    { id: "ec-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", category: "Travel", amount: 3500, claimDate: "2025-08-18", status: "approved", description: "Field visit to Bhaktapur branch", createdOn: "2025-08-18", updatedOn: "2025-08-19" },
+    { id: "ec-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-2", staffName: "Ramesh Shrestha", category: "Training", amount: 8000, claimDate: "2025-08-22", status: "submitted", createdOn: "2025-08-22", updatedOn: "2025-08-22" },
+  ];
+  const bankAccounts: DBSchema["bankAccounts"] = [
+    { id: "ba-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankName: "NMB Bank", accountNo: "00101010101010", accountName: "Sunrise Public School", balance: 4850000, currency: "NPR", isActive: true, createdOn: "2024-07-16", updatedOn: "2025-09-01" },
+    { id: "ba-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankName: "Global IME", accountNo: "00202020202020", accountName: "Sunrise Scholarship Fund", balance: 620000, currency: "NPR", isActive: true, createdOn: "2024-07-16", updatedOn: "2025-09-01" },
+  ];
+  const budgets: DBSchema["budgets"] = [
+    { id: "bud-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", fiscalYearName: "FY 2082/83", department: "Academic Section", allocatedAmount: 2500000, utilizedAmount: 1800000, status: "approved", createdOn: "2025-07-16", updatedOn: "2025-08-20" },
+    { id: "bud-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", department: "Administration", allocatedAmount: 1200000, utilizedAmount: 450000, status: "draft", createdOn: "2025-07-16", updatedOn: "2025-07-16" },
+  ];
+
+  // ── M13 HR seed ───────────────────────────────────────────────────
+  const staffProfiles: DBSchema["staffProfiles"] = [
+    { id: "sp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffCode: "EMP-001", name: "Ramesh Shrestha", department: "Leadership", designation: "Principal", joinDate: "2018-04-15", status: "active", createdOn: "2018-04-15", updatedOn: "2025-09-01" },
+    { id: "sp-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffCode: "EMP-042", name: "Manoj Rai", department: "Lower Secondary", designation: "Teacher", joinDate: "2020-06-10", status: "active", createdOn: "2020-06-10", updatedOn: "2025-09-01" },
+    { id: "sp-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffCode: "EMP-088", name: "Anita Maharjan", department: "ECED", designation: "Coordinator", joinDate: "2019-08-01", status: "on_leave", createdOn: "2019-08-01", updatedOn: "2025-08-20" },
+    { id: "sp-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffCode: "EMP-102", name: "Bikash Tamang", department: "Academics", designation: "Teacher", joinDate: "2021-04-12", status: "active", createdOn: "2021-04-12", updatedOn: "2025-09-01" },
+  ];
+  const positions: DBSchema["positions"] = [
+    { id: "pos-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Primary Teacher", department: "Primary Department", grade: "G-7", isVacant: true, headCount: 22, createdOn: "2025-01-10", updatedOn: "2025-08-01" },
+    { id: "pos-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Accountant", department: "Finance Office", grade: "G-8", isVacant: false, headCount: 4, createdOn: "2024-07-01", updatedOn: "2025-08-01" },
+    { id: "pos-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, title: "Science Teacher (+2)", department: "Science Stream", grade: "G-9", isVacant: true, headCount: 9, createdOn: "2025-03-15", updatedOn: "2025-08-01" },
+  ];
+  const recruitments: DBSchema["recruitments"] = [
+    { id: "rec-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, positionId: "pos-1", positionTitle: "Primary Teacher", applicantName: "Sunita Karki", stage: "interviewed", appliedOn: "2025-08-10", createdOn: "2025-08-10", updatedOn: "2025-08-25" },
+    { id: "rec-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, positionId: "pos-3", applicantName: "Nabin Joshi", stage: "shortlisted", appliedOn: "2025-08-15", createdOn: "2025-08-15", updatedOn: "2025-08-20" },
+    { id: "rec-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, positionId: "pos-1", applicantName: "Deepa Bista", stage: "offered", appliedOn: "2025-08-12", createdOn: "2025-08-12", updatedOn: "2025-08-28" },
+  ];
+  const leaveRequests: DBSchema["leaveRequests"] = [
+    { id: "lr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-2", staffName: "Manoj Rai", leaveType: "casual", fromDate: "2025-09-05", toDate: "2025-09-06", days: 2, status: "approved", reason: "Family function", createdOn: "2025-09-01", updatedOn: "2025-09-02" },
+    { id: "lr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-3", staffName: "Anita Maharjan", leaveType: "maternity", fromDate: "2025-08-01", toDate: "2025-10-30", days: 91, status: "approved", reason: "Maternity leave", createdOn: "2025-07-20", updatedOn: "2025-07-22" },
+    { id: "lr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-4", staffName: "Bikash Tamang", leaveType: "sick", fromDate: "2025-09-02", toDate: "2025-09-03", days: 2, status: "pending", reason: "Fever", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+  const performanceReviews: DBSchema["performanceReviews"] = [
+    { id: "pr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-2", staffName: "Manoj Rai", period: "2081 Annual", rating: 4.2, reviewer: "Ramesh Shrestha", status: "approved", remarks: "Excellent classroom management", createdOn: "2025-06-15", updatedOn: "2025-06-20" },
+    { id: "pr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-4", staffName: "Bikash Tamang", period: "2081 Annual", rating: 3.8, reviewer: "Sita Karki", status: "submitted", createdOn: "2025-06-15", updatedOn: "2025-06-15" },
+  ];
+  const compensations: DBSchema["compensations"] = [
+    { id: "compn-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-1", staffName: "Ramesh Shrestha", component: "basic", amount: 85000, effectiveFrom: "2025-04-15", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "compn-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-2", staffName: "Manoj Rai", component: "allowance", amount: 12000, effectiveFrom: "2025-04-15", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+    { id: "compn-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-2", staffName: "Manoj Rai", component: "deduction", amount: 5000, effectiveFrom: "2025-04-15", createdOn: "2025-04-15", updatedOn: "2025-04-15" },
+  ];
+  const payrollRuns: DBSchema["payrollRuns"] = [
+    { id: "payr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, month: 8, year: 2025, status: "paid", totalAmount: 620000, runOn: "2025-08-31", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+    { id: "payr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, month: 9, year: 2025, status: "computed", totalAmount: 635000, runOn: "2025-09-02", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+  const payslips: DBSchema["payslips"] = [
+    { id: "ps-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, payrollRunId: "payr-1", payrollMonth: "2025-08", staffRef: "sp-1", staffName: "Ramesh Shrestha", gross: 95000, deductions: 8000, net: 87000, status: "paid", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+    { id: "ps-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, payrollRunId: "payr-1", staffRef: "sp-2", staffName: "Manoj Rai", gross: 48000, deductions: 5000, net: 43000, status: "paid", createdOn: "2025-08-31", updatedOn: "2025-08-31" },
+    { id: "ps-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, payrollRunId: "payr-2", staffRef: "sp-2", staffName: "Manoj Rai", gross: 48000, deductions: 5000, net: 43000, status: "draft", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+  const separations: DBSchema["separations"] = [
+    { id: "sep-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-3", staffName: "Anita Maharjan", type: "resignation", lastWorkingDate: "2025-10-30", status: "pending", reason: "Personal reasons", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+    { id: "sep-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-4", staffName: "Bikash Tamang", type: "transfer", lastWorkingDate: "2025-09-15", status: "approved", reason: "Transfer to Bhaktapur branch", createdOn: "2025-08-15", updatedOn: "2025-08-18" },
+  ];
+  const staffContracts: DBSchema["staffContracts"] = [
+    { id: "scn-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-1", staffName: "Ramesh Shrestha", contractType: "permanent", startDate: "2018-04-15", salary: 95000, status: "active", createdOn: "2018-04-15", updatedOn: "2025-04-15" },
+    { id: "scn-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-2", staffName: "Manoj Rai", contractType: "permanent", startDate: "2020-06-10", salary: 48000, status: "active", createdOn: "2020-06-10", updatedOn: "2025-04-15" },
+    { id: "scn-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "sp-4", staffName: "Bikash Tamang", contractType: "contract", startDate: "2021-04-12", endDate: "2026-04-11", salary: 42000, status: "active", createdOn: "2021-04-12", updatedOn: "2025-04-15" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -958,5 +1104,14 @@ export function seedData() {
     // M09
     resultRuns, resultLines, resultPublications, resultCorrections, marksheets,
     transcripts, certificates, certificateRequests, digitalCredentials, completionRecords,
+    // M11
+    portalAnnouncements, portalAccessLogs, kioskSessions, mobileDevices, offlineSyncLogs,
+    accessibilityProfiles, portalTickets,
+    // M12
+    fiscalYears, chartOfAccounts, journalEntries, feeStructures, feeAssignments,
+    invoices, payments, creditNotes, vendorBills, expenseClaims, bankAccounts, budgets,
+    // M13
+    staffProfiles, positions, recruitments, leaveRequests, performanceReviews,
+    compensations, payrollRuns, payslips, separations, staffContracts,
   };
 }

@@ -26,6 +26,12 @@ import type {
   PracticalExam, IntegrityCase, RecheckRequest,
   ResultRun, ResultLine, ResultPublication, ResultCorrection, Marksheet, Transcript,
   Certificate, CertificateRequest, DigitalCredential, CompletionRecord,
+  PortalAnnouncement, PortalAccessLog, KioskSession, MobileDevice, OfflineSyncLog,
+  AccessibilityProfile, PortalTicket,
+  FiscalYear, ChartOfAccount, JournalEntry, FeeStructure, FeeAssignment, Invoice,
+  Payment, CreditNote, VendorBill, ExpenseClaim, BankAccount, Budget,
+  StaffProfile, Position, Recruitment, LeaveRequest, PerformanceReview, Compensation,
+  PayrollRun, Payslip, Separation, StaffContract,
 } from "./types";
 
 const delay = (ms?: number) => new Promise<void>((r) => setTimeout(r, ms ?? 220 + Math.random() * 380));
@@ -359,6 +365,96 @@ interface ErpApi {
   listCompletionRecords(): Promise<CompletionRecord[]>;
   saveCompletionRecord(c: CompletionRecord): Promise<CompletionRecord>;
   deleteCompletionRecord(c: CompletionRecord): Promise<void>;
+  // M11
+  listPortalAnnouncements(): Promise<PortalAnnouncement[]>;
+  savePortalAnnouncement(a: PortalAnnouncement): Promise<PortalAnnouncement>;
+  deletePortalAnnouncement(a: PortalAnnouncement): Promise<void>;
+  listPortalAccessLogs(): Promise<PortalAccessLog[]>;
+  savePortalAccessLog(l: PortalAccessLog): Promise<PortalAccessLog>;
+  deletePortalAccessLog(l: PortalAccessLog): Promise<void>;
+  listKioskSessions(): Promise<KioskSession[]>;
+  saveKioskSession(k: KioskSession): Promise<KioskSession>;
+  deleteKioskSession(k: KioskSession): Promise<void>;
+  listMobileDevices(): Promise<MobileDevice[]>;
+  saveMobileDevice(d: MobileDevice): Promise<MobileDevice>;
+  deleteMobileDevice(d: MobileDevice): Promise<void>;
+  listOfflineSyncLogs(): Promise<OfflineSyncLog[]>;
+  saveOfflineSyncLog(l: OfflineSyncLog): Promise<OfflineSyncLog>;
+  deleteOfflineSyncLog(l: OfflineSyncLog): Promise<void>;
+  listAccessibilityProfiles(): Promise<AccessibilityProfile[]>;
+  saveAccessibilityProfile(a: AccessibilityProfile): Promise<AccessibilityProfile>;
+  deleteAccessibilityProfile(a: AccessibilityProfile): Promise<void>;
+  listPortalTickets(): Promise<PortalTicket[]>;
+  savePortalTicket(t: PortalTicket): Promise<PortalTicket>;
+  deletePortalTicket(t: PortalTicket): Promise<void>;
+  // M12
+  listFiscalYears(): Promise<FiscalYear[]>;
+  saveFiscalYear(f: FiscalYear): Promise<FiscalYear>;
+  deleteFiscalYear(f: FiscalYear): Promise<void>;
+  listChartOfAccounts(): Promise<ChartOfAccount[]>;
+  saveChartOfAccount(c: ChartOfAccount): Promise<ChartOfAccount>;
+  deleteChartOfAccount(c: ChartOfAccount): Promise<void>;
+  listJournalEntries(): Promise<JournalEntry[]>;
+  saveJournalEntry(j: JournalEntry): Promise<JournalEntry>;
+  deleteJournalEntry(j: JournalEntry): Promise<void>;
+  listFeeStructures(): Promise<FeeStructure[]>;
+  saveFeeStructure(f: FeeStructure): Promise<FeeStructure>;
+  deleteFeeStructure(f: FeeStructure): Promise<void>;
+  listFeeAssignments(): Promise<FeeAssignment[]>;
+  saveFeeAssignment(f: FeeAssignment): Promise<FeeAssignment>;
+  deleteFeeAssignment(f: FeeAssignment): Promise<void>;
+  listInvoices(): Promise<Invoice[]>;
+  saveInvoice(i: Invoice): Promise<Invoice>;
+  deleteInvoice(i: Invoice): Promise<void>;
+  listPayments(): Promise<Payment[]>;
+  savePayment(p: Payment): Promise<Payment>;
+  deletePayment(p: Payment): Promise<void>;
+  listCreditNotes(): Promise<CreditNote[]>;
+  saveCreditNote(c: CreditNote): Promise<CreditNote>;
+  deleteCreditNote(c: CreditNote): Promise<void>;
+  listVendorBills(): Promise<VendorBill[]>;
+  saveVendorBill(v: VendorBill): Promise<VendorBill>;
+  deleteVendorBill(v: VendorBill): Promise<void>;
+  listExpenseClaims(): Promise<ExpenseClaim[]>;
+  saveExpenseClaim(e: ExpenseClaim): Promise<ExpenseClaim>;
+  deleteExpenseClaim(e: ExpenseClaim): Promise<void>;
+  listBankAccounts(): Promise<BankAccount[]>;
+  saveBankAccount(b: BankAccount): Promise<BankAccount>;
+  deleteBankAccount(b: BankAccount): Promise<void>;
+  listBudgets(): Promise<Budget[]>;
+  saveBudget(b: Budget): Promise<Budget>;
+  deleteBudget(b: Budget): Promise<void>;
+  // M13
+  listStaffProfiles(): Promise<StaffProfile[]>;
+  saveStaffProfile(s: StaffProfile): Promise<StaffProfile>;
+  deleteStaffProfile(s: StaffProfile): Promise<void>;
+  listPositions(): Promise<Position[]>;
+  savePosition(p: Position): Promise<Position>;
+  deletePosition(p: Position): Promise<void>;
+  listRecruitments(): Promise<Recruitment[]>;
+  saveRecruitment(r: Recruitment): Promise<Recruitment>;
+  deleteRecruitment(r: Recruitment): Promise<void>;
+  listLeaveRequests(): Promise<LeaveRequest[]>;
+  saveLeaveRequest(l: LeaveRequest): Promise<LeaveRequest>;
+  deleteLeaveRequest(l: LeaveRequest): Promise<void>;
+  listPerformanceReviews(): Promise<PerformanceReview[]>;
+  savePerformanceReview(r: PerformanceReview): Promise<PerformanceReview>;
+  deletePerformanceReview(r: PerformanceReview): Promise<void>;
+  listCompensations(): Promise<Compensation[]>;
+  saveCompensation(c: Compensation): Promise<Compensation>;
+  deleteCompensation(c: Compensation): Promise<void>;
+  listPayrollRuns(): Promise<PayrollRun[]>;
+  savePayrollRun(r: PayrollRun): Promise<PayrollRun>;
+  deletePayrollRun(r: PayrollRun): Promise<void>;
+  listPayslips(): Promise<Payslip[]>;
+  savePayslip(p: Payslip): Promise<Payslip>;
+  deletePayslip(p: Payslip): Promise<void>;
+  listSeparations(): Promise<Separation[]>;
+  saveSeparation(s: Separation): Promise<Separation>;
+  deleteSeparation(s: Separation): Promise<void>;
+  listStaffContracts(): Promise<StaffContract[]>;
+  saveStaffContract(c: StaffContract): Promise<StaffContract>;
+  deleteStaffContract(c: StaffContract): Promise<void>;
 }
 
 async function logAudit(action: string, entity: string, detail: string, recordsAffected = 1) {
@@ -1001,6 +1097,105 @@ Object.assign(apiMethods, {
   listCompletionRecords: async (): Promise<CompletionRecord[]> => { await delay(); return dbGetAll("completionRecords"); },
   saveCompletionRecord: async (c: CompletionRecord): Promise<CompletionRecord> => { await delay(300); await dbPut("completionRecords", c); await logAudit("COMPLETION_SAVED", "completion_record", `Completion saved — ${c.studentName} (${c.type}, ${c.status})`); return c; },
   deleteCompletionRecord: async (c: CompletionRecord): Promise<void> => { await delay(220); await dbDelete("completionRecords", c.id); await logAudit("COMPLETION_DELETED", "completion_record", `Completion deleted — ${c.studentName}`); },
+});
+
+// ── M11 Portals, Mobile and Self-Service ─────────────────────────────────
+Object.assign(apiMethods, {
+  listPortalAnnouncements: async (): Promise<PortalAnnouncement[]> => { await delay(); return dbGetAll("portalAnnouncements"); },
+  savePortalAnnouncement: async (a: PortalAnnouncement): Promise<PortalAnnouncement> => { await delay(300); await dbPut("portalAnnouncements", a); await logAudit("PORTAL_ANNOUNCEMENT_SAVED", "portal_announcement", `Announcement saved — ${a.title} (${a.targetAudience}, ${a.status})`); return a; },
+  deletePortalAnnouncement: async (a: PortalAnnouncement): Promise<void> => { await delay(220); await dbDelete("portalAnnouncements", a.id); await logAudit("PORTAL_ANNOUNCEMENT_DELETED", "portal_announcement", `Announcement deleted — ${a.title}`); },
+  listPortalAccessLogs: async (): Promise<PortalAccessLog[]> => { await delay(); return dbGetAll("portalAccessLogs"); },
+  savePortalAccessLog: async (l: PortalAccessLog): Promise<PortalAccessLog> => { await delay(280); await dbPut("portalAccessLogs", l); await logAudit("PORTAL_ACCESS_SAVED", "portal_access_log", `Access saved — ${l.userName} → ${l.portal} (${l.action})`); return l; },
+  deletePortalAccessLog: async (l: PortalAccessLog): Promise<void> => { await delay(220); await dbDelete("portalAccessLogs", l.id); await logAudit("PORTAL_ACCESS_DELETED", "portal_access_log", `Access deleted — ${l.id}`); },
+  listKioskSessions: async (): Promise<KioskSession[]> => { await delay(); return dbGetAll("kioskSessions"); },
+  saveKioskSession: async (k: KioskSession): Promise<KioskSession> => { await delay(300); await dbPut("kioskSessions", k); await logAudit("KIOSK_SESSION_SAVED", "kiosk_session", `Kiosk session saved — ${k.kioskId} ${k.location} (${k.status})`); return k; },
+  deleteKioskSession: async (k: KioskSession): Promise<void> => { await delay(220); await dbDelete("kioskSessions", k.id); await logAudit("KIOSK_SESSION_DELETED", "kiosk_session", `Kiosk session deleted — ${k.id}`); },
+  listMobileDevices: async (): Promise<MobileDevice[]> => { await delay(); return dbGetAll("mobileDevices"); },
+  saveMobileDevice: async (d: MobileDevice): Promise<MobileDevice> => { await delay(300); await dbPut("mobileDevices", d); await logAudit("MOBILE_DEVICE_SAVED", "mobile_device", `Device saved — ${d.deviceName} (${d.platform}, ${d.status})`); return d; },
+  deleteMobileDevice: async (d: MobileDevice): Promise<void> => { await delay(220); await dbDelete("mobileDevices", d.id); await logAudit("MOBILE_DEVICE_DELETED", "mobile_device", `Device deleted — ${d.deviceName}`); },
+  listOfflineSyncLogs: async (): Promise<OfflineSyncLog[]> => { await delay(); return dbGetAll("offlineSyncLogs"); },
+  saveOfflineSyncLog: async (l: OfflineSyncLog): Promise<OfflineSyncLog> => { await delay(280); await dbPut("offlineSyncLogs", l); await logAudit("OFFLINE_SYNC_SAVED", "offline_sync_log", `Sync saved — ${l.deviceId} ${l.entityType} ${l.recordsSynced} (${l.status})`); return l; },
+  deleteOfflineSyncLog: async (l: OfflineSyncLog): Promise<void> => { await delay(220); await dbDelete("offlineSyncLogs", l.id); await logAudit("OFFLINE_SYNC_DELETED", "offline_sync_log", `Sync deleted — ${l.id}`); },
+  listAccessibilityProfiles: async (): Promise<AccessibilityProfile[]> => { await delay(); return dbGetAll("accessibilityProfiles"); },
+  saveAccessibilityProfile: async (a: AccessibilityProfile): Promise<AccessibilityProfile> => { await delay(300); await dbPut("accessibilityProfiles", a); await logAudit("ACCESSIBILITY_SAVED", "accessibility_profile", `Accessibility saved — ${a.userName} (${a.theme})`); return a; },
+  deleteAccessibilityProfile: async (a: AccessibilityProfile): Promise<void> => { await delay(220); await dbDelete("accessibilityProfiles", a.id); await logAudit("ACCESSIBILITY_DELETED", "accessibility_profile", `Accessibility deleted — ${a.userName}`); },
+  listPortalTickets: async (): Promise<PortalTicket[]> => { await delay(); return dbGetAll("portalTickets"); },
+  savePortalTicket: async (t: PortalTicket): Promise<PortalTicket> => { await delay(300); await dbPut("portalTickets", t); await logAudit("PORTAL_TICKET_SAVED", "portal_ticket", `Ticket saved — ${t.subject} (${t.category}, ${t.status})`); return t; },
+  deletePortalTicket: async (t: PortalTicket): Promise<void> => { await delay(220); await dbDelete("portalTickets", t.id); await logAudit("PORTAL_TICKET_DELETED", "portal_ticket", `Ticket deleted — ${t.subject}`); },
+});
+
+// ── M12 Finance, Fees and Accounting ─────────────────────────────────────
+Object.assign(apiMethods, {
+  listFiscalYears: async (): Promise<FiscalYear[]> => { await delay(); return dbGetAll("fiscalYears"); },
+  saveFiscalYear: async (f: FiscalYear): Promise<FiscalYear> => { await delay(300); await dbPut("fiscalYears", f); await logAudit("FISCAL_YEAR_SAVED", "fiscal_year", `Fiscal year saved — ${f.name} (${f.status})`); return f; },
+  deleteFiscalYear: async (f: FiscalYear): Promise<void> => { await delay(250); await dbDelete("fiscalYears", f.id); await logAudit("FISCAL_YEAR_DELETED", "fiscal_year", `Fiscal year deleted — ${f.name}`); },
+  listChartOfAccounts: async (): Promise<ChartOfAccount[]> => { await delay(); return dbGetAll("chartOfAccounts"); },
+  saveChartOfAccount: async (c: ChartOfAccount): Promise<ChartOfAccount> => { await delay(300); await dbPut("chartOfAccounts", c); await logAudit("COA_SAVED", "chart_of_account", `CoA saved — ${c.code} ${c.name} (${c.type})`); return c; },
+  deleteChartOfAccount: async (c: ChartOfAccount): Promise<void> => { await delay(220); await dbDelete("chartOfAccounts", c.id); await logAudit("COA_DELETED", "chart_of_account", `CoA deleted — ${c.name}`); },
+  listJournalEntries: async (): Promise<JournalEntry[]> => { await delay(); return dbGetAll("journalEntries"); },
+  saveJournalEntry: async (j: JournalEntry): Promise<JournalEntry> => { await delay(300); await dbPut("journalEntries", j); await logAudit("JOURNAL_SAVED", "journal_entry", `Journal saved — ${j.entryNo} (${j.status})`); return j; },
+  deleteJournalEntry: async (j: JournalEntry): Promise<void> => { await delay(220); await dbDelete("journalEntries", j.id); await logAudit("JOURNAL_DELETED", "journal_entry", `Journal deleted — ${j.entryNo}`); },
+  listFeeStructures: async (): Promise<FeeStructure[]> => { await delay(); return dbGetAll("feeStructures"); },
+  saveFeeStructure: async (f: FeeStructure): Promise<FeeStructure> => { await delay(300); await dbPut("feeStructures", f); await logAudit("FEE_STRUCTURE_SAVED", "fee_structure", `Fee structure saved — ${f.name} (${f.code})`); return f; },
+  deleteFeeStructure: async (f: FeeStructure): Promise<void> => { await delay(220); await dbDelete("feeStructures", f.id); await logAudit("FEE_STRUCTURE_DELETED", "fee_structure", `Fee structure deleted — ${f.name}`); },
+  listFeeAssignments: async (): Promise<FeeAssignment[]> => { await delay(); return dbGetAll("feeAssignments"); },
+  saveFeeAssignment: async (f: FeeAssignment): Promise<FeeAssignment> => { await delay(300); await dbPut("feeAssignments", f); await logAudit("FEE_ASSIGNMENT_SAVED", "fee_assignment", `Fee assignment saved — ${f.studentName} → ${f.feeStructureName ?? f.feeStructureId} (${f.status})`); return f; },
+  deleteFeeAssignment: async (f: FeeAssignment): Promise<void> => { await delay(220); await dbDelete("feeAssignments", f.id); await logAudit("FEE_ASSIGNMENT_DELETED", "fee_assignment", `Fee assignment deleted — ${f.studentName}`); },
+  listInvoices: async (): Promise<Invoice[]> => { await delay(); return dbGetAll("invoices"); },
+  saveInvoice: async (i: Invoice): Promise<Invoice> => { await delay(320); await dbPut("invoices", i); await logAudit("INVOICE_SAVED", "invoice", `Invoice saved — ${i.invoiceNo} ${i.studentName} Rs ${i.amount} (${i.status})`); return i; },
+  deleteInvoice: async (i: Invoice): Promise<void> => { await delay(250); await dbDelete("invoices", i.id); await logAudit("INVOICE_DELETED", "invoice", `Invoice deleted — ${i.invoiceNo}`); },
+  listPayments: async (): Promise<Payment[]> => { await delay(); return dbGetAll("payments"); },
+  savePayment: async (p: Payment): Promise<Payment> => { await delay(300); await dbPut("payments", p); await logAudit("PAYMENT_SAVED", "payment", `Payment saved — ${p.invoiceNo ?? p.invoiceId} Rs ${p.amount} (${p.method}, ${p.status})`); return p; },
+  deletePayment: async (p: Payment): Promise<void> => { await delay(220); await dbDelete("payments", p.id); await logAudit("PAYMENT_DELETED", "payment", `Payment deleted — ${p.id}`); },
+  listCreditNotes: async (): Promise<CreditNote[]> => { await delay(); return dbGetAll("creditNotes"); },
+  saveCreditNote: async (c: CreditNote): Promise<CreditNote> => { await delay(300); await dbPut("creditNotes", c); await logAudit("CREDIT_NOTE_SAVED", "credit_note", `Credit note saved — ${c.invoiceNo ?? c.invoiceId} Rs ${c.amount} (${c.status})`); return c; },
+  deleteCreditNote: async (c: CreditNote): Promise<void> => { await delay(220); await dbDelete("creditNotes", c.id); await logAudit("CREDIT_NOTE_DELETED", "credit_note", `Credit note deleted — ${c.id}`); },
+  listVendorBills: async (): Promise<VendorBill[]> => { await delay(); return dbGetAll("vendorBills"); },
+  saveVendorBill: async (v: VendorBill): Promise<VendorBill> => { await delay(300); await dbPut("vendorBills", v); await logAudit("VENDOR_BILL_SAVED", "vendor_bill", `Vendor bill saved — ${v.vendorName} ${v.billNo} Rs ${v.amount} (${v.status})`); return v; },
+  deleteVendorBill: async (v: VendorBill): Promise<void> => { await delay(220); await dbDelete("vendorBills", v.id); await logAudit("VENDOR_BILL_DELETED", "vendor_bill", `Vendor bill deleted — ${v.billNo}`); },
+  listExpenseClaims: async (): Promise<ExpenseClaim[]> => { await delay(); return dbGetAll("expenseClaims"); },
+  saveExpenseClaim: async (e: ExpenseClaim): Promise<ExpenseClaim> => { await delay(300); await dbPut("expenseClaims", e); await logAudit("EXPENSE_CLAIM_SAVED", "expense_claim", `Claim saved — ${e.staffName} ${e.category} Rs ${e.amount} (${e.status})`); return e; },
+  deleteExpenseClaim: async (e: ExpenseClaim): Promise<void> => { await delay(220); await dbDelete("expenseClaims", e.id); await logAudit("EXPENSE_CLAIM_DELETED", "expense_claim", `Claim deleted — ${e.id}`); },
+  listBankAccounts: async (): Promise<BankAccount[]> => { await delay(); return dbGetAll("bankAccounts"); },
+  saveBankAccount: async (b: BankAccount): Promise<BankAccount> => { await delay(300); await dbPut("bankAccounts", b); await logAudit("BANK_ACCOUNT_SAVED", "bank_account", `Bank account saved — ${b.bankName} ${b.accountNo} (${b.balance})`); return b; },
+  deleteBankAccount: async (b: BankAccount): Promise<void> => { await delay(220); await dbDelete("bankAccounts", b.id); await logAudit("BANK_ACCOUNT_DELETED", "bank_account", `Bank account deleted — ${b.bankName}`); },
+  listBudgets: async (): Promise<Budget[]> => { await delay(); return dbGetAll("budgets"); },
+  saveBudget: async (b: Budget): Promise<Budget> => { await delay(300); await dbPut("budgets", b); await logAudit("BUDGET_SAVED", "budget", `Budget saved — ${b.department} ${b.allocatedAmount} (${b.status})`); return b; },
+  deleteBudget: async (b: Budget): Promise<void> => { await delay(220); await dbDelete("budgets", b.id); await logAudit("BUDGET_DELETED", "budget", `Budget deleted — ${b.department}`); },
+});
+
+// ── M13 Human Resources and Payroll ──────────────────────────────────────
+Object.assign(apiMethods, {
+  listStaffProfiles: async (): Promise<StaffProfile[]> => { await delay(); return dbGetAll("staffProfiles"); },
+  saveStaffProfile: async (s: StaffProfile): Promise<StaffProfile> => { await delay(300); await dbPut("staffProfiles", s); await logAudit("STAFF_PROFILE_SAVED", "staff_profile", `Staff saved — ${s.name} (${s.staffCode}, ${s.status})`); return s; },
+  deleteStaffProfile: async (s: StaffProfile): Promise<void> => { await delay(220); await dbDelete("staffProfiles", s.id); await logAudit("STAFF_PROFILE_DELETED", "staff_profile", `Staff deleted — ${s.name}`); },
+  listPositions: async (): Promise<Position[]> => { await delay(); return dbGetAll("positions"); },
+  savePosition: async (p: Position): Promise<Position> => { await delay(300); await dbPut("positions", p); await logAudit("POSITION_SAVED", "position", `Position saved — ${p.title} (${p.department}, ${p.isVacant ? "vacant" : "filled"})`); return p; },
+  deletePosition: async (p: Position): Promise<void> => { await delay(220); await dbDelete("positions", p.id); await logAudit("POSITION_DELETED", "position", `Position deleted — ${p.title}`); },
+  listRecruitments: async (): Promise<Recruitment[]> => { await delay(); return dbGetAll("recruitments"); },
+  saveRecruitment: async (r: Recruitment): Promise<Recruitment> => { await delay(300); await dbPut("recruitments", r); await logAudit("RECRUITMENT_SAVED", "recruitment", `Recruitment saved — ${r.applicantName} for ${r.positionTitle ?? r.positionId} (${r.stage})`); return r; },
+  deleteRecruitment: async (r: Recruitment): Promise<void> => { await delay(220); await dbDelete("recruitments", r.id); await logAudit("RECRUITMENT_DELETED", "recruitment", `Recruitment deleted — ${r.applicantName}`); },
+  listLeaveRequests: async (): Promise<LeaveRequest[]> => { await delay(); return dbGetAll("leaveRequests"); },
+  saveLeaveRequest: async (l: LeaveRequest): Promise<LeaveRequest> => { await delay(320); await dbPut("leaveRequests", l); await logAudit("LEAVE_REQUEST_SAVED", "leave_request", `Leave saved — ${l.staffName} ${l.leaveType} ${l.fromDate}→${l.toDate} (${l.status})`); return l; },
+  deleteLeaveRequest: async (l: LeaveRequest): Promise<void> => { await delay(220); await dbDelete("leaveRequests", l.id); await logAudit("LEAVE_REQUEST_DELETED", "leave_request", `Leave deleted — ${l.staffName}`); },
+  listPerformanceReviews: async (): Promise<PerformanceReview[]> => { await delay(); return dbGetAll("performanceReviews"); },
+  savePerformanceReview: async (r: PerformanceReview): Promise<PerformanceReview> => { await delay(300); await dbPut("performanceReviews", r); await logAudit("PERFORMANCE_SAVED", "performance_review", `Review saved — ${r.staffName} ${r.rating} (${r.status})`); return r; },
+  deletePerformanceReview: async (r: PerformanceReview): Promise<void> => { await delay(220); await dbDelete("performanceReviews", r.id); await logAudit("PERFORMANCE_DELETED", "performance_review", `Review deleted — ${r.staffName}`); },
+  listCompensations: async (): Promise<Compensation[]> => { await delay(); return dbGetAll("compensations"); },
+  saveCompensation: async (c: Compensation): Promise<Compensation> => { await delay(300); await dbPut("compensations", c); await logAudit("COMPENSATION_SAVED", "compensation", `Compensation saved — ${c.staffName} ${c.component} Rs ${c.amount}`); return c; },
+  deleteCompensation: async (c: Compensation): Promise<void> => { await delay(220); await dbDelete("compensations", c.id); await logAudit("COMPENSATION_DELETED", "compensation", `Compensation deleted — ${c.staffName}`); },
+  listPayrollRuns: async (): Promise<PayrollRun[]> => { await delay(); return dbGetAll("payrollRuns"); },
+  savePayrollRun: async (r: PayrollRun): Promise<PayrollRun> => { await delay(320); await dbPut("payrollRuns", r); await logAudit("PAYROLL_RUN_SAVED", "payroll_run", `Payroll run saved — ${r.month}/${r.year} (${r.status}) Rs ${r.totalAmount}`); return r; },
+  deletePayrollRun: async (r: PayrollRun): Promise<void> => { await delay(220); await dbDelete("payrollRuns", r.id); await logAudit("PAYROLL_RUN_DELETED", "payroll_run", `Payroll run deleted — ${r.id}`); },
+  listPayslips: async (): Promise<Payslip[]> => { await delay(); return dbGetAll("payslips"); },
+  savePayslip: async (p: Payslip): Promise<Payslip> => { await delay(300); await dbPut("payslips", p); await logAudit("PAYSLIP_SAVED", "payslip", `Payslip saved — ${p.staffName} net Rs ${p.net} (${p.status})`); return p; },
+  deletePayslip: async (p: Payslip): Promise<void> => { await delay(220); await dbDelete("payslips", p.id); await logAudit("PAYSLIP_DELETED", "payslip", `Payslip deleted — ${p.staffName}`); },
+  listSeparations: async (): Promise<Separation[]> => { await delay(); return dbGetAll("separations"); },
+  saveSeparation: async (s: Separation): Promise<Separation> => { await delay(300); await dbPut("separations", s); await logAudit("SEPARATION_SAVED", "separation", `Separation saved — ${s.staffName} (${s.type}, ${s.status})`); return s; },
+  deleteSeparation: async (s: Separation): Promise<void> => { await delay(220); await dbDelete("separations", s.id); await logAudit("SEPARATION_DELETED", "separation", `Separation deleted — ${s.staffName}`); },
+  listStaffContracts: async (): Promise<StaffContract[]> => { await delay(); return dbGetAll("staffContracts"); },
+  saveStaffContract: async (c: StaffContract): Promise<StaffContract> => { await delay(300); await dbPut("staffContracts", c); await logAudit("STAFF_CONTRACT_SAVED", "staff_contract", `Contract saved — ${c.staffName} (${c.contractType}, ${c.status})`); return c; },
+  deleteStaffContract: async (c: StaffContract): Promise<void> => { await delay(220); await dbDelete("staffContracts", c.id); await logAudit("STAFF_CONTRACT_DELETED", "staff_contract", `Contract deleted — ${c.staffName}`); },
 });
 
 export const api = apiMethods as ErpApi;

@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 9;
+const DB_VERSION = 12;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -135,6 +135,38 @@ function openDB(): Promise<IDBDatabase> {
         "certificateRequests",
         "digitalCredentials",
         "completionRecords",
+        // M11 stores
+        "portalAnnouncements",
+        "portalAccessLogs",
+        "kioskSessions",
+        "mobileDevices",
+        "offlineSyncLogs",
+        "accessibilityProfiles",
+        "portalTickets",
+        // M12 stores
+        "fiscalYears",
+        "chartOfAccounts",
+        "journalEntries",
+        "feeStructures",
+        "feeAssignments",
+        "invoices",
+        "payments",
+        "creditNotes",
+        "vendorBills",
+        "expenseClaims",
+        "bankAccounts",
+        "budgets",
+        // M13 stores
+        "staffProfiles",
+        "positions",
+        "recruitments",
+        "leaveRequests",
+        "performanceReviews",
+        "compensations",
+        "payrollRuns",
+        "payslips",
+        "separations",
+        "staffContracts",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -194,6 +226,15 @@ const ALL_STORES: StoreName[] = [
   // M09 stores
   "resultRuns", "resultLines", "resultPublications", "resultCorrections", "marksheets",
   "transcripts", "certificates", "certificateRequests", "digitalCredentials", "completionRecords",
+  // M11 stores
+  "portalAnnouncements", "portalAccessLogs", "kioskSessions", "mobileDevices", "offlineSyncLogs",
+  "accessibilityProfiles", "portalTickets",
+  // M12 stores
+  "fiscalYears", "chartOfAccounts", "journalEntries", "feeStructures", "feeAssignments",
+  "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "bankAccounts", "budgets",
+  // M13 stores
+  "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
+  "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -232,6 +273,12 @@ async function ensureSeeded(): Promise<void> {
     "practicalExams", "integrityCases", "recheckRequests",
     "resultRuns", "resultLines", "resultPublications", "resultCorrections", "marksheets",
     "transcripts", "certificates", "certificateRequests", "digitalCredentials", "completionRecords",
+    "portalAnnouncements", "portalAccessLogs", "kioskSessions", "mobileDevices", "offlineSyncLogs",
+    "accessibilityProfiles", "portalTickets",
+    "fiscalYears", "chartOfAccounts", "journalEntries", "feeStructures", "feeAssignments",
+    "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "bankAccounts", "budgets",
+    "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
+    "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {
