@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { Users, Search, Plus, Pencil, Trash2, Home, Layers } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { SectionFormDialog } from "@/pages/section-form-dialog";
+import { HouseFormDialog } from "@/pages/house-form-dialog";
+import { CohortFormDialog } from "@/pages/cohort-form-dialog";
 import { useSections, useHouses, useCohorts, useDeleteSection } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import type { Section } from "@/lib/types";
+import type { Section, House, Cohort } from "@/lib/types";
 
 export default function SectionHouseCohortPage() {
   const sections = useSections();
@@ -20,6 +22,10 @@ export default function SectionHouseCohortPage() {
   const [q, setQ] = useState("");
   const [sectionDialogOpen, setSectionDialogOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | undefined>();
+  const [houseDialogOpen, setHouseDialogOpen] = useState(false);
+  const [editingHouse, setEditingHouse] = useState<House | undefined>();
+  const [cohortDialogOpen, setCohortDialogOpen] = useState(false);
+  const [editingCohort, setEditingCohort] = useState<Cohort | undefined>();
 
   const filteredSections = useMemo(() => {
     let list = sections.data ?? [];
@@ -50,9 +56,17 @@ export default function SectionHouseCohortPage() {
         microModule="M03.04"
         description="Class sections with capacity, school houses and student cohorts."
         actions={
-          <Button onClick={() => { setEditingSection(undefined); setSectionDialogOpen(true); }}>
-            <Plus className="h-4 w-4" /> New section
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => { setEditingSection(undefined); setSectionDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New section
+            </Button>
+            <Button variant="outline" onClick={() => { setEditingHouse(undefined); setHouseDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New house
+            </Button>
+            <Button onClick={() => { setEditingCohort(undefined); setCohortDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New cohort
+            </Button>
+          </div>
         }
       />
 
@@ -155,11 +169,12 @@ export default function SectionHouseCohortPage() {
                       <TableHead>Color</TableHead>
                       <TableHead>Description</TableHead>
                       <TableHead>Members</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredHouses.map((h) => (
-                      <TableRow key={h.id}>
+                      <TableRow key={h.id} className="group">
                         <TableCell className="pl-5">
                           <p className="font-medium">{h.name}</p>
                           {h.nameNe && <p className="text-xs text-muted-foreground">{h.nameNe}</p>}
@@ -173,6 +188,16 @@ export default function SectionHouseCohortPage() {
                         </TableCell>
                         <TableCell><span className="text-sm">{h.description || "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{h.memberCount}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingHouse(h); setHouseDialogOpen(true); }}><Pencil /> Edit house</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -194,11 +219,12 @@ export default function SectionHouseCohortPage() {
                       <TableHead>Grade/Class</TableHead>
                       <TableHead>Description</TableHead>
                       <TableHead>Students</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredCohorts.map((c) => (
-                      <TableRow key={c.id}>
+                      <TableRow key={c.id} className="group">
                         <TableCell className="pl-5">
                           <p className="font-medium">{c.name}</p>
                           {c.nameNe && <p className="text-xs text-muted-foreground">{c.nameNe}</p>}
@@ -207,6 +233,16 @@ export default function SectionHouseCohortPage() {
                         <TableCell><Badge variant="secondary">{c.gradeClassName}</Badge></TableCell>
                         <TableCell><span className="text-sm">{c.description || "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{c.studentCount}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingCohort(c); setCohortDialogOpen(true); }}><Pencil /> Edit cohort</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -218,6 +254,8 @@ export default function SectionHouseCohortPage() {
       </Tabs>
 
       <SectionFormDialog open={sectionDialogOpen} onOpenChange={setSectionDialogOpen} section={editingSection} />
+      <HouseFormDialog open={houseDialogOpen} onOpenChange={setHouseDialogOpen} house={editingHouse} />
+      <CohortFormDialog open={cohortDialogOpen} onOpenChange={setCohortDialogOpen} cohort={editingCohort} />
     </div>
   );
 }

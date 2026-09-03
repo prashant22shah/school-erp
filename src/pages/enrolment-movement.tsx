@@ -2,8 +2,10 @@ import { useMemo, useState } from "react";
 import { ArrowRightLeft, Search, Plus, Pencil, Trash2, BookOpen, GitBranch, BarChart3, Users } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { EnrolmentFormDialog } from "@/pages/enrolment-form-dialog";
+import { SubjectSelectionFormDialog } from "@/pages/subject-selection-form-dialog";
 import { StudentMovementFormDialog } from "@/pages/student-movement-form-dialog";
-import { useEnrolments, useSubjectSelections, useStudentMovements, useProgressionAudits, useDeleteEnrolment, useDeleteStudentMovement } from "@/hooks/use-erp";
+import { ProgressionAuditFormDialog } from "@/pages/progression-audit-form-dialog";
+import { useEnrolments, useSubjectSelections, useStudentMovements, useProgressionAudits, useDeleteEnrolment, useDeleteSubjectSelection, useDeleteStudentMovement, useDeleteProgressionAudit } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,13 +54,19 @@ export default function EnrolmentMovementPage() {
   const studentMovements = useStudentMovements();
   const progressionAudits = useProgressionAudits();
   const deleteEnrolment = useDeleteEnrolment();
+  const deleteSubjectSelection = useDeleteSubjectSelection();
   const deleteStudentMovement = useDeleteStudentMovement();
+  const deleteAudit = useDeleteProgressionAudit();
 
   const [q, setQ] = useState("");
   const [enrolmentDialogOpen, setEnrolmentDialogOpen] = useState(false);
   const [editingEnrolment, setEditingEnrolment] = useState<Enrolment | undefined>();
+  const [subjectDialogOpen, setSubjectDialogOpen] = useState(false);
+  const [editingSubject, setEditingSubject] = useState<SubjectSelection | undefined>();
   const [movementDialogOpen, setMovementDialogOpen] = useState(false);
   const [editingMovement, setEditingMovement] = useState<StudentMovement | undefined>();
+  const [auditDialogOpen, setAuditDialogOpen] = useState(false);
+  const [editingAudit, setEditingAudit] = useState<ProgressionAudit | undefined>();
 
   const filteredEnrolments = useMemo(() => {
     let list = enrolments.data ?? [];
@@ -134,12 +142,18 @@ export default function EnrolmentMovementPage() {
         microModule="M05.04"
         description="Student enrolment, subject choices, movement tracking and progression audit."
         actions={
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => { setEditingEnrolment(undefined); setEnrolmentDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New enrolment
             </Button>
-            <Button onClick={() => { setEditingMovement(undefined); setMovementDialogOpen(true); }}>
+            <Button variant="outline" onClick={() => { setEditingSubject(undefined); setSubjectDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New subject choice
+            </Button>
+            <Button variant="outline" onClick={() => { setEditingMovement(undefined); setMovementDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New movement
+            </Button>
+            <Button onClick={() => { setEditingAudit(undefined); setAuditDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New audit
             </Button>
           </div>
         }
@@ -235,7 +249,7 @@ export default function EnrolmentMovementPage() {
           )}
         </TabsContent>
 
-        {/* ── Subject Choices tab (read-only) ── */}
+        {/* ── Subject Choices tab ── */}
         <TabsContent value="subjects" className="mt-4">
           {subjectSelections.isLoading ? <LoadingBlock /> : (
             <Card className="animate-fade-up">
@@ -248,11 +262,12 @@ export default function EnrolmentMovementPage() {
                       <TableHead>Compulsory</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Created</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredSubjectSelections.map((ss) => (
-                      <TableRow key={ss.id}>
+                      <TableRow key={ss.id} className="group">
                         <TableCell className="pl-5">
                           <p className="font-medium">{ss.studentName}</p>
                         </TableCell>
@@ -262,6 +277,18 @@ export default function EnrolmentMovementPage() {
                         </TableCell>
                         <TableCell><Badge variant={subjectStatusVariant[ss.status] ?? "secondary"}>{ss.status}</Badge></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(ss.createdOn)}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingSubject(ss); setSubjectDialogOpen(true); }}><Pencil /> Edit</DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteSubjectSelection.mutate(ss)}><Trash2 /> Delete</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -323,7 +350,7 @@ export default function EnrolmentMovementPage() {
           )}
         </TabsContent>
 
-        {/* ── Progression tab (read-only) ── */}
+        {/* ── Progression tab ── */}
         <TabsContent value="progression" className="mt-4">
           {progressionAudits.isLoading ? <LoadingBlock /> : (
             <Card className="animate-fade-up">
@@ -339,11 +366,12 @@ export default function EnrolmentMovementPage() {
                       <TableHead>GPA</TableHead>
                       <TableHead>Attendance</TableHead>
                       <TableHead>Decided By</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredAudits.map((a) => (
-                      <TableRow key={a.id}>
+                      <TableRow key={a.id} className="group">
                         <TableCell className="pl-5">
                           <p className="font-medium">{a.studentName}</p>
                         </TableCell>
@@ -354,6 +382,18 @@ export default function EnrolmentMovementPage() {
                         <TableCell><span className="text-sm font-mono">{a.gpa != null ? a.gpa.toFixed(2) : "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{a.attendance != null ? `${a.attendance}%` : "—"}</span></TableCell>
                         <TableCell><span className="text-sm">{a.decidedBy}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingAudit(a); setAuditDialogOpen(true); }}><Pencil /> Edit audit</DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteAudit.mutate(a)}><Trash2 /> Delete audit</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -365,7 +405,9 @@ export default function EnrolmentMovementPage() {
       </Tabs>
 
       <EnrolmentFormDialog open={enrolmentDialogOpen} onOpenChange={setEnrolmentDialogOpen} enrolment={editingEnrolment} />
+      <SubjectSelectionFormDialog open={subjectDialogOpen} onOpenChange={setSubjectDialogOpen} selection={editingSubject} />
       <StudentMovementFormDialog open={movementDialogOpen} onOpenChange={setMovementDialogOpen} movement={editingMovement} />
+      <ProgressionAuditFormDialog open={auditDialogOpen} onOpenChange={setAuditDialogOpen} audit={editingAudit} />
     </div>
   );
 }

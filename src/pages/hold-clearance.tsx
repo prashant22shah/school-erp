@@ -3,8 +3,9 @@ import { ShieldBan, Search, Plus, Pencil, Trash2, ShieldCheck, ClipboardCheck, C
 import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { StudentHoldFormDialog } from "@/pages/student-hold-form-dialog";
 import { ClearanceCaseFormDialog } from "@/pages/clearance-case-form-dialog";
+import { ClearanceResponseFormDialog } from "@/pages/clearance-response-form-dialog";
 import { IdentityCardFormDialog } from "@/pages/identity-card-form-dialog";
-import { useStudentHolds, useClearanceCases, useClearanceResponses, useIdentityCards, useDeleteStudentHold, useDeleteClearanceCase, useDeleteIdentityCard } from "@/hooks/use-erp";
+import { useStudentHolds, useClearanceCases, useClearanceResponses, useIdentityCards, useDeleteStudentHold, useDeleteClearanceCase, useDeleteClearanceResponse, useDeleteIdentityCard } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +49,7 @@ export default function HoldClearancePage() {
   const cards = useIdentityCards();
   const deleteHold = useDeleteStudentHold();
   const deleteCase = useDeleteClearanceCase();
+  const deleteResponse = useDeleteClearanceResponse();
   const deleteCard = useDeleteIdentityCard();
 
   const [q, setQ] = useState("");
@@ -55,6 +57,8 @@ export default function HoldClearancePage() {
   const [editingHold, setEditingHold] = useState<StudentHold | undefined>();
   const [caseDialogOpen, setCaseDialogOpen] = useState(false);
   const [editingCase, setEditingCase] = useState<ClearanceCase | undefined>();
+  const [responseDialogOpen, setResponseDialogOpen] = useState(false);
+  const [editingResponse, setEditingResponse] = useState<ClearanceResponse | undefined>();
   const [cardDialogOpen, setCardDialogOpen] = useState(false);
   const [editingCard, setEditingCard] = useState<IdentityCard | undefined>();
 
@@ -127,12 +131,15 @@ export default function HoldClearancePage() {
         microModule="M05.07"
         description="Student holds, clearance cases, module responses and identity cards."
         actions={
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => { setEditingHold(undefined); setHoldDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New hold
             </Button>
             <Button variant="outline" onClick={() => { setEditingCase(undefined); setCaseDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New clearance
+            </Button>
+            <Button variant="outline" onClick={() => { setEditingResponse(undefined); setResponseDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New response
             </Button>
             <Button onClick={() => { setEditingCard(undefined); setCardDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New ID card
@@ -278,7 +285,7 @@ export default function HoldClearancePage() {
           )}
         </TabsContent>
 
-        {/* ── Clearance Responses tab (read-only) ────────────────────────── */}
+        {/* ── Clearance Responses tab ── */}
         <TabsContent value="responses" className="mt-4">
           {responses.isLoading ? <LoadingBlock /> : (
             <Card className="animate-fade-up">
@@ -292,11 +299,12 @@ export default function HoldClearancePage() {
                       <TableHead>Responded By</TableHead>
                       <TableHead>Responded On</TableHead>
                       <TableHead>Remarks</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredResponses.map((r) => (
-                      <TableRow key={r.id}>
+                      <TableRow key={r.id} className="group">
                         <TableCell className="pl-5">
                           <code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.clearanceId}</code>
                         </TableCell>
@@ -308,6 +316,18 @@ export default function HoldClearancePage() {
                         <TableCell><span className="text-sm">{r.respondedBy}</span></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(r.respondedOn)}</span></TableCell>
                         <TableCell><span className="text-sm text-muted-foreground">{r.remarks ?? "—"}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingResponse(r); setResponseDialogOpen(true); }}><Pencil /> Edit response</DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteResponse.mutate(r)}><Trash2 /> Delete response</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -370,6 +390,7 @@ export default function HoldClearancePage() {
 
       <StudentHoldFormDialog open={holdDialogOpen} onOpenChange={setHoldDialogOpen} hold={editingHold} />
       <ClearanceCaseFormDialog open={caseDialogOpen} onOpenChange={setCaseDialogOpen} clearanceCase={editingCase} />
+      <ClearanceResponseFormDialog open={responseDialogOpen} onOpenChange={setResponseDialogOpen} response={editingResponse} />
       <IdentityCardFormDialog open={cardDialogOpen} onOpenChange={setCardDialogOpen} card={editingCard} />
     </div>
   );

@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { Layers, Search, Plus, Pencil, Trash2, BookOpen, GraduationCap, GitBranch } from "lucide-react";
 import { PageHeader, LoadingBlock } from "@/components/page-header";
+import { SchoolLevelFormDialog } from "@/pages/school-level-form-dialog";
 import { GradeClassFormDialog } from "@/pages/grade-class-form-dialog";
 import { StreamFormDialog } from "@/pages/stream-form-dialog";
-import { useSchoolLevels, useGradeClasses, useStreams, useDeleteGradeClass, useDeleteStream } from "@/hooks/use-erp";
+import { useSchoolLevels, useGradeClasses, useStreams, useSaveSchoolLevel, useDeleteGradeClass, useDeleteStream } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,8 @@ export default function LevelGradeStreamPage() {
   const deleteGradeClass = useDeleteGradeClass();
   const deleteStream = useDeleteStream();
   const [q, setQ] = useState("");
+  const [levelDialogOpen, setLevelDialogOpen] = useState(false);
+  const [editingLevel, setEditingLevel] = useState<SchoolLevel | undefined>();
   const [gcDialogOpen, setGcDialogOpen] = useState(false);
   const [editingGc, setEditingGc] = useState<GradeClass | undefined>();
   const [streamDialogOpen, setStreamDialogOpen] = useState(false);
@@ -55,6 +58,9 @@ export default function LevelGradeStreamPage() {
         description="School levels, grades/classes and academic streams catalog."
         actions={
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => { setEditingLevel(undefined); setLevelDialogOpen(true); }}>
+              <Plus className="h-4 w-4" /> New level
+            </Button>
             <Button variant="outline" onClick={() => { setEditingGc(undefined); setGcDialogOpen(true); }}>
               <Plus className="h-4 w-4" /> New grade/class
             </Button>
@@ -110,11 +116,12 @@ export default function LevelGradeStreamPage() {
                       <TableHead>Age Range</TableHead>
                       <TableHead>Sequence</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredLevels.map((l) => (
-                      <TableRow key={l.id}>
+                      <TableRow key={l.id} className="group">
                         <TableCell className="pl-5">
                           <p className="font-medium">{l.name}</p>
                           {l.nameNe && <p className="text-xs text-muted-foreground">{l.nameNe}</p>}
@@ -124,6 +131,16 @@ export default function LevelGradeStreamPage() {
                         <TableCell><span className="text-sm">{l.ageRange ?? "—"}</span></TableCell>
                         <TableCell><span className="text-sm font-mono">{l.sequence}</span></TableCell>
                         <TableCell>{l.isActive ? <Badge variant="success">Active</Badge> : <Badge variant="secondary">Inactive</Badge>}</TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => { setEditingLevel(l); setLevelDialogOpen(true); }}><Pencil /> Edit level</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -228,6 +245,7 @@ export default function LevelGradeStreamPage() {
         </TabsContent>
       </Tabs>
 
+      <SchoolLevelFormDialog open={levelDialogOpen} onOpenChange={setLevelDialogOpen} level={editingLevel} />
       <GradeClassFormDialog open={gcDialogOpen} onOpenChange={setGcDialogOpen} gradeClass={editingGc} />
       <StreamFormDialog open={streamDialogOpen} onOpenChange={setStreamDialogOpen} stream={editingStream} />
     </div>

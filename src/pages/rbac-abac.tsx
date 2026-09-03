@@ -4,7 +4,7 @@ import { PageHeader, LoadingBlock } from "@/components/page-header";
 import { RoleFormDialog } from "@/pages/role-form-dialog";
 import { UserRoleFormDialog } from "@/pages/user-role-form-dialog";
 import { DataScopeFormDialog } from "@/pages/data-scope-form-dialog";
-import { useRoles, useUserRoles, useDataScopes, useDeleteRole, useDeleteUserRole } from "@/hooks/use-erp";
+import { useRoles, useUserRoles, useDataScopes, useDeleteRole, useDeleteUserRole, useDeleteDataScope } from "@/hooks/use-erp";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ export default function RbacAbac() {
   const dataScopes = useDataScopes();
   const deleteRole = useDeleteRole();
   const deleteUserRole = useDeleteUserRole();
+  const deleteScope = useDeleteDataScope();
   const [q, setQ] = useState("");
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
   const [editingRole, setEditingRole] = useState<Role | undefined>();
@@ -236,16 +237,27 @@ export default function RbacAbac() {
                       <TableHead>Scope Name</TableHead>
                       <TableHead>Granted by</TableHead>
                       <TableHead>Granted on</TableHead>
+                      <TableHead className="pr-5" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {(dataScopes.data ?? []).map((ds) => (
-                      <TableRow key={ds.id}>
+                      <TableRow key={ds.id} className="group">
                         <TableCell className="pl-5"><p className="font-medium">{ds.userName}</p></TableCell>
                         <TableCell><Badge variant="secondary">{ds.scopeType}</Badge></TableCell>
                         <TableCell><span className="text-sm">{ds.scopeName}</span></TableCell>
                         <TableCell><span className="text-sm">{ds.grantedBy}</span></TableCell>
                         <TableCell><span className="text-sm">{fmtDate(ds.grantedOn)}</span></TableCell>
+                        <TableCell className="pr-5 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100">⋯</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteScope.mutate(ds)}><Trash2 /> Revoke scope</DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
