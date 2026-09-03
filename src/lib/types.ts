@@ -1837,6 +1837,48 @@ export interface CompletionRecord {
   updatedOn: string;
 }
 
+// ── M11 Role-Based Portal Profiles ───────────────────────────────────────────
+
+export interface StudentPortalProfile {
+  id: string; tenantId: string; schoolId: string;
+  studentId: string; studentName: string; grade: string; section: string;
+  enrolledSubjects: string[]; upcomingExams: string[];
+  attendanceSummary: { present: number; absent: number; late: number };
+  feeBalance: number; lastResults: string[];
+  dashboardConfig: Record<string, boolean>;
+  createdOn: string; updatedOn: string;
+}
+
+export interface ParentPortalProfile {
+  id: string; tenantId: string; schoolId: string;
+  parentName: string; relation: string;
+  wardIds: string[]; wardNames: string[];
+  linkedSince: string;
+  notificationPrefs: { sms: boolean; email: boolean; push: boolean };
+  dashboardConfig: Record<string, boolean>;
+  createdOn: string; updatedOn: string;
+}
+
+export interface TeacherPortalProfile {
+  id: string; tenantId: string; schoolId: string;
+  teacherId: string; teacherName: string;
+  assignedSections: string[]; assignedSubjects: string[];
+  classesToday: number; pendingGrading: number;
+  pendingLeaves: number; advisorStudents: number;
+  dashboardConfig: Record<string, boolean>;
+  createdOn: string; updatedOn: string;
+}
+
+export interface ManagementDashboard {
+  id: string; tenantId: string; schoolId: string;
+  totalStudents: number; totalStaff: number;
+  attendanceRate: number; feeCollectionRate: number;
+  activeVehicles: number; pendingAdmissions: number;
+  openTickets: number; upcomingEvents: number;
+  kpiWidgets: string[];
+  createdOn: string; updatedOn: string;
+}
+
 // ── M11 Portals, Mobile and Self-Service — domain types ──────────────────────
 
 export type PortalAudience = "all" | "student" | "parent" | "teacher" | "staff";
@@ -2121,6 +2163,53 @@ export interface BankAccount {
   updatedOn: string;
 }
 
+export type RecurringFrequency = "daily" | "weekly" | "monthly" | "quarterly" | "yearly";
+export interface RecurringJournal {
+  id: string; tenantId: string; schoolId: string;
+  name: string; description: string;
+  debitAccount: string; creditAccount: string;
+  amount: number; frequency: RecurringFrequency;
+  nextRunDate: string; lastRunDate: string;
+  totalRuns: number; maxRuns: number;
+  status: "active" | "paused" | "completed" | "cancelled";
+  createdOn: string; updatedOn: string;
+}
+
+export type DisbursementStatus = "pending" | "approved" | "processed" | "cancelled";
+export type DisbursementMethod = "bank_transfer" | "cheque" | "cash" | "online";
+export interface DisbursementEntry {
+  id: string; tenantId: string; schoolId: string;
+  vendorId: string; vendorName: string;
+  billId: string; billNumber: string;
+  amount: number; method: DisbursementMethod;
+  chequeNumber: string; bankAccount: string;
+  status: DisbursementStatus; processedAt: string;
+  approvedBy: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type ReconciliationStatus = "draft" | "in_progress" | "completed" | "discrepancy";
+export interface BankReconciliation {
+  id: string; tenantId: string; schoolId: string;
+  bankAccountId: string; bankName: string;
+  statementDate: string; statementBalance: number;
+  bookBalance: number; difference: number;
+  matchedEntries: number; unmatchedEntries: number;
+  status: ReconciliationStatus;
+  completedAt: string; reconciledBy: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type MatchStatus = "matched" | "unmatched" | "partial" | "disputed";
+export interface BankReconciliationEntry {
+  id: string; tenantId: string; schoolId: string;
+  reconciliationId: string;
+  transactionDate: string; description: string;
+  bankAmount: number; bookAmount: number;
+  status: MatchStatus; matchedEntryId: string;
+  createdOn: string; updatedOn: string;
+}
+
 export type BudgetStatus = "draft" | "approved" | "locked";
 export interface Budget {
   id: string;
@@ -2134,6 +2223,131 @@ export interface Budget {
   status: BudgetStatus;
   createdOn: string;
   updatedOn: string;
+}
+
+export type ARStatus = "current" | "overdue" | "written_off" | "in_collection";
+export interface AccountsReceivable {
+  id: string; tenantId: string; schoolId: string;
+  studentId: string; studentName: string; grade: string;
+  invoiceId: string; invoiceNumber: string;
+  totalAmount: number; paidAmount: number; balanceAmount: number;
+  dueDate: string; status: ARStatus;
+  agingDays: number; lastReminderDate: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type ScholarshipStatus = "active" | "inactive" | "expired" | "suspended";
+export type DiscountType = "percentage" | "fixed" | "sibling" | "merit" | "need";
+export interface ScholarshipScheme {
+  id: string; tenantId: string; schoolId: string;
+  name: string; description: string;
+  discountType: DiscountType; discountValue: number;
+  applicableGrades: string[]; maxRecipients: number;
+  currentRecipients: number; status: ScholarshipStatus;
+  validFrom: string; validUntil: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type OnlinePaymentStatus = "pending" | "processing" | "completed" | "failed" | "refunded";
+export type PaymentGateway = "esewa" | "khalti" | "imepay" | "bank_transfer" | "cod";
+export interface OnlinePaymentTransaction {
+  id: string; tenantId: string; schoolId: string;
+  invoiceId: string; studentId: string; studentName: string;
+  amount: number; gateway: PaymentGateway;
+  transactionRef: string; gatewayRef: string;
+  status: OnlinePaymentStatus;
+  initiatedAt: string; completedAt: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type RefundStatus = "pending" | "approved" | "processed" | "rejected";
+export type WriteOffReason = "bad_debt" | "scholarship_adjustment" | "admin_correction" | "other";
+export interface RefundRecord {
+  id: string; tenantId: string; schoolId: string;
+  invoiceId: string; studentId: string; studentName: string;
+  amount: number; reason: string;
+  approvedBy: string; status: RefundStatus;
+  processedAt: string;
+  createdOn: string; updatedOn: string;
+}
+
+export interface WriteOffEntry {
+  id: string; tenantId: string; schoolId: string;
+  studentId: string; studentName: string;
+  invoiceId: string; amount: number;
+  reason: WriteOffReason; approvedBy: string;
+  writtenOffAt: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type DunningStatus = "scheduled" | "sent" | "acknowledged" | "escalated";
+export type DunningLevel = "reminder" | "warning" | "final_notice" | "legal";
+export interface DunningNotice {
+  id: string; tenantId: string; schoolId: string;
+  studentId: string; studentName: string;
+  invoiceId: string; balanceAmount: number;
+  level: DunningLevel; status: DunningStatus;
+  sentAt: string; acknowledgedAt: string;
+  nextActionDate: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type CommitmentStatus = "pledged" | "received" | "cancelled";
+export interface CommitmentRecord {
+  id: string; tenantId: string; schoolId: string;
+  donorName: string; fundName: string; amount: number;
+  pledgeDate: string; expectedDate: string; receivedDate: string;
+  status: CommitmentStatus; remarks: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type TaxType = "vat" | "withholding" | "income" | "service";
+export interface TaxCode {
+  id: string; tenantId: string; schoolId: string;
+  code: string; name: string; type: TaxType;
+  rate: number; isExempt: boolean; description: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type AccrualStatus = "pending" | "reversed" | "posted";
+export interface AccrualEntry {
+  id: string; tenantId: string; schoolId: string;
+  fiscalYearId: string; fiscalYearName: string;
+  entryDate: string; description: string;
+  debitAccount: string; creditAccount: string;
+  amount: number; reversesOn: string;
+  status: AccrualStatus;
+  createdOn: string; updatedOn: string;
+}
+
+export type FundType = "general" | "restricted" | "endowment" | "project";
+export interface Fund {
+  id: string; tenantId: string; schoolId: string;
+  name: string; code: string; type: FundType;
+  balance: number; isRestricted: boolean; description: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type PeriodCloseStatus = "open" | "closing" | "closed";
+export interface PeriodCloseChecklist {
+  id: string; tenantId: string; schoolId: string;
+  fiscalYearId: string; fiscalYearName: string;
+  periodName: string; closedOn: string;
+  totalJournalEntries: number; postedEntries: number;
+  reconciliationsComplete: boolean; accrualsComplete: boolean;
+  status: PeriodCloseStatus; closedBy: string;
+  createdOn: string; updatedOn: string;
+}
+
+export type StatementType = "balance_sheet" | "income_statement" | "cash_flow" | "trial_balance";
+export type StatementStatus = "draft" | "final";
+export interface FinancialStatement {
+  id: string; tenantId: string; schoolId: string;
+  fiscalYearId: string; fiscalYearName: string;
+  name: string; type: StatementType;
+  asOfDate: string; totalDebit: number; totalCredit: number;
+  status: StatementStatus; generatedBy: string;
+  createdOn: string; updatedOn: string;
 }
 
 // ── M13 Human Resources and Payroll — domain types ───────────────────────────
@@ -2698,6 +2912,10 @@ export interface DBSchema {
   offlineSyncLogs: OfflineSyncLog[];
   accessibilityProfiles: AccessibilityProfile[];
   portalTickets: PortalTicket[];
+  studentPortalProfiles: StudentPortalProfile[];
+  parentPortalProfiles: ParentPortalProfile[];
+  teacherPortalProfiles: TeacherPortalProfile[];
+  managementDashboards: ManagementDashboard[];
   // M12 stores
   fiscalYears: FiscalYear[];
   chartOfAccounts: ChartOfAccount[];
@@ -2709,8 +2927,24 @@ export interface DBSchema {
   creditNotes: CreditNote[];
   vendorBills: VendorBill[];
   expenseClaims: ExpenseClaim[];
+  recurringJournals: RecurringJournal[];
+  disbursementEntries: DisbursementEntry[];
+  bankReconciliations: BankReconciliation[];
+  bankReconciliationEntries: BankReconciliationEntry[];
   bankAccounts: BankAccount[];
   budgets: Budget[];
+  accountsReceivable: AccountsReceivable[];
+  scholarshipSchemes: ScholarshipScheme[];
+  onlinePaymentTransactions: OnlinePaymentTransaction[];
+  refundRecords: RefundRecord[];
+  writeOffEntries: WriteOffEntry[];
+  dunningNotices: DunningNotice[];
+  commitmentRecords: CommitmentRecord[];
+  taxCodes: TaxCode[];
+  accrualEntries: AccrualEntry[];
+  funds: Fund[];
+  periodCloseChecklists: PeriodCloseChecklist[];
+  financialStatements: FinancialStatement[];
   // M13 stores
   staffProfiles: StaffProfile[];
   positions: Position[];

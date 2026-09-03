@@ -90,10 +90,11 @@ const ALL_ADMIN_ROUTES = [
   "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
   "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
   "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
-  "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
-  "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
-  "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
-  "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
+  "/student-portal", "/parent-portal", "/teacher-portal", "/management-portal",
+  "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
+    "/staff", "/position-control", "/recruitment", "/leave-requests", "/performance", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll", "/separations",
+  "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
+  "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations", "/fuel-maintenance",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -110,18 +111,20 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
     "/portal-announcements", "/portal-access", "/kiosk-sessions", "/mobile-devices", "/accessibility",
-    "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
+    "/student-portal", "/parent-portal", "/teacher-portal", "/management-portal",
+    "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
     "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
-    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
-    "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
+    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
+    "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations", "/fuel-maintenance",
   ],
 
   accountant: [
     "/institution", "/calendar",
     "/students", "/enrolments", "/holds",
     "/portal-announcements", "/portal-access",
-    "/finance-setup", "/journals", "/fee-catalog", "/fee-assignments", "/invoices", "/collections", "/vendor-bills", "/bank-budget",
-    "/staff", "/payroll",
+    "/management-portal",
+    "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
+    "/staff", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll",
   ],
 
   teacher: [
@@ -133,21 +136,24 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/assessments", "/question-bank", "/exams", "/exam-rooms", "/marks", "/moderation", "/practicals", "/integrity", "/rechecks",
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
     "/portal-announcements", "/portal-access", "/mobile-devices", "/accessibility",
-    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions",
+    "/teacher-portal",
+    "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
     "/staff", "/leave-requests", "/performance", "/payroll", "/separations",
-    "/fleet", "/transport-routes", "/transport-riders", "/transport-operations",
+    "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations",
   ],
 
   student: [
     "/calendar",
     "/subjects",
     "/students",
-    "/library-catalog", "/library-circulation",
+    "/student-portal",
+    "/library-catalog", "/library-circulation", "/library-digital",
   ],
 
   parent: [
     "/calendar",
     "/students",
+    "/parent-portal",
     "/library-catalog",
   ],
 };

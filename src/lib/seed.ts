@@ -1013,6 +1013,25 @@ export function seedData() {
     { id: "ec-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-5", staffName: "Manoj Rai", category: "Travel", amount: 3500, claimDate: "2025-08-18", status: "approved", description: "Field visit to Bhaktapur branch", createdOn: "2025-08-18", updatedOn: "2025-08-19" },
     { id: "ec-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, staffRef: "uid-2", staffName: "Ramesh Shrestha", category: "Training", amount: 8000, claimDate: "2025-08-22", status: "submitted", createdOn: "2025-08-22", updatedOn: "2025-08-22" },
   ];
+  const recurringJournals: DBSchema["recurringJournals"] = [
+    { id: "rj-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Monthly Depreciation — Fixtures", description: "Recurring monthly depreciation entry for school fixtures and equipment", debitAccount: "Depreciation Expense", creditAccount: "Accumulated Depreciation", amount: 15000, frequency: "monthly", nextRunDate: "2025-09-30", lastRunDate: "2025-08-31", totalRuns: 12, maxRuns: 60, status: "active", createdOn: "2024-09-30", updatedOn: "2025-08-31" },
+    { id: "rj-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Quarterly Insurance Allocation", description: "Quarterly allocation of prepaid insurance premium", debitAccount: "Insurance Expense", creditAccount: "Prepaid Insurance", amount: 25000, frequency: "quarterly", nextRunDate: "2025-10-01", lastRunDate: "2025-07-01", totalRuns: 3, maxRuns: 12, status: "active", createdOn: "2024-07-01", updatedOn: "2025-07-01" },
+    { id: "rj-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Annual Audit Fee Accrual", description: "Yearly audit fee accrual entry", debitAccount: "Audit Fee Expense", creditAccount: "Accrued Liabilities", amount: 75000, frequency: "yearly", nextRunDate: "2026-07-16", lastRunDate: "2025-07-16", totalRuns: 1, maxRuns: 5, status: "active", createdOn: "2025-07-16", updatedOn: "2025-07-16" },
+  ];
+  const disbursementEntries: DBSchema["disbursementEntries"] = [
+    { id: "de-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vendorId: "vb-1", vendorName: "Himalayan Stationery Suppliers", billId: "vb-1", billNumber: "VB-2025-088", amount: 45000, method: "bank_transfer", chequeNumber: "", bankAccount: "NMB Bank", status: "processed", processedAt: "2025-09-01", approvedBy: "Ramesh Shrestha", createdOn: "2025-08-31", updatedOn: "2025-09-01" },
+    { id: "de-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vendorId: "vb-2", vendorName: "Everest Lab Equipments", billId: "vb-2", billNumber: "VB-2025-089", amount: 120000, method: "cheque", chequeNumber: "CHQ-001234", bankAccount: "NMB Bank", status: "approved", processedAt: "", approvedBy: "Ramesh Shrestha", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "de-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vendorId: "vb-1", vendorName: "Himalayan Stationery Suppliers", billId: "vb-1", billNumber: "VB-2025-088", amount: 15000, method: "online", chequeNumber: "", bankAccount: "Global IME", status: "pending", processedAt: "", approvedBy: "", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+  const bankReconciliations: DBSchema["bankReconciliations"] = [
+    { id: "br-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankAccountId: "ba-1", bankName: "NMB Bank", statementDate: "2025-08-31", statementBalance: 4875000, bookBalance: 4850000, difference: 25000, matchedEntries: 18, unmatchedEntries: 2, status: "completed", completedAt: "2025-09-01", reconciledBy: "Ramesh Shrestha", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "br-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankAccountId: "ba-2", bankName: "Global IME", statementDate: "2025-08-31", statementBalance: 622000, bookBalance: 620000, difference: 2000, matchedEntries: 5, unmatchedEntries: 1, status: "in_progress", completedAt: "", reconciledBy: "", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+  ];
+  const bankReconciliationEntries: DBSchema["bankReconciliationEntries"] = [
+    { id: "bre-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reconciliationId: "br-1", transactionDate: "2025-08-28", description: "Fee collection deposit", bankAmount: 125000, bookAmount: 125000, status: "matched", matchedEntryId: "pay-1", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "bre-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reconciliationId: "br-1", transactionDate: "2025-08-30", description: "Bank service charge", bankAmount: -2500, bookAmount: 0, status: "unmatched", matchedEntryId: "", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+    { id: "bre-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, reconciliationId: "br-1", transactionDate: "2025-08-31", description: "Vendor payment — Himalayan Stationery", bankAmount: -45000, bookAmount: -45000, status: "matched", matchedEntryId: "de-1", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
   const bankAccounts: DBSchema["bankAccounts"] = [
     { id: "ba-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankName: "NMB Bank", accountNo: "00101010101010", accountName: "Sunrise Public School", balance: 4850000, currency: "NPR", isActive: true, createdOn: "2024-07-16", updatedOn: "2025-09-01" },
     { id: "ba-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, bankName: "Global IME", accountNo: "00202020202020", accountName: "Sunrise Scholarship Fund", balance: 620000, currency: "NPR", isActive: true, createdOn: "2024-07-16", updatedOn: "2025-09-01" },
@@ -1020,6 +1039,34 @@ export function seedData() {
   const budgets: DBSchema["budgets"] = [
     { id: "bud-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", fiscalYearName: "FY 2082/83", department: "Academic Section", allocatedAmount: 2500000, utilizedAmount: 1800000, status: "approved", createdOn: "2025-07-16", updatedOn: "2025-08-20" },
     { id: "bud-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-2", department: "Administration", allocatedAmount: 1200000, utilizedAmount: 450000, status: "draft", createdOn: "2025-07-16", updatedOn: "2025-07-16" },
+  ];
+  const accountsReceivable: DBSchema["accountsReceivable"] = [
+    { id: "ar-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-2", studentName: "Anita Sharma", grade: "9", invoiceId: "inv-2", invoiceNumber: "INV-2082-002", totalAmount: 45000, paidAmount: 20000, balanceAmount: 25000, dueDate: "2025-08-15", status: "overdue", agingDays: 20, lastReminderDate: "2025-09-01", createdOn: "2025-07-16", updatedOn: "2025-09-01" },
+    { id: "ar-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-3", studentName: "Rajesh Adhikari", grade: "7", invoiceId: "inv-3", invoiceNumber: "INV-2082-003", totalAmount: 42000, paidAmount: 10000, balanceAmount: 32000, dueDate: "2025-09-10", status: "overdue", agingDays: 10, lastReminderDate: "2025-09-02", createdOn: "2025-07-16", updatedOn: "2025-09-02" },
+    { id: "ar-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-4", studentName: "Priya Tamang", grade: "10", invoiceId: "inv-4", invoiceNumber: "INV-2082-004", totalAmount: 48000, paidAmount: 48000, balanceAmount: 0, dueDate: "2025-07-30", status: "current", agingDays: 0, lastReminderDate: "", createdOn: "2025-07-16", updatedOn: "2025-08-15" },
+  ];
+  const scholarshipSchemes: DBSchema["scholarshipSchemes"] = [
+    { id: "ss-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Merit Scholarship", description: "10% discount for students scoring 90%+ in final exam", discountType: "percentage", discountValue: 10, applicableGrades: ["9", "10", "11", "12"], maxRecipients: 20, currentRecipients: 8, status: "active", validFrom: "2025-04-01", validUntil: "2026-03-31", createdOn: "2025-04-01", updatedOn: "2025-08-15" },
+    { id: "ss-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Sibling Discount", description: "5% discount for second child from same family", discountType: "sibling", discountValue: 5, applicableGrades: ["1", "2", "3", "4", "5", "6", "7", "8"], maxRecipients: 50, currentRecipients: 12, status: "active", validFrom: "2025-04-01", validUntil: "2026-03-31", createdOn: "2025-04-01", updatedOn: "2025-08-15" },
+    { id: "ss-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Need-Based Fee Waiver", description: "25% fee waiver for economically disadvantaged students", discountType: "need", discountValue: 25, applicableGrades: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], maxRecipients: 10, currentRecipients: 4, status: "active", validFrom: "2025-04-01", validUntil: "2026-03-31", createdOn: "2025-04-01", updatedOn: "2025-08-15" },
+  ];
+  const onlinePaymentTransactions: DBSchema["onlinePaymentTransactions"] = [
+    { id: "opt-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-1", studentId: "s-1", studentName: "Sita Poudel", amount: 42000, gateway: "esewa", transactionRef: "ESW-2082-001", gatewayRef: "ESW-REF-12345", status: "completed", initiatedAt: "2025-08-10T10:30:00", completedAt: "2025-08-10T10:32:15", createdOn: "2025-08-10", updatedOn: "2025-08-10" },
+    { id: "opt-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-2", studentId: "s-2", studentName: "Anita Sharma", amount: 20000, gateway: "khalti", transactionRef: "KHI-2082-002", gatewayRef: "", status: "completed", initiatedAt: "2025-08-12T14:15:00", completedAt: "2025-08-12T14:17:30", createdOn: "2025-08-12", updatedOn: "2025-08-12" },
+    { id: "opt-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-3", studentId: "s-3", studentName: "Rajesh Adhikari", amount: 10000, gateway: "imepay", transactionRef: "IME-2082-003", gatewayRef: "", status: "pending", initiatedAt: "2025-09-01T09:00:00", completedAt: "", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+  const refundRecords: DBSchema["refundRecords"] = [
+    { id: "rf-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-1", studentId: "s-1", studentName: "Sita Poudel", amount: 5000, reason: "Overpayment correction", approvedBy: "Ramesh Shrestha", status: "processed", processedAt: "2025-08-20", createdOn: "2025-08-18", updatedOn: "2025-08-20" },
+    { id: "rf-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, invoiceId: "inv-4", studentId: "s-4", studentName: "Priya Tamang", amount: 2000, reason: "Transport fee reversal", approvedBy: "", status: "pending", processedAt: "", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+  const writeOffEntries: DBSchema["writeOffEntries"] = [
+    { id: "wo-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-5", studentName: "Deepa Rai", invoiceId: "inv-5", amount: 15000, reason: "bad_debt", approvedBy: "Ramesh Shrestha", writtenOffAt: "2025-08-25", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "wo-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-6", studentName: "Nabin Karki", invoiceId: "inv-6", amount: 3000, reason: "scholarship_adjustment", approvedBy: "Sita Karki", writtenOffAt: "2025-09-01", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+  const dunningNotices: DBSchema["dunningNotices"] = [
+    { id: "dn-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-2", studentName: "Anita Sharma", invoiceId: "inv-2", balanceAmount: 25000, level: "reminder", status: "sent", sentAt: "2025-08-25", acknowledgedAt: "", nextActionDate: "2025-09-10", createdOn: "2025-08-25", updatedOn: "2025-08-25" },
+    { id: "dn-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-3", studentName: "Rajesh Adhikari", invoiceId: "inv-3", balanceAmount: 32000, level: "warning", status: "sent", sentAt: "2025-09-02", acknowledgedAt: "", nextActionDate: "2025-09-16", createdOn: "2025-09-02", updatedOn: "2025-09-02" },
+    { id: "dn-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, studentId: "s-5", studentName: "Deepa Rai", invoiceId: "inv-5", balanceAmount: 15000, level: "final_notice", status: "escalated", sentAt: "2025-08-20", acknowledgedAt: "", nextActionDate: "2025-09-05", createdOn: "2025-08-20", updatedOn: "2025-09-01" },
   ];
 
   // ── M13 HR seed ───────────────────────────────────────────────────
@@ -1148,6 +1195,89 @@ export function seedData() {
     { id: "vm-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", type: "repair", description: "Brake pad replacement", cost: 6500, status: "scheduled", createdOn: "2025-08-28", updatedOn: "2025-08-28" },
   ];
 
+  // ── M12.19–M12.24 seed data ─────────────────────────────────────────────
+  const commitmentRecords: DBSchema["commitmentRecords"] = [
+    { id: "cr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, donorName: "Himalayan Foundation", fundName: "Infrastructure Fund", amount: 2500000, pledgeDate: "2025-03-15", expectedDate: "2025-06-30", receivedDate: "2025-06-28", status: "received", remarks: "Building renovation project", createdOn: "2025-03-15", updatedOn: "2025-06-28" },
+    { id: "cr-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, donorName: "Sharma Education Trust", fundName: "Scholarship Fund", amount: 500000, pledgeDate: "2025-07-10", expectedDate: "2025-09-30", receivedDate: "", status: "pledged", remarks: "Annual scholarship for underprivileged students", createdOn: "2025-07-10", updatedOn: "2025-07-10" },
+    { id: "cr-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, donorName: "Rai Family Trust", fundName: "Library Fund", amount: 150000, pledgeDate: "2025-08-01", expectedDate: "2025-10-15", receivedDate: "", status: "pledged", remarks: "Library book acquisition", createdOn: "2025-08-01", updatedOn: "2025-08-01" },
+  ];
+  const taxCodes: DBSchema["taxCodes"] = [
+    { id: "tc-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "VAT-13", name: "VAT 13%", type: "vat", rate: 13, isExempt: false, description: "Standard VAT rate on goods and services", createdOn: "2025-01-01", updatedOn: "2025-01-01" },
+    { id: "tc-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "WHT-10", name: "Withholding Tax 10%", type: "withholding", rate: 10, isExempt: false, description: "WHT on contractor payments", createdOn: "2025-01-01", updatedOn: "2025-01-01" },
+    { id: "tc-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "EXEMPT", name: "Tax Exempt", type: "vat", rate: 0, isExempt: true, description: "Educational services exempt from VAT", createdOn: "2025-01-01", updatedOn: "2025-01-01" },
+    { id: "tc-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, code: "WHT-5", name: "WHT on Rent 5%", type: "withholding", rate: 5, isExempt: false, description: "Withholding tax on rental payments", createdOn: "2025-01-01", updatedOn: "2025-01-01" },
+  ];
+  const accrualEntries: DBSchema["accrualEntries"] = [
+    { id: "ae-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", entryDate: "2025-08-15", description: "Electricity expense accrual — Shrawan", debitAccount: "5100-Utilities", creditAccount: "2100-Accrued Liabilities", amount: 45000, reversesOn: "2025-09-15", status: "posted", createdOn: "2025-08-15", updatedOn: "2025-08-15" },
+    { id: "ae-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", entryDate: "2025-08-20", description: "Teacher salary accrual — last week of Shrawan", debitAccount: "5200-Salaries", creditAccount: "2100-Accrued Liabilities", amount: 320000, reversesOn: "2025-09-20", status: "posted", createdOn: "2025-08-20", updatedOn: "2025-08-20" },
+  ];
+  const funds: DBSchema["funds"] = [
+    { id: "fund-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "General Fund", code: "GF-01", type: "general", balance: 8500000, isRestricted: false, description: "Unrestricted general operations fund", createdOn: "2025-01-01", updatedOn: "2025-08-31" },
+    { id: "fund-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Building Construction Fund", code: "BCF-01", type: "restricted", balance: 2500000, isRestricted: true, description: "Restricted fund for new building construction", createdOn: "2025-03-15", updatedOn: "2025-08-31" },
+    { id: "fund-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "Library Endowment", code: "LE-01", type: "endowment", balance: 1200000, isRestricted: true, description: "Endowment fund for library resources", createdOn: "2025-06-01", updatedOn: "2025-08-31" },
+    { id: "fund-4", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, name: "STEM Lab Project", code: "SLP-01", type: "project", balance: 750000, isRestricted: true, description: "Project fund for science lab equipment", createdOn: "2025-07-01", updatedOn: "2025-08-31" },
+  ];
+  const periodCloseChecklists: DBSchema["periodCloseChecklists"] = [
+    { id: "pc-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", periodName: "Shrawan 2082", closedOn: "2025-08-10", totalJournalEntries: 42, postedEntries: 42, reconciliationsComplete: true, accrualsComplete: true, status: "closed", closedBy: "Laxmi Poudel", createdOn: "2025-08-10", updatedOn: "2025-08-10" },
+    { id: "pc-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", periodName: "Bhadra 2082", closedOn: "", totalJournalEntries: 38, postedEntries: 35, reconciliationsComplete: false, accrualsComplete: false, status: "closing", closedBy: "", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+  const financialStatements: DBSchema["financialStatements"] = [
+    { id: "fs-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", name: "Balance Sheet — Shrawan 2082", type: "balance_sheet", asOfDate: "2025-08-14", totalDebit: 15200000, totalCredit: 15200000, status: "final", generatedBy: "Laxmi Poudel", createdOn: "2025-08-15", updatedOn: "2025-08-15" },
+    { id: "fs-2", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", name: "Income Statement — Shrawan 2082", type: "income_statement", asOfDate: "2025-08-14", totalDebit: 3200000, totalCredit: 3200000, status: "final", generatedBy: "Laxmi Poudel", createdOn: "2025-08-15", updatedOn: "2025-08-15" },
+    { id: "fs-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, fiscalYearId: "fy-1", fiscalYearName: "2082 BS", name: "Trial Balance — Bhadra 2082", type: "trial_balance", asOfDate: "2025-09-01", totalDebit: 16500000, totalCredit: 16500000, status: "draft", generatedBy: "Laxmi Poudel", createdOn: "2025-09-01", updatedOn: "2025-09-01" },
+  ];
+
+  // ── M11 Portal Profiles seed ────────────────────────────────────────────
+  const studentPortalProfiles: DBSchema["studentPortalProfiles"] = [
+    {
+      id: "spp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id,
+      studentId: "stu-001", studentName: "Aakash Khadka", grade: "10", section: "A",
+      enrolledSubjects: ["Mathematics", "Science", "English", "Nepali", "Social Studies"],
+      upcomingExams: ["Mid-Term Mathematics", "Science Lab Practical"],
+      attendanceSummary: { present: 142, absent: 3, late: 5 },
+      feeBalance: 12500,
+      lastResults: ["Unit Test 1: 3.6 GPA", "Pre-Board: 3.7 GPA"],
+      dashboardConfig: { attendance: true, results: true, fees: true, schedule: true },
+      createdOn: "2025-04-01", updatedOn: "2025-08-30",
+    },
+  ];
+
+  const parentPortalProfiles: DBSchema["parentPortalProfiles"] = [
+    {
+      id: "ppp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id,
+      parentName: "Deepa Khadka", relation: "Mother",
+      wardIds: ["stu-001"], wardNames: ["Aakash Khadka"],
+      linkedSince: "2024-04-15",
+      notificationPrefs: { sms: true, email: true, push: true },
+      dashboardConfig: { attendance: true, results: true, fees: true, communication: true },
+      createdOn: "2024-04-15", updatedOn: "2025-08-30",
+    },
+  ];
+
+  const teacherPortalProfiles: DBSchema["teacherPortalProfiles"] = [
+    {
+      id: "tp-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id,
+      teacherId: "sp-1", teacherName: "Sunita Basnet",
+      assignedSections: ["10-A"], assignedSubjects: ["Mathematics", "Physics"],
+      classesToday: 5, pendingGrading: 12,
+      pendingLeaves: 2, advisorStudents: 35,
+      dashboardConfig: { attendance: true, grading: true, leaves: true, workload: true },
+      createdOn: "2024-04-01", updatedOn: "2025-08-30",
+    },
+  ];
+
+  const managementDashboards: DBSchema["managementDashboards"] = [
+    {
+      id: "md-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id,
+      totalStudents: 1468, totalStaff: 173,
+      attendanceRate: 94.5, feeCollectionRate: 87.2,
+      activeVehicles: 3, pendingAdmissions: 28,
+      openTickets: 5, upcomingEvents: 3,
+      kpiWidgets: ["enrollment", "attendance", "finance", "transport", "admissions"],
+      createdOn: "2025-04-01", updatedOn: "2025-08-30",
+    },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -1183,9 +1313,12 @@ export function seedData() {
     // M11
     portalAnnouncements, portalAccessLogs, kioskSessions, mobileDevices, offlineSyncLogs,
     accessibilityProfiles, portalTickets,
+    studentPortalProfiles, parentPortalProfiles, teacherPortalProfiles, managementDashboards,
     // M12
     fiscalYears, chartOfAccounts, journalEntries, feeStructures, feeAssignments,
-    invoices, payments, creditNotes, vendorBills, expenseClaims, bankAccounts, budgets,
+    invoices, payments, creditNotes, vendorBills, expenseClaims, recurringJournals, disbursementEntries, bankReconciliations, bankReconciliationEntries, bankAccounts, budgets,
+    accountsReceivable, scholarshipSchemes, onlinePaymentTransactions, refundRecords, writeOffEntries, dunningNotices,
+    commitmentRecords, taxCodes, accrualEntries, funds, periodCloseChecklists, financialStatements,
     // M13
     staffProfiles, positions, recruitments, leaveRequests, performanceReviews,
     compensations, payrollRuns, payslips, separations, staffContracts,

@@ -19,7 +19,8 @@ import {
   // M11 icons
   Monitor, Smartphone, Accessibility, Ticket,
   // M12 icons
-  Receipt, Wallet, Tag, PiggyBank, DollarSign, Briefcase, UserPlus, CalendarOff,
+  Receipt, Wallet, Tag, PiggyBank, DollarSign, Briefcase, UserPlus, CalendarOff, Calculator,
+  CreditCard, RotateCcw, Bell, Banknote, PieChart, Percent, Lock, FileBarChart, Repeat,
   // M16 icons
   Package,
   // M17 icons
@@ -121,30 +122,53 @@ const m09Nav: NavItem[] = [
 ];
 
 const m11Nav: NavItem[] = [
-  { to: "/portal-announcements", label: "Portal Announcements", labelNe: "सूचना", icon: Megaphone, micro: "M11.01" },
-  { to: "/portal-access", label: "Portal Access Logs", labelNe: "पहुँच लग", icon: ShieldCheck, micro: "M11.02" },
-  { to: "/kiosk-sessions", label: "Kiosk Sessions", labelNe: "कियोस्क", icon: Monitor, micro: "M11.05" },
-  { to: "/mobile-devices", label: "Mobile & Offline", labelNe: "मोबाइल", icon: Smartphone, micro: "M11.06" },
-  { to: "/accessibility", label: "Accessibility & Tickets", labelNe: "पहुँचयोग्यता", icon: Accessibility, micro: "M11.07" },
+  { to: "/student-portal", label: "Student Portal", labelNe: "विद्यार्थी पोर्टल", icon: GraduationCap, micro: "M11.01" },
+  { to: "/parent-portal", label: "Parent Portal", labelNe: "अभिभावक पोर्टल", icon: Users, micro: "M11.02" },
+  { to: "/teacher-portal", label: "Teacher Portal", labelNe: "शिक्षक पोर्टल", icon: BookOpen, micro: "M11.03" },
+  { to: "/management-portal", label: "Management Portal", labelNe: "व्यवस्थापन पोर्टल", icon: LayoutDashboard, micro: "M11.04" },
+  { to: "/portal-announcements", label: "Portal Announcements", labelNe: "सूचना", icon: Megaphone, micro: "M11.05" },
+  { to: "/portal-access", label: "Portal Access Logs", labelNe: "पहुँच लग", icon: ShieldCheck, micro: "M11.06" },
+  { to: "/kiosk-sessions", label: "Kiosk Sessions", labelNe: "कियोस्क", icon: Monitor, micro: "M11.07" },
+  { to: "/mobile-devices", label: "Mobile & Offline", labelNe: "मोबाइल", icon: Smartphone, micro: "M11.08" },
+  { to: "/accessibility", label: "Accessibility & Tickets", labelNe: "पहुँचयोग्यता", icon: Accessibility, micro: "M11.09" },
 ];
 
 const m12Nav: NavItem[] = [
   { to: "/finance-setup", label: "Finance Setup", labelNe: "वित्त सेटअप", icon: Landmark, micro: "M12.01" },
-  { to: "/journals", label: "Journals", labelNe: "जर्नल", icon: BookOpen, micro: "M12.03" },
+  { to: "/chart-of-accounts", label: "Chart of Accounts", labelNe: "खाता चार्ट", icon: Network, micro: "M12.02" },
+  { to: "/journals", label: "General Ledger", labelNe: "जर्नल", icon: BookOpen, micro: "M12.03" },
+  { to: "/recurring-journals", label: "Recurring Journals", labelNe: "आवर्ती जर्नल", icon: Repeat, micro: "M12.04" },
   { to: "/fee-catalog", label: "Fee Catalog", labelNe: "शुल्क सूची", icon: Tag, micro: "M12.05" },
   { to: "/fee-assignments", label: "Fee Assignments", labelNe: "शुल्क नियुक्ति", icon: UserCheck, micro: "M12.06" },
-  { to: "/invoices", label: "Invoices & Credit Notes", labelNe: "बीजक", icon: Receipt, micro: "M12.07" },
-  { to: "/collections", label: "Collections & Payments", labelNe: "भुक्तानी", icon: Wallet, micro: "M12.10" },
-  { to: "/vendor-bills", label: "Vendor & Claims", labelNe: "विक्रेता", icon: Building2, micro: "M12.14" },
+  { to: "/invoices", label: "Invoices", labelNe: "बीजक", icon: Receipt, micro: "M12.07" },
+  { to: "/accounts-receivable", label: "Accounts Receivable", labelNe: "बक्सा खाता", icon: Receipt, micro: "M12.08" },
+  { to: "/scholarships", label: "Scholarships", labelNe: "छात्रवृत्ति", icon: Award, micro: "M12.09" },
+  { to: "/collections", label: "Collections", labelNe: "भुक्तानी", icon: Wallet, micro: "M12.10" },
+  { to: "/online-payments", label: "Online Payments", labelNe: "अनलाइन भुक्तानी", icon: CreditCard, micro: "M12.11" },
+  { to: "/refunds-writeoffs", label: "Refunds & Write-offs", labelNe: "फिर्ता र छुट", icon: RotateCcw, micro: "M12.12" },
+  { to: "/dunning", label: "Dunning & Collections", labelNe: "सम्झौता पत्र", icon: Bell, micro: "M12.13" },
+  { to: "/vendor-bills", label: "Vendor Bills", labelNe: "विक्रेता", icon: Building2, micro: "M12.14" },
+  { to: "/expense-claims", label: "Expense Claims", labelNe: "खर्च दावी", icon: FileText, micro: "M12.15" },
+  { to: "/disbursements", label: "Disbursements", labelNe: "भुक्तानी", icon: Banknote, micro: "M12.16" },
   { to: "/bank-budget", label: "Bank & Budget", labelNe: "बैंक बजेट", icon: PiggyBank, micro: "M12.17" },
+  { to: "/bank-reconciliation", label: "Bank Reconciliation", labelNe: "बैंक मिलान", icon: Scale, micro: "M12.18" },
+  { to: "/budgeting-commitments", label: "Budgeting", labelNe: "बजेट", icon: PieChart, micro: "M12.19" },
+  { to: "/tax-withholding", label: "Tax & Withholding", labelNe: "कर", icon: Percent, micro: "M12.20" },
+  { to: "/accruals-deferrals", label: "Accruals", labelNe: "उत्क्रमण", icon: CalendarClock, micro: "M12.21" },
+  { to: "/fund-accounting", label: "Fund Accounting", labelNe: "कोष लेखा", icon: Landmark, micro: "M12.22" },
+  { to: "/period-close", label: "Period Close", labelNe: "अवधि बन्द", icon: Lock, micro: "M12.23" },
+  { to: "/financial-statements", label: "Financial Statements", labelNe: "वित्तीय विवरण", icon: FileBarChart, micro: "M12.24" },
 ];
 
 const m13Nav: NavItem[] = [
   { to: "/staff", label: "Staff & Positions", labelNe: "कर्मचारी", icon: Users, micro: "M13.01" },
+  { to: "/position-control", label: "Position & Establishment", labelNe: "पद स्थापना", icon: Briefcase, micro: "M13.02" },
   { to: "/recruitment", label: "Recruitment", labelNe: "भर्ती", icon: UserPlus, micro: "M13.03" },
   { to: "/leave-requests", label: "Leave & Absence", labelNe: "बिदा", icon: CalendarOff, micro: "M13.04" },
-  { to: "/performance", label: "Performance & Comp", labelNe: "प्रदर्शन", icon: Award, micro: "M13.05" },
-  { to: "/payroll", label: "Payroll & Payslips", labelNe: "तलब", icon: DollarSign, micro: "M13.07" },
+  { to: "/performance", label: "Performance", labelNe: "प्रदर्शन", icon: Award, micro: "M13.05" },
+  { to: "/compensation-benefits", label: "Compensation & Benefits", labelNe: "सुविधा लाभ", icon: DollarSign, micro: "M13.06" },
+  { to: "/payroll-rules", label: "Payroll Rules", labelNe: "तलब नियम", icon: Calculator, micro: "M13.07-08" },
+  { to: "/payslip-management", label: "Payslips & Disbursement", labelNe: "तलबपत्र", icon: Receipt, micro: "M13.09" },
   { to: "/separations", label: "Separation & Contracts", labelNe: "अवकाश", icon: Briefcase, micro: "M13.10" },
 ];
 
@@ -153,13 +177,16 @@ const m16Nav: NavItem[] = [
   { to: "/library-holdings", label: "Holdings & Shelving", labelNe: "प्रति तथा शेल्फ", icon: Layers, micro: "M16.02" },
   { to: "/library-circulation", label: "Circulation", labelNe: "परिचालन", icon: ClipboardList, micro: "M16.03" },
   { to: "/library-acquisitions", label: "Acquisitions & Serials", labelNe: "खरिद तथा शृङ्खला", icon: Package, micro: "M16.04" },
+  { to: "/library-digital", label: "Digital Resources", labelNe: "डिजिटल स्रोत", icon: Monitor, micro: "M16.05" },
 ];
 
 const m17Nav: NavItem[] = [
   { to: "/fleet", label: "Fleet & Compliance", labelNe: "फ्लीट", icon: Bus, micro: "M17.01" },
   { to: "/transport-routes", label: "Routes & Schedules", labelNe: "मार्ग तालिका", icon: Route, micro: "M17.02" },
   { to: "/transport-riders", label: "Riders & Boarding", labelNe: "यात्रु बोर्डिङ", icon: Users, micro: "M17.03" },
-  { to: "/transport-operations", label: "GPS & Maintenance", labelNe: "जिपिएस मर्मत", icon: Navigation, micro: "M17.05" },
+  { to: "/boarding-safety", label: "Boarding & Safety", labelNe: "बोर्डिङ सुरक्षा", icon: ShieldCheck, micro: "M17.04" },
+  { to: "/transport-operations", label: "GPS & Operations", labelNe: "जिपिएस", icon: Navigation, micro: "M17.05" },
+  { to: "/fuel-maintenance", label: "Fuel & Maintenance", labelNe: "इन्धन मर्मत", icon: Wrench, micro: "M17.06" },
 ];
 
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {

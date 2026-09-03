@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 14;
+const DB_VERSION = 15;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -143,6 +143,10 @@ function openDB(): Promise<IDBDatabase> {
         "offlineSyncLogs",
         "accessibilityProfiles",
         "portalTickets",
+        "studentPortalProfiles",
+        "parentPortalProfiles",
+        "teacherPortalProfiles",
+        "managementDashboards",
         // M12 stores
         "fiscalYears",
         "chartOfAccounts",
@@ -154,8 +158,24 @@ function openDB(): Promise<IDBDatabase> {
         "creditNotes",
         "vendorBills",
         "expenseClaims",
+        "recurringJournals",
+        "disbursementEntries",
+        "bankReconciliations",
+        "bankReconciliationEntries",
         "bankAccounts",
         "budgets",
+        "accountsReceivable",
+        "scholarshipSchemes",
+        "onlinePaymentTransactions",
+        "refundRecords",
+        "writeOffEntries",
+        "dunningNotices",
+        "commitmentRecords",
+        "taxCodes",
+        "accrualEntries",
+        "funds",
+        "periodCloseChecklists",
+        "financialStatements",
         // M13 stores
         "staffProfiles",
         "positions",
@@ -246,9 +266,12 @@ const ALL_STORES: StoreName[] = [
   // M11 stores
   "portalAnnouncements", "portalAccessLogs", "kioskSessions", "mobileDevices", "offlineSyncLogs",
   "accessibilityProfiles", "portalTickets",
+  "studentPortalProfiles", "parentPortalProfiles", "teacherPortalProfiles", "managementDashboards",
   // M12 stores
   "fiscalYears", "chartOfAccounts", "journalEntries", "feeStructures", "feeAssignments",
-  "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "bankAccounts", "budgets",
+  "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "recurringJournals", "disbursementEntries", "bankReconciliations", "bankReconciliationEntries", "bankAccounts", "budgets",
+  "accountsReceivable", "scholarshipSchemes", "onlinePaymentTransactions", "refundRecords", "writeOffEntries", "dunningNotices",
+  "commitmentRecords", "taxCodes", "accrualEntries", "funds", "periodCloseChecklists", "financialStatements",
   // M13 stores
   "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
   "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
@@ -298,8 +321,11 @@ async function ensureSeeded(): Promise<void> {
     "transcripts", "certificates", "certificateRequests", "digitalCredentials", "completionRecords",
     "portalAnnouncements", "portalAccessLogs", "kioskSessions", "mobileDevices", "offlineSyncLogs",
     "accessibilityProfiles", "portalTickets",
+    "studentPortalProfiles", "parentPortalProfiles", "teacherPortalProfiles", "managementDashboards",
     "fiscalYears", "chartOfAccounts", "journalEntries", "feeStructures", "feeAssignments",
-    "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "bankAccounts", "budgets",
+    "invoices", "payments", "creditNotes", "vendorBills", "expenseClaims", "recurringJournals", "disbursementEntries", "bankReconciliations", "bankReconciliationEntries", "bankAccounts", "budgets",
+    "accountsReceivable", "scholarshipSchemes", "onlinePaymentTransactions", "refundRecords", "writeOffEntries", "dunningNotices",
+    "commitmentRecords", "taxCodes", "accrualEntries", "funds", "periodCloseChecklists", "financialStatements",
     "staffProfiles", "positions", "recruitments", "leaveRequests", "performanceReviews",
     "compensations", "payrollRuns", "payslips", "separations", "staffContracts",
     "libraryResources", "libraryHoldings", "libraryMembers", "libraryLoans", "libraryReservations",

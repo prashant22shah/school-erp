@@ -73,20 +73,44 @@ import PortalAccessPage from "@/pages/portal-access";
 import KioskSessionsPage from "@/pages/kiosk-sessions";
 import MobileDevicesPage from "@/pages/mobile-devices";
 import AccessibilityPage from "@/pages/accessibility";
+import StudentPortalPage from "@/pages/student-portal";
+import ParentPortalPage from "@/pages/parent-portal";
+import TeacherPortalPage from "@/pages/teacher-portal";
+import ManagementPortalPage from "@/pages/management-portal";
 // M12 pages
 import FinanceSetupPage from "@/pages/finance-setup";
+import ChartOfAccountsPage from "@/pages/chart-of-accounts";
 import JournalsPage from "@/pages/journals";
+import RecurringJournalsPage from "@/pages/recurring-journals";
 import FeeCatalogPage from "@/pages/fee-catalog";
 import FeeAssignmentsPage from "@/pages/fee-assignments";
 import InvoicesPage from "@/pages/invoices";
+import AccountsReceivablePage from "@/pages/accounts-receivable";
+import ScholarshipsPage from "@/pages/scholarships";
 import CollectionsPage from "@/pages/collections";
+import OnlinePaymentsPage from "@/pages/online-payments";
+import RefundsWriteoffsPage from "@/pages/refunds-writeoffs";
+import DunningPage from "@/pages/dunning";
 import VendorBillsPage from "@/pages/vendor-bills";
+import ExpenseClaimsPage from "@/pages/expense-claims";
+import DisbursementsPage from "@/pages/disbursements";
 import BankBudgetPage from "@/pages/bank-budget";
+import BankReconciliationPage from "@/pages/bank-reconciliation";
+import BudgetingCommitmentsPage from "@/pages/budgeting-commitments";
+import TaxWithholdingPage from "@/pages/tax-withholding";
+import AccrualsDeferralsPage from "@/pages/accruals-deferrals";
+import FundAccountingPage from "@/pages/fund-accounting";
+import PeriodClosePage from "@/pages/period-close";
+import FinancialStatementsPage from "@/pages/financial-statements";
 // M13 pages
 import StaffPage from "@/pages/staff";
+import PositionControlPage from "@/pages/position-control";
 import RecruitmentPage from "@/pages/recruitment";
 import LeaveRequestsPage from "@/pages/leave-requests";
 import PerformancePage from "@/pages/performance";
+import CompensationBenefitsPage from "@/pages/compensation-benefits";
+import PayrollRulesPage from "@/pages/payroll-rules";
+import PayslipManagementPage from "@/pages/payslip-management";
 import PayrollPage from "@/pages/payroll";
 import SeparationsPage from "@/pages/separations";
 // M16 pages
@@ -94,10 +118,13 @@ import LibraryCatalogPage from "@/pages/library-catalog";
 import LibraryHoldingsPage from "@/pages/library-holdings";
 import LibraryCirculationPage from "@/pages/library-circulation";
 import LibraryAcquisitionsPage from "@/pages/library-acquisitions";
+import DigitalResourceAccessPage from "@/pages/digital-resource-access";
 // M17 pages
 import FleetPage from "@/pages/fleet";
 import TransportRoutesPage from "@/pages/transport-routes";
 import TransportRidersPage from "@/pages/transport-riders";
+import BoardingSafetyPage from "@/pages/boarding-safety";
+import FuelMaintenancePage from "@/pages/fuel-maintenance";
 import TransportOperationsPage from "@/pages/transport-operations";
 
 const queryClient = new QueryClient({
@@ -217,6 +244,10 @@ export default function App() {
               <Route path="credentials" element={<CredentialsPage />} />
               <Route path="completions" element={<CompletionsPage />} />
               {/* M11 */}
+              <Route path="student-portal" element={<StudentPortalPage />} />
+              <Route path="parent-portal" element={<ParentPortalPage />} />
+              <Route path="teacher-portal" element={<TeacherPortalPage />} />
+              <Route path="management-portal" element={<ManagementPortalPage />} />
               <Route path="portal-announcements" element={<PortalAnnouncementsPage />} />
               <Route path="portal-access" element={<PortalAccessPage />} />
               <Route path="kiosk-sessions" element={<KioskSessionsPage />} />
@@ -224,18 +255,38 @@ export default function App() {
               <Route path="accessibility" element={<AccessibilityPage />} />
               {/* M12 */}
               <Route path="finance-setup" element={<FinanceSetupPage />} />
+              <Route path="chart-of-accounts" element={<ChartOfAccountsPage />} />
               <Route path="journals" element={<JournalsPage />} />
+              <Route path="recurring-journals" element={<RecurringJournalsPage />} />
               <Route path="fee-catalog" element={<FeeCatalogPage />} />
               <Route path="fee-assignments" element={<FeeAssignmentsPage />} />
               <Route path="invoices" element={<InvoicesPage />} />
+              <Route path="accounts-receivable" element={<AccountsReceivablePage />} />
+              <Route path="scholarships" element={<ScholarshipsPage />} />
               <Route path="collections" element={<CollectionsPage />} />
+              <Route path="online-payments" element={<OnlinePaymentsPage />} />
+              <Route path="refunds-writeoffs" element={<RefundsWriteoffsPage />} />
+              <Route path="dunning" element={<DunningPage />} />
               <Route path="vendor-bills" element={<VendorBillsPage />} />
+              <Route path="expense-claims" element={<ExpenseClaimsPage />} />
+              <Route path="disbursements" element={<DisbursementsPage />} />
               <Route path="bank-budget" element={<BankBudgetPage />} />
+              <Route path="bank-reconciliation" element={<BankReconciliationPage />} />
+              <Route path="budgeting-commitments" element={<BudgetingCommitmentsPage />} />
+              <Route path="tax-withholding" element={<TaxWithholdingPage />} />
+              <Route path="accruals-deferrals" element={<AccrualsDeferralsPage />} />
+              <Route path="fund-accounting" element={<FundAccountingPage />} />
+              <Route path="period-close" element={<PeriodClosePage />} />
+              <Route path="financial-statements" element={<FinancialStatementsPage />} />
               {/* M13 */}
               <Route path="staff" element={<StaffPage />} />
+              <Route path="position-control" element={<PositionControlPage />} />
               <Route path="recruitment" element={<RecruitmentPage />} />
               <Route path="leave-requests" element={<LeaveRequestsPage />} />
               <Route path="performance" element={<PerformancePage />} />
+              <Route path="compensation-benefits" element={<CompensationBenefitsPage />} />
+              <Route path="payroll-rules" element={<PayrollRulesPage />} />
+              <Route path="payslip-management" element={<PayslipManagementPage />} />
               <Route path="payroll" element={<PayrollPage />} />
               <Route path="separations" element={<SeparationsPage />} />
               {/* M16 */}
@@ -243,11 +294,14 @@ export default function App() {
               <Route path="library-holdings" element={<LibraryHoldingsPage />} />
               <Route path="library-circulation" element={<LibraryCirculationPage />} />
               <Route path="library-acquisitions" element={<LibraryAcquisitionsPage />} />
+              <Route path="library-digital" element={<DigitalResourceAccessPage />} />
               {/* M17 */}
               <Route path="fleet" element={<FleetPage />} />
               <Route path="transport-routes" element={<TransportRoutesPage />} />
               <Route path="transport-riders" element={<TransportRidersPage />} />
+              <Route path="boarding-safety" element={<BoardingSafetyPage />} />
               <Route path="transport-operations" element={<TransportOperationsPage />} />
+              <Route path="fuel-maintenance" element={<FuelMaintenancePage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
