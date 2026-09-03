@@ -56,7 +56,7 @@ export default function PayslipManagementPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Receipt} title="Payslips & Disbursement" titleNe="तलबपत्र" microModule="M13.09" description="Generate payslips, manage disbursements and view history." actions={<Button onClick={() => { setEditingSlip(undefined); setSlipOpen(true); }}><CanCreate resource="payslips">New Payslip</CanCreate></Button>} />
+      <PageHeader icon={Receipt} title="Payslips & Disbursement" titleNe="तलबपत्र" microModule="M13.09" description="Generate payslips, manage disbursements and view history." actions={<CanCreate resource="payslips"><Button onClick={() => { setEditingSlip(undefined); setSlipOpen(true); }}>New Payslip</Button></CanCreate>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Receipt className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Payslips</p><p className="text-lg font-bold">{totalPayslips}</p></div></CardContent></Card>

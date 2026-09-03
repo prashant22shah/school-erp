@@ -41,7 +41,7 @@ export default function TaxWithholdingPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Percent} title="Tax & Withholding" titleNe="कर" microModule="M12.20" description="Tax codes, withholding rules and VAT configuration." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="taxCodes">New Tax Code</CanCreate></Button>} />
+      <PageHeader icon={Percent} title="Tax & Withholding" titleNe="कर" microModule="M12.20" description="Tax codes, withholding rules and VAT configuration." actions={<CanCreate resource="taxCodes"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Tax Code</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Percent className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Codes</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Percent className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Active</p><p className="text-lg font-bold">{active}</p></div></CardContent></Card>

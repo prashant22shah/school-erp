@@ -51,7 +51,7 @@ export default function LibraryAcquisitionsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Package} title="Library Acquisitions" titleNe="पुस्तकालय अधिग्रहण" microModule="M16.04" description="Acquisition and serials — orders, receipts and cataloging." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="libraryAcquisitions">New Acquisition</CanCreate></Button>} />
+      <PageHeader icon={Package} title="Library Acquisitions" titleNe="पुस्तकालय अधिग्रहण" microModule="M16.04" description="Acquisition and serials — orders, receipts and cataloging." actions={<CanCreate resource="libraryAcquisitions"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Acquisition</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Package className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Orders</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><Package className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Ordered</p><p className="text-lg font-bold">{ordered}</p></div></CardContent></Card>

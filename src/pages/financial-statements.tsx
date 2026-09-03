@@ -47,7 +47,7 @@ export default function FinancialStatementsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={FileBarChart} title="Financial Statements" titleNe="वित्तीय विवरण" microModule="M12.24" description="Balance sheet, income statement, cash flow and trial balance reports." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="financialStatements">Generate Statement</CanCreate></Button>} />
+      <PageHeader icon={FileBarChart} title="Financial Statements" titleNe="वित्तीय विवरण" microModule="M12.24" description="Balance sheet, income statement, cash flow and trial balance reports." actions={<CanCreate resource="financialStatements"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>Generate Statement</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><FileBarChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Statements</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><FileBarChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Final</p><p className="text-lg font-bold">{final}</p></div></CardContent></Card>

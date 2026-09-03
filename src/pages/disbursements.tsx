@@ -49,7 +49,7 @@ export default function DisbursementsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Banknote} title="Disbursements" titleNe="वितरण" microModule="M12.16" description="Vendor payment processing, cheque management and disbursement tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="disbursements">New Disbursement</CanCreate></Button>} />
+      <PageHeader icon={Banknote} title="Disbursements" titleNe="वितरण" microModule="M12.16" description="Vendor payment processing, cheque management and disbursement tracking." actions={<CanCreate resource="disbursements"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Disbursement</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Banknote className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total entries</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Banknote className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total amount</p><p className="text-lg font-bold">NPR {totalAmount.toLocaleString()}</p></div></CardContent></Card>

@@ -53,7 +53,7 @@ export default function LibraryHoldingsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Layers} title="Library Holdings" titleNe="पुस्तकालय धारण" microModule="M16.02" description="Copies, holdings and shelving — physical inventory." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="libraryHoldings">New Holding</CanCreate></Button>} />
+      <PageHeader icon={Layers} title="Library Holdings" titleNe="पुस्तकालय धारण" microModule="M16.02" description="Copies, holdings and shelving — physical inventory." actions={<CanCreate resource="libraryHoldings"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Holding</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Layers className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Copies</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Layers className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Available</p><p className="text-lg font-bold">{available}</p></div></CardContent></Card>

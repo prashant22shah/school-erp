@@ -50,7 +50,7 @@ export default function DunningPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Bell} title="Dunning & Collections" titleNe="सम्झौता पत्र" microModule="M12.13" description="Payment reminder notices, escalation schedules and collection tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="dunning">New Notice</CanCreate></Button>} />
+      <PageHeader icon={Bell} title="Dunning & Collections" titleNe="सम्झौता पत्र" microModule="M12.13" description="Payment reminder notices, escalation schedules and collection tracking." actions={<CanCreate resource="dunning"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Notice</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Bell className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Scheduled</p><p className="text-lg font-bold">{scheduled}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Bell className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Sent</p><p className="text-lg font-bold">{sent}</p></div></CardContent></Card>

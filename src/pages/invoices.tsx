@@ -72,7 +72,7 @@ export default function InvoicesPage() {
         description="Student invoices, balances and credit note adjustments."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingInv(undefined); setInvOpen(true); }}><CanCreate resource="invoices">New Invoice</CanCreate></Button>
+            <CanCreate resource="invoices"><Button variant="outline" onClick={() => { setEditingInv(undefined); setInvOpen(true); }}>New Invoice</Button></CanCreate>
             <Button onClick={() => { setEditingCredit(undefined); setCreditOpen(true); }}> New Credit Note</Button>
           </div>
         }

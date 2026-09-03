@@ -102,9 +102,9 @@ export default function LibraryCirculationPage() {
         description="Membership and circulation — issue, return and reservations."
         actions={
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => { setEditingMember(undefined); setMemberOpen(true); }}><CanCreate resource="libraryMembers">New Member</CanCreate></Button>
-            <Button variant="outline" onClick={() => { setEditingLoan(undefined); setLoanOpen(true); }}> New Loan</Button>
-            <Button onClick={() => { setEditingReservation(undefined); setReservationOpen(true); }}> New Reservation</Button>
+            <CanCreate resource="libraryMembers"><Button variant="outline" onClick={() => { setEditingMember(undefined); setMemberOpen(true); }}>New Member</Button></CanCreate>
+            <CanCreate resource="libraryLoans"><Button variant="outline" onClick={() => { setEditingLoan(undefined); setLoanOpen(true); }}>New Loan</Button></CanCreate>
+            <CanCreate resource="libraryReservations"><Button onClick={() => { setEditingReservation(undefined); setReservationOpen(true); }}>New Reservation</Button></CanCreate>
           </div>
         }
       />

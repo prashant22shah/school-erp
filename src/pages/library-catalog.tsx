@@ -85,8 +85,8 @@ export default function LibraryCatalogPage() {
         description="Catalog, metadata and digital resource access — library foundation."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingResource(undefined); setResourceOpen(true); }}><CanCreate resource="libraryResources">New Resource</CanCreate></Button>
-            <Button onClick={() => { setEditingDigital(undefined); setDigitalOpen(true); }}> New Digital</Button>
+            <CanCreate resource="libraryResources"><Button variant="outline" onClick={() => { setEditingResource(undefined); setResourceOpen(true); }}>New Resource</Button></CanCreate>
+            <CanCreate resource="digitalResources"><Button onClick={() => { setEditingDigital(undefined); setDigitalOpen(true); }}>New Digital</Button></CanCreate>
           </div>
         }
       />

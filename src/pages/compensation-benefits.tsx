@@ -62,7 +62,7 @@ export default function CompensationBenefitsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={DollarSign} title="Compensation & Benefits" titleNe="सुविधा तथा लाभ" microModule="M13.06" description="Salary structure, benefit plans, allowances and deductions." actions={<Button onClick={() => { setEditingComp(undefined); setCompOpen(true); }}><CanCreate resource="compensation">New Component</CanCreate></Button>} />
+      <PageHeader icon={DollarSign} title="Compensation & Benefits" titleNe="सुविधा तथा लाभ" microModule="M13.06" description="Salary structure, benefit plans, allowances and deductions." actions={<CanCreate resource="compensation"><Button onClick={() => { setEditingComp(undefined); setCompOpen(true); }}>New Component</Button></CanCreate>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><DollarSign className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Staff</p><p className="text-lg font-bold">{totalStaff}</p></div></CardContent></Card>

@@ -42,7 +42,7 @@ export default function FeeCatalogPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Tag} title="Fee Catalog" titleNe="शुल्क सूची" microModule="M12.05" description="Fee structures, frequencies and amounts." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="feeStructures">New Fee Structure</CanCreate></Button>} />
+      <PageHeader icon={Tag} title="Fee Catalog" titleNe="शुल्क सूची" microModule="M12.05" description="Fee structures, frequencies and amounts." actions={<CanCreate resource="feeStructures"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Fee Structure</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-5">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Tag className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total</p><p className="text-lg font-bold">{query.data?.length ?? 0}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-slate-100 p-2 text-slate-600"><Tag className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">One-time</p><p className="text-lg font-bold">{oneTime}</p></div></CardContent></Card>

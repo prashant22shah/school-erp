@@ -74,7 +74,7 @@ export default function TransportRidersPage() {
         titleNe="यात्रु तथा बोर्डिङ"
         microModule="M17.03/M17.04"
         description="Rider assignments to routes/stops and daily boarding safety logs."
-        actions={<div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => { setEditingAssignment(undefined); setAssignmentOpen(true); }}><CanCreate resource="riderAssignments">New Assignment</CanCreate></Button><Button onClick={() => { setEditingLog(undefined); setLogOpen(true); }}> New Boarding Log</Button></div>}
+        actions={<div className="flex flex-wrap gap-2"><CanCreate resource="riderAssignments"><Button variant="outline" onClick={() => { setEditingAssignment(undefined); setAssignmentOpen(true); }}>New Assignment</Button></CanCreate><Button onClick={() => { setEditingLog(undefined); setLogOpen(true); }}> New Boarding Log</Button></div>}
       />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Users className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Assignments</p><p className="text-lg font-bold">{assignments.data?.length ?? 0}</p></div></CardContent></Card>

@@ -41,7 +41,7 @@ export default function JournalsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={BookOpen} title="Journal Entries" titleNe="जर्नल प्रविष्टि" microModule="M12.03/M12.04" description="Double-entry journals, posting and reversals." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="journalEntries">New Journal Entry</CanCreate></Button>} />
+      <PageHeader icon={BookOpen} title="Journal Entries" titleNe="जर्नल प्रविष्टि" microModule="M12.03/M12.04" description="Double-entry journals, posting and reversals." actions={<CanCreate resource="journalEntries"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Journal Entry</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><BookOpen className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total entries</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><BookOpen className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Posted</p><p className="text-lg font-bold">{posted}</p></div></CardContent></Card>

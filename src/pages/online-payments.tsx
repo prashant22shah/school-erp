@@ -52,7 +52,7 @@ export default function OnlinePaymentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={CreditCard} title="Online Payments" titleNe="अनलाइन भुक्तानी" microModule="M12.11" description="Digital payment gateway integration, eSewa, Khalti and IME Pay." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="onlinePayments">New Transaction</CanCreate></Button>} />
+      <PageHeader icon={CreditCard} title="Online Payments" titleNe="अनलाइन भुक्तानी" microModule="M12.11" description="Digital payment gateway integration, eSewa, Khalti and IME Pay." actions={<CanCreate resource="onlinePayments"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Transaction</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><CreditCard className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Transactions</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><CreditCard className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Completed</p><p className="text-lg font-bold">{completed}</p></div></CardContent></Card>

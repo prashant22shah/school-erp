@@ -79,7 +79,7 @@ export default function TransportOperationsPage() {
         titleNe="जिपिएस र मर्मत"
         microModule="M17.05/M17.06"
         description="Live GPS tracking and fuel & maintenance operations."
-        actions={<div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => { setEditingTrack(undefined); setTrackOpen(true); }}><CanCreate resource="gpsTracks">New GPS Track</CanCreate></Button><Button onClick={() => { setEditingMaint(undefined); setMaintOpen(true); }}> New Maintenance</Button></div>}
+        actions={<div className="flex flex-wrap gap-2"><CanCreate resource="gpsTracks"><Button variant="outline" onClick={() => { setEditingTrack(undefined); setTrackOpen(true); }}>New GPS Track</Button></CanCreate><Button onClick={() => { setEditingMaint(undefined); setMaintOpen(true); }}> New Maintenance</Button></div>}
       />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Navigation className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">GPS Tracks</p><p className="text-lg font-bold">{gpsTracks.data?.length ?? 0}</p></div></CardContent></Card>

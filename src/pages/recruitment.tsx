@@ -45,7 +45,7 @@ export default function RecruitmentPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={UserPlus} title="Recruitment" titleNe="भर्ती" microModule="M13.03" description="Applicant tracking, hiring stages and position-wise recruitment." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="recruitments">New Application</CanCreate></Button>} />
+      <PageHeader icon={UserPlus} title="Recruitment" titleNe="भर्ती" microModule="M13.03" description="Applicant tracking, hiring stages and position-wise recruitment." actions={<CanCreate resource="recruitments"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Application</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><UserPlus className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-sky-100 p-2 text-sky-600"><UserPlus className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Shortlisted</p><p className="text-lg font-bold">{shortlisted}</p></div></CardContent></Card>

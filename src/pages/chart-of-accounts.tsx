@@ -42,7 +42,7 @@ export default function ChartOfAccountsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={BookOpen} title="Chart of Accounts" titleNe="खाता चार्ट" microModule="M12.02" description="Account heads, types and grouping for double-entry bookkeeping." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="chartOfAccounts">New Account</CanCreate></Button>} />
+      <PageHeader icon={BookOpen} title="Chart of Accounts" titleNe="खाता चार्ट" microModule="M12.02" description="Account heads, types and grouping for double-entry bookkeeping." actions={<CanCreate resource="chartOfAccounts"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Account</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><BookOpen className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total accounts</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-sky-100 p-2 text-sky-600"><BookOpen className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Assets</p><p className="text-lg font-bold">{assets}</p></div></CardContent></Card>

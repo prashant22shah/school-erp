@@ -60,7 +60,7 @@ export default function PayrollRulesPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Calculator} title="Payroll Rules & Calculation" titleNe="तलब नियम" microModule="M13.07/M13.08" description="Payroll rules configuration, runs and approval workflow." actions={<Button onClick={() => { setEditingRun(undefined); setRunOpen(true); }}><CanCreate resource="payrollRules">New Payroll Run</CanCreate></Button>} />
+      <PageHeader icon={Calculator} title="Payroll Rules & Calculation" titleNe="तलब नियम" microModule="M13.07/M13.08" description="Payroll rules configuration, runs and approval workflow." actions={<CanCreate resource="payrollRules"><Button onClick={() => { setEditingRun(undefined); setRunOpen(true); }}>New Payroll Run</Button></CanCreate>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Calculator className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Active Rules</p><p className="text-lg font-bold">{activeRules}</p></div></CardContent></Card>

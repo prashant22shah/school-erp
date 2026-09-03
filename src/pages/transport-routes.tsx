@@ -90,7 +90,7 @@ export default function TransportRoutesPage() {
         titleNe="मार्ग, स्टप र तालिका"
         microModule="M17.02"
         description="Transport routes, bus stops and daily schedules."
-        actions={<div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => { setEditingRoute(undefined); setRouteOpen(true); }}><CanCreate resource="transportRoutes">New Route</CanCreate></Button><Button variant="outline" onClick={() => { setEditingStop(undefined); setStopOpen(true); }}> New Stop</Button><Button onClick={() => { setEditingSchedule(undefined); setScheduleOpen(true); }}> New Schedule</Button></div>}
+        actions={<div className="flex flex-wrap gap-2"><CanCreate resource="transportRoutes"><Button variant="outline" onClick={() => { setEditingRoute(undefined); setRouteOpen(true); }}>New Route</Button></CanCreate><Button variant="outline" onClick={() => { setEditingStop(undefined); setStopOpen(true); }}> New Stop</Button><Button onClick={() => { setEditingSchedule(undefined); setScheduleOpen(true); }}> New Schedule</Button></div>}
       />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Route className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Routes</p><p className="text-lg font-bold">{routes.data?.length ?? 0}</p></div></CardContent></Card>

@@ -72,7 +72,7 @@ export default function VendorBillsPage() {
         description="Vendor bills, payables and staff expense claims."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingBill(undefined); setBillOpen(true); }}><CanCreate resource="vendorBills">New Vendor Bill</CanCreate></Button>
+            <CanCreate resource="vendorBills"><Button variant="outline" onClick={() => { setEditingBill(undefined); setBillOpen(true); }}>New Vendor Bill</Button></CanCreate>
             <Button onClick={() => { setEditingClaim(undefined); setClaimOpen(true); }}> New Expense Claim</Button>
           </div>
         }

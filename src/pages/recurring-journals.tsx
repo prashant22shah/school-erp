@@ -41,7 +41,7 @@ export default function RecurringJournalsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Repeat} title="Recurring Journals" titleNe="आवर्ती जर्नल" microModule="M12.04" description="Automated periodic journal entries for depreciation, accruals and allocations." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="recurringJournals">New Recurring Journal</CanCreate></Button>} />
+      <PageHeader icon={Repeat} title="Recurring Journals" titleNe="आवर्ती जर्नल" microModule="M12.04" description="Automated periodic journal entries for depreciation, accruals and allocations." actions={<CanCreate resource="recurringJournals"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Recurring Journal</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Repeat className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total templates</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Repeat className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Active</p><p className="text-lg font-bold">{active}</p></div></CardContent></Card>

@@ -72,7 +72,7 @@ export default function FleetPage() {
         titleNe="फ्लीट तथा अनुपालन"
         microModule="M17.01"
         description="Vehicles, drivers and compliance documents — fitness, insurance, permit and pollution."
-        actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="vehicles">New Vehicle</CanCreate></Button>}
+        actions={<CanCreate resource="vehicles"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Vehicle</Button></CanCreate>}
       />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Bus className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Vehicles</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>

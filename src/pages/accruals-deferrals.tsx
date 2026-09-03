@@ -42,7 +42,7 @@ export default function AccrualsDeferralsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={CalendarClock} title="Accruals & Deferrals" titleNe="उत्क्रमण" microModule="M12.21" description="Accrual entries, deferral schedules and period adjustments." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="accruals">New Accrual</CanCreate></Button>} />
+      <PageHeader icon={CalendarClock} title="Accruals & Deferrals" titleNe="उत्क्रमण" microModule="M12.21" description="Accrual entries, deferral schedules and period adjustments." actions={<CanCreate resource="accruals"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Accrual</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><CalendarClock className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Entries</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><CalendarClock className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Pending</p><p className="text-lg font-bold">{pending}</p></div></CardContent></Card>

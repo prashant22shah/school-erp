@@ -45,7 +45,7 @@ export default function PositionControlPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Briefcase} title="Position & Establishment" titleNe="पद तथा स्थापना" microModule="M13.02" description="Manage positions, sanctioned strength and establishment planning." actions={<Button onClick={() => { setEditingPos(undefined); setPosOpen(true); }}><CanCreate resource="positions">New Position</CanCreate></Button>} />
+      <PageHeader icon={Briefcase} title="Position & Establishment" titleNe="पद तथा स्थापना" microModule="M13.02" description="Manage positions, sanctioned strength and establishment planning." actions={<CanCreate resource="positions"><Button onClick={() => { setEditingPos(undefined); setPosOpen(true); }}>New Position</Button></CanCreate>} />
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Briefcase className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Positions</p><p className="text-lg font-bold">{totalPositions}</p></div></CardContent></Card>

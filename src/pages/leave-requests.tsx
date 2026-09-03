@@ -50,7 +50,7 @@ export default function LeaveRequestsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={CalendarOff} title="Leave Requests" titleNe="बिदा अनुरोध" microModule="M13.04" description="Staff leave applications, approvals and balances." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="leaveRequests">New Leave Request</CanCreate></Button>} />
+      <PageHeader icon={CalendarOff} title="Leave Requests" titleNe="बिदा अनुरोध" microModule="M13.04" description="Staff leave applications, approvals and balances." actions={<CanCreate resource="leaveRequests"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Leave Request</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><CalendarOff className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Requests</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><CalendarOff className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Pending</p><p className="text-lg font-bold">{pending}</p></div></CardContent></Card>

@@ -42,7 +42,7 @@ export default function ExpenseClaimsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={ReceiptIndianRupee} title="Expense Claims" titleNe="खर्च दावी" microModule="M12.15" description="Staff expense submissions, approvals and reimbursements." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="expenseClaims">New Claim</CanCreate></Button>} />
+      <PageHeader icon={ReceiptIndianRupee} title="Expense Claims" titleNe="खर्च दावी" microModule="M12.15" description="Staff expense submissions, approvals and reimbursements." actions={<CanCreate resource="expenseClaims"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Claim</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><ReceiptIndianRupee className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total claims</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><ReceiptIndianRupee className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total amount</p><p className="text-lg font-bold">NPR {totalAmount.toLocaleString()}</p></div></CardContent></Card>

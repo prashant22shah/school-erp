@@ -64,7 +64,7 @@ export default function BankBudgetPage() {
         description="Bank accounts, balances and departmental budgets."
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => { setEditingBank(undefined); setBankOpen(true); }}><CanCreate resource="bankAccounts">New Bank Account</CanCreate></Button>
+            <CanCreate resource="bankAccounts"><Button variant="outline" onClick={() => { setEditingBank(undefined); setBankOpen(true); }}>New Bank Account</Button></CanCreate>
             <Button onClick={() => { setEditingBudget(undefined); setBudgetOpen(true); }}> New Budget</Button>
           </div>
         }

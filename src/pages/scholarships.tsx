@@ -51,7 +51,7 @@ export default function ScholarshipsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Award} title="Scholarships & Discounts" titleNe="छात्रवृत्ति" microModule="M12.09" description="Scholarship schemes, discount rules and recipient tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="scholarships">New Scheme</CanCreate></Button>} />
+      <PageHeader icon={Award} title="Scholarships & Discounts" titleNe="छात्रवृत्ति" microModule="M12.09" description="Scholarship schemes, discount rules and recipient tracking." actions={<CanCreate resource="scholarships"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Scheme</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Award className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Active Schemes</p><p className="text-lg font-bold">{activeSchemes}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Award className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Recipients</p><p className="text-lg font-bold">{totalRecipients}</p></div></CardContent></Card>

@@ -41,7 +41,7 @@ export default function FundAccountingPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Landmark} title="Fund Accounting" titleNe="कोष लेखा" microModule="M12.22" description="Restricted funds, endowments and project-based fund tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="funds">New Fund</CanCreate></Button>} />
+      <PageHeader icon={Landmark} title="Fund Accounting" titleNe="कोष लेखा" microModule="M12.22" description="Restricted funds, endowments and project-based fund tracking." actions={<CanCreate resource="funds"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Fund</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Landmark className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Funds</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Landmark className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Balance</p><p className="text-lg font-bold">NPR {totalBalance.toLocaleString()}</p></div></CardContent></Card>

@@ -42,7 +42,7 @@ export default function BudgetingCommitmentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={PieChart} title="Budgeting & Commitments" titleNe="बजेट" microModule="M12.19" description="Donor commitments, fund pledges and budget tracking." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="commitments">New Commitment</CanCreate></Button>} />
+      <PageHeader icon={PieChart} title="Budgeting & Commitments" titleNe="बजेट" microModule="M12.19" description="Donor commitments, fund pledges and budget tracking." actions={<CanCreate resource="commitments"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Commitment</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><PieChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Commitments</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-amber-100 p-2 text-amber-600"><PieChart className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Pledged</p><p className="text-lg font-bold">{pledged}</p></div></CardContent></Card>

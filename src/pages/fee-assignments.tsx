@@ -41,7 +41,7 @@ export default function FeeAssignmentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={UserCheck} title="Fee Assignments" titleNe="शुल्क असाइनमेन्ट" microModule="M12.06/M12.09" description="Assign fee structures to students, discounts and due dates." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="feeAssignments">New Assignment</CanCreate></Button>} />
+      <PageHeader icon={UserCheck} title="Fee Assignments" titleNe="शुल्क असाइनमेन्ट" microModule="M12.06/M12.09" description="Assign fee structures to students, discounts and due dates." actions={<CanCreate resource="feeAssignments"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Assignment</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><UserCheck className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total</p><p className="text-lg font-bold">{query.data?.length ?? 0}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-sky-100 p-2 text-sky-600"><UserCheck className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Assigned</p><p className="text-lg font-bold">{assigned}</p></div></CardContent></Card>

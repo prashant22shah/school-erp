@@ -51,7 +51,7 @@ export default function CollectionsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader icon={Wallet} title="Collections & Payments" titleNe="सङ्कलन" microModule="M12.10/M12.11/M12.13" description="Receipts, payment methods and collection summary." actions={<Button onClick={() => { setEditing(undefined); setOpen(true); }}><CanCreate resource="payments">New Payment</CanCreate></Button>} />
+      <PageHeader icon={Wallet} title="Collections & Payments" titleNe="सङ्कलन" microModule="M12.10/M12.11/M12.13" description="Receipts, payment methods and collection summary." actions={<CanCreate resource="payments"><Button onClick={() => { setEditing(undefined); setOpen(true); }}>New Payment</Button></CanCreate>} />
       <div className="grid gap-3 sm:grid-cols-4">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><Wallet className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Payments</p><p className="text-lg font-bold">{total}</p></div></CardContent></Card>
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-emerald-100 p-2 text-emerald-600"><Wallet className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Completed</p><p className="text-lg font-bold">{completed}</p></div></CardContent></Card>
