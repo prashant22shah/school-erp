@@ -280,12 +280,6 @@ export function AppShell() {
             <LogOut className="h-4 w-4" />
             <span>Sign out</span>
           </button>
-          <div className="rounded-lg bg-white/5 p-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Prototype</p>
-            <p className="mt-1 text-xs leading-relaxed text-slate-400">
-              Data is seeded in <span className="text-indigo-300">IndexedDB</span>. Refresh-safe, fully interactive.
-            </p>
-          </div>
         </div>
       </aside>
 
@@ -299,13 +293,6 @@ export function AppShell() {
             <span className="text-sm font-bold">Shikshya ERP</span>
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 sm:flex">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              Connected to local DB
-            </span>
             {/* Mobile user + logout */}
             <div className="flex items-center gap-2 lg:hidden">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20 text-[10px] font-bold text-indigo-300">
@@ -321,7 +308,7 @@ export function AppShell() {
           <Outlet />
         </main>
         <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground">
-          Shikshya ERP · Modules 1–17 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Library & Resources · Transport & Fleet · Design prototype (fake data, IndexedDB)
+          Shikshya ERP · Modules 1–17 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Library & Resources · Transport & Fleet
         </footer>
       </div>
     </div>
