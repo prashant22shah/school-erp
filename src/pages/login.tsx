@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { School, Lock, User, ArrowRight, Database } from "lucide-react";
+import { School, Lock, User, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROLE_PROFILES, type UserRole } from "@/lib/role-permissions";
+
+const ROLE_COLORS: Record<UserRole, string> = {
+  admin: "bg-indigo-500",
+  principal: "bg-violet-500",
+  accountant: "bg-emerald-500",
+  teacher: "bg-amber-500",
+  student: "bg-sky-500",
+  parent: "bg-rose-500",
+};
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,8 +25,7 @@ export default function Login() {
 
   const selectRole = (role: UserRole) => {
     setSelectedRole(role);
-    const p = ROLE_PROFILES.find((r) => r.id === role)!;
-    setEmail(p.email);
+    setEmail(ROLE_PROFILES.find((r) => r.id === role)!.email);
   };
 
   const signIn = (e?: React.FormEvent) => {
@@ -55,7 +63,7 @@ export default function Login() {
             </div>
           </div>
           <h2 className="mt-8 text-3xl font-bold leading-snug text-white">
-            Modules 1–5 — Full Prototype
+            Modules 1–17 — Full Prototype
             <br />
             <span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">
               with ABAC Role-Based Access
@@ -66,10 +74,6 @@ export default function Login() {
             experience the ERP from different perspectives — admin, principal,
             accountant, teacher, student, or parent.
           </p>
-          <div className="mt-8 flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-xs text-slate-400">
-            <Database className="h-4 w-4 text-indigo-300" />
-            Design prototype — data lives in your browser (IndexedDB), no server required.
-          </div>
         </div>
 
         {/* Form side */}
@@ -77,30 +81,27 @@ export default function Login() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-xl">Sign in</CardTitle>
             <CardDescription>
-              Prototype login — pick a role persona. Navigation adapts to each role.
+              Pick a role persona. Navigation adapts to each role.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             {/* Role selector grid */}
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-3 gap-2">
               {ROLE_PROFILES.map((r) => (
                 <button
                   key={r.id}
                   type="button"
                   onClick={() => selectRole(r.id)}
-                  className={`flex flex-col items-center gap-1.5 rounded-lg border p-2.5 text-center transition-all ${
+                  className={`flex h-20 flex-col items-center justify-center gap-1 rounded-lg border p-2 text-center transition-all ${
                     selectedRole === r.id
                       ? "border-primary bg-accent ring-1 ring-primary"
                       : "border-border hover:bg-muted/60"
                   }`}
                 >
-                  <span
-                    className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white ${r.color}`}
-                  >
+                  <span className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-bold text-white ${ROLE_COLORS[r.id]}`}>
                     {r.initials}
                   </span>
-                  <span className="text-xs font-medium leading-tight">{r.label}</span>
-                  <span className="text-[10px] text-muted-foreground leading-tight">{r.labelNe}</span>
+                  <span className="text-[11px] font-medium leading-tight">{r.label}</span>
                 </button>
               ))}
             </div>

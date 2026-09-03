@@ -307,9 +307,6 @@ export function AppShell() {
         <main className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
-        <footer className="border-t px-6 py-4 text-center text-xs text-muted-foreground">
-          Shikshya ERP · Modules 1–17 · Institution Core · Identity & Access · Academic Foundation · CRM & Admissions · Student Lifecycle · Curriculum & Teaching · Scheduling & Attendance · Assessment & Exams · Results & Certificates · Portals & Mobile · Finance & Accounting · HR & Payroll · Library & Resources · Transport & Fleet
-        </footer>
       </div>
     </div>
   );
