@@ -51,7 +51,25 @@ export type PermissionResource =
   | "libraryAcquisitions" | "digitalResources"
   // M17
   | "vehicles" | "transportRoutes" | "busStops" | "routeSchedules" | "riderAssignments"
-  | "boardingLogs" | "gpsTracks" | "vehicleMaintenance";
+  | "boardingLogs" | "gpsTracks" | "vehicleMaintenance"
+  // M19
+  | "healthProfiles" | "clinicVisits" | "immunizationRecords"
+  | "counselingCases" | "safeguardingActions" | "caseNotes"
+  | "supportNeeds" | "accommodationPlans"
+  | "conductIncidents" | "conductActions"
+  | "grievances" | "grievanceOutcomes"
+  | "advisingAssignments" | "interventionPlans" | "interventionActions"
+  // M20
+  | "communityEvents" | "eventRegistrations" | "activityGroups" | "groupMemberships"
+  | "competitions" | "competitionEntries" | "competitionResults"
+  | "trips" | "tripParticipants" | "ptmEvents" | "ptmBookings"
+  | "fundraisingCampaigns" | "donations"
+  // M21
+  | "subjectCombinationRules" | "studentSubjectPlans"
+  | "boardRegistrations" | "readinessChecks" | "internalAssessmentSnapshots"
+  | "guidanceProfiles" | "guidanceSessions" | "externalApplications"
+  | "schoolExitCases" | "migrationDocuments"
+  | "formerStudents" | "alumniPreferences";
 
 /** A single permission rule: role + resource + allowed actions. */
 interface PermissionRule {
@@ -194,6 +212,49 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "admin", resource: "boardingLogs", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "gpsTracks", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "vehicleMaintenance", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M19
+  { role: "admin", resource: "healthProfiles", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "clinicVisits", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "immunizationRecords", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "counselingCases", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "safeguardingActions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "caseNotes", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "supportNeeds", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "accommodationPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "conductIncidents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "conductActions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "grievances", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "grievanceOutcomes", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "advisingAssignments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "interventionPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "interventionActions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M20
+  { role: "admin", resource: "communityEvents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "eventRegistrations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "activityGroups", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "groupMemberships", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "competitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "competitionEntries", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "competitionResults", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "trips", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "tripParticipants", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "ptmEvents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "ptmBookings", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "fundraisingCampaigns", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "donations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M21
+  { role: "admin", resource: "subjectCombinationRules", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "studentSubjectPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "boardRegistrations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "readinessChecks", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "internalAssessmentSnapshots", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "guidanceProfiles", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "guidanceSessions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "externalApplications", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "schoolExitCases", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "migrationDocuments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "formerStudents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "alumniPreferences", actions: ["create", "read", "update", "delete", "export", "approve"] },
 
   // ── Principal: broad academic + operational + read finance ───────────────────
   { role: "principal", resource: "institutions", actions: ["read", "update"] },
@@ -299,6 +360,49 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "principal", resource: "boardingLogs", actions: ["read"] },
   { role: "principal", resource: "gpsTracks", actions: ["read"] },
   { role: "principal", resource: "vehicleMaintenance", actions: ["read", "approve"] },
+  // M19
+  { role: "principal", resource: "healthProfiles", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "clinicVisits", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "immunizationRecords", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "counselingCases", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "safeguardingActions", actions: ["create", "read", "update", "delete", "approve"] },
+  { role: "principal", resource: "caseNotes", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "supportNeeds", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "accommodationPlans", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "conductIncidents", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "conductActions", actions: ["create", "read", "update", "delete", "approve"] },
+  { role: "principal", resource: "grievances", actions: ["create", "read", "update", "delete", "approve"] },
+  { role: "principal", resource: "grievanceOutcomes", actions: ["create", "read", "update", "delete", "approve"] },
+  { role: "principal", resource: "advisingAssignments", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "interventionPlans", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "interventionActions", actions: ["create", "read", "update", "delete"] },
+  // M20
+  { role: "principal", resource: "communityEvents", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "eventRegistrations", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "activityGroups", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "groupMemberships", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "competitions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "competitionEntries", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "competitionResults", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "trips", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "tripParticipants", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "ptmEvents", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "ptmBookings", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "fundraisingCampaigns", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "donations", actions: ["create", "read", "update", "delete"] },
+  // M21
+  { role: "principal", resource: "subjectCombinationRules", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "studentSubjectPlans", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "boardRegistrations", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "readinessChecks", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "internalAssessmentSnapshots", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "guidanceProfiles", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "guidanceSessions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "externalApplications", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "schoolExitCases", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "migrationDocuments", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "formerStudents", actions: ["read"] },
+  { role: "principal", resource: "alumniPreferences", actions: ["read"] },
 
   // ── Accountant: finance CRUD, student read, staff read/payroll ──────────────
   { role: "accountant", resource: "institutions", actions: ["read"] },
@@ -337,6 +441,12 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "accountant", resource: "payrollRules", actions: ["create", "read", "update"] },
   { role: "accountant", resource: "payslips", actions: ["create", "read", "update", "export"] },
   { role: "accountant", resource: "leaveRequests", actions: ["read"] },
+  // M19
+  { role: "accountant", resource: "healthProfiles", actions: ["read"] },
+  { role: "accountant", resource: "clinicVisits", actions: ["read"] },
+  // M20
+  { role: "accountant", resource: "fundraisingCampaigns", actions: ["create", "read", "update", "delete"] },
+  { role: "accountant", resource: "donations", actions: ["create", "read", "update", "delete"] },
 
   // ── Teacher: academic CRUD, limited student management ──────────────────────
   { role: "teacher", resource: "calendars", actions: ["read"] },
@@ -394,6 +504,34 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "teacher", resource: "riderAssignments", actions: ["read"] },
   { role: "teacher", resource: "boardingLogs", actions: ["read"] },
   { role: "teacher", resource: "vehicleMaintenance", actions: ["read"] },
+  // M19
+  { role: "teacher", resource: "healthProfiles", actions: ["read"] },
+  { role: "teacher", resource: "clinicVisits", actions: ["read"] },
+  { role: "teacher", resource: "counselingCases", actions: ["read"] },
+  { role: "teacher", resource: "supportNeeds", actions: ["read"] },
+  { role: "teacher", resource: "conductIncidents", actions: ["create", "read"] },
+  { role: "teacher", resource: "grievances", actions: ["read"] },
+  { role: "teacher", resource: "advisingAssignments", actions: ["read"] },
+  // M20
+  { role: "teacher", resource: "communityEvents", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "eventRegistrations", actions: ["create", "read"] },
+  { role: "teacher", resource: "activityGroups", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "groupMemberships", actions: ["read"] },
+  { role: "teacher", resource: "competitions", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "competitionEntries", actions: ["read"] },
+  { role: "teacher", resource: "competitionResults", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "trips", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "tripParticipants", actions: ["create", "read"] },
+  { role: "teacher", resource: "ptmEvents", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "ptmBookings", actions: ["read"] },
+  // M21
+  { role: "teacher", resource: "subjectCombinationRules", actions: ["read"] },
+  { role: "teacher", resource: "studentSubjectPlans", actions: ["read"] },
+  { role: "teacher", resource: "boardRegistrations", actions: ["read"] },
+  { role: "teacher", resource: "readinessChecks", actions: ["read"] },
+  { role: "teacher", resource: "internalAssessmentSnapshots", actions: ["read"] },
+  { role: "teacher", resource: "guidanceProfiles", actions: ["read"] },
+  { role: "teacher", resource: "guidanceSessions", actions: ["read"] },
 
   // ── Student: read-only own data + library borrowing ─────────────────────────
   { role: "student", resource: "calendars", actions: ["read"] },
@@ -414,6 +552,22 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "student", resource: "libraryLoans", actions: ["create", "read"] },
   { role: "student", resource: "libraryReservations", actions: ["create", "read"] },
   { role: "student", resource: "digitalResources", actions: ["read"] },
+  // M19
+  { role: "student", resource: "healthProfiles", actions: ["read"] },
+  { role: "student", resource: "clinicVisits", actions: ["read"] },
+  { role: "student", resource: "conductIncidents", actions: ["read"] },
+  { role: "student", resource: "grievances", actions: ["read"] },
+  // M20
+  { role: "student", resource: "communityEvents", actions: ["read"] },
+  { role: "student", resource: "eventRegistrations", actions: ["create", "read"] },
+  { role: "student", resource: "activityGroups", actions: ["read"] },
+  { role: "student", resource: "trips", actions: ["read"] },
+  { role: "student", resource: "tripParticipants", actions: ["create", "read"] },
+  { role: "student", resource: "ptmEvents", actions: ["read"] },
+  // M21
+  { role: "student", resource: "studentSubjectPlans", actions: ["read"] },
+  { role: "student", resource: "guidanceProfiles", actions: ["read"] },
+  { role: "student", resource: "externalApplications", actions: ["read"] },
 
   // ── Parent: read-only child data ────────────────────────────────────────────
   { role: "parent", resource: "calendars", actions: ["read"] },
@@ -424,6 +578,21 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "parent", resource: "results", actions: ["read"] },
   { role: "parent", resource: "marksheets", actions: ["read"] },
   { role: "parent", resource: "libraryResources", actions: ["read"] },
+  // M19
+  { role: "parent", resource: "healthProfiles", actions: ["read"] },
+  { role: "parent", resource: "clinicVisits", actions: ["read"] },
+  { role: "parent", resource: "counselingCases", actions: ["read"] },
+  { role: "parent", resource: "conductIncidents", actions: ["read"] },
+  { role: "parent", resource: "grievances", actions: ["read"] },
+  // M20
+  { role: "parent", resource: "communityEvents", actions: ["read"] },
+  { role: "parent", resource: "eventRegistrations", actions: ["read"] },
+  { role: "parent", resource: "ptmEvents", actions: ["read"] },
+  // M21
+  { role: "parent", resource: "guidanceProfiles", actions: ["read"] },
+  { role: "parent", resource: "externalApplications", actions: ["read"] },
+  { role: "parent", resource: "formerStudents", actions: ["read"] },
+  { role: "parent", resource: "alumniPreferences", actions: ["read"] },
 ];
 
 // ── Permission Check Functions ───────────────────────────────────────────────
@@ -583,6 +752,9 @@ const ALL_ADMIN_ROUTES = [
   "/staff", "/position-control", "/recruitment", "/leave-requests", "/performance", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll", "/separations",
   "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
   "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations", "/fuel-maintenance",
+  "/health-clinic", "/counseling", "/special-education", "/student-conduct", "/grievances", "/advising",
+  "/events", "/clubs", "/sports", "/trips", "/ptm", "/fundraising",
+  "/subject-combinations", "/board-registration", "/career-guidance", "/school-leaving", "/alumni",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -604,6 +776,9 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/staff", "/recruitment", "/leave-requests", "/performance", "/payroll", "/separations",
     "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
     "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations", "/fuel-maintenance",
+    "/health-clinic", "/counseling", "/special-education", "/student-conduct", "/grievances", "/advising",
+    "/events", "/clubs", "/sports", "/trips", "/ptm", "/fundraising",
+    "/subject-combinations", "/board-registration", "/career-guidance", "/school-leaving", "/alumni",
   ],
 
   accountant: [
@@ -613,6 +788,7 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/management-portal",
     "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
     "/staff", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll",
+    "/fundraising",
   ],
 
   teacher: [
@@ -628,6 +804,9 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
     "/staff", "/leave-requests", "/performance", "/payroll", "/separations",
     "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations",
+    "/health-clinic", "/counseling", "/student-conduct",
+    "/events", "/clubs", "/sports", "/trips", "/ptm",
+    "/subject-combinations", "/board-registration",
   ],
 
   student: [
@@ -636,6 +815,7 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/students",
     "/student-portal",
     "/library-catalog", "/library-circulation", "/library-digital",
+    "/events", "/clubs", "/sports", "/career-guidance",
   ],
 
   parent: [
@@ -643,6 +823,7 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/students",
     "/parent-portal",
     "/library-catalog",
+    "/health-clinic", "/events", "/career-guidance", "/alumni",
   ],
 };
 

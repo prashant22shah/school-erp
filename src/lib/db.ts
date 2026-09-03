@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 15;
+const DB_VERSION = 16;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -204,6 +204,50 @@ function openDB(): Promise<IDBDatabase> {
         "boardingLogs",
         "gpsTracks",
         "vehicleMaintenance",
+        // M19 stores
+        "healthProfiles",
+        "clinicVisits",
+        "medicationAdministrations",
+        "immunizationRecords",
+        "counselingCases",
+        "caseNotes",
+        "safeguardingActions",
+        "supportNeeds",
+        "accommodationPlans",
+        "conductIncidents",
+        "conductActions",
+        "grievances",
+        "grievanceOutcomes",
+        "advisingAssignments",
+        "interventionPlans",
+        "interventionActions",
+        // M20 stores
+        "communityEvents",
+        "eventRegistrations",
+        "activityGroups",
+        "groupMemberships",
+        "competitions",
+        "competitionEntries",
+        "competitionResults",
+        "trips",
+        "tripParticipants",
+        "ptmEvents",
+        "ptmBookings",
+        "fundraisingCampaigns",
+        "donations",
+        // M21 stores
+        "subjectCombinationRules",
+        "studentSubjectPlans",
+        "boardRegistrations",
+        "readinessChecks",
+        "internalAssessmentSnapshots",
+        "guidanceProfiles",
+        "guidanceSessions",
+        "externalApplications",
+        "schoolExitCases",
+        "migrationDocuments",
+        "formerStudents",
+        "alumniPreferences",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -281,6 +325,19 @@ const ALL_STORES: StoreName[] = [
   // M17 stores
   "vehicles", "transportRoutes", "busStops", "routeSchedules", "riderAssignments",
   "boardingLogs", "gpsTracks", "vehicleMaintenance",
+  // M19 stores
+  "healthProfiles", "clinicVisits", "medicationAdministrations", "immunizationRecords",
+  "counselingCases", "caseNotes", "safeguardingActions", "supportNeeds", "accommodationPlans",
+  "conductIncidents", "conductActions", "grievances", "grievanceOutcomes", "advisingAssignments",
+  "interventionPlans", "interventionActions",
+  // M20 stores
+  "communityEvents", "eventRegistrations", "activityGroups", "groupMemberships",
+  "competitions", "competitionEntries", "competitionResults", "trips", "tripParticipants",
+  "ptmEvents", "ptmBookings", "fundraisingCampaigns", "donations",
+  // M21 stores
+  "subjectCombinationRules", "studentSubjectPlans", "boardRegistrations", "readinessChecks",
+  "internalAssessmentSnapshots", "guidanceProfiles", "guidanceSessions", "externalApplications",
+  "schoolExitCases", "migrationDocuments", "formerStudents", "alumniPreferences",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -332,6 +389,16 @@ async function ensureSeeded(): Promise<void> {
     "libraryAcquisitions", "digitalResources",
     "vehicles", "transportRoutes", "busStops", "routeSchedules", "riderAssignments",
     "boardingLogs", "gpsTracks", "vehicleMaintenance",
+    "healthProfiles", "clinicVisits", "medicationAdministrations", "immunizationRecords",
+    "counselingCases", "caseNotes", "safeguardingActions", "supportNeeds", "accommodationPlans",
+    "conductIncidents", "conductActions", "grievances", "grievanceOutcomes", "advisingAssignments",
+    "interventionPlans", "interventionActions",
+    "communityEvents", "eventRegistrations", "activityGroups", "groupMemberships",
+    "competitions", "competitionEntries", "competitionResults", "trips", "tripParticipants",
+    "ptmEvents", "ptmBookings", "fundraisingCampaigns", "donations",
+    "subjectCombinationRules", "studentSubjectPlans", "boardRegistrations", "readinessChecks",
+    "internalAssessmentSnapshots", "guidanceProfiles", "guidanceSessions", "externalApplications",
+    "schoolExitCases", "migrationDocuments", "formerStudents", "alumniPreferences",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {

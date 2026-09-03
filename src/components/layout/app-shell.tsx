@@ -25,6 +25,8 @@ import {
   Package,
   // M17 icons
   Bus, Route, Navigation, Wrench,
+  // M19-M21 icons
+  Heart, Shield, AlertCircle, Map, MessageSquare, Compass, FileOutput,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -189,6 +191,32 @@ const m17Nav: NavItem[] = [
   { to: "/fuel-maintenance", label: "Fuel & Maintenance", labelNe: "इन्धन मर्मत", icon: Wrench, micro: "M17.06" },
 ];
 
+const m19Nav: NavItem[] = [
+  { to: "/health-clinic", label: "Health & Clinic", labelNe: "स्वास्थ्य", icon: Heart, micro: "M19.01" },
+  { to: "/counseling", label: "Counseling & Safeguarding", labelNe: "परामर्श", icon: Shield, micro: "M19.02-03" },
+  { to: "/special-education", label: "Special Education", labelNe: "विशेष शिक्षा", icon: Accessibility, micro: "M19.04" },
+  { to: "/student-conduct", label: "Student Conduct", labelNe: "आचरण", icon: ShieldAlert, micro: "M19.05" },
+  { to: "/grievances", label: "Grievances", labelNe: "शिकायत", icon: AlertCircle, micro: "M19.06" },
+  { to: "/advising", label: "Advising & Intervention", labelNe: "सल्लाह", icon: Users, micro: "M19.07" },
+];
+
+const m20Nav: NavItem[] = [
+  { to: "/events", label: "Events & Registration", labelNe: "कार्यक्रम", icon: CalendarDays, micro: "M20.01" },
+  { to: "/clubs", label: "Clubs & Activities", labelNe: "क्लब", icon: UsersRound, micro: "M20.02" },
+  { to: "/sports", label: "Sports & Competition", labelNe: "खेलकुद", icon: Trophy, micro: "M20.03" },
+  { to: "/trips", label: "Trips & Excursions", labelNe: "भ्रमण", icon: Map, micro: "M20.04" },
+  { to: "/ptm", label: "Parent-Teacher Meetings", labelNe: "अभिभावक भेट", icon: MessageSquare, micro: "M20.05" },
+  { to: "/fundraising", label: "Fundraising & Donations", labelNe: "कोष संकलन", icon: Heart, micro: "M20.06" },
+];
+
+const m21Nav: NavItem[] = [
+  { to: "/subject-combinations", label: "Subject Combinations", labelNe: "विषय संयोजन", icon: BookOpen, micro: "M21.01" },
+  { to: "/board-registration", label: "Board Registration", labelNe: "बोर्ड दर्ता", icon: ClipboardCheck, micro: "M21.02-03" },
+  { to: "/career-guidance", label: "Career Guidance", labelNe: "करियर मार्गदर्शन", icon: Compass, micro: "M21.04-05" },
+  { to: "/school-leaving", label: "School Leaving", labelNe: "विद्यालय छोड्ने", icon: FileOutput, micro: "M21.06" },
+  { to: "/alumni", label: "Alumni & Former Students", labelNe: "पूर्व विद्यार्थी", icon: Users, micro: "M21.07" },
+];
+
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
   const filtered = items.filter((item) => canAccess(role, item.to));
   if (filtered.length === 0) return null;
@@ -242,7 +270,7 @@ export function AppShell() {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Shikshya ERP</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M17</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M21</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -260,6 +288,9 @@ export function AppShell() {
           <NavSection label="HR & Payroll" items={m13Nav} role={role} />
           <NavSection label="Library & Resources" items={m16Nav} role={role} />
           <NavSection label="Transport & Fleet" items={m17Nav} role={role} />
+          <NavSection label="Student Services & Wellbeing" items={m19Nav} role={role} />
+          <NavSection label="Activities & Community" items={m20Nav} role={role} />
+          <NavSection label="Senior Secondary & Guidance" items={m21Nav} role={role} />
         </nav>
 
         {/* User + Logout */}

@@ -2780,6 +2780,193 @@ export interface VehicleMaintenance {
   updatedOn: string;
 }
 
+// ── M19 Student Services — domain types ─────────────────────────────────────
+
+export interface HealthProfile {
+  id: string; studentName: string; studentRef: string; allergies: string; conditions: string;
+  medications: string; emergencyContact: string; bloodGroup: string; sensitivity: string; status: "active" | "inactive" | "archived"; createdOn: string;
+}
+export interface ClinicVisit {
+  id: string; studentName: string; studentRef: string; visitDate: string; practitioner: string;
+  reason: string; diagnosis: string; treatment: string; followUp: string; status: "open" | "closed" | "referred"; createdOn: string;
+}
+export interface MedicationAdministration {
+  id: string; studentName: string; visitRef: string; medication: string; dose: string;
+  administeredAt: string; administeredBy: string; notes: string; createdOn: string;
+}
+export interface ImmunizationRecord {
+  id: string; studentName: string; studentRef: string; vaccine: string; doseNumber: number;
+  dateGiven: string; nextDue: string; evidenceRef: string; status: "completed" | "pending" | "overdue"; createdOn: string;
+}
+export interface CounselingCase {
+  id: string; studentName: string; studentRef: string; caseType: "academic" | "behavioral" | "emotional" | "career" | "safeguarding";
+  severity: "low" | "medium" | "high" | "critical"; status: "open" | "in_progress" | "closed" | "escalated";
+  assignedTo: string; description: string; createdOn: string;
+}
+export interface CaseNote {
+  id: string; caseRef: string; authorName: string; classification: "general" | "confidential" | "restricted";
+  content: string; status: "draft" | "final"; createdOn: string;
+}
+export interface SafeguardingAction {
+  id: string; caseRef: string; actionType: "referral" | "escalation" | "meeting" | "external_agency" | "safety_plan";
+  description: string; dueDate: string; assignedTo: string; status: "pending" | "in_progress" | "completed" | "overdue"; createdOn: string;
+}
+export interface SupportNeed {
+  id: string; studentName: string; studentRef: string; category: "learning" | "physical" | "sensory" | "behavioral" | "medical";
+  description: string; identifiedDate: string; status: "identified" | "active" | "resolved"; createdOn: string;
+}
+export interface AccommodationPlan {
+  id: string; studentName: string; studentRef: string; validFrom: string; validTo: string;
+  adjustments: string; approvedBy: string; status: "draft" | "approved" | "active" | "expired"; createdOn: string;
+}
+export interface ConductIncident {
+  id: string; studentName: string; studentRef: string; incidentDate: string; category: "minor" | "major" | "serious" | "critical";
+  description: string; reportedBy: string; location: string; status: "reported" | "investigating" | "resolved" | "escalated"; createdOn: string;
+}
+export interface ConductAction {
+  id: string; incidentRef: string; actionType: "warning" | "suspension" | "detention" | "community_service" | "parent_meeting" | "expulsion";
+  description: string; startDate: string; endDate: string; approvedBy: string; status: "issued" | "serving" | "completed" | "appealed"; createdOn: string;
+}
+export interface Grievance {
+  id: string; complainantName: string; complainantType: "student" | "parent" | "staff" | "other";
+  category: "academic" | "behavioral" | "safety" | "discrimination" | "facilities" | "other";
+  description: string; receivedDate: string; assignedTo: string;
+  status: "filed" | "acknowledged" | "investigating" | "resolved" | "appealed" | "closed"; createdOn: string;
+}
+export interface GrievanceOutcome {
+  id: string; grievanceRef: string; decision: string; remedy: string; issuedDate: string;
+  issuedBy: string; status: "issued" | "accepted" | "appealed"; createdOn: string;
+}
+export interface AdvisingAssignment {
+  id: string; studentName: string; studentRef: string; advisorName: string; advisorRef: string;
+  validFrom: string; validTo: string; status: "active" | "completed" | "transferred"; createdOn: string;
+}
+export interface InterventionPlan {
+  id: string; studentName: string; studentRef: string; reason: string; ownerName: string;
+  targetDate: string; status: "draft" | "active" | "completed" | "discontinued"; createdOn: string;
+}
+export interface InterventionAction {
+  id: string; planRef: string; actionType: "meeting" | "assessment" | "referral" | "follow_up" | "report";
+  description: string; dueDate: string; outcome: string; status: "pending" | "done" | "overdue"; createdOn: string;
+}
+
+// ── M20 Activities & Community — domain types ──────────────────────────────
+
+export interface CommunityEvent {
+  id: string; name: string; type: "academic" | "cultural" | "sports" | "social" | "community" | "fundraiser";
+  startDate: string; endDate: string; venue: string; capacity: number; registered: number;
+  description: string; status: "planned" | "open" | "full" | "ongoing" | "completed" | "cancelled"; createdOn: string;
+}
+export interface EventRegistration {
+  id: string; eventRef: string; participantName: string; participantRef: string;
+  registeredDate: string; status: "registered" | "confirmed" | "waitlisted" | "cancelled"; createdOn: string;
+}
+export interface ActivityGroup {
+  id: string; name: string; type: "club" | "house" | "society" | "team" | "committee";
+  code: string; description: string; advisorName: string; memberCount: number;
+  status: "active" | "inactive" | "dissolved"; createdOn: string;
+}
+export interface GroupMembership {
+  id: string; groupRef: string; groupName: string; memberName: string; memberRef: string;
+  role: "member" | "officer" | "president" | "vice_president" | "secretary" | "treasurer";
+  validFrom: string; validTo: string; status: "active" | "inactive"; createdOn: string;
+}
+export interface Competition {
+  id: string; name: string; sport: string; level: "intra_school" | "district" | "zone" | "national";
+  startDate: string; endDate: string; venue: string; status: "planned" | "open" | "ongoing" | "completed"; createdOn: string;
+}
+export interface CompetitionEntry {
+  id: string; competitionRef: string; teamName: string; participantRef: string;
+  category: string; entryDate: string; status: "entered" | "confirmed" | "withdrew"; createdOn: string;
+}
+export interface CompetitionResult {
+  id: string; competitionRef: string; entryRef: string; rank: number; score: string;
+  award: string; approvedBy: string; status: "pending" | "approved" | "protested"; createdOn: string;
+}
+export interface Trip {
+  id: string; name: string; destination: string; startDate: string; endDate: string;
+  purpose: string; maxStudents: number; enrolledStudents: number; cost: number;
+  status: "planned" | "approved" | "ongoing" | "completed" | "cancelled"; createdOn: string;
+}
+export interface TripParticipant {
+  id: string; tripRef: string; studentName: string; studentRef: string;
+  consentStatus: "pending" | "approved" | "denied"; paymentStatus: "pending" | "paid" | "waived";
+  status: "enrolled" | "confirmed" | "checked_in" | "completed"; createdOn: string;
+}
+export interface PTMEvent {
+  id: string; name: string; startDate: string; endDate: string; venue: string;
+  totalSlots: number; bookedSlots: number; status: "planned" | "open" | "ongoing" | "completed"; createdOn: string;
+}
+export interface PTMBooking {
+  id: string; ptmEventRef: string; parentName: string; studentName: string;
+  teacherName: string; slotTime: string; status: "booked" | "confirmed" | "completed" | "cancelled" | "no_show"; createdOn: string;
+}
+export interface FundraisingCampaign {
+  id: string; name: string; purpose: string; targetAmount: number; raisedAmount: number;
+  startDate: string; endDate: string; status: "planned" | "active" | "completed" | "cancelled"; createdOn: string;
+}
+export interface Donation {
+  id: string; campaignRef: string; donorName: string; amount: number;
+  donatedDate: string; method: "cash" | "bank_transfer" | "online" | "cheque" | "other";
+  receiptNo: string; status: "received" | "acknowledged" | "receipted"; createdOn: string;
+}
+
+// ── M21 Senior Secondary — domain types ────────────────────────────────────
+
+export interface SubjectCombinationRule {
+  id: string; board: string; grade: string; stream: string; compulsorySubjects: string;
+  optionalSubjects: string; maxOptional: number; version: number; status: "active" | "inactive"; createdOn: string;
+}
+export interface StudentSubjectPlan {
+  id: string; studentName: string; studentRef: string; stream: string; subjects: string;
+  validFrom: string; validTo: string; status: "draft" | "approved" | "active" | "completed"; createdOn: string;
+}
+export interface BoardRegistration {
+  id: string; studentName: string; studentRef: string; board: string; session: string;
+  symbolNo: string; registrationNo: string; subjects: string;
+  status: "pending" | "submitted" | "approved" | "rejected" | "registered"; createdOn: string;
+}
+export interface ReadinessCheck {
+  id: string; registrationRef: string; checkType: "identity" | "subjects" | "attendance" | "fees" | "documents";
+  outcome: "pass" | "fail" | "warning"; details: string; checkedDate: string; status: "pending" | "completed"; createdOn: string;
+}
+export interface InternalAssessmentSnapshot {
+  id: string; registrationRef: string; subjectName: string; theoryMarks: number;
+  practicalMarks: number; internalMarks: number; totalMarks: number;
+  snapshotDate: string; status: "draft" | "final" | "submitted"; createdOn: string;
+}
+export interface GuidanceProfile {
+  id: string; studentName: string; studentRef: string; interests: string; careerGoals: string;
+  aptitudeNotes: string; consentGiven: boolean; status: "active" | "inactive"; createdOn: string;
+}
+export interface GuidanceSession {
+  id: string; studentName: string; studentRef: string; counselorName: string;
+  sessionDate: string; summary: string; recommendations: string; followUp: string;
+  status: "scheduled" | "completed" | "follow_up_needed"; createdOn: string;
+}
+export interface ExternalApplication {
+  id: string; studentName: string; studentRef: string; destination: string; deadline: string;
+  applicationDate: string; documents: string; status: "preparing" | "submitted" | "accepted" | "rejected" | "waitlisted"; createdOn: string;
+}
+export interface SchoolExitCase {
+  id: string; studentName: string; studentRef: string; leavingType: "transfer" | "completion" | "withdrawal" | "expulsion";
+  lastWorkingDate: string; reason: string; clearanceStatus: string;
+  status: "draft" | "submitted" | "approved" | "completed"; createdOn: string;
+}
+export interface MigrationDocument {
+  id: string; exitCaseRef: string; documentType: "transfer_certificate" | "migration_certificate" | "character_certificate" | "transcript" | "bonafide";
+  issueDate: string; issuedBy: string; documentNo: string; status: "pending" | "issued" | "delivered"; createdOn: string;
+}
+export interface FormerStudent {
+  id: string; studentName: string; studentRef: string; completionYear: number; lastClass: string;
+  contactEmail: string; contactPhone: string; status: "active" | "inactive" | "lost_contact"; createdOn: string;
+}
+export interface AlumniPreference {
+  id: string; formerStudentRef: string; channel: "email" | "sms" | "phone" | "social" | "postal";
+  purpose: "events" | "fundraising" | "mentoring" | "newsletters" | "reunions";
+  status: "subscribed" | "unsubscribed"; createdOn: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -2973,6 +3160,50 @@ export interface DBSchema {
   boardingLogs: BoardingLog[];
   gpsTracks: GpsTrack[];
   vehicleMaintenance: VehicleMaintenance[];
+  // M19 stores
+  healthProfiles: HealthProfile[];
+  clinicVisits: ClinicVisit[];
+  medicationAdministrations: MedicationAdministration[];
+  immunizationRecords: ImmunizationRecord[];
+  counselingCases: CounselingCase[];
+  caseNotes: CaseNote[];
+  safeguardingActions: SafeguardingAction[];
+  supportNeeds: SupportNeed[];
+  accommodationPlans: AccommodationPlan[];
+  conductIncidents: ConductIncident[];
+  conductActions: ConductAction[];
+  grievances: Grievance[];
+  grievanceOutcomes: GrievanceOutcome[];
+  advisingAssignments: AdvisingAssignment[];
+  interventionPlans: InterventionPlan[];
+  interventionActions: InterventionAction[];
+  // M20 stores
+  communityEvents: CommunityEvent[];
+  eventRegistrations: EventRegistration[];
+  activityGroups: ActivityGroup[];
+  groupMemberships: GroupMembership[];
+  competitions: Competition[];
+  competitionEntries: CompetitionEntry[];
+  competitionResults: CompetitionResult[];
+  trips: Trip[];
+  tripParticipants: TripParticipant[];
+  ptmEvents: PTMEvent[];
+  ptmBookings: PTMBooking[];
+  fundraisingCampaigns: FundraisingCampaign[];
+  donations: Donation[];
+  // M21 stores
+  subjectCombinationRules: SubjectCombinationRule[];
+  studentSubjectPlans: StudentSubjectPlan[];
+  boardRegistrations: BoardRegistration[];
+  readinessChecks: ReadinessCheck[];
+  internalAssessmentSnapshots: InternalAssessmentSnapshot[];
+  guidanceProfiles: GuidanceProfile[];
+  guidanceSessions: GuidanceSession[];
+  externalApplications: ExternalApplication[];
+  schoolExitCases: SchoolExitCase[];
+  migrationDocuments: MigrationDocument[];
+  formerStudents: FormerStudent[];
+  alumniPreferences: AlumniPreference[];
 }
 
 export type StoreName = keyof DBSchema;

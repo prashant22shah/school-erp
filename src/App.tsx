@@ -126,6 +126,26 @@ import TransportRidersPage from "@/pages/transport-riders";
 import BoardingSafetyPage from "@/pages/boarding-safety";
 import FuelMaintenancePage from "@/pages/fuel-maintenance";
 import TransportOperationsPage from "@/pages/transport-operations";
+// M19 pages
+import HealthClinic from "@/pages/health-clinic";
+import CounselingSafeguarding from "@/pages/counseling-safeguarding";
+import SpecialEducation from "@/pages/special-education";
+import StudentConduct from "@/pages/student-conduct";
+import Grievances from "@/pages/grievances";
+import AdvisingIntervention from "@/pages/advising-intervention";
+// M20 pages
+import EventsRegistration from "@/pages/events-registration";
+import ClubsActivities from "@/pages/clubs-activities";
+import SportsCompetition from "@/pages/sports-competition";
+import TripsExcursions from "@/pages/trips-excursions";
+import ParentTeacherMeetings from "@/pages/parent-teacher-meetings";
+import FundraisingDonations from "@/pages/fundraising-donations";
+// M21 pages
+import SubjectCombinations from "@/pages/subject-combinations";
+import BoardRegistration from "@/pages/board-registration";
+import CareerGuidance from "@/pages/career-guidance";
+import SchoolLeaving from "@/pages/school-leaving";
+import Alumni from "@/pages/alumni";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -302,6 +322,26 @@ export default function App() {
               <Route path="boarding-safety" element={<BoardingSafetyPage />} />
               <Route path="transport-operations" element={<TransportOperationsPage />} />
               <Route path="fuel-maintenance" element={<FuelMaintenancePage />} />
+              {/* M19 */}
+              <Route path="health-clinic" element={<HealthClinic />} />
+              <Route path="counseling" element={<CounselingSafeguarding />} />
+              <Route path="special-education" element={<SpecialEducation />} />
+              <Route path="student-conduct" element={<StudentConduct />} />
+              <Route path="grievances" element={<Grievances />} />
+              <Route path="advising" element={<AdvisingIntervention />} />
+              {/* M20 */}
+              <Route path="events" element={<EventsRegistration />} />
+              <Route path="clubs" element={<ClubsActivities />} />
+              <Route path="sports" element={<SportsCompetition />} />
+              <Route path="trips" element={<TripsExcursions />} />
+              <Route path="ptm" element={<ParentTeacherMeetings />} />
+              <Route path="fundraising" element={<FundraisingDonations />} />
+              {/* M21 */}
+              <Route path="subject-combinations" element={<SubjectCombinations />} />
+              <Route path="board-registration" element={<BoardRegistration />} />
+              <Route path="career-guidance" element={<CareerGuidance />} />
+              <Route path="school-leaving" element={<SchoolLeaving />} />
+              <Route path="alumni" element={<Alumni />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -39,6 +39,14 @@ import type {
   LibraryAcquisition, DigitalResource,
   Vehicle, TransportRoute, BusStop, RouteSchedule, RiderAssignment, BoardingLog,
   GpsTrack, VehicleMaintenance,
+  HealthProfile, ClinicVisit, CounselingCase, SupportNeed, AccommodationPlan,
+  ConductIncident, ConductAction, Grievance, AdvisingAssignment, InterventionPlan,
+  CommunityEvent, EventRegistration, ActivityGroup, GroupMembership,
+  Competition, CompetitionEntry, CompetitionResult,
+  Trip, TripParticipant, PTMEvent, PTMBooking, FundraisingCampaign, Donation,
+  SubjectCombinationRule, StudentSubjectPlan, BoardRegistration, ReadinessCheck,
+  InternalAssessmentSnapshot, GuidanceProfile, GuidanceSession,
+  ExternalApplication, SchoolExitCase, MigrationDocument, FormerStudent, AlumniPreference,
 } from "@/lib/types";
 
 export const keys = {
@@ -233,6 +241,44 @@ export const keys = {
   boardingLogs: ["boardingLogs"] as const,
   gpsTracks: ["gpsTracks"] as const,
   vehicleMaintenance: ["vehicleMaintenance"] as const,
+  // M19
+  healthProfiles: ["healthProfiles"] as const,
+  clinicVisits: ["clinicVisits"] as const,
+  counselingCases: ["counselingCases"] as const,
+  supportNeeds: ["supportNeeds"] as const,
+  accommodationPlans: ["accommodationPlans"] as const,
+  conductIncidents: ["conductIncidents"] as const,
+  conductActions: ["conductActions"] as const,
+  grievances: ["grievances"] as const,
+  advisingAssignments: ["advisingAssignments"] as const,
+  interventionPlans: ["interventionPlans"] as const,
+  // M20
+  communityEvents: ["communityEvents"] as const,
+  eventRegistrations: ["eventRegistrations"] as const,
+  activityGroups: ["activityGroups"] as const,
+  groupMemberships: ["groupMemberships"] as const,
+  competitions: ["competitions"] as const,
+  competitionEntries: ["competitionEntries"] as const,
+  competitionResults: ["competitionResults"] as const,
+  trips: ["trips"] as const,
+  tripParticipants: ["tripParticipants"] as const,
+  ptmEvents: ["ptmEvents"] as const,
+  ptmBookings: ["ptmBookings"] as const,
+  fundraisingCampaigns: ["fundraisingCampaigns"] as const,
+  donations: ["donations"] as const,
+  // M21
+  subjectCombinationRules: ["subjectCombinationRules"] as const,
+  studentSubjectPlans: ["studentSubjectPlans"] as const,
+  boardRegistrations: ["boardRegistrations"] as const,
+  readinessChecks: ["readinessChecks"] as const,
+  internalAssessmentSnapshots: ["internalAssessmentSnapshots"] as const,
+  guidanceProfiles: ["guidanceProfiles"] as const,
+  guidanceSessions: ["guidanceSessions"] as const,
+  externalApplications: ["externalApplications"] as const,
+  schoolExitCases: ["schoolExitCases"] as const,
+  migrationDocuments: ["migrationDocuments"] as const,
+  formerStudents: ["formerStudents"] as const,
+  alumniPreferences: ["alumniPreferences"] as const,
 };
 
 // ── Queries ──────────────────────────────────────────────────────────────────
@@ -427,6 +473,44 @@ export const useRiderAssignments = () => useQuery({ queryKey: keys.riderAssignme
 export const useBoardingLogs = () => useQuery({ queryKey: keys.boardingLogs, queryFn: api.listBoardingLogs });
 export const useGpsTracks = () => useQuery({ queryKey: keys.gpsTracks, queryFn: api.listGpsTracks });
 export const useVehicleMaintenance = () => useQuery({ queryKey: keys.vehicleMaintenance, queryFn: api.listVehicleMaintenance });
+// M19
+export const useHealthProfiles = () => useQuery({ queryKey: keys.healthProfiles, queryFn: api.listHealthProfiles });
+export const useClinicVisits = () => useQuery({ queryKey: keys.clinicVisits, queryFn: api.listClinicVisits });
+export const useCounselingCases = () => useQuery({ queryKey: keys.counselingCases, queryFn: api.listCounselingCases });
+export const useSupportNeeds = () => useQuery({ queryKey: keys.supportNeeds, queryFn: api.listSupportNeeds });
+export const useAccommodationPlans = () => useQuery({ queryKey: keys.accommodationPlans, queryFn: api.listAccommodationPlans });
+export const useConductIncidents = () => useQuery({ queryKey: keys.conductIncidents, queryFn: api.listConductIncidents });
+export const useConductActions = () => useQuery({ queryKey: keys.conductActions, queryFn: api.listConductActions });
+export const useGrievances = () => useQuery({ queryKey: keys.grievances, queryFn: api.listGrievances });
+export const useAdvisingAssignments = () => useQuery({ queryKey: keys.advisingAssignments, queryFn: api.listAdvisingAssignments });
+export const useInterventionPlans = () => useQuery({ queryKey: keys.interventionPlans, queryFn: api.listInterventionPlans });
+// M20
+export const useCommunityEvents = () => useQuery({ queryKey: keys.communityEvents, queryFn: api.listCommunityEvents });
+export const useEventRegistrations = () => useQuery({ queryKey: keys.eventRegistrations, queryFn: api.listEventRegistrations });
+export const useActivityGroups = () => useQuery({ queryKey: keys.activityGroups, queryFn: api.listActivityGroups });
+export const useGroupMemberships = () => useQuery({ queryKey: keys.groupMemberships, queryFn: api.listGroupMemberships });
+export const useCompetitions = () => useQuery({ queryKey: keys.competitions, queryFn: api.listCompetitions });
+export const useCompetitionEntries = () => useQuery({ queryKey: keys.competitionEntries, queryFn: api.listCompetitionEntries });
+export const useCompetitionResults = () => useQuery({ queryKey: keys.competitionResults, queryFn: api.listCompetitionResults });
+export const useTrips = () => useQuery({ queryKey: keys.trips, queryFn: api.listTrips });
+export const useTripParticipants = () => useQuery({ queryKey: keys.tripParticipants, queryFn: api.listTripParticipants });
+export const usePtmEvents = () => useQuery({ queryKey: keys.ptmEvents, queryFn: api.listPtmEvents });
+export const usePtmBookings = () => useQuery({ queryKey: keys.ptmBookings, queryFn: api.listPtmBookings });
+export const useFundraisingCampaigns = () => useQuery({ queryKey: keys.fundraisingCampaigns, queryFn: api.listFundraisingCampaigns });
+export const useDonations = () => useQuery({ queryKey: keys.donations, queryFn: api.listDonations });
+// M21
+export const useSubjectCombinationRules = () => useQuery({ queryKey: keys.subjectCombinationRules, queryFn: api.listSubjectCombinationRules });
+export const useStudentSubjectPlans = () => useQuery({ queryKey: keys.studentSubjectPlans, queryFn: api.listStudentSubjectPlans });
+export const useBoardRegistrations = () => useQuery({ queryKey: keys.boardRegistrations, queryFn: api.listBoardRegistrations });
+export const useReadinessChecks = () => useQuery({ queryKey: keys.readinessChecks, queryFn: api.listReadinessChecks });
+export const useInternalAssessmentSnapshots = () => useQuery({ queryKey: keys.internalAssessmentSnapshots, queryFn: api.listInternalAssessmentSnapshots });
+export const useGuidanceProfiles = () => useQuery({ queryKey: keys.guidanceProfiles, queryFn: api.listGuidanceProfiles });
+export const useGuidanceSessions = () => useQuery({ queryKey: keys.guidanceSessions, queryFn: api.listGuidanceSessions });
+export const useExternalApplications = () => useQuery({ queryKey: keys.externalApplications, queryFn: api.listExternalApplications });
+export const useSchoolExitCases = () => useQuery({ queryKey: keys.schoolExitCases, queryFn: api.listSchoolExitCases });
+export const useMigrationDocuments = () => useQuery({ queryKey: keys.migrationDocuments, queryFn: api.listMigrationDocuments });
+export const useFormerStudents = () => useQuery({ queryKey: keys.formerStudents, queryFn: api.listFormerStudents });
+export const useAlumniPreferences = () => useQuery({ queryKey: keys.alumniPreferences, queryFn: api.listAlumniPreferences });
 
 // ── Mutations ────────────────────────────────────────────────────────────────
 function useErpMutation<TIn, TOut>(
@@ -797,3 +881,76 @@ export const useSaveGpsTrack = () => useErpMutation<GpsTrack, GpsTrack>(api.save
 export const useDeleteGpsTrack = () => useErpMutation<GpsTrack, void>(api.deleteGpsTrack, [keys.gpsTracks, keys.audit]);
 export const useSaveVehicleMaintenance = () => useErpMutation<VehicleMaintenance, VehicleMaintenance>(api.saveVehicleMaintenance, [keys.vehicleMaintenance, keys.audit]);
 export const useDeleteVehicleMaintenance = () => useErpMutation<VehicleMaintenance, void>(api.deleteVehicleMaintenance, [keys.vehicleMaintenance, keys.audit]);
+// M19
+export const useSaveHealthProfile = () => useErpMutation<HealthProfile, HealthProfile>(api.saveHealthProfile, [keys.healthProfiles, keys.audit]);
+export const useDeleteHealthProfile = () => useErpMutation<HealthProfile, void>(api.deleteHealthProfile, [keys.healthProfiles, keys.audit]);
+export const useSaveClinicVisit = () => useErpMutation<ClinicVisit, ClinicVisit>(api.saveClinicVisit, [keys.clinicVisits, keys.audit]);
+export const useDeleteClinicVisit = () => useErpMutation<ClinicVisit, void>(api.deleteClinicVisit, [keys.clinicVisits, keys.audit]);
+export const useSaveCounselingCase = () => useErpMutation<CounselingCase, CounselingCase>(api.saveCounselingCase, [keys.counselingCases, keys.audit]);
+export const useDeleteCounselingCase = () => useErpMutation<CounselingCase, void>(api.deleteCounselingCase, [keys.counselingCases, keys.audit]);
+export const useSaveSupportNeed = () => useErpMutation<SupportNeed, SupportNeed>(api.saveSupportNeed, [keys.supportNeeds, keys.audit]);
+export const useDeleteSupportNeed = () => useErpMutation<SupportNeed, void>(api.deleteSupportNeed, [keys.supportNeeds, keys.audit]);
+export const useSaveAccommodationPlan = () => useErpMutation<AccommodationPlan, AccommodationPlan>(api.saveAccommodationPlan, [keys.accommodationPlans, keys.audit]);
+export const useDeleteAccommodationPlan = () => useErpMutation<AccommodationPlan, void>(api.deleteAccommodationPlan, [keys.accommodationPlans, keys.audit]);
+export const useSaveConductIncident = () => useErpMutation<ConductIncident, ConductIncident>(api.saveConductIncident, [keys.conductIncidents, keys.audit]);
+export const useDeleteConductIncident = () => useErpMutation<ConductIncident, void>(api.deleteConductIncident, [keys.conductIncidents, keys.audit]);
+export const useSaveConductAction = () => useErpMutation<ConductAction, ConductAction>(api.saveConductAction, [keys.conductActions, keys.audit]);
+export const useDeleteConductAction = () => useErpMutation<ConductAction, void>(api.deleteConductAction, [keys.conductActions, keys.audit]);
+export const useSaveGrievance = () => useErpMutation<Grievance, Grievance>(api.saveGrievance, [keys.grievances, keys.audit]);
+export const useDeleteGrievance = () => useErpMutation<Grievance, void>(api.deleteGrievance, [keys.grievances, keys.audit]);
+export const useSaveAdvisingAssignment = () => useErpMutation<AdvisingAssignment, AdvisingAssignment>(api.saveAdvisingAssignment, [keys.advisingAssignments, keys.audit]);
+export const useDeleteAdvisingAssignment = () => useErpMutation<AdvisingAssignment, void>(api.deleteAdvisingAssignment, [keys.advisingAssignments, keys.audit]);
+export const useSaveInterventionPlan = () => useErpMutation<InterventionPlan, InterventionPlan>(api.saveInterventionPlan, [keys.interventionPlans, keys.audit]);
+export const useDeleteInterventionPlan = () => useErpMutation<InterventionPlan, void>(api.deleteInterventionPlan, [keys.interventionPlans, keys.audit]);
+// M20
+export const useSaveCommunityEvent = () => useErpMutation<CommunityEvent, CommunityEvent>(api.saveCommunityEvent, [keys.communityEvents, keys.audit]);
+export const useDeleteCommunityEvent = () => useErpMutation<CommunityEvent, void>(api.deleteCommunityEvent, [keys.communityEvents, keys.audit]);
+export const useSaveEventRegistration = () => useErpMutation<EventRegistration, EventRegistration>(api.saveEventRegistration, [keys.eventRegistrations, keys.audit]);
+export const useDeleteEventRegistration = () => useErpMutation<EventRegistration, void>(api.deleteEventRegistration, [keys.eventRegistrations, keys.audit]);
+export const useSaveActivityGroup = () => useErpMutation<ActivityGroup, ActivityGroup>(api.saveActivityGroup, [keys.activityGroups, keys.audit]);
+export const useDeleteActivityGroup = () => useErpMutation<ActivityGroup, void>(api.deleteActivityGroup, [keys.activityGroups, keys.audit]);
+export const useSaveGroupMembership = () => useErpMutation<GroupMembership, GroupMembership>(api.saveGroupMembership, [keys.groupMemberships, keys.audit]);
+export const useDeleteGroupMembership = () => useErpMutation<GroupMembership, void>(api.deleteGroupMembership, [keys.groupMemberships, keys.audit]);
+export const useSaveCompetition = () => useErpMutation<Competition, Competition>(api.saveCompetition, [keys.competitions, keys.audit]);
+export const useDeleteCompetition = () => useErpMutation<Competition, void>(api.deleteCompetition, [keys.competitions, keys.audit]);
+export const useSaveCompetitionEntry = () => useErpMutation<CompetitionEntry, CompetitionEntry>(api.saveCompetitionEntry, [keys.competitionEntries, keys.audit]);
+export const useDeleteCompetitionEntry = () => useErpMutation<CompetitionEntry, void>(api.deleteCompetitionEntry, [keys.competitionEntries, keys.audit]);
+export const useSaveCompetitionResult = () => useErpMutation<CompetitionResult, CompetitionResult>(api.saveCompetitionResult, [keys.competitionResults, keys.audit]);
+export const useDeleteCompetitionResult = () => useErpMutation<CompetitionResult, void>(api.deleteCompetitionResult, [keys.competitionResults, keys.audit]);
+export const useSaveTrip = () => useErpMutation<Trip, Trip>(api.saveTrip, [keys.trips, keys.audit]);
+export const useDeleteTrip = () => useErpMutation<Trip, void>(api.deleteTrip, [keys.trips, keys.audit]);
+export const useSaveTripParticipant = () => useErpMutation<TripParticipant, TripParticipant>(api.saveTripParticipant, [keys.tripParticipants, keys.audit]);
+export const useDeleteTripParticipant = () => useErpMutation<TripParticipant, void>(api.deleteTripParticipant, [keys.tripParticipants, keys.audit]);
+export const useSavePtmEvent = () => useErpMutation<PTMEvent, PTMEvent>(api.savePtmEvent, [keys.ptmEvents, keys.audit]);
+export const useDeletePtmEvent = () => useErpMutation<PTMEvent, void>(api.deletePtmEvent, [keys.ptmEvents, keys.audit]);
+export const useSavePtmBooking = () => useErpMutation<PTMBooking, PTMBooking>(api.savePtmBooking, [keys.ptmBookings, keys.audit]);
+export const useDeletePtmBooking = () => useErpMutation<PTMBooking, void>(api.deletePtmBooking, [keys.ptmBookings, keys.audit]);
+export const useSaveFundraisingCampaign = () => useErpMutation<FundraisingCampaign, FundraisingCampaign>(api.saveFundraisingCampaign, [keys.fundraisingCampaigns, keys.audit]);
+export const useDeleteFundraisingCampaign = () => useErpMutation<FundraisingCampaign, void>(api.deleteFundraisingCampaign, [keys.fundraisingCampaigns, keys.audit]);
+export const useSaveDonation = () => useErpMutation<Donation, Donation>(api.saveDonation, [keys.donations, keys.audit]);
+export const useDeleteDonation = () => useErpMutation<Donation, void>(api.deleteDonation, [keys.donations, keys.audit]);
+// M21
+export const useSaveSubjectCombinationRule = () => useErpMutation<SubjectCombinationRule, SubjectCombinationRule>(api.saveSubjectCombinationRule, [keys.subjectCombinationRules, keys.audit]);
+export const useDeleteSubjectCombinationRule = () => useErpMutation<SubjectCombinationRule, void>(api.deleteSubjectCombinationRule, [keys.subjectCombinationRules, keys.audit]);
+export const useSaveStudentSubjectPlan = () => useErpMutation<StudentSubjectPlan, StudentSubjectPlan>(api.saveStudentSubjectPlan, [keys.studentSubjectPlans, keys.audit]);
+export const useDeleteStudentSubjectPlan = () => useErpMutation<StudentSubjectPlan, void>(api.deleteStudentSubjectPlan, [keys.studentSubjectPlans, keys.audit]);
+export const useSaveBoardRegistration = () => useErpMutation<BoardRegistration, BoardRegistration>(api.saveBoardRegistration, [keys.boardRegistrations, keys.audit]);
+export const useDeleteBoardRegistration = () => useErpMutation<BoardRegistration, void>(api.deleteBoardRegistration, [keys.boardRegistrations, keys.audit]);
+export const useSaveReadinessCheck = () => useErpMutation<ReadinessCheck, ReadinessCheck>(api.saveReadinessCheck, [keys.readinessChecks, keys.audit]);
+export const useDeleteReadinessCheck = () => useErpMutation<ReadinessCheck, void>(api.deleteReadinessCheck, [keys.readinessChecks, keys.audit]);
+export const useSaveInternalAssessmentSnapshot = () => useErpMutation<InternalAssessmentSnapshot, InternalAssessmentSnapshot>(api.saveInternalAssessmentSnapshot, [keys.internalAssessmentSnapshots, keys.audit]);
+export const useDeleteInternalAssessmentSnapshot = () => useErpMutation<InternalAssessmentSnapshot, void>(api.deleteInternalAssessmentSnapshot, [keys.internalAssessmentSnapshots, keys.audit]);
+export const useSaveGuidanceProfile = () => useErpMutation<GuidanceProfile, GuidanceProfile>(api.saveGuidanceProfile, [keys.guidanceProfiles, keys.audit]);
+export const useDeleteGuidanceProfile = () => useErpMutation<GuidanceProfile, void>(api.deleteGuidanceProfile, [keys.guidanceProfiles, keys.audit]);
+export const useSaveGuidanceSession = () => useErpMutation<GuidanceSession, GuidanceSession>(api.saveGuidanceSession, [keys.guidanceSessions, keys.audit]);
+export const useDeleteGuidanceSession = () => useErpMutation<GuidanceSession, void>(api.deleteGuidanceSession, [keys.guidanceSessions, keys.audit]);
+export const useSaveExternalApplication = () => useErpMutation<ExternalApplication, ExternalApplication>(api.saveExternalApplication, [keys.externalApplications, keys.audit]);
+export const useDeleteExternalApplication = () => useErpMutation<ExternalApplication, void>(api.deleteExternalApplication, [keys.externalApplications, keys.audit]);
+export const useSaveSchoolExitCase = () => useErpMutation<SchoolExitCase, SchoolExitCase>(api.saveSchoolExitCase, [keys.schoolExitCases, keys.audit]);
+export const useDeleteSchoolExitCase = () => useErpMutation<SchoolExitCase, void>(api.deleteSchoolExitCase, [keys.schoolExitCases, keys.audit]);
+export const useSaveMigrationDocument = () => useErpMutation<MigrationDocument, MigrationDocument>(api.saveMigrationDocument, [keys.migrationDocuments, keys.audit]);
+export const useDeleteMigrationDocument = () => useErpMutation<MigrationDocument, void>(api.deleteMigrationDocument, [keys.migrationDocuments, keys.audit]);
+export const useSaveFormerStudent = () => useErpMutation<FormerStudent, FormerStudent>(api.saveFormerStudent, [keys.formerStudents, keys.audit]);
+export const useDeleteFormerStudent = () => useErpMutation<FormerStudent, void>(api.deleteFormerStudent, [keys.formerStudents, keys.audit]);
+export const useSaveAlumniPreference = () => useErpMutation<AlumniPreference, AlumniPreference>(api.saveAlumniPreference, [keys.alumniPreferences, keys.audit]);
+export const useDeleteAlumniPreference = () => useErpMutation<AlumniPreference, void>(api.deleteAlumniPreference, [keys.alumniPreferences, keys.audit]);

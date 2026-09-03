@@ -1278,6 +1278,123 @@ export function seedData() {
     },
   ];
 
+  // ── M19 Student Services seed data ────────────────────────────────────────
+
+  const healthProfiles: DBSchema["healthProfiles"] = [
+    { id: "hp-1", studentName: "Bikash Gurung", studentRef: "stu-3", allergies: "Peanuts, Dust", conditions: "Mild Asthma", medications: "Salbutamol inhaler PRN", emergencyContact: "+977-9861003003", bloodGroup: "B+", sensitivity: "Avoid dusty environments", status: "active", createdOn: "2025-04-15" },
+    { id: "hp-2", studentName: "Anisha Maharjan", studentRef: "stu-4", allergies: "None", conditions: "Recurrent tonsillitis", medications: "Amoxicillin 250mg TDS when infected", emergencyContact: "+977-9841004004", bloodGroup: "O+", sensitivity: "None", status: "active", createdOn: "2025-04-15" },
+    { id: "hp-3", studentName: "Ram Bahadur Shrestha", studentRef: "stu-1", allergies: "Shellfish", conditions: "None", medications: "None", emergencyContact: "+977-9841001001", bloodGroup: "A+", sensitivity: "Food allergy — carry antihistamine", status: "active", createdOn: "2025-04-15" },
+  ];
+
+  const clinicVisits: DBSchema["clinicVisits"] = [
+    { id: "cv-1", studentName: "Bikash Gurung", studentRef: "stu-3", visitDate: "2025-08-15", practitioner: "Nurse Sabina Dulal", reason: "Asthma episode during assembly", diagnosis: "Exercise-induced bronchospasm", treatment: "Administered Salbutamol inhaler, rested 30 mins", followUp: "Review inhaler availability in school nurse's office", status: "closed", createdOn: "2025-08-15" },
+    { id: "cv-2", studentName: "Anisha Maharjan", studentRef: "stu-4", visitDate: "2025-09-01", practitioner: "Nurse Sabina Dulal", reason: "Sore throat and fever", diagnosis: "Viral pharyngitis", treatment: "Paracetamol 500mg, warm saline gargle advised", followUp: "Return if fever persists beyond 3 days", status: "closed", createdOn: "2025-09-01" },
+    { id: "cv-3", studentName: "Ram Bahadur Shrestha", studentRef: "stu-1", visitDate: "2025-09-03", practitioner: "Nurse Sabina Dulal", reason: "Scraped knee during PT period", diagnosis: "Minor abrasion — left knee", treatment: "Cleaned wound, applied antiseptic and bandage", followUp: "None required", status: "closed", createdOn: "2025-09-03" },
+  ];
+
+  const counselingCases: DBSchema["counselingCases"] = [
+    { id: "cc-1", studentName: "Bikash Gurung", studentRef: "stu-3", caseType: "academic", severity: "medium", status: "in_progress", assignedTo: "Sabina Dulal", description: "Declining grades in Mathematics; reports difficulty concentrating at home due to family financial stress", createdOn: "2025-08-20" },
+    { id: "cc-2", studentName: "Ram Bahadur Shrestha", studentRef: "stu-1", caseType: "behavioral", severity: "low", status: "open", assignedTo: "Sabina Dulal", description: "Minor classroom disruptions reported by class teacher; possible attention-seeking behavior", createdOn: "2025-09-01" },
+    { id: "cc-3", studentName: "Sita Kumari Thapa", studentRef: "stu-2", caseType: "safeguarding", severity: "high", status: "escalated", assignedTo: "Rekha Bhandari", description: "Student disclosed peer bullying incident; referred to safeguarding lead for investigation", createdOn: "2025-09-02" },
+  ];
+
+  const supportNeeds: DBSchema["supportNeeds"] = [
+    { id: "sn-1", studentName: "Bikash Gurung", studentRef: "stu-3", category: "learning", description: "Mild dyslexia identified — requires additional reading support and extended time for written examinations", identifiedDate: "2025-05-10", status: "active", createdOn: "2025-05-10" },
+    { id: "sn-2", studentName: "Anisha Maharjan", studentRef: "stu-4", category: "medical", description: "Recurrent tonsillitis — school nurse to monitor and ensure timely medication administration during infections", identifiedDate: "2025-06-15", status: "active", createdOn: "2025-06-15" },
+  ];
+
+  const conductIncidents: DBSchema["conductIncidents"] = [
+    { id: "ci-1", studentName: "Ram Bahadur Shrestha", studentRef: "stu-1", incidentDate: "2025-08-28", category: "minor", description: "Used mobile phone during class — first warning for electronic device policy violation", reportedBy: "Manoj Rai", location: "Room 201", status: "resolved", createdOn: "2025-08-28" },
+    { id: "ci-2", studentName: "Sita Kumari Thapa", studentRef: "stu-2", incidentDate: "2025-09-01", category: "major", description: "Verbal altercation with classmate during lunch break; both students involved in shouting match", reportedBy: "Deepak Adhikari", location: "Canteen Area", status: "investigating", createdOn: "2025-09-01" },
+  ];
+
+  const grievances: DBSchema["grievances"] = [
+    { id: "grv-1", complainantName: "Hari Prasad Shrestha", complainantType: "parent", category: "facilities", description: "Complaint about insufficient ventilation in Room 101 during summer months — children feel unwell", receivedDate: "2025-08-20", assignedTo: "Manoj Rai", status: "investigating", createdOn: "2025-08-20" },
+    { id: "grv-2", complainantName: "Kamala Thapa", complainantType: "parent", category: "academic", description: "Concern about Class 10 Mathematics syllabus pace — daughter struggling to keep up with unit tests every two weeks", receivedDate: "2025-09-01", assignedTo: "Sita Karki", status: "acknowledged", createdOn: "2025-09-01" },
+  ];
+
+  const advisingAssignments: DBSchema["advisingAssignments"] = [
+    { id: "adv-1", studentName: "Bikash Gurung", studentRef: "stu-3", advisorName: "Manoj Rai", advisorRef: "uid-5", validFrom: "2025-04-15", validTo: "2026-04-14", status: "active", createdOn: "2025-04-15" },
+    { id: "adv-2", studentName: "Sita Kumari Thapa", studentRef: "stu-2", advisorName: "Manoj Rai", advisorRef: "uid-5", validFrom: "2025-04-15", validTo: "2026-04-14", status: "active", createdOn: "2025-04-15" },
+  ];
+
+  // ── M20 Activities & Community seed data ──────────────────────────────────
+
+  const communityEvents: DBSchema["communityEvents"] = [
+    { id: "evt-1", name: "Dashain Cultural Program", type: "cultural", startDate: "2026-10-10", endDate: "2026-10-10", venue: "Assembly Hall", capacity: 400, registered: 320, description: "Annual Dashain celebration with cultural performances by students", status: "planned", createdOn: "2026-09-01" },
+    { id: "evt-2", name: "Inter-house Cricket Tournament", type: "sports", startDate: "2025-11-15", endDate: "2025-11-20", venue: "Main Sports Field", capacity: 200, registered: 180, description: "Annual inter-house cricket competition for all secondary students", status: "completed", createdOn: "2025-10-15" },
+    { id: "evt-3", name: "Science Exhibition 2082", type: "academic", startDate: "2025-09-20", endDate: "2025-09-21", venue: "Computer Laboratory", capacity: 150, registered: 112, description: "Student science project exhibition open to parents and community", status: "completed", createdOn: "2025-09-01" },
+  ];
+
+  const activityGroups: DBSchema["activityGroups"] = [
+    { id: "ag-1", name: "Science Club", type: "club", code: "SCI-CLUB", description: "Hands-on experiments, science fairs and STEM activities for curious minds", advisorName: "Nabin Joshi", memberCount: 32, status: "active", createdOn: "2024-04-15" },
+    { id: "ag-2", name: "Music Society", type: "society", code: "MUS-SOC", description: "School choir, instrument practice and cultural music performances", advisorName: "Sunita Bajracharya", memberCount: 24, status: "active", createdOn: "2024-04-15" },
+    { id: "ag-3", name: "Debate Team", type: "team", code: "DEB-TEAM", description: "Competitive debate in English and Nepali; inter-school tournament preparation", advisorName: "Deepak Adhikari", memberCount: 18, status: "active", createdOn: "2024-06-01" },
+  ];
+
+  const competitions: DBSchema["competitions"] = [
+    { id: "comp-1", name: "Inter-school Cricket Tournament", sport: "Cricket", level: "district", startDate: "2025-11-25", endDate: "2025-11-28", venue: "Bhaktapur Cricket Ground", status: "planned", createdOn: "2025-10-01" },
+    { id: "comp-2", name: "Annual Science Fair", sport: "General Science", level: "zone", startDate: "2025-12-10", endDate: "2025-12-11", venue: "Sunrise Public School Assembly Hall", status: "planned", createdOn: "2025-10-15" },
+  ];
+
+  const trips: DBSchema["trips"] = [
+    { id: "trip-1", name: "Chitwan Study Tour", destination: "Chitwan National Park", startDate: "2025-12-05", endDate: "2025-12-08", purpose: "Biology field study — wildlife and ecology observation", maxStudents: 40, enrolledStudents: 35, cost: 8500, status: "approved", createdOn: "2025-10-20" },
+    { id: "trip-2", name: "Hiking Excursion", destination: "Chandragiri Hills", startDate: "2025-11-08", endDate: "2025-11-08", purpose: "Physical fitness and team building for Class 10 students", maxStudents: 45, enrolledStudents: 42, cost: 1200, status: "completed", createdOn: "2025-10-01" },
+  ];
+
+  const ptmEvents: DBSchema["ptmEvents"] = [
+    { id: "ptm-1", name: "Term 2 Parent-Teacher Meeting", startDate: "2025-10-15", endDate: "2025-10-15", venue: "Classroom Blocks", totalSlots: 150, bookedSlots: 132, status: "completed", createdOn: "2025-09-25" },
+    { id: "ptm-2", name: "SEE Preparation PTM", startDate: "2026-01-10", endDate: "2026-01-10", venue: "Assembly Hall", totalSlots: 80, bookedSlots: 45, status: "planned", createdOn: "2025-12-15" },
+  ];
+
+  const fundraisingCampaigns: DBSchema["fundraisingCampaigns"] = [
+    { id: "fr-1", name: "Library Book Fund 2082", purpose: "Purchase 500 new books for school library renovation", targetAmount: 500000, raisedAmount: 375000, startDate: "2025-07-01", endDate: "2025-12-31", status: "active", createdOn: "2025-07-01" },
+    { id: "fr-2", name: "STEM Lab Equipment Drive", purpose: "Upgrade physics and chemistry lab equipment for +2 Science", targetAmount: 800000, raisedAmount: 200000, startDate: "2025-09-01", endDate: "2026-03-31", status: "active", createdOn: "2025-09-01" },
+  ];
+
+  const donations: DBSchema["donations"] = [
+    { id: "don-1", campaignRef: "fr-1", donorName: "Himalayan Foundation", amount: 200000, donatedDate: "2025-08-10", method: "bank_transfer", receiptNo: "RCP-DON-001", status: "receipted", createdOn: "2025-08-10" },
+    { id: "don-2", campaignRef: "fr-1", donorName: "Rai Family Trust", amount: 100000, donatedDate: "2025-09-05", method: "cheque", receiptNo: "RCP-DON-002", status: "receipted", createdOn: "2025-09-05" },
+    { id: "don-3", campaignRef: "fr-2", donorName: "Sharma Education Trust", amount: 200000, donatedDate: "2025-09-15", method: "bank_transfer", receiptNo: "RCP-DON-003", status: "acknowledged", createdOn: "2025-09-15" },
+  ];
+
+  // ── M21 Senior Secondary seed data ────────────────────────────────────────
+
+  const subjectCombinationRules: DBSchema["subjectCombinationRules"] = [
+    { id: "scr-1", board: "NEB", grade: "11", stream: "Science", compulsorySubjects: "English, Nepali, Physics, Chemistry", optionalSubjects: "Biology, Mathematics, Computer Science", maxOptional: 1, version: 1, status: "active", createdOn: "2025-04-01" },
+    { id: "scr-2", board: "NEB", grade: "11", stream: "Management", compulsorySubjects: "English, Nepali, Accountancy, Economics", optionalSubjects: "Business Studies, Mathematics, Computer Science", maxOptional: 1, version: 1, status: "active", createdOn: "2025-04-01" },
+  ];
+
+  const studentSubjectPlans: DBSchema["studentSubjectPlans"] = [
+    { id: "ssp-1", studentName: "Sita Kumari Thapa", studentRef: "stu-2", stream: "Science", subjects: "English, Nepali, Physics, Chemistry, Computer Science", validFrom: "2025-04-15", validTo: "2027-03-31", status: "active", createdOn: "2025-04-15" },
+    { id: "ssp-2", studentName: "Bikash Gurung", studentRef: "stu-3", stream: "Management", subjects: "English, Nepali, Accountancy, Economics, Business Studies", validFrom: "2025-04-15", validTo: "2027-03-31", status: "draft", createdOn: "2025-04-20" },
+  ];
+
+  const boardRegistrations: DBSchema["boardRegistrations"] = [
+    { id: "br-1", studentName: "Sita Kumari Thapa", studentRef: "stu-2", board: "NEB", session: "2082-2084", symbolNo: "SY-2704-0118-001", registrationNo: "REG-NEB-2082-0419", subjects: "English, Nepali, Physics, Chemistry, Computer Science", status: "registered", createdOn: "2025-05-01" },
+    { id: "br-2", studentName: "Bikash Gurung", studentRef: "stu-3", board: "NEB", session: "2082-2084", symbolNo: "SY-2704-0118-002", registrationNo: "REG-NEB-2082-0420", subjects: "English, Nepali, Accountancy, Economics, Business Studies", status: "pending", createdOn: "2025-05-10" },
+  ];
+
+  const guidanceProfiles: DBSchema["guidanceProfiles"] = [
+    { id: "gp-1", studentName: "Sita Kumari Thapa", studentRef: "stu-2", interests: "Physics, Programming, Space Science", careerGoals: "Pursue B.Sc. in Computer Engineering at Pulchowk Campus", aptitudeNotes: "Strong analytical skills; excellent performance in Physics and Mathematics", consentGiven: true, status: "active", createdOn: "2025-06-01" },
+    { id: "gp-2", studentName: "Bikash Gurung", studentRef: "stu-3", interests: "Business, Social Media Marketing, Entrepreneurship", careerGoals: "Study BBS and eventually start a tech startup in Nepal", aptitudeNotes: "Creative thinker; good communication skills; needs academic support in Mathematics", consentGiven: true, status: "active", createdOn: "2025-06-15" },
+  ];
+
+  const externalApplications: DBSchema["externalApplications"] = [
+    { id: "ea-1", studentName: "Sita Kumari Thapa", studentRef: "stu-2", destination: "Pulchowk Campus — B.Sc. Computer Engineering", deadline: "2027-07-15", applicationDate: "2026-06-01", documents: "SEE Transcript, Character Certificate, Citizenship Copy, Photos", status: "preparing", createdOn: "2026-06-01" },
+    { id: "ea-2", studentName: "Bikash Gurung", studentRef: "stu-3", destination: "Kathmandu University — BBS", deadline: "2027-08-01", applicationDate: "2026-07-15", documents: "SEE Transcript, Character Certificate, Photos", status: "preparing", createdOn: "2026-07-15" },
+  ];
+
+  const schoolExitCases: DBSchema["schoolExitCases"] = [
+    { id: "sec-1", studentName: "Anisha Maharjan", studentRef: "stu-4", leavingType: "transfer", lastWorkingDate: "2026-03-31", reason: "Family relocating to Lalitpur — transferring to school near new residence", clearanceStatus: "in_progress", status: "submitted", createdOn: "2026-03-15" },
+    { id: "sec-2", studentName: "Kiran Bhandari", studentRef: "stu-5", leavingType: "withdrawal", lastWorkingDate: "2026-06-30", reason: "Guardian decided to enroll student in boarding school in home district", clearanceStatus: "not_started", status: "draft", createdOn: "2026-06-01" },
+  ];
+
+  const formerStudents: DBSchema["formerStudents"] = [
+    { id: "fs-1", studentName: "Nabin Karki", studentRef: "stu-ext-1", completionYear: 2081, lastClass: "Class 12 Science", contactEmail: "nabin.karki@gmail.com", contactPhone: "+977-9841055555", status: "active", createdOn: "2025-04-01" },
+    { id: "fs-2", studentName: "Priya Tamang", studentRef: "stu-ext-2", completionYear: 2080, lastClass: "Class 12 Management", contactEmail: "priya.t@outlook.com", contactPhone: "+977-9851066666", status: "active", createdOn: "2024-04-01" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -1328,5 +1445,14 @@ export function seedData() {
     // M17
     vehicles, transportRoutes, busStops, routeSchedules, riderAssignments,
     boardingLogs, gpsTracks, vehicleMaintenance,
+    // M19
+    healthProfiles, clinicVisits, counselingCases, supportNeeds,
+    conductIncidents, grievances, advisingAssignments,
+    // M20
+    communityEvents, activityGroups, competitions, trips,
+    ptmEvents, fundraisingCampaigns, donations,
+    // M21
+    subjectCombinationRules, studentSubjectPlans, boardRegistrations,
+    guidanceProfiles, externalApplications, schoolExitCases, formerStudents,
   };
 }
