@@ -49,6 +49,19 @@ import type {
   SubjectCombinationRule, StudentSubjectPlan, BoardRegistration, ReadinessCheck,
   InternalAssessmentSnapshot, GuidanceProfile, GuidanceSession,
   ExternalApplication, SchoolExitCase, MigrationDocument, FormerStudent, AlumniPreference,
+  ServiceRequest, WorkOrder, WorkOrderActivity, MaintenancePlan,
+  Booking, BookingAttendee, SafetyIncident, EmergencyAction,
+  VisitorVisit, AccessCredential, KeyIssue, UtilityMeter,
+  MeterReading, ContinuityPlan, ContinuityExercise,
+  Announcement, Message, DeliveryAttempt, NotificationPreference,
+  Conversation, ConversationParticipant, ConversationMessage,
+  WorkflowDefinition, WorkflowInstance, WorkflowTask, WorkflowTransition,
+  ServiceCase, CaseActivity, SlaClock,
+  DocumentTemplate, DocumentInstance, SignatureRequest,
+  RecordDeclaration, RetentionAssignment,
+  ReportDefinition, Dashboard, DashboardWidget, ReportRun,
+  MetricDefinition, SemanticDimension, ReportAccessPolicy, ReportCatalogEntry,
+  DataProduct, PipelineRun, DataQualityResult, ModelVersion, ModelScore,
 } from "./types";
 
 const delay = (ms?: number) => new Promise<void>((r) => setTimeout(r, ms ?? 220 + Math.random() * 380));
@@ -687,6 +700,150 @@ interface ErpApi {
   listAlumniPreferences(): Promise<AlumniPreference[]>;
   saveAlumniPreference(a: AlumniPreference): Promise<AlumniPreference>;
   deleteAlumniPreference(a: AlumniPreference): Promise<void>;
+  // M22
+  listServiceRequests(): Promise<ServiceRequest[]>;
+  saveServiceRequest(s: ServiceRequest): Promise<ServiceRequest>;
+  deleteServiceRequest(s: ServiceRequest): Promise<void>;
+  listWorkOrders(): Promise<WorkOrder[]>;
+  saveWorkOrder(w: WorkOrder): Promise<WorkOrder>;
+  deleteWorkOrder(w: WorkOrder): Promise<void>;
+  listWorkOrderActivities(): Promise<WorkOrderActivity[]>;
+  saveWorkOrderActivity(a: WorkOrderActivity): Promise<WorkOrderActivity>;
+  deleteWorkOrderActivity(a: WorkOrderActivity): Promise<void>;
+  listMaintenancePlans(): Promise<MaintenancePlan[]>;
+  saveMaintenancePlan(m: MaintenancePlan): Promise<MaintenancePlan>;
+  deleteMaintenancePlan(m: MaintenancePlan): Promise<void>;
+  listBookings(): Promise<Booking[]>;
+  saveBooking(b: Booking): Promise<Booking>;
+  deleteBooking(b: Booking): Promise<void>;
+  listBookingAttendees(): Promise<BookingAttendee[]>;
+  saveBookingAttendee(a: BookingAttendee): Promise<BookingAttendee>;
+  deleteBookingAttendee(a: BookingAttendee): Promise<void>;
+  listSafetyIncidents(): Promise<SafetyIncident[]>;
+  saveSafetyIncident(s: SafetyIncident): Promise<SafetyIncident>;
+  deleteSafetyIncident(s: SafetyIncident): Promise<void>;
+  listEmergencyActions(): Promise<EmergencyAction[]>;
+  saveEmergencyAction(e: EmergencyAction): Promise<EmergencyAction>;
+  deleteEmergencyAction(e: EmergencyAction): Promise<void>;
+  listVisitorVisits(): Promise<VisitorVisit[]>;
+  saveVisitorVisit(v: VisitorVisit): Promise<VisitorVisit>;
+  deleteVisitorVisit(v: VisitorVisit): Promise<void>;
+  listAccessCredentials(): Promise<AccessCredential[]>;
+  saveAccessCredential(a: AccessCredential): Promise<AccessCredential>;
+  deleteAccessCredential(a: AccessCredential): Promise<void>;
+  listKeyIssues(): Promise<KeyIssue[]>;
+  saveKeyIssue(k: KeyIssue): Promise<KeyIssue>;
+  deleteKeyIssue(k: KeyIssue): Promise<void>;
+  listUtilityMeters(): Promise<UtilityMeter[]>;
+  saveUtilityMeter(u: UtilityMeter): Promise<UtilityMeter>;
+  deleteUtilityMeter(u: UtilityMeter): Promise<void>;
+  listMeterReadings(): Promise<MeterReading[]>;
+  saveMeterReading(m: MeterReading): Promise<MeterReading>;
+  deleteMeterReading(m: MeterReading): Promise<void>;
+  listContinuityPlans(): Promise<ContinuityPlan[]>;
+  saveContinuityPlan(c: ContinuityPlan): Promise<ContinuityPlan>;
+  deleteContinuityPlan(c: ContinuityPlan): Promise<void>;
+  listContinuityExercises(): Promise<ContinuityExercise[]>;
+  saveContinuityExercise(e: ContinuityExercise): Promise<ContinuityExercise>;
+  deleteContinuityExercise(e: ContinuityExercise): Promise<void>;
+  // M23
+  listAnnouncements(): Promise<Announcement[]>;
+  saveAnnouncement(a: Announcement): Promise<Announcement>;
+  deleteAnnouncement(a: Announcement): Promise<void>;
+  listMessages(): Promise<Message[]>;
+  saveMessage(m: Message): Promise<Message>;
+  deleteMessage(m: Message): Promise<void>;
+  listDeliveryAttempts(): Promise<DeliveryAttempt[]>;
+  saveDeliveryAttempt(d: DeliveryAttempt): Promise<DeliveryAttempt>;
+  deleteDeliveryAttempt(d: DeliveryAttempt): Promise<void>;
+  listNotificationPreferences(): Promise<NotificationPreference[]>;
+  saveNotificationPreference(n: NotificationPreference): Promise<NotificationPreference>;
+  deleteNotificationPreference(n: NotificationPreference): Promise<void>;
+  listConversations(): Promise<Conversation[]>;
+  saveConversation(c: Conversation): Promise<Conversation>;
+  deleteConversation(c: Conversation): Promise<void>;
+  listConversationParticipants(): Promise<ConversationParticipant[]>;
+  saveConversationParticipant(cp: ConversationParticipant): Promise<ConversationParticipant>;
+  deleteConversationParticipant(cp: ConversationParticipant): Promise<void>;
+  listConversationMessages(): Promise<ConversationMessage[]>;
+  saveConversationMessage(cm: ConversationMessage): Promise<ConversationMessage>;
+  deleteConversationMessage(cm: ConversationMessage): Promise<void>;
+  listWorkflowDefinitions(): Promise<WorkflowDefinition[]>;
+  saveWorkflowDefinition(w: WorkflowDefinition): Promise<WorkflowDefinition>;
+  deleteWorkflowDefinition(w: WorkflowDefinition): Promise<void>;
+  listWorkflowInstances(): Promise<WorkflowInstance[]>;
+  saveWorkflowInstance(w: WorkflowInstance): Promise<WorkflowInstance>;
+  deleteWorkflowInstance(w: WorkflowInstance): Promise<void>;
+  listWorkflowTasks(): Promise<WorkflowTask[]>;
+  saveWorkflowTask(w: WorkflowTask): Promise<WorkflowTask>;
+  deleteWorkflowTask(w: WorkflowTask): Promise<void>;
+  listWorkflowTransitions(): Promise<WorkflowTransition[]>;
+  saveWorkflowTransition(w: WorkflowTransition): Promise<WorkflowTransition>;
+  deleteWorkflowTransition(w: WorkflowTransition): Promise<void>;
+  listServiceCases(): Promise<ServiceCase[]>;
+  saveServiceCase(s: ServiceCase): Promise<ServiceCase>;
+  deleteServiceCase(s: ServiceCase): Promise<void>;
+  listCaseActivities(): Promise<CaseActivity[]>;
+  saveCaseActivity(c: CaseActivity): Promise<CaseActivity>;
+  deleteCaseActivity(c: CaseActivity): Promise<void>;
+  listSlaClocks(): Promise<SlaClock[]>;
+  saveSlaClock(s: SlaClock): Promise<SlaClock>;
+  deleteSlaClock(s: SlaClock): Promise<void>;
+  listDocumentTemplates(): Promise<DocumentTemplate[]>;
+  saveDocumentTemplate(d: DocumentTemplate): Promise<DocumentTemplate>;
+  deleteDocumentTemplate(d: DocumentTemplate): Promise<void>;
+  listDocumentInstances(): Promise<DocumentInstance[]>;
+  saveDocumentInstance(d: DocumentInstance): Promise<DocumentInstance>;
+  deleteDocumentInstance(d: DocumentInstance): Promise<void>;
+  listSignatureRequests(): Promise<SignatureRequest[]>;
+  saveSignatureRequest(s: SignatureRequest): Promise<SignatureRequest>;
+  deleteSignatureRequest(s: SignatureRequest): Promise<void>;
+  listRecordDeclarations(): Promise<RecordDeclaration[]>;
+  saveRecordDeclaration(r: RecordDeclaration): Promise<RecordDeclaration>;
+  deleteRecordDeclaration(r: RecordDeclaration): Promise<void>;
+  listRetentionAssignments(): Promise<RetentionAssignment[]>;
+  saveRetentionAssignment(r: RetentionAssignment): Promise<RetentionAssignment>;
+  deleteRetentionAssignment(r: RetentionAssignment): Promise<void>;
+  // M24
+  listReportDefinitions(): Promise<ReportDefinition[]>;
+  saveReportDefinition(r: ReportDefinition): Promise<ReportDefinition>;
+  deleteReportDefinition(r: ReportDefinition): Promise<void>;
+  listDashboards(): Promise<Dashboard[]>;
+  saveDashboard(d: Dashboard): Promise<Dashboard>;
+  deleteDashboard(d: Dashboard): Promise<void>;
+  listDashboardWidgets(): Promise<DashboardWidget[]>;
+  saveDashboardWidget(w: DashboardWidget): Promise<DashboardWidget>;
+  deleteDashboardWidget(w: DashboardWidget): Promise<void>;
+  listReportRuns(): Promise<ReportRun[]>;
+  saveReportRun(r: ReportRun): Promise<ReportRun>;
+  deleteReportRun(r: ReportRun): Promise<void>;
+  listMetricDefinitions(): Promise<MetricDefinition[]>;
+  saveMetricDefinition(m: MetricDefinition): Promise<MetricDefinition>;
+  deleteMetricDefinition(m: MetricDefinition): Promise<void>;
+  listSemanticDimensions(): Promise<SemanticDimension[]>;
+  saveSemanticDimension(s: SemanticDimension): Promise<SemanticDimension>;
+  deleteSemanticDimension(s: SemanticDimension): Promise<void>;
+  listReportAccessPolicies(): Promise<ReportAccessPolicy[]>;
+  saveReportAccessPolicy(p: ReportAccessPolicy): Promise<ReportAccessPolicy>;
+  deleteReportAccessPolicy(p: ReportAccessPolicy): Promise<void>;
+  listReportCatalogEntries(): Promise<ReportCatalogEntry[]>;
+  saveReportCatalogEntry(e: ReportCatalogEntry): Promise<ReportCatalogEntry>;
+  deleteReportCatalogEntry(e: ReportCatalogEntry): Promise<void>;
+  listDataProducts(): Promise<DataProduct[]>;
+  saveDataProduct(p: DataProduct): Promise<DataProduct>;
+  deleteDataProduct(p: DataProduct): Promise<void>;
+  listPipelineRuns(): Promise<PipelineRun[]>;
+  savePipelineRun(r: PipelineRun): Promise<PipelineRun>;
+  deletePipelineRun(r: PipelineRun): Promise<void>;
+  listDataQualityResults(): Promise<DataQualityResult[]>;
+  saveDataQualityResult(r: DataQualityResult): Promise<DataQualityResult>;
+  deleteDataQualityResult(r: DataQualityResult): Promise<void>;
+  listModelVersions(): Promise<ModelVersion[]>;
+  saveModelVersion(m: ModelVersion): Promise<ModelVersion>;
+  deleteModelVersion(m: ModelVersion): Promise<void>;
+  listModelScores(): Promise<ModelScore[]>;
+  saveModelScore(s: ModelScore): Promise<ModelScore>;
+  deleteModelScore(s: ModelScore): Promise<void>;
 }
 
 async function logAudit(action: string, entity: string, detail: string, recordsAffected = 1) {
@@ -1775,6 +1932,156 @@ Object.assign(apiMethods, {
   listAlumniPreferences: async (): Promise<AlumniPreference[]> => { await delay(); return dbGetAll("alumniPreferences"); },
   saveAlumniPreference: async (p: AlumniPreference): Promise<AlumniPreference> => { await delay(300); await dbPut("alumniPreferences", p); await logAudit("ALUMNI_PREFERENCE_SAVED", "alumni_preference", `Alumni preference saved — ${p.channel} for ${p.purpose} (${p.status})`); return p; },
   deleteAlumniPreference: async (p: AlumniPreference): Promise<void> => { await delay(220); await dbDelete("alumniPreferences", p.id); await logAudit("ALUMNI_PREFERENCE_DELETED", "alumni_preference", `Alumni preference deleted — ${p.channel}`); },
+});
+
+// ── M22 Facilities, Maintenance, Safety and Sustainability ─────────────────
+Object.assign(apiMethods, {
+  listServiceRequests: async (): Promise<ServiceRequest[]> => { await delay(); return dbGetAll("serviceRequests"); },
+  saveServiceRequest: async (s: ServiceRequest): Promise<ServiceRequest> => { await delay(300); await dbPut("serviceRequests", s); await logAudit("SERVICE_REQUEST_SAVED", "service_request", `Service request saved — ${s.title} (${s.category}, ${s.status})`); return s; },
+  deleteServiceRequest: async (s: ServiceRequest): Promise<void> => { await delay(220); await dbDelete("serviceRequests", s.id); await logAudit("SERVICE_REQUEST_DELETED", "service_request", `Service request deleted — ${s.title}`); },
+  listWorkOrders: async (): Promise<WorkOrder[]> => { await delay(); return dbGetAll("workOrders"); },
+  saveWorkOrder: async (w: WorkOrder): Promise<WorkOrder> => { await delay(300); await dbPut("workOrders", w); await logAudit("WORK_ORDER_SAVED", "work_order", `Work order saved — ${w.workOrderNo} (${w.status})`); return w; },
+  deleteWorkOrder: async (w: WorkOrder): Promise<void> => { await delay(220); await dbDelete("workOrders", w.id); await logAudit("WORK_ORDER_DELETED", "work_order", `Work order deleted — ${w.workOrderNo}`); },
+  listWorkOrderActivities: async (): Promise<WorkOrderActivity[]> => { await delay(); return dbGetAll("workOrderActivities"); },
+  saveWorkOrderActivity: async (a: WorkOrderActivity): Promise<WorkOrderActivity> => { await delay(300); await dbPut("workOrderActivities", a); await logAudit("WORK_ORDER_ACTIVITY_SAVED", "work_order_activity", `Work order activity saved — ${a.activityType} (${a.status})`); return a; },
+  deleteWorkOrderActivity: async (a: WorkOrderActivity): Promise<void> => { await delay(220); await dbDelete("workOrderActivities", a.id); await logAudit("WORK_ORDER_ACTIVITY_DELETED", "work_order_activity", `Work order activity deleted — ${a.activityType}`); },
+  listMaintenancePlans: async (): Promise<MaintenancePlan[]> => { await delay(); return dbGetAll("maintenancePlans"); },
+  saveMaintenancePlan: async (m: MaintenancePlan): Promise<MaintenancePlan> => { await delay(300); await dbPut("maintenancePlans", m); await logAudit("MAINTENANCE_PLAN_SAVED", "maintenance_plan", `Maintenance plan saved — ${m.title} (${m.assetType}, ${m.status})`); return m; },
+  deleteMaintenancePlan: async (m: MaintenancePlan): Promise<void> => { await delay(220); await dbDelete("maintenancePlans", m.id); await logAudit("MAINTENANCE_PLAN_DELETED", "maintenance_plan", `Maintenance plan deleted — ${m.title}`); },
+  listBookings: async (): Promise<Booking[]> => { await delay(); return dbGetAll("bookings"); },
+  saveBooking: async (b: Booking): Promise<Booking> => { await delay(300); await dbPut("bookings", b); await logAudit("BOOKING_SAVED", "booking", `Booking saved — ${b.venueName} (${b.purpose}, ${b.status})`); return b; },
+  deleteBooking: async (b: Booking): Promise<void> => { await delay(220); await dbDelete("bookings", b.id); await logAudit("BOOKING_DELETED", "booking", `Booking deleted — ${b.venueName}`); },
+  listBookingAttendees: async (): Promise<BookingAttendee[]> => { await delay(); return dbGetAll("bookingAttendees"); },
+  saveBookingAttendee: async (a: BookingAttendee): Promise<BookingAttendee> => { await delay(300); await dbPut("bookingAttendees", a); await logAudit("BOOKING_ATTENDEE_SAVED", "booking_attendee", `Booking attendee saved — ${a.attendeeName} (${a.status})`); return a; },
+  deleteBookingAttendee: async (a: BookingAttendee): Promise<void> => { await delay(220); await dbDelete("bookingAttendees", a.id); await logAudit("BOOKING_ATTENDEE_DELETED", "booking_attendee", `Booking attendee deleted — ${a.attendeeName}`); },
+  listSafetyIncidents: async (): Promise<SafetyIncident[]> => { await delay(); return dbGetAll("safetyIncidents"); },
+  saveSafetyIncident: async (s: SafetyIncident): Promise<SafetyIncident> => { await delay(300); await dbPut("safetyIncidents", s); await logAudit("SAFETY_INCIDENT_SAVED", "safety_incident", `Safety incident saved — ${s.incidentNo} (${s.category}, ${s.severity})`); return s; },
+  deleteSafetyIncident: async (s: SafetyIncident): Promise<void> => { await delay(220); await dbDelete("safetyIncidents", s.id); await logAudit("SAFETY_INCIDENT_DELETED", "safety_incident", `Safety incident deleted — ${s.incidentNo}`); },
+  listEmergencyActions: async (): Promise<EmergencyAction[]> => { await delay(); return dbGetAll("emergencyActions"); },
+  saveEmergencyAction: async (e: EmergencyAction): Promise<EmergencyAction> => { await delay(300); await dbPut("emergencyActions", e); await logAudit("EMERGENCY_ACTION_SAVED", "emergency_action", `Emergency action saved — ${e.actionType} (${e.status})`); return e; },
+  deleteEmergencyAction: async (e: EmergencyAction): Promise<void> => { await delay(220); await dbDelete("emergencyActions", e.id); await logAudit("EMERGENCY_ACTION_DELETED", "emergency_action", `Emergency action deleted — ${e.actionType}`); },
+  listVisitorVisits: async (): Promise<VisitorVisit[]> => { await delay(); return dbGetAll("visitorVisits"); },
+  saveVisitorVisit: async (v: VisitorVisit): Promise<VisitorVisit> => { await delay(300); await dbPut("visitorVisits", v); await logAudit("VISITOR_VISIT_SAVED", "visitor_visit", `Visitor visit saved — ${v.visitorName} (${v.purpose}, ${v.status})`); return v; },
+  deleteVisitorVisit: async (v: VisitorVisit): Promise<void> => { await delay(220); await dbDelete("visitorVisits", v.id); await logAudit("VISITOR_VISIT_DELETED", "visitor_visit", `Visitor visit deleted — ${v.visitorName}`); },
+  listAccessCredentials: async (): Promise<AccessCredential[]> => { await delay(); return dbGetAll("accessCredentials"); },
+  saveAccessCredential: async (a: AccessCredential): Promise<AccessCredential> => { await delay(300); await dbPut("accessCredentials", a); await logAudit("ACCESS_CREDENTIAL_SAVED", "access_credential", `Access credential saved — ${a.holderName} (${a.credentialType}, ${a.status})`); return a; },
+  deleteAccessCredential: async (a: AccessCredential): Promise<void> => { await delay(220); await dbDelete("accessCredentials", a.id); await logAudit("ACCESS_CREDENTIAL_DELETED", "access_credential", `Access credential deleted — ${a.holderName}`); },
+  listKeyIssues: async (): Promise<KeyIssue[]> => { await delay(); return dbGetAll("keyIssues"); },
+  saveKeyIssue: async (k: KeyIssue): Promise<KeyIssue> => { await delay(300); await dbPut("keyIssues", k); await logAudit("KEY_ISSUE_SAVED", "key_issue", `Key issue saved — ${k.keyNo} (${k.location}, ${k.status})`); return k; },
+  deleteKeyIssue: async (k: KeyIssue): Promise<void> => { await delay(220); await dbDelete("keyIssues", k.id); await logAudit("KEY_ISSUE_DELETED", "key_issue", `Key issue deleted — ${k.keyNo}`); },
+  listUtilityMeters: async (): Promise<UtilityMeter[]> => { await delay(); return dbGetAll("utilityMeters"); },
+  saveUtilityMeter: async (u: UtilityMeter): Promise<UtilityMeter> => { await delay(300); await dbPut("utilityMeters", u); await logAudit("UTILITY_METER_SAVED", "utility_meter", `Utility meter saved — ${u.meterNo} (${u.utilityType}, ${u.status})`); return u; },
+  deleteUtilityMeter: async (u: UtilityMeter): Promise<void> => { await delay(220); await dbDelete("utilityMeters", u.id); await logAudit("UTILITY_METER_DELETED", "utility_meter", `Utility meter deleted — ${u.meterNo}`); },
+  listMeterReadings: async (): Promise<MeterReading[]> => { await delay(); return dbGetAll("meterReadings"); },
+  saveMeterReading: async (m: MeterReading): Promise<MeterReading> => { await delay(300); await dbPut("meterReadings", m); await logAudit("METER_READING_SAVED", "meter_reading", `Meter reading saved — ${m.meterNo} (${m.consumption} ${m.utilityType})`); return m; },
+  deleteMeterReading: async (m: MeterReading): Promise<void> => { await delay(220); await dbDelete("meterReadings", m.id); await logAudit("METER_READING_DELETED", "meter_reading", `Meter reading deleted — ${m.meterNo}`); },
+  listContinuityPlans: async (): Promise<ContinuityPlan[]> => { await delay(); return dbGetAll("continuityPlans"); },
+  saveContinuityPlan: async (c: ContinuityPlan): Promise<ContinuityPlan> => { await delay(300); await dbPut("continuityPlans", c); await logAudit("CONTINUITY_PLAN_SAVED", "continuity_plan", `Continuity plan saved — ${c.title} (${c.planType}, ${c.status})`); return c; },
+  deleteContinuityPlan: async (c: ContinuityPlan): Promise<void> => { await delay(220); await dbDelete("continuityPlans", c.id); await logAudit("CONTINUITY_PLAN_DELETED", "continuity_plan", `Continuity plan deleted — ${c.title}`); },
+  listContinuityExercises: async (): Promise<ContinuityExercise[]> => { await delay(); return dbGetAll("continuityExercises"); },
+  saveContinuityExercise: async (e: ContinuityExercise): Promise<ContinuityExercise> => { await delay(300); await dbPut("continuityExercises", e); await logAudit("CONTINUITY_EXERCISE_SAVED", "continuity_exercise", `Continuity exercise saved — ${e.exerciseName} (${e.exerciseType}, ${e.status})`); return e; },
+  deleteContinuityExercise: async (e: ContinuityExercise): Promise<void> => { await delay(220); await dbDelete("continuityExercises", e.id); await logAudit("CONTINUITY_EXERCISE_DELETED", "continuity_exercise", `Continuity exercise deleted — ${e.exerciseName}`); },
+  // M23 Communication, Workflow and Documents
+  listAnnouncements: async (): Promise<Announcement[]> => { await delay(); return dbGetAll("announcements"); },
+  saveAnnouncement: async (a: Announcement): Promise<Announcement> => { await delay(300); await dbPut("announcements", a); await logAudit("ANNOUNCEMENT_SAVED", "announcement", `Announcement saved — ${a.title} (${a.status})`); return a; },
+  deleteAnnouncement: async (a: Announcement): Promise<void> => { await delay(220); await dbDelete("announcements", a.id); await logAudit("ANNOUNCEMENT_DELETED", "announcement", `Announcement deleted — ${a.title}`); },
+  listMessages: async (): Promise<Message[]> => { await delay(); return dbGetAll("messages"); },
+  saveMessage: async (m: Message): Promise<Message> => { await delay(300); await dbPut("messages", m); await logAudit("MESSAGE_SAVED", "message", `Message saved — ${m.channel} to ${m.recipientRef} (${m.status})`); return m; },
+  deleteMessage: async (m: Message): Promise<void> => { await delay(220); await dbDelete("messages", m.id); await logAudit("MESSAGE_DELETED", "message", `Message deleted — ${m.id}`); },
+  listDeliveryAttempts: async (): Promise<DeliveryAttempt[]> => { await delay(); return dbGetAll("deliveryAttempts"); },
+  saveDeliveryAttempt: async (d: DeliveryAttempt): Promise<DeliveryAttempt> => { await delay(300); await dbPut("deliveryAttempts", d); await logAudit("DELIVERY_ATTEMPT_SAVED", "delivery_attempt", `Delivery attempt saved — ${d.provider} (${d.outcome})`); return d; },
+  deleteDeliveryAttempt: async (d: DeliveryAttempt): Promise<void> => { await delay(220); await dbDelete("deliveryAttempts", d.id); await logAudit("DELIVERY_ATTEMPT_DELETED", "delivery_attempt", `Delivery attempt deleted — ${d.id}`); },
+  listNotificationPreferences: async (): Promise<NotificationPreference[]> => { await delay(); return dbGetAll("notificationPreferences"); },
+  saveNotificationPreference: async (n: NotificationPreference): Promise<NotificationPreference> => { await delay(300); await dbPut("notificationPreferences", n); await logAudit("NOTIFICATION_PREFERENCE_SAVED", "notification_preference", `Notification preference saved — ${n.purpose} (${n.channel})`); return n; },
+  deleteNotificationPreference: async (n: NotificationPreference): Promise<void> => { await delay(220); await dbDelete("notificationPreferences", n.id); await logAudit("NOTIFICATION_PREFERENCE_DELETED", "notification_preference", `Notification preference deleted — ${n.id}`); },
+  listConversations: async (): Promise<Conversation[]> => { await delay(); return dbGetAll("conversations"); },
+  saveConversation: async (c: Conversation): Promise<Conversation> => { await delay(300); await dbPut("conversations", c); await logAudit("CONVERSATION_SAVED", "conversation", `Conversation saved — ${c.subject} (${c.type})`); return c; },
+  deleteConversation: async (c: Conversation): Promise<void> => { await delay(220); await dbDelete("conversations", c.id); await logAudit("CONVERSATION_DELETED", "conversation", `Conversation deleted — ${c.subject}`); },
+  listConversationParticipants: async (): Promise<ConversationParticipant[]> => { await delay(); return dbGetAll("conversationParticipants"); },
+  saveConversationParticipant: async (cp: ConversationParticipant): Promise<ConversationParticipant> => { await delay(300); await dbPut("conversationParticipants", cp); await logAudit("CONVERSATION_PARTICIPANT_SAVED", "conversation_participant", `Conversation participant saved — ${cp.subjectRef} (${cp.role})`); return cp; },
+  deleteConversationParticipant: async (cp: ConversationParticipant): Promise<void> => { await delay(220); await dbDelete("conversationParticipants", cp.id); await logAudit("CONVERSATION_PARTICIPANT_DELETED", "conversation_participant", `Conversation participant deleted — ${cp.id}`); },
+  listConversationMessages: async (): Promise<ConversationMessage[]> => { await delay(); return dbGetAll("conversationMessages"); },
+  saveConversationMessage: async (cm: ConversationMessage): Promise<ConversationMessage> => { await delay(300); await dbPut("conversationMessages", cm); await logAudit("CONVERSATION_MESSAGE_SAVED", "conversation_message", `Conversation message saved — from ${cm.senderRef}`); return cm; },
+  deleteConversationMessage: async (cm: ConversationMessage): Promise<void> => { await delay(220); await dbDelete("conversationMessages", cm.id); await logAudit("CONVERSATION_MESSAGE_DELETED", "conversation_message", `Conversation message deleted — ${cm.id}`); },
+  listWorkflowDefinitions: async (): Promise<WorkflowDefinition[]> => { await delay(); return dbGetAll("workflowDefinitions"); },
+  saveWorkflowDefinition: async (w: WorkflowDefinition): Promise<WorkflowDefinition> => { await delay(300); await dbPut("workflowDefinitions", w); await logAudit("WORKFLOW_DEFINITION_SAVED", "workflow_definition", `Workflow definition saved — ${w.name} (${w.code})`); return w; },
+  deleteWorkflowDefinition: async (w: WorkflowDefinition): Promise<void> => { await delay(220); await dbDelete("workflowDefinitions", w.id); await logAudit("WORKFLOW_DEFINITION_DELETED", "workflow_definition", `Workflow definition deleted — ${w.name}`); },
+  listWorkflowInstances: async (): Promise<WorkflowInstance[]> => { await delay(); return dbGetAll("workflowInstances"); },
+  saveWorkflowInstance: async (w: WorkflowInstance): Promise<WorkflowInstance> => { await delay(300); await dbPut("workflowInstances", w); await logAudit("WORKFLOW_INSTANCE_SAVED", "workflow_instance", `Workflow instance saved — ${w.businessRef} (${w.state})`); return w; },
+  deleteWorkflowInstance: async (w: WorkflowInstance): Promise<void> => { await delay(220); await dbDelete("workflowInstances", w.id); await logAudit("WORKFLOW_INSTANCE_DELETED", "workflow_instance", `Workflow instance deleted — ${w.id}`); },
+  listWorkflowTasks: async (): Promise<WorkflowTask[]> => { await delay(); return dbGetAll("workflowTasks"); },
+  saveWorkflowTask: async (w: WorkflowTask): Promise<WorkflowTask> => { await delay(300); await dbPut("workflowTasks", w); await logAudit("WORKFLOW_TASK_SAVED", "workflow_task", `Workflow task saved — ${w.name} (${w.status})`); return w; },
+  deleteWorkflowTask: async (w: WorkflowTask): Promise<void> => { await delay(220); await dbDelete("workflowTasks", w.id); await logAudit("WORKFLOW_TASK_DELETED", "workflow_task", `Workflow task deleted — ${w.name}`); },
+  listWorkflowTransitions: async (): Promise<WorkflowTransition[]> => { await delay(); return dbGetAll("workflowTransitions"); },
+  saveWorkflowTransition: async (w: WorkflowTransition): Promise<WorkflowTransition> => { await delay(300); await dbPut("workflowTransitions", w); await logAudit("WORKFLOW_TRANSITION_SAVED", "workflow_transition", `Workflow transition saved — ${w.fromState} → ${w.toState}`); return w; },
+  deleteWorkflowTransition: async (w: WorkflowTransition): Promise<void> => { await delay(220); await dbDelete("workflowTransitions", w.id); await logAudit("WORKFLOW_TRANSITION_DELETED", "workflow_transition", `Workflow transition deleted — ${w.id}`); },
+  listServiceCases: async (): Promise<ServiceCase[]> => { await delay(); return dbGetAll("serviceCases"); },
+  saveServiceCase: async (s: ServiceCase): Promise<ServiceCase> => { await delay(300); await dbPut("serviceCases", s); await logAudit("SERVICE_CASE_SAVED", "service_case", `Service case saved — ${s.name} (${s.category})`); return s; },
+  deleteServiceCase: async (s: ServiceCase): Promise<void> => { await delay(220); await dbDelete("serviceCases", s.id); await logAudit("SERVICE_CASE_DELETED", "service_case", `Service case deleted — ${s.name}`); },
+  listCaseActivities: async (): Promise<CaseActivity[]> => { await delay(); return dbGetAll("caseActivities"); },
+  saveCaseActivity: async (c: CaseActivity): Promise<CaseActivity> => { await delay(300); await dbPut("caseActivities", c); await logAudit("CASE_ACTIVITY_SAVED", "case_activity", `Case activity saved — ${c.name} (${c.type})`); return c; },
+  deleteCaseActivity: async (c: CaseActivity): Promise<void> => { await delay(220); await dbDelete("caseActivities", c.id); await logAudit("CASE_ACTIVITY_DELETED", "case_activity", `Case activity deleted — ${c.name}`); },
+  listSlaClocks: async (): Promise<SlaClock[]> => { await delay(); return dbGetAll("slaClocks"); },
+  saveSlaClock: async (s: SlaClock): Promise<SlaClock> => { await delay(300); await dbPut("slaClocks", s); await logAudit("SLA_CLOCK_SAVED", "sla_clock", `SLA clock saved — ${s.metric} due ${s.dueAt}`); return s; },
+  deleteSlaClock: async (s: SlaClock): Promise<void> => { await delay(220); await dbDelete("slaClocks", s.id); await logAudit("SLA_CLOCK_DELETED", "sla_clock", `SLA clock deleted — ${s.id}`); },
+  listDocumentTemplates: async (): Promise<DocumentTemplate[]> => { await delay(); return dbGetAll("documentTemplates"); },
+  saveDocumentTemplate: async (d: DocumentTemplate): Promise<DocumentTemplate> => { await delay(300); await dbPut("documentTemplates", d); await logAudit("DOCUMENT_TEMPLATE_SAVED", "document_template", `Document template saved — ${d.name} (${d.code})`); return d; },
+  deleteDocumentTemplate: async (d: DocumentTemplate): Promise<void> => { await delay(220); await dbDelete("documentTemplates", d.id); await logAudit("DOCUMENT_TEMPLATE_DELETED", "document_template", `Document template deleted — ${d.name}`); },
+  listDocumentInstances: async (): Promise<DocumentInstance[]> => { await delay(); return dbGetAll("documentInstances"); },
+  saveDocumentInstance: async (d: DocumentInstance): Promise<DocumentInstance> => { await delay(300); await dbPut("documentInstances", d); await logAudit("DOCUMENT_INSTANCE_SAVED", "document_instance", `Document instance saved — ${d.businessRef} (${d.objectRef})`); return d; },
+  deleteDocumentInstance: async (d: DocumentInstance): Promise<void> => { await delay(220); await dbDelete("documentInstances", d.id); await logAudit("DOCUMENT_INSTANCE_DELETED", "document_instance", `Document instance deleted — ${d.id}`); },
+  listSignatureRequests: async (): Promise<SignatureRequest[]> => { await delay(); return dbGetAll("signatureRequests"); },
+  saveSignatureRequest: async (s: SignatureRequest): Promise<SignatureRequest> => { await delay(300); await dbPut("signatureRequests", s); await logAudit("SIGNATURE_REQUEST_SAVED", "signature_request", `Signature request saved — ${s.signerRef} (${s.status})`); return s; },
+  deleteSignatureRequest: async (s: SignatureRequest): Promise<void> => { await delay(220); await dbDelete("signatureRequests", s.id); await logAudit("SIGNATURE_REQUEST_DELETED", "signature_request", `Signature request deleted — ${s.id}`); },
+  listRecordDeclarations: async (): Promise<RecordDeclaration[]> => { await delay(); return dbGetAll("recordDeclarations"); },
+  saveRecordDeclaration: async (r: RecordDeclaration): Promise<RecordDeclaration> => { await delay(300); await dbPut("recordDeclarations", r); await logAudit("RECORD_DECLARATION_SAVED", "record_declaration", `Record declaration saved — ${r.documentId} (${r.classification})`); return r; },
+  deleteRecordDeclaration: async (r: RecordDeclaration): Promise<void> => { await delay(220); await dbDelete("recordDeclarations", r.id); await logAudit("RECORD_DECLARATION_DELETED", "record_declaration", `Record declaration deleted — ${r.id}`); },
+  listRetentionAssignments: async (): Promise<RetentionAssignment[]> => { await delay(); return dbGetAll("retentionAssignments"); },
+  saveRetentionAssignment: async (r: RetentionAssignment): Promise<RetentionAssignment> => { await delay(300); await dbPut("retentionAssignments", r); await logAudit("RETENTION_ASSIGNMENT_SAVED", "retention_assignment", `Retention assignment saved — ${r.scheduleRef} due ${r.dispositionAt}`); return r; },
+  deleteRetentionAssignment: async (r: RetentionAssignment): Promise<void> => { await delay(220); await dbDelete("retentionAssignments", r.id); await logAudit("RETENTION_ASSIGNMENT_DELETED", "retention_assignment", `Retention assignment deleted — ${r.id}`); },
+});
+
+// ── M24 Analytics, Reporting & Decision Support ───────────────────────────
+Object.assign(apiMethods, {
+  listReportDefinitions: async (): Promise<ReportDefinition[]> => { await delay(); return dbGetAll("reportDefinitions"); },
+  saveReportDefinition: async (r: ReportDefinition): Promise<ReportDefinition> => { await delay(300); await dbPut("reportDefinitions", r); await logAudit("REPORT_DEFINITION_SAVED", "report_definition", `Report definition saved — ${r.name} (${r.code}, ${r.status})`); return r; },
+  deleteReportDefinition: async (r: ReportDefinition): Promise<void> => { await delay(220); await dbDelete("reportDefinitions", r.id); await logAudit("REPORT_DEFINITION_DELETED", "report_definition", `Report definition deleted — ${r.name}`); },
+  listDashboards: async (): Promise<Dashboard[]> => { await delay(); return dbGetAll("dashboards"); },
+  saveDashboard: async (d: Dashboard): Promise<Dashboard> => { await delay(300); await dbPut("dashboards", d); await logAudit("DASHBOARD_SAVED", "dashboard", `Dashboard saved — ${d.name} (${d.code}, ${d.status})`); return d; },
+  deleteDashboard: async (d: Dashboard): Promise<void> => { await delay(220); await dbDelete("dashboards", d.id); await logAudit("DASHBOARD_DELETED", "dashboard", `Dashboard deleted — ${d.name}`); },
+  listDashboardWidgets: async (): Promise<DashboardWidget[]> => { await delay(); return dbGetAll("dashboardWidgets"); },
+  saveDashboardWidget: async (w: DashboardWidget): Promise<DashboardWidget> => { await delay(300); await dbPut("dashboardWidgets", w); await logAudit("DASHBOARD_WIDGET_SAVED", "dashboard_widget", `Dashboard widget saved — ${w.name} (${w.type}, ${w.dashboardName})`); return w; },
+  deleteDashboardWidget: async (w: DashboardWidget): Promise<void> => { await delay(220); await dbDelete("dashboardWidgets", w.id); await logAudit("DASHBOARD_WIDGET_DELETED", "dashboard_widget", `Dashboard widget deleted — ${w.name}`); },
+  listReportRuns: async (): Promise<ReportRun[]> => { await delay(); return dbGetAll("reportRuns"); },
+  saveReportRun: async (r: ReportRun): Promise<ReportRun> => { await delay(300); await dbPut("reportRuns", r); await logAudit("REPORT_RUN_SAVED", "report_run", `Report run saved — ${r.reportName} (${r.status})`); return r; },
+  deleteReportRun: async (r: ReportRun): Promise<void> => { await delay(220); await dbDelete("reportRuns", r.id); await logAudit("REPORT_RUN_DELETED", "report_run", `Report run deleted — ${r.id}`); },
+  listMetricDefinitions: async (): Promise<MetricDefinition[]> => { await delay(); return dbGetAll("metricDefinitions"); },
+  saveMetricDefinition: async (m: MetricDefinition): Promise<MetricDefinition> => { await delay(300); await dbPut("metricDefinitions", m); await logAudit("METRIC_DEFINITION_SAVED", "metric_definition", `Metric definition saved — ${m.name} (${m.code}, ${m.frequency})`); return m; },
+  deleteMetricDefinition: async (m: MetricDefinition): Promise<void> => { await delay(220); await dbDelete("metricDefinitions", m.id); await logAudit("METRIC_DEFINITION_DELETED", "metric_definition", `Metric definition deleted — ${m.name}`); },
+  listSemanticDimensions: async (): Promise<SemanticDimension[]> => { await delay(); return dbGetAll("semanticDimensions"); },
+  saveSemanticDimension: async (s: SemanticDimension): Promise<SemanticDimension> => { await delay(300); await dbPut("semanticDimensions", s); await logAudit("SEMANTIC_DIMENSION_SAVED", "semantic_dimension", `Semantic dimension saved — ${s.name} (${s.type}, ${s.code})`); return s; },
+  deleteSemanticDimension: async (s: SemanticDimension): Promise<void> => { await delay(220); await dbDelete("semanticDimensions", s.id); await logAudit("SEMANTIC_DIMENSION_DELETED", "semantic_dimension", `Semantic dimension deleted — ${s.name}`); },
+  listReportAccessPolicies: async (): Promise<ReportAccessPolicy[]> => { await delay(); return dbGetAll("reportAccessPolicies"); },
+  saveReportAccessPolicy: async (p: ReportAccessPolicy): Promise<ReportAccessPolicy> => { await delay(300); await dbPut("reportAccessPolicies", p); await logAudit("REPORT_ACCESS_POLICY_SAVED", "report_access_policy", `Report access policy saved — ${p.reportName} → ${p.roleName} (${p.accessLevel})`); return p; },
+  deleteReportAccessPolicy: async (p: ReportAccessPolicy): Promise<void> => { await delay(220); await dbDelete("reportAccessPolicies", p.id); await logAudit("REPORT_ACCESS_POLICY_DELETED", "report_access_policy", `Report access policy deleted — ${p.reportName}`); },
+  listReportCatalogEntries: async (): Promise<ReportCatalogEntry[]> => { await delay(); return dbGetAll("reportCatalogEntries"); },
+  saveReportCatalogEntry: async (e: ReportCatalogEntry): Promise<ReportCatalogEntry> => { await delay(300); await dbPut("reportCatalogEntries", e); await logAudit("REPORT_CATALOG_ENTRY_SAVED", "report_catalog_entry", `Report catalog entry saved — ${e.reportName} v${e.version} (${e.status})`); return e; },
+  deleteReportCatalogEntry: async (e: ReportCatalogEntry): Promise<void> => { await delay(220); await dbDelete("reportCatalogEntries", e.id); await logAudit("REPORT_CATALOG_ENTRY_DELETED", "report_catalog_entry", `Report catalog entry deleted — ${e.reportName}`); },
+  listDataProducts: async (): Promise<DataProduct[]> => { await delay(); return dbGetAll("dataProducts"); },
+  saveDataProduct: async (p: DataProduct): Promise<DataProduct> => { await delay(300); await dbPut("dataProducts", p); await logAudit("DATA_PRODUCT_SAVED", "data_product", `Data product saved — ${p.name} (${p.domain}, ${p.status})`); return p; },
+  deleteDataProduct: async (p: DataProduct): Promise<void> => { await delay(220); await dbDelete("dataProducts", p.id); await logAudit("DATA_PRODUCT_DELETED", "data_product", `Data product deleted — ${p.name}`); },
+  listPipelineRuns: async (): Promise<PipelineRun[]> => { await delay(); return dbGetAll("pipelineRuns"); },
+  savePipelineRun: async (r: PipelineRun): Promise<PipelineRun> => { await delay(300); await dbPut("pipelineRuns", r); await logAudit("PIPELINE_RUN_SAVED", "pipeline_run", `Pipeline run saved — ${r.pipelineName} (${r.type}, ${r.status})`); return r; },
+  deletePipelineRun: async (r: PipelineRun): Promise<void> => { await delay(220); await dbDelete("pipelineRuns", r.id); await logAudit("PIPELINE_RUN_DELETED", "pipeline_run", `Pipeline run deleted — ${r.id}`); },
+  listDataQualityResults: async (): Promise<DataQualityResult[]> => { await delay(); return dbGetAll("dataQualityResults"); },
+  saveDataQualityResult: async (r: DataQualityResult): Promise<DataQualityResult> => { await delay(300); await dbPut("dataQualityResults", r); await logAudit("DATA_QUALITY_RESULT_SAVED", "data_quality_result", `Data quality result saved — ${r.datasetName} (${r.dimension}, score ${r.score})`); return r; },
+  deleteDataQualityResult: async (r: DataQualityResult): Promise<void> => { await delay(220); await dbDelete("dataQualityResults", r.id); await logAudit("DATA_QUALITY_RESULT_DELETED", "data_quality_result", `Data quality result deleted — ${r.id}`); },
+  listModelVersions: async (): Promise<ModelVersion[]> => { await delay(); return dbGetAll("modelVersions"); },
+  saveModelVersion: async (m: ModelVersion): Promise<ModelVersion> => { await delay(300); await dbPut("modelVersions", m); await logAudit("MODEL_VERSION_SAVED", "model_version", `Model version saved — ${m.modelName} v${m.version} (${m.status})`); return m; },
+  deleteModelVersion: async (m: ModelVersion): Promise<void> => { await delay(220); await dbDelete("modelVersions", m.id); await logAudit("MODEL_VERSION_DELETED", "model_version", `Model version deleted — ${m.modelName} v${m.version}`); },
+  listModelScores: async (): Promise<ModelScore[]> => { await delay(); return dbGetAll("modelScores"); },
+  saveModelScore: async (s: ModelScore): Promise<ModelScore> => { await delay(300); await dbPut("modelScores", s); await logAudit("MODEL_SCORE_SAVED", "model_score", `Model score saved — ${s.modelName} → ${s.entityRef} (${s.scoreValue}, ${s.status})`); return s; },
+  deleteModelScore: async (s: ModelScore): Promise<void> => { await delay(220); await dbDelete("modelScores", s.id); await logAudit("MODEL_SCORE_DELETED", "model_score", `Model score deleted — ${s.id}`); },
 });
 
 export const api = apiMethods as ErpApi;

@@ -69,7 +69,23 @@ export type PermissionResource =
   | "boardRegistrations" | "readinessChecks" | "internalAssessmentSnapshots"
   | "guidanceProfiles" | "guidanceSessions" | "externalApplications"
   | "schoolExitCases" | "migrationDocuments"
-  | "formerStudents" | "alumniPreferences";
+  | "formerStudents" | "alumniPreferences"
+  // M22
+  | "serviceRequests" | "workOrders" | "workOrderActivities" | "maintenancePlans"
+  | "bookings" | "bookingAttendees" | "safetyIncidents" | "emergencyActions"
+  | "visitorVisits" | "accessCredentials" | "keyIssues" | "utilityMeters"
+    | "meterReadings" | "continuityPlans" | "continuityExercises"
+  // M23
+  | "announcements" | "messages" | "deliveryAttempts" | "notificationPreferences"
+  | "conversations" | "conversationParticipants" | "conversationMessages"
+  | "workflowDefinitions" | "workflowInstances" | "workflowTasks" | "workflowTransitions"
+  | "serviceCases" | "caseActivities" | "slaClocks"
+  | "documentTemplates" | "documentInstances"
+  | "signatureRequests" | "recordDeclarations" | "retentionAssignments"
+  // M24
+  | "reportDefinitions" | "dashboards" | "dashboardWidgets" | "reportRuns"
+  | "metricDefinitions" | "semanticDimensions" | "reportAccessPolicies" | "reportCatalogEntries"
+  | "dataProducts" | "pipelineRuns" | "dataQualityResults" | "modelVersions" | "modelScores";
 
 /** A single permission rule: role + resource + allowed actions. */
 interface PermissionRule {
@@ -255,6 +271,56 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "admin", resource: "migrationDocuments", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "formerStudents", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "alumniPreferences", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M22
+  { role: "admin", resource: "serviceRequests", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workOrders", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workOrderActivities", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "maintenancePlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "bookings", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "bookingAttendees", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "safetyIncidents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "emergencyActions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "visitorVisits", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "accessCredentials", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "keyIssues", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "utilityMeters", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "meterReadings", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "continuityPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "continuityExercises", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M23
+  { role: "admin", resource: "announcements", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "messages", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "deliveryAttempts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "notificationPreferences", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "conversations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "conversationParticipants", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "conversationMessages", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workflowDefinitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workflowInstances", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workflowTasks", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workflowTransitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "serviceCases", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "caseActivities", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "slaClocks", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "documentTemplates", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "documentInstances", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "signatureRequests", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "recordDeclarations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "retentionAssignments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M24
+  { role: "admin", resource: "reportDefinitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "dashboards", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "dashboardWidgets", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "reportRuns", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "metricDefinitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "semanticDimensions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "reportAccessPolicies", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "reportCatalogEntries", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "dataProducts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "pipelineRuns", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "dataQualityResults", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "modelVersions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "modelScores", actions: ["create", "read", "update", "delete", "export", "approve"] },
 
   // ── Principal: broad academic + operational + read finance ───────────────────
   { role: "principal", resource: "institutions", actions: ["read", "update"] },
@@ -403,6 +469,56 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "principal", resource: "migrationDocuments", actions: ["create", "read", "update", "delete"] },
   { role: "principal", resource: "formerStudents", actions: ["read"] },
   { role: "principal", resource: "alumniPreferences", actions: ["read"] },
+  // M22
+  { role: "principal", resource: "serviceRequests", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "workOrders", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "workOrderActivities", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "maintenancePlans", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "bookings", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "safetyIncidents", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "emergencyActions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "visitorVisits", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "accessCredentials", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "keyIssues", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "utilityMeters", actions: ["read"] },
+  { role: "principal", resource: "meterReadings", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "continuityPlans", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "continuityExercises", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "bookingAttendees", actions: ["create", "read", "update", "delete"] },
+  // M23
+  { role: "principal", resource: "announcements", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "messages", actions: ["read"] },
+  { role: "principal", resource: "deliveryAttempts", actions: ["read"] },
+  { role: "principal", resource: "notificationPreferences", actions: ["read"] },
+  { role: "principal", resource: "conversations", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "conversationParticipants", actions: ["read"] },
+  { role: "principal", resource: "conversationMessages", actions: ["read"] },
+  { role: "principal", resource: "workflowDefinitions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "workflowInstances", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "workflowTasks", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "workflowTransitions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "serviceCases", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "caseActivities", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "slaClocks", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "documentTemplates", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "documentInstances", actions: ["read"] },
+  { role: "principal", resource: "signatureRequests", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "recordDeclarations", actions: ["read"] },
+  { role: "principal", resource: "retentionAssignments", actions: ["read"] },
+  // M24
+  { role: "principal", resource: "reportDefinitions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "dashboards", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "dashboardWidgets", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "reportRuns", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "metricDefinitions", actions: ["read"] },
+  { role: "principal", resource: "semanticDimensions", actions: ["read"] },
+  { role: "principal", resource: "reportAccessPolicies", actions: ["read", "update"] },
+  { role: "principal", resource: "reportCatalogEntries", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "dataProducts", actions: ["read"] },
+  { role: "principal", resource: "pipelineRuns", actions: ["read"] },
+  { role: "principal", resource: "dataQualityResults", actions: ["read"] },
+  { role: "principal", resource: "modelVersions", actions: ["read"] },
+  { role: "principal", resource: "modelScores", actions: ["read"] },
 
   // ── Accountant: finance CRUD, student read, staff read/payroll ──────────────
   { role: "accountant", resource: "institutions", actions: ["read"] },
@@ -447,6 +563,13 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   // M20
   { role: "accountant", resource: "fundraisingCampaigns", actions: ["create", "read", "update", "delete"] },
   { role: "accountant", resource: "donations", actions: ["create", "read", "update", "delete"] },
+  // M22
+  { role: "accountant", resource: "utilityMeters", actions: ["read"] },
+  // M23
+  { role: "accountant", resource: "serviceCases", actions: ["read"] },
+  { role: "accountant", resource: "caseActivities", actions: ["read"] },
+  { role: "accountant", resource: "documentTemplates", actions: ["read"] },
+  { role: "accountant", resource: "documentInstances", actions: ["read"] },
 
   // ── Teacher: academic CRUD, limited student management ──────────────────────
   { role: "teacher", resource: "calendars", actions: ["read"] },
@@ -532,6 +655,17 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "teacher", resource: "internalAssessmentSnapshots", actions: ["read"] },
   { role: "teacher", resource: "guidanceProfiles", actions: ["read"] },
   { role: "teacher", resource: "guidanceSessions", actions: ["read"] },
+  // M22
+  { role: "teacher", resource: "bookings", actions: ["read"] },
+  // M23
+  { role: "teacher", resource: "announcements", actions: ["read"] },
+  { role: "teacher", resource: "conversations", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "conversationParticipants", actions: ["read"] },
+  { role: "teacher", resource: "conversationMessages", actions: ["create", "read"] },
+  { role: "teacher", resource: "serviceCases", actions: ["read"] },
+  { role: "teacher", resource: "caseActivities", actions: ["read"] },
+  // M24
+  { role: "teacher", resource: "dashboards", actions: ["read"] },
 
   // ── Student: read-only own data + library borrowing ─────────────────────────
   { role: "student", resource: "calendars", actions: ["read"] },
@@ -568,6 +702,10 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "student", resource: "studentSubjectPlans", actions: ["read"] },
   { role: "student", resource: "guidanceProfiles", actions: ["read"] },
   { role: "student", resource: "externalApplications", actions: ["read"] },
+  // M22
+  { role: "student", resource: "bookings", actions: ["read"] },
+  // M23
+  { role: "student", resource: "announcements", actions: ["read"] },
 
   // ── Parent: read-only child data ────────────────────────────────────────────
   { role: "parent", resource: "calendars", actions: ["read"] },
@@ -593,6 +731,13 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "parent", resource: "externalApplications", actions: ["read"] },
   { role: "parent", resource: "formerStudents", actions: ["read"] },
   { role: "parent", resource: "alumniPreferences", actions: ["read"] },
+  // M22
+  { role: "parent", resource: "safetyIncidents", actions: ["read"] },
+  { role: "parent", resource: "visitorVisits", actions: ["read"] },
+  { role: "parent", resource: "serviceRequests", actions: ["read"] },
+  { role: "parent", resource: "bookings", actions: ["read"] },
+  // M23
+  { role: "parent", resource: "announcements", actions: ["read"] },
 ];
 
 // ── Permission Check Functions ───────────────────────────────────────────────
@@ -755,6 +900,12 @@ const ALL_ADMIN_ROUTES = [
   "/health-clinic", "/counseling", "/special-education", "/student-conduct", "/grievances", "/advising",
   "/events", "/clubs", "/sports", "/trips", "/ptm", "/fundraising",
   "/subject-combinations", "/board-registration", "/career-guidance", "/school-leaving", "/alumni",
+  // M22
+  "/work-orders", "/preventive-maintenance", "/room-booking", "/safety-incidents", "/visitor-key-control", "/utilities", "/business-continuity",
+  // M23
+  "/notices", "/conversations", "/workflow-designer", "/case-management", "/document-templates", "/electronic-signature", "/records-retention", "/notification-preferences",
+  // M24
+  "/operational-reports", "/dashboards", "/metrics", "/data-pipelines", "/ai-models",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -779,6 +930,12 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/health-clinic", "/counseling", "/special-education", "/student-conduct", "/grievances", "/advising",
     "/events", "/clubs", "/sports", "/trips", "/ptm", "/fundraising",
     "/subject-combinations", "/board-registration", "/career-guidance", "/school-leaving", "/alumni",
+    // M22
+    "/work-orders", "/preventive-maintenance", "/room-booking", "/safety-incidents", "/visitor-key-control", "/utilities", "/business-continuity",
+    // M23
+    "/notices", "/conversations", "/workflow-designer", "/case-management", "/document-templates", "/electronic-signature", "/records-retention", "/notification-preferences",
+    // M24
+    "/operational-reports", "/dashboards", "/metrics", "/data-pipelines", "/ai-models",
   ],
 
   accountant: [
@@ -789,6 +946,10 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
     "/staff", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll",
     "/fundraising",
+    // M22
+    "/utilities",
+    // M23
+    "/case-management", "/document-templates",
   ],
 
   teacher: [
@@ -807,6 +968,12 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/health-clinic", "/counseling", "/student-conduct",
     "/events", "/clubs", "/sports", "/trips", "/ptm",
     "/subject-combinations", "/board-registration",
+    // M22
+    "/work-orders", "/room-booking",
+    // M23
+    "/notices", "/conversations", "/case-management",
+    // M24
+    "/dashboards",
   ],
 
   student: [
@@ -816,6 +983,10 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/student-portal",
     "/library-catalog", "/library-circulation", "/library-digital",
     "/events", "/clubs", "/sports", "/career-guidance",
+    // M22
+    "/room-booking",
+    // M23
+    "/notices",
   ],
 
   parent: [
@@ -824,6 +995,10 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/parent-portal",
     "/library-catalog",
     "/health-clinic", "/events", "/career-guidance", "/alumni",
+    // M22
+    "/safety-incidents",
+    // M23
+    "/notices",
   ],
 };
 

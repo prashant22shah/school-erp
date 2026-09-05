@@ -27,6 +27,12 @@ import {
   Bus, Route, Navigation, Wrench,
   // M19-M21 icons
   Heart, Shield, AlertCircle, Map, MessageSquare, Compass, FileOutput,
+  // M22 icons
+  CalendarCheck, Key, Zap, ShieldCheck as ShieldCheckM22,
+  // M23 icons
+  MessageCircle, GitBranch, PenTool, Archive, Settings,
+  // M24 icons
+  LayoutDashboard as LayoutDashboardM24, Binary, Database, Brain,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -217,6 +223,35 @@ const m21Nav: NavItem[] = [
   { to: "/alumni", label: "Alumni & Former Students", labelNe: "पूर्व विद्यार्थी", icon: Users, micro: "M21.07" },
 ];
 
+const m22Nav: NavItem[] = [
+  { to: "/work-orders", label: "Work Orders", labelNe: "कार्य आदेश", icon: Wrench, micro: "M22.01" },
+  { to: "/preventive-maintenance", label: "Preventive Maintenance", labelNe: "निवारण मर्मत", icon: CalendarClock, micro: "M22.02" },
+  { to: "/room-booking", label: "Room Booking", labelNe: "कोठा बुकिङ", icon: CalendarCheck, micro: "M22.03" },
+  { to: "/safety-incidents", label: "Safety & Incidents", labelNe: "सुरक्षा", icon: ShieldAlert, micro: "M22.04" },
+  { to: "/visitor-key-control", label: "Visitor & Key Control", labelNe: "भ्रमणकर्ता", icon: Key, micro: "M22.05" },
+  { to: "/utilities", label: "Utilities", labelNe: "उपयोगिता", icon: Zap, micro: "M22.06" },
+  { to: "/business-continuity", label: "Business Continuity", labelNe: "निरन्तरता", icon: ShieldCheckM22, micro: "M22.07" },
+];
+
+const m23Nav: NavItem[] = [
+  { to: "/notices", label: "Notices & Announcements", labelNe: "सूचना", icon: Bell, micro: "M23.01-02" },
+  { to: "/conversations", label: "Conversations", labelNe: "संवाद", icon: MessageCircle, micro: "M23.03" },
+  { to: "/workflow-designer", label: "Workflow Designer", labelNe: "कार्यप्रवाह", icon: GitBranch, micro: "M23.04" },
+  { to: "/case-management", label: "Case Management", labelNe: "केस व्यवस्थापन", icon: Ticket, micro: "M23.05" },
+  { to: "/document-templates", label: "Document Templates", labelNe: "कागजात टेम्पलेट", icon: FileText, micro: "M23.06" },
+  { to: "/electronic-signature", label: "Electronic Signature", labelNe: "इलेक्ट्रोनिक सही", icon: PenTool, micro: "M23.07" },
+  { to: "/records-retention", label: "Records & Retention", labelNe: "अभिलेख", icon: Archive, micro: "M23.08" },
+  { to: "/notification-preferences", label: "Notification Preferences", labelNe: "सूचना सेटिङ", icon: Settings, micro: "M23.02" },
+];
+
+const m24Nav: NavItem[] = [
+  { to: "/operational-reports", label: "Operational Reports", labelNe: "अभिलेख रिपोर्ट", icon: FileText, micro: "M24.01" },
+  { to: "/dashboards", label: "Management Dashboards", labelNe: "ड्यासबोर्ड", icon: LayoutDashboardM24, micro: "M24.02" },
+  { to: "/metrics", label: "Metric & Semantic Layer", labelNe: "मेट्रिक", icon: Binary, micro: "M24.03" },
+  { to: "/data-pipelines", label: "Data Pipelines", labelNe: "डेटा पाइपलाइन", icon: Database, micro: "M24.04" },
+  { to: "/ai-models", label: "AI Models & Analytics", labelNe: "AI मोडेल", icon: Brain, micro: "M24.05-06" },
+];
+
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
   const filtered = items.filter((item) => canAccess(role, item.to));
   if (filtered.length === 0) return null;
@@ -270,7 +305,7 @@ export function AppShell() {
           </div>
           <div>
             <p className="text-sm font-bold text-white leading-tight">Shikshya ERP</p>
-            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M21</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-400">M01 – M24</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -291,6 +326,9 @@ export function AppShell() {
           <NavSection label="Student Services & Wellbeing" items={m19Nav} role={role} />
           <NavSection label="Activities & Community" items={m20Nav} role={role} />
           <NavSection label="Senior Secondary & Guidance" items={m21Nav} role={role} />
+          <NavSection label="Facilities & Safety" items={m22Nav} role={role} />
+          <NavSection label="Communication & Workflow" items={m23Nav} role={role} />
+          <NavSection label="Analytics & Reporting" items={m24Nav} role={role} />
         </nav>
 
         {/* User + Logout */}

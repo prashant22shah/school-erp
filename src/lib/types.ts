@@ -2967,6 +2967,470 @@ export interface AlumniPreference {
   status: "subscribed" | "unsubscribed"; createdOn: string;
 }
 
+// ── M22 Facilities, Maintenance, Safety and Sustainability — domain types ──
+
+export type ServiceRequestPriority = "low" | "medium" | "high" | "urgent";
+export type ServiceRequestStatus = "open" | "assigned" | "in_progress" | "resolved" | "closed" | "cancelled";
+export interface ServiceRequest {
+  id: string; tenantId: string; schoolId: string;
+  title: string; description: string;
+  category: "plumbing" | "electrical" | "carpentry" | "hvac" | "cleaning" | "pest_control" | "landscaping" | "it_support" | "other";
+  priority: ServiceRequestPriority; requestedBy: string; requestedByName: string;
+  assignedTo: string; assignedToName: string;
+  location: string; roomRef: string;
+  reportedOn: string; resolvedOn: string;
+  status: ServiceRequestStatus; createdOn: string;
+}
+
+export type WorkOrderStatus = "created" | "scheduled" | "in_progress" | "on_hold" | "completed" | "cancelled";
+export interface WorkOrder {
+  id: string; tenantId: string; schoolId: string;
+  serviceRequestId: string; serviceRequestTitle: string;
+  workOrderNo: string; title: string; description: string;
+  assignedTo: string; assignedToName: string;
+  scheduledDate: string; completedDate: string;
+  estimatedCost: number; actualCost: number;
+  status: WorkOrderStatus; createdOn: string;
+}
+
+export type ActivityStatus = "planned" | "in_progress" | "completed" | "skipped";
+export interface WorkOrderActivity {
+  id: string; tenantId: string; schoolId: string;
+  workOrderId: string; workOrderNo: string;
+  activityType: "inspection" | "repair" | "replacement" | "cleaning" | "testing" | "documentation";
+  description: string; performedBy: string; performedByName: string;
+  startedAt: string; completedAt: string;
+  partsUsed: string; cost: number;
+  status: ActivityStatus; createdOn: string;
+}
+
+export type MaintenanceFrequency = "daily" | "weekly" | "monthly" | "quarterly" | "annually" | "as_needed";
+export type MaintenancePlanStatus = "active" | "paused" | "expired";
+export interface MaintenancePlan {
+  id: string; tenantId: string; schoolId: string;
+  title: string; description: string;
+  assetType: "building" | "vehicle" | "equipment" | "infrastructure" | "furniture" | "it_infrastructure";
+  assetRef: string; assetName: string;
+  frequency: MaintenanceFrequency; nextDueDate: string; lastCompletedDate: string;
+  assignedTo: string; assignedToName: string;
+  estimatedCost: number; status: MaintenancePlanStatus; createdOn: string;
+}
+
+export type BookingStatus = "pending" | "confirmed" | "cancelled" | "completed";
+export interface Booking {
+  id: string; tenantId: string; schoolId: string;
+  venueName: string; venueRef: string;
+  bookedBy: string; bookedByName: string;
+  purpose: string; startDate: string; endDate: string;
+  startTime: string; endTime: string;
+  expectedAttendees: number; actualAttendees: number;
+  setupRequired: string; status: BookingStatus; createdOn: string;
+}
+
+export type AttendeeStatus = "invited" | "confirmed" | "declined" | "attended" | "no_show";
+export interface BookingAttendee {
+  id: string; tenantId: string; schoolId: string;
+  bookingId: string; bookingTitle: string;
+  attendeeName: string; attendeeRef: string; attendeeType: "student" | "staff" | "external" | "parent";
+  role: string; status: AttendeeStatus; createdOn: string;
+}
+
+export type IncidentSeverity = "minor" | "moderate" | "major" | "critical";
+export type IncidentStatus = "reported" | "investigating" | "contained" | "resolved" | "closed";
+export interface SafetyIncident {
+  id: string; tenantId: string; schoolId: string;
+  incidentNo: string; title: string; description: string;
+  category: "injury" | "illness" | "fire" | "flood" | "structural" | "chemical" | "electrical" | "security" | "environmental" | "other";
+  severity: IncidentSeverity; location: string;
+  reportedBy: string; reportedByName: string;
+  reportedOn: string; occurredOn: string;
+  witnesses: string; injuredPersons: string;
+  immediateActions: string; rootCause: string;
+  status: IncidentStatus; createdOn: string;
+}
+
+export type EmergencyActionStatus = "planned" | "executed" | "completed" | "cancelled";
+export interface EmergencyAction {
+  id: string; tenantId: string; schoolId: string;
+  incidentId: string; incidentNo: string;
+  actionType: "evacuation" | "first_aid" | "lockdown" | "fire_response" | "medical_transport" | "notification" | "communication";
+  description: string; performedBy: string; performedByName: string;
+  startedAt: string; completedAt: string;
+  outcome: string; status: EmergencyActionStatus; createdOn: string;
+}
+
+export type VisitStatus = "pre_registered" | "checked_in" | "checked_out" | "denied";
+export interface VisitorVisit {
+  id: string; tenantId: string; schoolId: string;
+  visitorName: string; visitorPhone: string; visitorIdType: "citizenship" | "passport" | "national_id" | "driving_license";
+  visitorIdNo: string; purpose: string;
+  hostName: string; hostRef: string;
+  vehicleNo: string; checkInTime: string; checkOutTime: string;
+  status: VisitStatus; createdOn: string;
+}
+
+export type CredentialType = "rfid" | "pin" | "biometric" | "key_card" | "mobile";
+export type AccessCredentialStatus = "active" | "suspended" | "revoked" | "expired";
+export interface AccessCredential {
+  id: string; tenantId: string; schoolId: string;
+  holderName: string; holderRef: string; holderType: "student" | "staff" | "visitor" | "contractor";
+  credentialType: CredentialType; credentialCode: string;
+  validFrom: string; validUntil: string;
+  accessZones: string; status: AccessCredentialStatus; createdOn: string;
+}
+
+export type KeyIssueStatus = "issued" | "returned" | "lost" | "replaced";
+export interface KeyIssue {
+  id: string; tenantId: string; schoolId: string;
+  keyNo: string; keyType: "master" | "room" | "cabinet" | "vehicle" | "gate";
+  location: string; locationRef: string;
+  issuedTo: string; issuedToName: string; issuedToType: "staff" | "student" | "contractor";
+  issuedDate: string; returnedDate: string;
+  conditionAtIssue: string; conditionAtReturn: string;
+  status: KeyIssueStatus; createdOn: string;
+}
+
+export type UtilityType = "electricity" | "water" | "gas" | "internet" | "telephone" | "sewage";
+export interface UtilityMeter {
+  id: string; tenantId: string; schoolId: string;
+  meterNo: string; utilityType: UtilityType;
+  location: string; installedOn: string;
+  lastReadingValue: number; lastReadingDate: string;
+  unit: string; provider: string;
+  status: "active" | "inactive" | "faulty"; createdOn: string;
+}
+
+export interface MeterReading {
+  id: string; tenantId: string; schoolId: string;
+  meterId: string; meterNo: string; utilityType: UtilityType;
+  readingValue: number; readingDate: string;
+  previousValue: number; consumption: number;
+  readBy: string; readByName: string;
+  notes: string; createdOn: string;
+}
+
+export type ContinuityStatus = "draft" | "active" | "under_review" | "archived";
+export interface ContinuityPlan {
+  id: string; tenantId: string; schoolId: string;
+  title: string; description: string;
+  planType: "emergency" | "disaster_recovery" | "business_continuity" | "pandemic" | "natural_disaster";
+  scope: string; objectives: string;
+  contactList: string; procedures: string;
+  lastTestedDate: string; nextTestDate: string;
+  version: number; status: ContinuityStatus; createdOn: string;
+}
+
+export type ExerciseStatus = "planned" | "in_progress" | "completed" | "cancelled";
+export interface ContinuityExercise {
+  id: string; tenantId: string; schoolId: string;
+  planId: string; planTitle: string;
+  exerciseName: string; exerciseType: "tabletop" | "full_scale" | "functional" | "notification";
+  scheduledDate: string; completedDate: string;
+  participants: number; observedBy: string; observedByName: string;
+  findings: string; recommendations: string;
+  status: ExerciseStatus; createdOn: string;
+}
+
+// ── M24 Analytics, Reporting & Decision Support — domain types ────────────────
+
+export type ReportCategory = "student" | "academic" | "finance" | "hr" | "operational" | "custom";
+export type ReportFormat = "table" | "chart" | "kpi" | "matrix" | "narrative";
+export type ReportStatus = "draft" | "published" | "archived";
+export interface ReportDefinition {
+  id: string; schoolId: string; name: string; code: string;
+  category: ReportCategory; description: string;
+  dataSource: string; query: string; parameters: string;
+  format: ReportFormat; tags: string[];
+  status: ReportStatus; createdOn: string;
+}
+export type DashboardLayout = "grid" | "freeform" | "tabbed";
+export type DashboardStatus = "draft" | "published" | "archived";
+export interface Dashboard {
+  id: string; schoolId: string; name: string; code: string;
+  description: string; layout: DashboardLayout;
+  isDefault: boolean; ownerRef: string; ownerName: string;
+  status: DashboardStatus; createdOn: string;
+}
+export type WidgetType = "report" | "kpi" | "chart" | "table" | "iframe";
+export type WidgetSize = "small" | "medium" | "large" | "full";
+export interface DashboardWidget {
+  id: string; schoolId: string; dashboardId: string; dashboardName: string;
+  name: string; type: WidgetType;
+  reportId?: string; reportName?: string;
+  config: string; size: WidgetSize;
+  positionX: number; positionY: number;
+  refreshIntervalMins: number;
+  status: "active" | "inactive"; createdOn: string;
+}
+export type RunStatus = "queued" | "running" | "completed" | "failed" | "cancelled";
+export interface ReportRun {
+  id: string; schoolId: string; reportId: string; reportName: string;
+  parameters: string; requestedBy: string;
+  startedAt: string; completedAt: string;
+  rowCount: number; fileSizeBytes: number;
+  status: RunStatus; errorMessage: string;
+  createdOn: string;
+}
+export type MetricFrequency = "daily" | "weekly" | "monthly" | "term" | "yearly";
+export type AggregationType = "sum" | "avg" | "count" | "min" | "max" | "distinct_count";
+export interface MetricDefinition {
+  id: string; schoolId: string; name: string; code: string;
+  description: string; category: ReportCategory;
+  dataSource: string; formula: string;
+  aggregationType: AggregationType; frequency: MetricFrequency;
+  unit: string; decimals: number;
+  status: ReportStatus; createdOn: string;
+}
+export type DimensionType = "time" | "location" | "demographic" | "academic" | "operational";
+export interface SemanticDimension {
+  id: string; schoolId: string; name: string; code: string;
+  type: DimensionType; description: string;
+  sourceField: string; hierarchyLevels: string;
+  isActive: boolean; createdOn: string;
+}
+export type AccessLevel = "view" | "export" | "edit" | "admin";
+export interface ReportAccessPolicy {
+  id: string; schoolId: string; reportId: string; reportName: string;
+  roleRef: string; roleName: string;
+  accessLevel: AccessLevel;
+  conditions: string; validFrom: string; validTo: string;
+  status: "active" | "inactive"; createdOn: string;
+}
+export type CatalogStatus = "listed" | "deprecated" | "retired";
+export interface ReportCatalogEntry {
+  id: string; schoolId: string; reportId: string; reportName: string;
+  version: number; description: string;
+  ownerRef: string; ownerName: string;
+  lineage: string; dependencies: string;
+  status: CatalogStatus; createdOn: string;
+}
+export type ProductStatus = "draft" | "published" | "archived";
+export interface DataProduct {
+  id: string; schoolId: string; name: string; code: string;
+  description: string; domain: string;
+  ownerRef: string; ownerName: string;
+  refreshSchedule: string; sla: string;
+  status: ProductStatus; createdOn: string;
+}
+export type PipelineType = "etl" | "elt" | "streaming" | "batch" | "api_sync";
+export interface PipelineRun {
+  id: string; schoolId: string; pipelineId: string; pipelineName: string;
+  type: PipelineType; trigger: string;
+  startedAt: string; completedAt: string;
+  rowsRead: number; rowsWritten: number; rowsError: number;
+  bytesProcessed: number; durationMs: number;
+  status: RunStatus; errorMessage: string;
+  createdOn: string;
+}
+export type QualityDimension = "completeness" | "accuracy" | "consistency" | "timeliness" | "validity";
+export type QualityStatus = "pass" | "warn" | "fail";
+export interface DataQualityResult {
+  id: string; schoolId: string; datasetRef: string; datasetName: string;
+  dimension: QualityDimension; ruleName: string;
+  totalRows: number; passedRows: number; failedRows: number;
+  score: number; threshold: number;
+  status: QualityStatus; executedAt: string;
+  createdOn: string;
+}
+export type ModelType = "regression" | "classification" | "clustering" | "forecasting" | "anomaly_detection";
+export interface ModelVersion {
+  id: string; schoolId: string; modelName: string;
+  version: string; type: ModelType;
+  description: string; trainingDataRef: string;
+  metrics: string; artifacts: string;
+  status: "training" | "ready" | "deployed" | "retired"; createdOn: string;
+}
+export type ScoreStatus = "pending" | "scored" | "reviewed" | "actioned";
+export interface ModelScore {
+  id: string; schoolId: string; modelId: string; modelName: string;
+  entityRef: string; entityType: string;
+  scoreValue: number; confidence: number;
+  explanation: string;
+  scoredAt: string;
+  status: ScoreStatus; createdOn: string;
+}
+
+// ── M23 Communication, Workflow and Documents — domain types ──────────────────
+
+export interface Announcement {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  title: string;
+  content: string;
+  audienceQuery: string;
+  publishAt: string;
+  status: string;
+}
+export interface Message {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  templateRef: string;
+  recipientRef: string;
+  channel: string;
+  status: string;
+  content: string;
+}
+export interface DeliveryAttempt {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  messageId: string;
+  provider: string;
+  attemptedAt: string;
+  outcome: string;
+}
+export interface NotificationPreference {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  subjectRef: string;
+  purpose: string;
+  channel: string;
+  status: string;
+}
+export interface Conversation {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  contextRef: string;
+  type: string;
+  status: string;
+  subject: string;
+}
+export interface ConversationParticipant {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  conversationId: string;
+  subjectRef: string;
+  role: string;
+  joinedAt: string;
+  leftAt?: string;
+}
+export interface ConversationMessage {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  conversationId: string;
+  senderRef: string;
+  sentAt: string;
+  content: string;
+}
+export interface WorkflowDefinition {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  code: string;
+  name: string;
+  version: number;
+  status: string;
+  configuration: string;
+}
+export interface WorkflowInstance {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  definitionId: string;
+  businessRef: string;
+  state: string;
+  status: string;
+}
+export interface WorkflowTask {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  instanceId: string;
+  assigneeRole: string;
+  dueAt: string;
+  status: string;
+  name: string;
+}
+export interface WorkflowTransition {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  instanceId: string;
+  fromState: string;
+  toState: string;
+  actorRef: string;
+  occurredAt: string;
+}
+export interface ServiceCase {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  name: string;
+  category: string;
+  requesterRef: string;
+  priority: string;
+  status: string;
+}
+export interface CaseActivity {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  caseId: string;
+  type: string;
+  occurredAt: string;
+  name: string;
+  status: string;
+}
+export interface SlaClock {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  caseId: string;
+  metric: string;
+  dueAt: string;
+  pausedDuration: string;
+}
+export interface DocumentTemplate {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  code: string;
+  name: string;
+  version: number;
+  locale: string;
+  status: string;
+  configuration: string;
+}
+export interface DocumentInstance {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  templateId: string;
+  businessRef: string;
+  contentHash: string;
+  objectRef: string;
+}
+export interface SignatureRequest {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  documentId: string;
+  signerRef: string;
+  status: string;
+}
+export interface RecordDeclaration {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  documentId: string;
+  classification: string;
+  declaredAt: string;
+}
+export interface RetentionAssignment {
+  id: string;
+  tenantId: string;
+  schoolId: string;
+  recordId: string;
+  scheduleRef: string;
+  dispositionAt: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -3204,6 +3668,56 @@ export interface DBSchema {
   migrationDocuments: MigrationDocument[];
   formerStudents: FormerStudent[];
   alumniPreferences: AlumniPreference[];
+  // M22 stores
+  serviceRequests: ServiceRequest[];
+  workOrders: WorkOrder[];
+  workOrderActivities: WorkOrderActivity[];
+  maintenancePlans: MaintenancePlan[];
+  bookings: Booking[];
+  bookingAttendees: BookingAttendee[];
+  safetyIncidents: SafetyIncident[];
+  emergencyActions: EmergencyAction[];
+  visitorVisits: VisitorVisit[];
+  accessCredentials: AccessCredential[];
+  keyIssues: KeyIssue[];
+  utilityMeters: UtilityMeter[];
+  meterReadings: MeterReading[];
+  continuityPlans: ContinuityPlan[];
+  continuityExercises: ContinuityExercise[];
+  // M23 stores
+  announcements: Announcement[];
+  messages: Message[];
+  deliveryAttempts: DeliveryAttempt[];
+  notificationPreferences: NotificationPreference[];
+  conversations: Conversation[];
+  conversationParticipants: ConversationParticipant[];
+  conversationMessages: ConversationMessage[];
+  workflowDefinitions: WorkflowDefinition[];
+  workflowInstances: WorkflowInstance[];
+  workflowTasks: WorkflowTask[];
+  workflowTransitions: WorkflowTransition[];
+  serviceCases: ServiceCase[];
+  caseActivities: CaseActivity[];
+  slaClocks: SlaClock[];
+  documentTemplates: DocumentTemplate[];
+  documentInstances: DocumentInstance[];
+  signatureRequests: SignatureRequest[];
+  recordDeclarations: RecordDeclaration[];
+  retentionAssignments: RetentionAssignment[];
+  // M24 stores
+  reportDefinitions: ReportDefinition[];
+  dashboards: Dashboard[];
+  dashboardWidgets: DashboardWidget[];
+  reportRuns: ReportRun[];
+  metricDefinitions: MetricDefinition[];
+  semanticDimensions: SemanticDimension[];
+  reportAccessPolicies: ReportAccessPolicy[];
+  reportCatalogEntries: ReportCatalogEntry[];
+  dataProducts: DataProduct[];
+  pipelineRuns: PipelineRun[];
+  dataQualityResults: DataQualityResult[];
+  modelVersions: ModelVersion[];
+  modelScores: ModelScore[];
 }
 
 export type StoreName = keyof DBSchema;

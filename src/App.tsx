@@ -146,6 +146,29 @@ import BoardRegistration from "@/pages/board-registration";
 import CareerGuidance from "@/pages/career-guidance";
 import SchoolLeaving from "@/pages/school-leaving";
 import Alumni from "@/pages/alumni";
+// M22 pages
+import WorkOrders from "@/pages/work-orders";
+import PreventiveMaintenance from "@/pages/preventive-maintenance";
+import RoomBooking from "@/pages/room-booking";
+import SafetyIncident from "@/pages/safety-incident";
+import VisitorKeyControl from "@/pages/visitor-key-control";
+import UtilitiesSustainability from "@/pages/utilities-sustainability";
+import BusinessContinuity from "@/pages/business-continuity";
+// M23 pages
+import NoticesAnnouncements from "@/pages/notices-announcements";
+import Conversations from "@/pages/conversations";
+import WorkflowDesigner from "@/pages/workflow-designer";
+import CaseManagement from "@/pages/case-management";
+import DocumentTemplates from "@/pages/document-templates";
+import ElectronicSignature from "@/pages/electronic-signature";
+import RecordsRetention from "@/pages/records-retention";
+import NotificationPreferences from "@/pages/notification-preferences";
+// M24 pages
+import OperationalReports from "@/pages/operational-reports";
+import ManagementDashboards from "@/pages/management-dashboards";
+import MetricLayer from "@/pages/metric-layer";
+import DataPipelines from "@/pages/data-pipelines";
+import AiModels from "@/pages/ai-models";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -342,6 +365,29 @@ export default function App() {
               <Route path="career-guidance" element={<CareerGuidance />} />
               <Route path="school-leaving" element={<SchoolLeaving />} />
               <Route path="alumni" element={<Alumni />} />
+              {/* M22 */}
+              <Route path="work-orders" element={<WorkOrders />} />
+              <Route path="preventive-maintenance" element={<PreventiveMaintenance />} />
+              <Route path="room-booking" element={<RoomBooking />} />
+              <Route path="safety-incidents" element={<SafetyIncident />} />
+              <Route path="visitor-key-control" element={<VisitorKeyControl />} />
+              <Route path="utilities" element={<UtilitiesSustainability />} />
+              <Route path="business-continuity" element={<BusinessContinuity />} />
+              {/* M23 */}
+              <Route path="notices" element={<NoticesAnnouncements />} />
+              <Route path="conversations" element={<Conversations />} />
+              <Route path="workflow-designer" element={<WorkflowDesigner />} />
+              <Route path="case-management" element={<CaseManagement />} />
+              <Route path="document-templates" element={<DocumentTemplates />} />
+              <Route path="electronic-signature" element={<ElectronicSignature />} />
+              <Route path="records-retention" element={<RecordsRetention />} />
+              <Route path="notification-preferences" element={<NotificationPreferences />} />
+              {/* M24 */}
+              <Route path="operational-reports" element={<OperationalReports />} />
+              <Route path="dashboards" element={<ManagementDashboards />} />
+              <Route path="metrics" element={<MetricLayer />} />
+              <Route path="data-pipelines" element={<DataPipelines />} />
+              <Route path="ai-models" element={<AiModels />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

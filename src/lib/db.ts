@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 16;
+const DB_VERSION = 18;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -248,6 +248,56 @@ function openDB(): Promise<IDBDatabase> {
         "migrationDocuments",
         "formerStudents",
         "alumniPreferences",
+        // M22 stores
+        "serviceRequests",
+        "workOrders",
+        "workOrderActivities",
+        "maintenancePlans",
+        "bookings",
+        "bookingAttendees",
+        "safetyIncidents",
+        "emergencyActions",
+        "visitorVisits",
+        "accessCredentials",
+        "keyIssues",
+        "utilityMeters",
+        "meterReadings",
+        "continuityPlans",
+        "continuityExercises",
+        // M23 stores
+        "announcements",
+        "messages",
+        "deliveryAttempts",
+        "notificationPreferences",
+        "conversations",
+        "conversationParticipants",
+        "conversationMessages",
+        "workflowDefinitions",
+        "workflowInstances",
+        "workflowTasks",
+        "workflowTransitions",
+        "serviceCases",
+        "caseActivities",
+        "slaClocks",
+        "documentTemplates",
+        "documentInstances",
+        "signatureRequests",
+        "recordDeclarations",
+        "retentionAssignments",
+        // M24 stores
+        "reportDefinitions",
+        "dashboards",
+        "dashboardWidgets",
+        "reportRuns",
+        "metricDefinitions",
+        "semanticDimensions",
+        "reportAccessPolicies",
+        "reportCatalogEntries",
+        "dataProducts",
+        "pipelineRuns",
+        "dataQualityResults",
+        "modelVersions",
+        "modelScores",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -338,6 +388,15 @@ const ALL_STORES: StoreName[] = [
   "subjectCombinationRules", "studentSubjectPlans", "boardRegistrations", "readinessChecks",
   "internalAssessmentSnapshots", "guidanceProfiles", "guidanceSessions", "externalApplications",
   "schoolExitCases", "migrationDocuments", "formerStudents", "alumniPreferences",
+  // M22 stores
+  "serviceRequests", "workOrders", "workOrderActivities", "maintenancePlans",
+  "bookings", "bookingAttendees", "safetyIncidents", "emergencyActions",
+  "visitorVisits", "accessCredentials", "keyIssues", "utilityMeters",
+  "meterReadings", "continuityPlans", "continuityExercises",
+  // M24 stores
+  "reportDefinitions", "dashboards", "dashboardWidgets", "reportRuns",
+  "metricDefinitions", "semanticDimensions", "reportAccessPolicies", "reportCatalogEntries",
+  "dataProducts", "pipelineRuns", "dataQualityResults", "modelVersions", "modelScores",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -399,6 +458,22 @@ async function ensureSeeded(): Promise<void> {
     "subjectCombinationRules", "studentSubjectPlans", "boardRegistrations", "readinessChecks",
     "internalAssessmentSnapshots", "guidanceProfiles", "guidanceSessions", "externalApplications",
     "schoolExitCases", "migrationDocuments", "formerStudents", "alumniPreferences",
+    // M22 stores
+    "serviceRequests", "workOrders", "workOrderActivities", "maintenancePlans",
+    "bookings", "bookingAttendees", "safetyIncidents", "emergencyActions",
+    "visitorVisits", "accessCredentials", "keyIssues", "utilityMeters",
+    "meterReadings",     "continuityPlans", "continuityExercises",
+    // M23 stores
+    "announcements", "messages", "deliveryAttempts", "notificationPreferences",
+    "conversations", "conversationParticipants", "conversationMessages",
+    "workflowDefinitions", "workflowInstances", "workflowTasks", "workflowTransitions",
+    "serviceCases", "caseActivities", "slaClocks",
+    "documentTemplates", "documentInstances", "signatureRequests",
+    "recordDeclarations", "retentionAssignments",
+    // M24 stores
+    "reportDefinitions", "dashboards", "dashboardWidgets", "reportRuns",
+    "metricDefinitions", "semanticDimensions", "reportAccessPolicies", "reportCatalogEntries",
+    "dataProducts", "pipelineRuns", "dataQualityResults", "modelVersions", "modelScores",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {

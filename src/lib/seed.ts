@@ -1395,6 +1395,306 @@ export function seedData() {
     { id: "fs-2", studentName: "Priya Tamang", studentRef: "stu-ext-2", completionYear: 2080, lastClass: "Class 12 Management", contactEmail: "priya.t@outlook.com", contactPhone: "+977-9851066666", status: "active", createdOn: "2024-04-01" },
   ];
 
+  // M24 — Analytics, Reporting & Decision Support
+  const reportDefinitions: DBSchema["reportDefinitions"] = [
+    { id: "rd-1", schoolId: "sch-1", name: "Student Performance Summary", code: "RPT-PERF-001", category: "academic", description: "Aggregated student performance by grade, section and subject for the current academic year", dataSource: "resultLines + assessments", query: "SELECT grade, section, subject, AVG(marks) FROM resultLines GROUP BY grade, section, subject", parameters: '{"term":"term-1","grade":"Class 10"}', format: "chart", tags: ["performance", "grades", "term"], status: "published", createdOn: "2026-01-15" },
+    { id: "rd-2", schoolId: "sch-1", name: "Fee Collection Tracker", code: "RPT-FEE-002", category: "finance", description: "Monthly fee collection vs target across all fee structures", dataSource: "payments + invoices + feeStructures", query: "SELECT month, SUM(amount) as collected FROM payments WHERE status='completed' GROUP BY month", parameters: '{"month":"2026-02"}', format: "kpi", tags: ["fees", "collection", "monthly"], status: "published", createdOn: "2026-02-01" },
+    { id: "rd-3", schoolId: "sch-1", name: "Staff Attendance Report", code: "RPT-HR-003", category: "hr", description: "Monthly staff attendance summary with late arrivals and absent days", dataSource: "staffProfiles + timeEntries", query: "SELECT staffName, month, COUNT(*) as daysPresent FROM timeEntries GROUP BY staffName, month", parameters: '{"month":"2026-02"}', format: "table", tags: ["staff", "attendance", "monthly"], status: "draft", createdOn: "2026-03-01" },
+  ];
+
+  const dashboards: DBSchema["dashboards"] = [
+    { id: "db-1", schoolId: "sch-1", name: "Principal Dashboard", code: "DASH-PRINCIPAL", description: "High-level KPIs and trends for school leadership", layout: "grid", isDefault: true, ownerRef: "staff-1", ownerName: "Rajesh Sharma", status: "published", createdOn: "2026-01-10" },
+    { id: "db-2", schoolId: "sch-1", name: "Academic Head Dashboard", code: "DASH-ACADEMIC", description: "Academic performance trends, class averages and teacher workload", layout: "grid", isDefault: false, ownerRef: "staff-2", ownerName: "Sunita Adhikari", status: "published", createdOn: "2026-01-20" },
+  ];
+
+  const dashboardWidgets: DBSchema["dashboardWidgets"] = [
+    { id: "dw-1", schoolId: "sch-1", dashboardId: "db-1", dashboardName: "Principal Dashboard", name: "Total Students", type: "kpi", reportId: "rd-1", reportName: "Student Performance Summary", config: '{"metric":"totalStudents","comparison":"lastYear"}', size: "small", positionX: 0, positionY: 0, refreshIntervalMins: 60, status: "active", createdOn: "2026-01-10" },
+    { id: "dw-2", schoolId: "sch-1", dashboardId: "db-1", dashboardName: "Principal Dashboard", name: "Fee Collection This Month", type: "kpi", reportId: "rd-2", reportName: "Fee Collection Tracker", config: '{"metric":"currentMonthCollection","currency":"NPR"}', size: "small", positionX: 1, positionY: 0, refreshIntervalMins: 60, status: "active", createdOn: "2026-01-10" },
+    { id: "dw-3", schoolId: "sch-1", dashboardId: "db-2", dashboardName: "Academic Head Dashboard", name: "Subject Averages", type: "chart", reportId: "rd-1", reportName: "Student Performance Summary", config: '{"chartType":"bar","axis":"subject","measure":"avgMarks"}', size: "large", positionX: 0, positionY: 1, refreshIntervalMins: 120, status: "active", createdOn: "2026-01-20" },
+  ];
+
+  const reportRuns: DBSchema["reportRuns"] = [
+    { id: "rr-1", schoolId: "sch-1", reportId: "rd-1", reportName: "Student Performance Summary", parameters: '{"term":"term-1","grade":"Class 10"}', requestedBy: "staff-1", startedAt: "2026-03-01T10:00:00Z", completedAt: "2026-03-01T10:02:15Z", rowCount: 245, fileSizeBytes: 52428, status: "completed", errorMessage: "", createdOn: "2026-03-01" },
+    { id: "rr-2", schoolId: "sch-1", reportId: "rd-2", reportName: "Fee Collection Tracker", parameters: '{"month":"2026-02"}', requestedBy: "staff-2", startedAt: "2026-03-01T11:00:00Z", completedAt: "2026-03-01T11:00:45Z", rowCount: 12, fileSizeBytes: 3072, status: "completed", errorMessage: "", createdOn: "2026-03-01" },
+    { id: "rr-3", schoolId: "sch-1", reportId: "rd-3", reportName: "Staff Attendance Report", parameters: '{"month":"2026-02"}', requestedBy: "staff-1", startedAt: "2026-03-02T09:00:00Z", completedAt: "", rowCount: 0, fileSizeBytes: 0, status: "running", errorMessage: "", createdOn: "2026-03-02" },
+  ];
+
+  const metricDefinitions: DBSchema["metricDefinitions"] = [
+    { id: "md-1", schoolId: "sch-1", name: "Enrolment Rate", code: "MET-ENR-001", description: "Percentage of admitted students vs total capacity across all grades", category: "student", dataSource: "enrolments + gradeClasses", formula: "SUM(enrolled) / SUM(capacity) * 100", aggregationType: "avg", frequency: "term", unit: "%", decimals: 1, status: "published", createdOn: "2026-01-15" },
+    { id: "md-2", schoolId: "sch-1", name: "Fee Recovery Rate", code: "MET-FEE-002", description: "Percentage of invoiced fees collected within due date", category: "finance", dataSource: "invoices + payments", formula: "SUM(paidAmount) / SUM(totalAmount) * 100", aggregationType: "avg", frequency: "monthly", unit: "%", decimals: 1, status: "published", createdOn: "2026-02-01" },
+    { id: "md-3", schoolId: "sch-1", name: "Student-Teacher Ratio", code: "MET-HR-003", description: "Average number of students per teacher across the school", category: "hr", dataSource: "students + staffProfiles", formula: "COUNT(students) / COUNT(activeTeachers)", aggregationType: "avg", frequency: "yearly", unit: "ratio", decimals: 1, status: "published", createdOn: "2026-01-01" },
+  ];
+
+  const semanticDimensions: DBSchema["semanticDimensions"] = [
+    { id: "sd-1", schoolId: "sch-1", name: "Academic Period", code: "DIM-PERIOD", type: "time", description: "Academic year and term hierarchy", sourceField: "academicYearRef", hierarchyLevels: "Year > Term > Month", isActive: true, createdOn: "2026-01-01" },
+    { id: "sd-2", schoolId: "sch-1", name: "Student Demographics", code: "DIM-DEMO", type: "demographic", description: "Gender, caste and category breakdown for students", sourceField: "studentRef", hierarchyLevels: "Gender > Category > SubCategory", isActive: true, createdOn: "2026-01-01" },
+  ];
+
+  const reportAccessPolicies: DBSchema["reportAccessPolicies"] = [
+    { id: "rap-1", schoolId: "sch-1", reportId: "rd-1", reportName: "Student Performance Summary", roleRef: "role-principal", roleName: "Principal", accessLevel: "admin", conditions: "", validFrom: "2026-01-01", validTo: "2026-12-31", status: "active", createdOn: "2026-01-10" },
+    { id: "rap-2", schoolId: "sch-1", reportId: "rd-2", reportName: "Fee Collection Tracker", roleRef: "role-accountant", roleName: "Accountant", accessLevel: "export", conditions: "Only own campus", validFrom: "2026-01-01", validTo: "2026-12-31", status: "active", createdOn: "2026-02-01" },
+  ];
+
+  const reportCatalogEntries: DBSchema["reportCatalogEntries"] = [
+    { id: "rce-1", schoolId: "sch-1", reportId: "rd-1", reportName: "Student Performance Summary", version: 1, description: "Initial version of student performance report with grade and subject averages", ownerRef: "staff-2", ownerName: "Sunita Adhikari", lineage: "resultLines → aggregations → chart", dependencies: "resultLines, assessments, gradeClasses", status: "listed", createdOn: "2026-01-15" },
+    { id: "rce-2", schoolId: "sch-1", reportId: "rd-2", reportName: "Fee Collection Tracker", version: 1, description: "Monthly collection KPI with trend comparison", ownerRef: "staff-3", ownerName: "Anita Rai", lineage: "payments → aggregations → kpi", dependencies: "payments, invoices, feeStructures", status: "listed", createdOn: "2026-02-01" },
+  ];
+
+  const dataProducts: DBSchema["dataProducts"] = [
+    { id: "dp-1", schoolId: "sch-1", name: "Academic Insights Package", code: "DP-ACAD-001", description: "Curated dataset for academic performance analysis including scores, attendance and teacher feedback", domain: "academic", ownerRef: "staff-2", ownerName: "Sunita Adhikari", refreshSchedule: "daily 02:00", sla: "99% uptime, < 5 min latency", status: "published", createdOn: "2026-02-01" },
+    { id: "dp-2", schoolId: "sch-1", name: "Financial Summary Package", code: "DP-FIN-002", description: "Aggregated financial data for budgeting, forecasting and cash-flow analysis", domain: "finance", ownerRef: "staff-3", ownerName: "Anita Rai", refreshSchedule: "weekly Sunday", sla: "99% uptime, < 1 hour latency", status: "draft", createdOn: "2026-03-01" },
+  ];
+
+  const pipelineRuns: DBSchema["pipelineRuns"] = [
+    { id: "pr-1", schoolId: "sch-1", pipelineId: "dp-1", pipelineName: "Academic Insights Package", type: "etl", trigger: "schedule", startedAt: "2026-03-01T02:00:00Z", completedAt: "2026-03-01T02:03:22Z", rowsRead: 12500, rowsWritten: 12480, rowsError: 20, bytesProcessed: 4194304, durationMs: 202000, status: "completed", errorMessage: "", createdOn: "2026-03-01" },
+    { id: "pr-2", schoolId: "sch-1", pipelineId: "dp-1", pipelineName: "Academic Insights Package", type: "etl", trigger: "schedule", startedAt: "2026-03-02T02:00:00Z", completedAt: "2026-03-02T02:04:10Z", rowsRead: 12650, rowsWritten: 12650, rowsError: 0, bytesProcessed: 4219904, durationMs: 250000, status: "completed", errorMessage: "", createdOn: "2026-03-02" },
+    { id: "pr-3", schoolId: "sch-1", pipelineId: "dp-2", pipelineName: "Financial Summary Package", type: "batch", trigger: "manual", startedAt: "2026-03-03T14:00:00Z", completedAt: "", rowsRead: 0, rowsWritten: 0, rowsError: 0, bytesProcessed: 0, durationMs: 0, status: "running", errorMessage: "", createdOn: "2026-03-03" },
+  ];
+
+  const dataQualityResults: DBSchema["dataQualityResults"] = [
+    { id: "dqr-1", schoolId: "sch-1", datasetRef: "dp-1", datasetName: "Academic Insights Package", dimension: "completeness", ruleName: "student_name_not_null", totalRows: 12500, passedRows: 12480, failedRows: 20, score: 0.9984, threshold: 0.99, status: "pass", executedAt: "2026-03-01T02:05:00Z", createdOn: "2026-03-01" },
+    { id: "dqr-2", schoolId: "sch-1", datasetRef: "dp-1", datasetName: "Academic Insights Package", dimension: "accuracy", ruleName: "marks_within_range", totalRows: 12500, passedRows: 12490, failedRows: 10, score: 0.9992, threshold: 0.995, status: "pass", executedAt: "2026-03-01T02:05:30Z", createdOn: "2026-03-01" },
+  ];
+
+  const modelVersions: DBSchema["modelVersions"] = [
+    { id: "mv-1", schoolId: "sch-1", modelName: "At-Risk Student Predictor", version: "1.0.0", type: "classification", description: "Predicts likelihood of student failing based on attendance, marks and engagement data", trainingDataRef: "dp-1", metrics: '{"accuracy":0.87,"precision":0.84,"recall":0.91,"f1":0.87}', artifacts: "model_v1.pkl", status: "deployed", createdOn: "2026-02-15" },
+    { id: "mv-2", schoolId: "sch-1", modelName: "At-Risk Student Predictor", version: "1.1.0", type: "classification", description: "Improved model with additional features: assignment submission rate, library usage", trainingDataRef: "dp-1", metrics: '{"accuracy":0.91,"precision":0.89,"recall":0.93,"f1":0.91}', artifacts: "model_v1_1.pkl", status: "ready", createdOn: "2026-03-01" },
+  ];
+
+  const modelScores: DBSchema["modelScores"] = [
+    { id: "ms-1", schoolId: "sch-1", modelId: "mv-1", modelName: "At-Risk Student Predictor", entityRef: "stu-3", entityType: "student", scoreValue: 0.72, confidence: 0.85, explanation: "Low attendance (68%), below-average marks in 2 of 5 subjects, no library usage in 30 days", scoredAt: "2026-03-01T06:00:00Z", status: "reviewed", createdOn: "2026-03-01" },
+    { id: "ms-2", schoolId: "sch-1", modelId: "mv-1", modelName: "At-Risk Student Predictor", entityRef: "stu-5", entityType: "student", scoreValue: 0.58, confidence: 0.78, explanation: "Moderate attendance (82%), slightly below average in Mathematics, regular library usage", scoredAt: "2026-03-01T06:00:00Z", status: "pending", createdOn: "2026-03-01" },
+    { id: "ms-3", schoolId: "sch-1", modelId: "mv-1", modelName: "At-Risk Student Predictor", entityRef: "stu-2", entityType: "student", scoreValue: 0.21, confidence: 0.92, explanation: "Good attendance (95%), above-average marks across all subjects, active library usage", scoredAt: "2026-03-01T06:00:00Z", status: "actioned", createdOn: "2026-03-01" },
+  ];
+
+  // ── M22 Facilities, Maintenance, Safety and Sustainability ────────────────
+
+  const serviceRequests: DBSchema["serviceRequests"] = [
+    { id: "sr-1", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Leaking pipe in Science Lab", description: "Water leak from ceiling pipe in Physics lab — near experimental setup area. Potential safety hazard.", category: "plumbing", priority: "high", requestedBy: "uid-5", requestedByName: "Manoj Rai", assignedTo: "uid-maint-1", assignedToName: "Hari Maintenance", location: "Science Lab — Room 302", roomRef: "r-302", reportedOn: "2026-08-25", resolvedOn: "", status: "in_progress", createdOn: "2026-08-25" },
+    { id: "sr-2", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "AC not working in Computer Lab", description: "Air conditioning unit making unusual noise and not cooling effectively.", category: "hvac", priority: "medium", requestedBy: "uid-6", requestedByName: "Nabin Joshi", assignedTo: "uid-maint-1", assignedToName: "Hari Maintenance", location: "Computer Lab — Room 205", roomRef: "r-205", reportedOn: "2026-08-20", resolvedOn: "2026-08-22", status: "resolved", createdOn: "2026-08-20" },
+    { id: "sr-3", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Broken window in Class 5A", description: "Window pane broken during recess — glass shards found on floor.", category: "carpentry", priority: "urgent", requestedBy: "uid-7", requestedByName: "Suman Kumar", assignedTo: "", assignedToName: "", location: "Class 5A — Room 115", roomRef: "r-115", reportedOn: "2026-08-28", resolvedOn: "", status: "open", createdOn: "2026-08-28" },
+  ];
+
+  const workOrders: DBSchema["workOrders"] = [
+    { id: "wo-1", tenantId: tenants[0]!.id, schoolId: "camp-main", serviceRequestId: "sr-1", serviceRequestTitle: "Leaking pipe in Science Lab", workOrderNo: "WO-2083-001", title: "Replace ceiling pipe in Physics Lab", description: "Replace corroded ceiling pipe to prevent further water damage to lab equipment.", assignedTo: "uid-maint-1", assignedToName: "Hari Maintenance", scheduledDate: "2026-08-30", completedDate: "", estimatedCost: 15000, actualCost: 0, status: "in_progress", createdOn: "2026-08-26" },
+    { id: "wo-2", tenantId: tenants[0]!.id, schoolId: "camp-main", serviceRequestId: "sr-2", serviceRequestTitle: "AC not working in Computer Lab", workOrderNo: "WO-2083-002", title: "Service AC unit — Computer Lab", description: "Clean filters, check refrigerant, and repair compressor noise.", assignedTo: "uid-maint-1", assignedToName: "Hari Maintenance", scheduledDate: "2026-08-21", completedDate: "2026-08-22", estimatedCost: 5000, actualCost: 3500, status: "completed", createdOn: "2026-08-20" },
+  ];
+
+  const workOrderActivities: DBSchema["workOrderActivities"] = [
+    { id: "woa-1", tenantId: tenants[0]!.id, schoolId: "camp-main", workOrderId: "wo-2", workOrderNo: "WO-2083-002", activityType: "inspection", description: "Inspected AC unit — dirty filters, low refrigerant", performedBy: "uid-maint-1", performedByName: "Hari Maintenance", startedAt: "2026-08-21T09:00:00", completedAt: "2026-08-21T10:30:00", partsUsed: "N/A", cost: 0, status: "completed", createdOn: "2026-08-21" },
+    { id: "woa-2", tenantId: tenants[0]!.id, schoolId: "camp-main", workOrderId: "wo-2", workOrderNo: "WO-2083-002", activityType: "repair", description: "Cleaned filters, topped up refrigerant, lubricated compressor", performedBy: "uid-maint-1", performedByName: "Hari Maintenance", startedAt: "2026-08-22T09:00:00", completedAt: "2026-08-22T12:00:00", partsUsed: "Refrigerant R-410A (1kg), Lubricant", cost: 3500, status: "completed", createdOn: "2026-08-22" },
+  ];
+
+  const maintenancePlans: DBSchema["maintenancePlans"] = [
+    { id: "mp-1", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Monthly Fire Extinguisher Check", description: "Inspect all fire extinguishers across campus — check pressure, seal, and accessibility.", assetType: "equipment", assetRef: "fe-system", assetName: "Fire Extinguisher System", frequency: "monthly", nextDueDate: "2026-09-15", lastCompletedDate: "2026-08-15", assignedTo: "uid-maint-1", assignedToName: "Hari Maintenance", estimatedCost: 2000, status: "active", createdOn: "2025-04-15" },
+    { id: "mp-2", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Quarterly Generator Service", description: "Service diesel generator — oil change, filter replacement, load test.", assetType: "equipment", assetRef: "gen-01", assetName: "Diesel Generator 50kVA", frequency: "quarterly", nextDueDate: "2026-10-01", lastCompletedDate: "2026-07-01", assignedTo: "uid-maint-2", assignedToName: "Rajan Electrician", estimatedCost: 25000, status: "active", createdOn: "2025-04-15" },
+  ];
+
+  const bookings: DBSchema["bookings"] = [
+    { id: "bk-1", tenantId: tenants[0]!.id, schoolId: "camp-main", venueName: "Main Auditorium", venueRef: "aud-1", bookedBy: "uid-2", bookedByName: "Ramesh Shrestha", purpose: "Annual Day Celebration — 2083", startDate: "2026-12-15", endDate: "2026-12-15", startTime: "09:00", endTime: "16:00", expectedAttendees: 500, actualAttendees: 0, setupRequired: "Stage decoration, sound system, seating arrangement", status: "confirmed", createdOn: "2026-08-01" },
+    { id: "bk-2", tenantId: tenants[0]!.id, schoolId: "camp-main", venueName: "Seminar Hall — Block B", venueRef: "sh-1", bookedBy: "uid-4", bookedByName: "Suresh Thapa", purpose: "PTM Session — Class 10", startDate: "2026-09-10", endDate: "2026-09-10", startTime: "10:00", endTime: "13:00", expectedAttendees: 40, actualAttendees: 0, setupRequired: "Projector, chairs, parent registration desk", status: "confirmed", createdOn: "2026-08-25" },
+  ];
+
+  const bookingAttendees: DBSchema["bookingAttendees"] = [
+    { id: "bka-1", tenantId: tenants[0]!.id, schoolId: "camp-main", bookingId: "bk-1", bookingTitle: "Annual Day Celebration — 2083", attendeeName: "Manoj Rai", attendeeRef: "uid-5", attendeeType: "staff", role: "Coordinator", status: "confirmed", createdOn: "2026-08-01" },
+    { id: "bka-2", tenantId: tenants[0]!.id, schoolId: "camp-main", bookingId: "bk-2", bookingTitle: "PTM Session — Class 10", attendeeName: "Hari Prasad Shrestha", attendeeRef: "grd-1", attendeeType: "parent", role: "Attendee", status: "confirmed", createdOn: "2026-08-25" },
+  ];
+
+  const safetyIncidents: DBSchema["safetyIncidents"] = [
+    { id: "si-1", tenantId: tenants[0]!.id, schoolId: "camp-main", incidentNo: "INC-2083-001", title: "Student slipped on wet floor", description: "Class 7 student slipped near water cooler area during lunch break. Minor bruise on left knee.", category: "injury", severity: "minor", location: "Canteen — Ground Floor", reportedBy: "uid-7", reportedByName: "Suman Kumar", reportedOn: "2026-08-20", occurredOn: "2026-08-20T12:15:00", witnesses: "Ram Bahadur Shrestha (Class 7 teacher)", injuredPersons: "Student — minor bruise, first aid administered", immediateActions: "First aid applied, parents notified, floor cleaned and caution sign placed", rootCause: "Water spill from cooler not cleaned promptly", status: "resolved", createdOn: "2026-08-20" },
+    { id: "si-2", tenantId: tenants[0]!.id, schoolId: "camp-main", incidentNo: "INC-2083-002", title: "Fire alarm triggered — false alarm", description: "Fire alarm activated in Block C at 10:30 AM. Investigation revealed overheated electrical panel.", category: "fire", severity: "moderate", location: "Block C — Electrical Panel Room", reportedBy: "uid-maint-2", reportedByName: "Rajan Electrician", reportedOn: "2026-08-22", occurredOn: "2026-08-22T10:30:00", witnesses: "3 staff members, 45 students evacuated", injuredPersons: "None", immediateActions: "Full evacuation completed, electrical panel isolated, maintenance called", rootCause: "Overloaded circuit in Block C electrical panel — aging wiring", status: "investigating", createdOn: "2026-08-22" },
+  ];
+
+  const emergencyActions: DBSchema["emergencyActions"] = [
+    { id: "ea-1", tenantId: tenants[0]!.id, schoolId: "camp-main", incidentId: "si-2", incidentNo: "INC-2083-002", actionType: "evacuation", description: "Full building evacuation — all blocks. Students assembled at ground assembly point.", performedBy: "uid-2", performedByName: "Ramesh Shrestha", startedAt: "2026-08-22T10:31:00", completedAt: "2026-08-22T10:45:00", outcome: "All 487 students and 52 staff evacuated safely. Headcount verified in 14 minutes.", status: "completed", createdOn: "2026-08-22" },
+  ];
+
+  const visitorVisits: DBSchema["visitorVisits"] = [
+    { id: "vv-1", tenantId: tenants[0]!.id, schoolId: "camp-main", visitorName: "Dipak Sharma", visitorPhone: "+977-9841012345", visitorIdType: "citizenship", visitorIdNo: "12-01-76-054321", purpose: "Parent-Teacher Meeting — Aarav Sharma (Class 11)", hostName: "Manoj Rai", hostRef: "uid-5", vehicleNo: "BA 1 KHA 2345", checkInTime: "2026-08-20T10:00:00", checkOutTime: "2026-08-20T11:30:00", status: "checked_out", createdOn: "2026-08-20" },
+    { id: "vv-2", tenantId: tenants[0]!.id, schoolId: "camp-main", visitorName: "Prakash Bhandari", visitorPhone: "+977-9812345678", visitorIdType: "citizenship", visitorIdNo: "12-02-85-098765", purpose: "Fee payment enquiry — Kiran Bhandari (Class 1)", hostName: "Finance Office", hostRef: "finance-1", vehicleNo: "BA 2 PA 5678", checkInTime: "2026-08-25T09:15:00", checkOutTime: "2026-08-25T09:45:00", status: "checked_out", createdOn: "2026-08-25" },
+  ];
+
+  const accessCredentials: DBSchema["accessCredentials"] = [
+    { id: "ac-1", tenantId: tenants[0]!.id, schoolId: "camp-main", holderName: "Ramesh Shrestha", holderRef: "uid-2", holderType: "staff", credentialType: "rfid", credentialCode: "RFID-ADMIN-001", validFrom: "2025-04-15", validUntil: "2027-04-14", accessZones: "All zones — Full access", status: "active", createdOn: "2025-04-15" },
+    { id: "ac-2", tenantId: tenants[0]!.id, schoolId: "camp-main", holderName: "Ram Bahadur Shrestha", holderRef: "stu-1", holderType: "student", credentialType: "rfid", credentialCode: "RFID-STU-001", validFrom: "2025-04-15", validUntil: "2026-04-14", accessZones: "Main gate, Library, Computer Lab", status: "active", createdOn: "2025-05-01" },
+  ];
+
+  const keyIssues: DBSchema["keyIssues"] = [
+    { id: "ki-1", tenantId: tenants[0]!.id, schoolId: "camp-main", keyNo: "KEY-302", keyType: "room", location: "Science Lab — Room 302", locationRef: "r-302", issuedTo: "Manoj Rai", issuedToName: "Manoj Rai", issuedToType: "staff", issuedDate: "2025-04-15", returnedDate: "", conditionAtIssue: "Good — new key", conditionAtReturn: "", status: "issued", createdOn: "2025-04-15" },
+    { id: "ki-2", tenantId: tenants[0]!.id, schoolId: "camp-main", keyNo: "KEY-GATE-01", keyType: "gate", location: "Main Gate", locationRef: "gate-main", issuedTo: "uid-security-1", issuedToName: "Ram Security", issuedToType: "staff", issuedDate: "2025-04-15", returnedDate: "", conditionAtIssue: "Good", conditionAtReturn: "", status: "issued", createdOn: "2025-04-15" },
+  ];
+
+  const utilityMeters: DBSchema["utilityMeters"] = [
+    { id: "um-1", tenantId: tenants[0]!.id, schoolId: "camp-main", meterNo: "ELEC-BLOCK-A-001", utilityType: "electricity", location: "Block A — Main Panel", installedOn: "2024-01-15", lastReadingValue: 125680, lastReadingDate: "2026-08-01", unit: "kWh", provider: "NEA — Nepal Electricity Authority", status: "active", createdOn: "2024-01-15" },
+    { id: "um-2", tenantId: tenants[0]!.id, schoolId: "camp-main", meterNo: "WATER-MAIN-001", utilityType: "water", location: "Main water supply point", installedOn: "2024-01-15", lastReadingValue: 8450, lastReadingDate: "2026-08-01", unit: "cubic metres", provider: "Kathmandu Upatyaka Khanepani Ltd", status: "active", createdOn: "2024-01-15" },
+  ];
+
+  const meterReadings: DBSchema["meterReadings"] = [
+    { id: "mr-1", tenantId: tenants[0]!.id, schoolId: "camp-main", meterId: "um-1", meterNo: "ELEC-BLOCK-A-001", utilityType: "electricity", readingValue: 125680, readingDate: "2026-08-01", previousValue: 122340, consumption: 3340, readBy: "uid-maint-1", readByName: "Hari Maintenance", notes: "Monthly reading — summer usage higher due to fans", createdOn: "2026-08-01" },
+    { id: "mr-2", tenantId: tenants[0]!.id, schoolId: "camp-main", meterId: "um-2", meterNo: "WATER-MAIN-001", utilityType: "water", readingValue: 8450, readingDate: "2026-08-01", previousValue: 8120, consumption: 330, readBy: "uid-maint-1", readByName: "Hari Maintenance", notes: "Normal consumption — no leaks detected", createdOn: "2026-08-01" },
+  ];
+
+  const continuityPlans: DBSchema["continuityPlans"] = [
+    { id: "cp-1", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Earthquake Emergency Response Plan", description: "Comprehensive plan for earthquake response — covers evacuation, communication, first aid, and recovery procedures.", planType: "emergency", scope: "All campus buildings — Baneshwor Main Campus", objectives: "Ensure zero casualties, minimize property damage, restore operations within 48 hours", contactList: "Ramesh Shrestha (Principal): 9841000001, Hari Maintenance: 9841000002, Red Cross Nepal: 1130", procedures: "1. Drop-Cover-Hold 2. Evacuate to assembly point 3. Headcount 4. First aid 5. Damage assessment 6. Communication", lastTestedDate: "2026-03-15", nextTestDate: "2026-09-15", version: 3, status: "active", createdOn: "2025-04-15" },
+  ];
+
+  const continuityExercises: DBSchema["continuityExercises"] = [
+    { id: "ce-1", tenantId: tenants[0]!.id, schoolId: "camp-main", planId: "cp-1", planTitle: "Earthquake Emergency Response Plan", exerciseName: "Earthquake Drill — Falgun 2082", exerciseType: "full_scale", scheduledDate: "2026-03-15", completedDate: "2026-03-15", participants: 539, observedBy: "Disaster Management Committee", observedByName: "Laxmi Poudel", findings: "Evacuation completed in 4 minutes 32 seconds — target was 5 minutes. Two students had minor injuries during evacuation.", recommendations: "Mark additional exit signs in Block B. Brief class 1 students on earthquake drill procedure separately.", status: "completed", createdOn: "2026-03-15" },
+  ];
+
+  // ── M23 Communication, Workflow and Documents ──────────────────────────────
+  const announcements: DBSchema["announcements"] = [
+    { id: "ann-1", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Dashain Holiday Schedule 2082", content: "School will remain closed from Ashwin 26 to Kartik 6 for Dashain vacation. Classes resume on Kartik 7.", audienceQuery: "all", publishAt: "2026-09-01", status: "published" },
+    { id: "ann-2", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Annual Sports Day — Mangsir 2082", content: "Annual sports day will be held on Mangsir 15. All students must report by 7:30 AM in house uniforms.", audienceQuery: "all", publishAt: "2026-10-15", status: "draft" },
+    { id: "ann-3", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Parent-Teacher Meeting — Asar 2082", content: "PTM scheduled for Asar 20 from 10:00 AM to 1:00 PM. Parents of students with upcoming board exams are strongly encouraged to attend.", audienceQuery: "parents", publishAt: "2026-06-10", status: "published" },
+    { id: "ann-4", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Staff Meeting — Baisakh 2082", content: "Mandatory staff meeting on Baisak 5 at 3:00 PM in the conference hall. Agenda: new curriculum implementation and exam scheduling.", audienceQuery: "staff", publishAt: "2026-04-01", status: "published" },
+    { id: "ann-5", tenantId: tenants[0]!.id, schoolId: "camp-main", title: "Library Book Return Reminder", content: "All borrowed library books must be returned by Chaitra 25. Late fees will apply as per library policy.", audienceQuery: "students", publishAt: "2026-03-20", status: "published" },
+  ];
+
+  const messages: DBSchema["messages"] = [
+    { id: "msg-1", tenantId: tenants[0]!.id, schoolId: "camp-main", templateRef: "tpl-fees", recipientRef: "stu-001", channel: "sms", status: "sent", content: "Dear Parent, fees for Chaitra 2082 have been published. Amount due: NPR 12,500. Due date: Chaitra 15." },
+    { id: "msg-2", tenantId: tenants[0]!.id, schoolId: "camp-main", templateRef: "tpl-attendance", recipientRef: "stu-002", channel: "email", status: "sent", content: "Absence alert: Aarav Sharma was absent on 2082-12-10. Please contact the class teacher if this was not expected." },
+    { id: "msg-3", tenantId: tenants[0]!.id, schoolId: "camp-main", templateRef: "tpl-event", recipientRef: "stu-003", channel: "sms", status: "pending", content: "Reminder: Annual sports day on Mangsir 15. Students must bring house uniforms and water bottles." },
+    { id: "msg-4", tenantId: tenants[0]!.id, schoolId: "camp-main", templateRef: "tpl-result", recipientRef: "stu-004", channel: "email", status: "sent", content: "Your mid-term results for class 10 have been published. Log in to the portal to view your marksheet." },
+    { id: "msg-5", tenantId: tenants[0]!.id, schoolId: "camp-main", templateRef: "tpl-exam", recipientRef: "stu-005", channel: "sms", status: "failed", content: "Board exam centre allocation has been published. Please check your admit card for room and seat details." },
+  ];
+
+  const deliveryAttempts: DBSchema["deliveryAttempts"] = [
+    { id: "da-1", tenantId: tenants[0]!.id, schoolId: "camp-main", messageId: "msg-1", provider: "bulksms-nepal", attemptedAt: "2026-03-01T10:05:00", outcome: "delivered" },
+    { id: "da-2", tenantId: tenants[0]!.id, schoolId: "camp-main", messageId: "msg-2", provider: "smtp-relay", attemptedAt: "2026-03-02T14:12:00", outcome: "delivered" },
+    { id: "da-3", tenantId: tenants[0]!.id, schoolId: "camp-main", messageId: "msg-3", provider: "bulksms-nepal", attemptedAt: "2026-03-03T09:00:00", outcome: "queued" },
+    { id: "da-4", tenantId: tenants[0]!.id, schoolId: "camp-main", messageId: "msg-4", provider: "smtp-relay", attemptedAt: "2026-03-04T11:30:00", outcome: "delivered" },
+    { id: "da-5", tenantId: tenants[0]!.id, schoolId: "camp-main", messageId: "msg-5", provider: "bulksms-nepal", attemptedAt: "2026-03-05T08:45:00", outcome: "bounced" },
+  ];
+
+  const notificationPreferences: DBSchema["notificationPreferences"] = [
+    { id: "np-1", tenantId: tenants[0]!.id, schoolId: "camp-main", subjectRef: "stu-001", purpose: "fees", channel: "sms", status: "active" },
+    { id: "np-2", tenantId: tenants[0]!.id, schoolId: "camp-main", subjectRef: "stu-002", purpose: "attendance", channel: "email", status: "active" },
+    { id: "np-3", tenantId: tenants[0]!.id, schoolId: "camp-main", subjectRef: "stu-003", purpose: "events", channel: "sms", status: "active" },
+    { id: "np-4", tenantId: tenants[0]!.id, schoolId: "camp-main", subjectRef: "stu-004", purpose: "results", channel: "email", status: "active" },
+    { id: "np-5", tenantId: tenants[0]!.id, schoolId: "camp-main", subjectRef: "stu-005", purpose: "exams", channel: "sms", status: "inactive" },
+  ];
+
+  const conversations: DBSchema["conversations"] = [
+    { id: "conv-1", tenantId: tenants[0]!.id, schoolId: "camp-main", contextRef: "case-001", type: "case", status: "active", subject: "Fee waiver request for Sita Thapa" },
+    { id: "conv-2", tenantId: tenants[0]!.id, schoolId: "camp-main", contextRef: "maint-001", type: "ticket", status: "active", subject: "Broken window in Room 12 — Block B" },
+    { id: "conv-3", tenantId: tenants[0]!.id, schoolId: "camp-main", contextRef: "leave-001", type: "approval", status: "closed", subject: "Leave request for Ram Bahadur" },
+    { id: "conv-4", tenantId: tenants[0]!.id, schoolId: "camp-main", contextRef: "exam-001", type: "academic", status: "active", subject: "Recheck request — Science paper class 10" },
+    { id: "conv-5", tenantId: tenants[0]!.id, schoolId: "camp-main", contextRef: "transport-001", type: "transport", status: "resolved", subject: "Route 5 bus delay complaint" },
+  ];
+
+  const conversationParticipants: DBSchema["conversationParticipants"] = [
+    { id: "cp-1", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-1", subjectRef: "parent-001", role: "participant", joinedAt: "2026-03-01T10:00:00" },
+    { id: "cp-2", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-1", subjectRef: "staff-001", role: "moderator", joinedAt: "2026-03-01T10:05:00" },
+    { id: "cp-3", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-2", subjectRef: "staff-002", role: "participant", joinedAt: "2026-03-02T08:00:00" },
+    { id: "cp-4", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-3", subjectRef: "staff-003", role: "participant", joinedAt: "2026-03-03T09:00:00" },
+    { id: "cp-5", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-4", subjectRef: "stu-010", role: "participant", joinedAt: "2026-03-04T11:00:00" },
+  ];
+
+  const conversationMessages: DBSchema["conversationMessages"] = [
+    { id: "cm-1", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-1", senderRef: "parent-001", sentAt: "2026-03-01T10:02:00", content: "My daughter Sita needs a fee waiver for this term due to our financial situation." },
+    { id: "cm-2", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-1", senderRef: "staff-001", sentAt: "2026-03-01T10:10:00", content: "We understand. Please submit an income certificate and we will review your application within 5 working days." },
+    { id: "cm-3", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-2", senderRef: "staff-002", sentAt: "2026-03-02T08:05:00", content: "Window in Room 12 (Block B) was broken during the football game. Need immediate repair." },
+    { id: "cm-4", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-3", senderRef: "staff-003", sentAt: "2026-03-03T09:02:00", content: "Requesting 3 days leave from Baisakh 10 to Baisakh 12 for family function." },
+    { id: "cm-5", tenantId: tenants[0]!.id, schoolId: "camp-main", conversationId: "conv-4", senderRef: "stu-010", sentAt: "2026-03-04T11:05:00", content: "I believe my Science marks are incorrect. I attempted all questions and should have scored higher." },
+  ];
+
+  const workflowDefinitions: DBSchema["workflowDefinitions"] = [
+    { id: "wf-1", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "WF-LEAVE", name: "Leave Request Approval", version: 1, status: "active", configuration: JSON.stringify({ states: ["draft", "pending_hod", "pending_principal", "approved", "rejected"], transitions: ["submit", "approve_hod", "approve_principal", "reject"] }) },
+    { id: "wf-2", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "WF-FEE-WAIVER", name: "Fee Waiver Application", version: 1, status: "active", configuration: JSON.stringify({ states: ["draft", "pending_accounts", "pending_principal", "approved", "rejected"], transitions: ["submit", "review_accounts", "approve", "reject"] }) },
+    { id: "wf-3", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "WF-TC", name: "Transfer Certificate Issuance", version: 1, status: "active", configuration: JSON.stringify({ states: ["draft", "pending_clr", "pending_accounts", "pending_principal", "issued"], transitions: ["submit", "clear_dues", "verify_fees", "sign", "issue"] }) },
+    { id: "wf-4", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "WF-ADMISSION", name: "New Admission Processing", version: 1, status: "active", configuration: JSON.stringify({ states: ["enquiry", "applied", "shortlisted", "offered", "enrolled"], transitions: ["apply", "shortlist", "offer", "accept", "reject"] }) },
+    { id: "wf-5", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "WF-MAINT", name: "Maintenance Work Order", version: 1, status: "active", configuration: JSON.stringify({ states: ["requested", "approved", "in_progress", "completed", "verified"], transitions: ["approve", "start", "complete", "verify", "reject"] }) },
+  ];
+
+  const workflowInstances: DBSchema["workflowInstances"] = [
+    { id: "wi-1", tenantId: tenants[0]!.id, schoolId: "camp-main", definitionId: "wf-1", businessRef: "leave-001", state: "pending_hod", status: "active" },
+    { id: "wi-2", tenantId: tenants[0]!.id, schoolId: "camp-main", definitionId: "wf-1", businessRef: "leave-002", state: "approved", status: "completed" },
+    { id: "wi-3", tenantId: tenants[0]!.id, schoolId: "camp-main", definitionId: "wf-2", businessRef: "fw-001", state: "pending_accounts", status: "active" },
+    { id: "wi-4", tenantId: tenants[0]!.id, schoolId: "camp-main", definitionId: "wf-3", businessRef: "tc-001", state: "pending_principal", status: "active" },
+    { id: "wi-5", tenantId: tenants[0]!.id, schoolId: "camp-main", definitionId: "wf-5", businessRef: "maint-001", state: "in_progress", status: "active" },
+  ];
+
+  const workflowTasks: DBSchema["workflowTasks"] = [
+    { id: "wt-1", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-1", assigneeRole: "hod", dueAt: "2026-03-05", status: "pending", name: "Review and forward leave request" },
+    { id: "wt-2", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-3", assigneeRole: "accounts", dueAt: "2026-03-06", status: "pending", name: "Verify fee waiver eligibility" },
+    { id: "wt-3", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-4", assigneeRole: "principal", dueAt: "2026-03-07", status: "pending", name: "Sign transfer certificate" },
+    { id: "wt-4", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-5", assigneeRole: "maintenance", dueAt: "2026-03-04", status: "completed", name: "Repair broken window — Room 12" },
+    { id: "wt-5", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-2", assigneeRole: "hod", dueAt: "2026-02-28", status: "completed", name: "Review and forward leave request" },
+  ];
+
+  const workflowTransitions: DBSchema["workflowTransitions"] = [
+    { id: "wtr-1", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-1", fromState: "draft", toState: "pending_hod", actorRef: "staff-003", occurredAt: "2026-03-03T09:10:00" },
+    { id: "wtr-2", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-2", fromState: "draft", toState: "pending_hod", actorRef: "staff-004", occurredAt: "2026-02-25T10:00:00" },
+    { id: "wtr-3", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-2", fromState: "pending_hod", toState: "approved", actorRef: "staff-001", occurredAt: "2026-02-26T14:00:00" },
+    { id: "wtr-4", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-3", fromState: "draft", toState: "pending_accounts", actorRef: "parent-001", occurredAt: "2026-03-01T11:00:00" },
+    { id: "wtr-5", tenantId: tenants[0]!.id, schoolId: "camp-main", instanceId: "wi-4", fromState: "pending_accounts", toState: "pending_principal", actorRef: "staff-005", occurredAt: "2026-03-04T16:00:00" },
+  ];
+
+  const serviceCases: DBSchema["serviceCases"] = [
+    { id: "sc-1", tenantId: tenants[0]!.id, schoolId: "camp-main", name: "Fee waiver application — Sita Thapa", category: "finance", requesterRef: "parent-001", priority: "medium", status: "open" },
+    { id: "sc-2", tenantId: tenants[0]!.id, schoolId: "camp-main", name: "Broken window repair — Room 12", category: "maintenance", requesterRef: "staff-002", priority: "high", status: "in_progress" },
+    { id: "sc-3", tenantId: tenants[0]!.id, schoolId: "camp-main", name: "Transfer certificate request — Anil Kumar", category: "academic", requesterRef: "stu-020", priority: "medium", status: "open" },
+    { id: "sc-4", tenantId: tenants[0]!.id, schoolId: "camp-main", name: "Bus route 5 delay complaint", category: "transport", requesterRef: "parent-005", priority: "low", status: "resolved" },
+    { id: "sc-5", tenantId: tenants[0]!.id, schoolId: "camp-main", name: "Science paper recheck — Class 10", category: "examination", requesterRef: "stu-010", priority: "high", status: "open" },
+  ];
+
+  const caseActivities: DBSchema["caseActivities"] = [
+    { id: "ca-1", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-1", type: "note", occurredAt: "2026-03-01T10:15:00", name: "Application received", status: "completed" },
+    { id: "ca-2", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-1", type: "task", occurredAt: "2026-03-01T10:20:00", name: "Request income certificate from parent", status: "completed" },
+    { id: "ca-3", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-2", type: "note", occurredAt: "2026-03-02T08:10:00", name: "Maintenance team dispatched", status: "completed" },
+    { id: "ca-4", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-5", type: "task", occurredAt: "2026-03-04T11:10:00", name: "Forward to examination committee", status: "pending" },
+    { id: "ca-5", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-3", type: "note", occurredAt: "2026-03-05T09:00:00", name: "Dues verification initiated", status: "in_progress" },
+  ];
+
+  const slaClocks: DBSchema["slaClocks"] = [
+    { id: "sla-1", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-1", metric: "first_response", dueAt: "2026-03-02T10:15:00", pausedDuration: "0" },
+    { id: "sla-2", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-2", metric: "resolution", dueAt: "2026-03-05T08:10:00", pausedDuration: "0" },
+    { id: "sla-3", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-5", metric: "first_response", dueAt: "2026-03-05T11:10:00", pausedDuration: "0" },
+    { id: "sla-4", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-3", metric: "resolution", dueAt: "2026-03-12T09:00:00", pausedDuration: "0" },
+    { id: "sla-5", tenantId: tenants[0]!.id, schoolId: "camp-main", caseId: "sc-4", metric: "resolution", dueAt: "2026-03-04T08:10:00", pausedDuration: "0" },
+  ];
+
+  const documentTemplates: DBSchema["documentTemplates"] = [
+    { id: "dt-1", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "TPL-TC", name: "Transfer Certificate", version: 1, locale: "ne", status: "active", configuration: JSON.stringify({ fields: ["student_name", "guardian_name", "class", "section", "admission_date", "leaving_date", "reason"], format: "a4_portrait" }) },
+    { id: "dt-2", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "TPL-CC", name: "Character Certificate", version: 1, locale: "ne", status: "active", configuration: JSON.stringify({ fields: ["student_name", "class", "section", "period_from", "period_to"], format: "a4_portrait" }) },
+    { id: "dt-3", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "TPL-MARKSHEET", name: "Exam Marksheet", version: 2, locale: "ne", status: "active", configuration: JSON.stringify({ fields: ["student_name", "class", "section", "exam", "subjects", "total_marks", "grade"], format: "a4_landscape" }) },
+    { id: "dt-4", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "TPL-ADM", name: "Admission Form", version: 1, locale: "en", status: "active", configuration: JSON.stringify({ fields: ["student_name", "dob", "guardian_name", "address", "previous_school", "grade_applied"], format: "a4_portrait" }) },
+    { id: "dt-5", tenantId: tenants[0]!.id, schoolId: "camp-main", code: "TPL-FEE", name: "Fee Receipt", version: 1, locale: "ne", status: "active", configuration: JSON.stringify({ fields: ["student_name", "class", "amount", "payment_date", "receipt_no", "payment_mode"], format: "a5_portrait" }) },
+  ];
+
+  const documentInstances: DBSchema["documentInstances"] = [
+    { id: "di-1", tenantId: tenants[0]!.id, schoolId: "camp-main", templateId: "dt-1", businessRef: "tc-001", contentHash: "sha256-a1b2c3", objectRef: "/docs/tc/tc-001.pdf" },
+    { id: "di-2", tenantId: tenants[0]!.id, schoolId: "camp-main", templateId: "dt-3", businessRef: "exam-001", contentHash: "sha256-d4e5f6", objectRef: "/docs/marksheet/exam-001.pdf" },
+    { id: "di-3", tenantId: tenants[0]!.id, schoolId: "camp-main", templateId: "dt-4", businessRef: "app-001", contentHash: "sha256-g7h8i9", objectRef: "/docs/admission/app-001.pdf" },
+    { id: "di-4", tenantId: tenants[0]!.id, schoolId: "camp-main", templateId: "dt-5", businessRef: "pay-001", contentHash: "sha256-j0k1l2", objectRef: "/docs/fee/pay-001.pdf" },
+    { id: "di-5", tenantId: tenants[0]!.id, schoolId: "camp-main", templateId: "dt-2", businessRef: "cc-001", contentHash: "sha256-m3n4o5", objectRef: "/docs/char-cert/cc-001.pdf" },
+  ];
+
+  const signatureRequests: DBSchema["signatureRequests"] = [
+    { id: "sr-1", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-1", signerRef: "staff-001", status: "pending" },
+    { id: "sr-2", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-2", signerRef: "staff-005", status: "signed" },
+    { id: "sr-3", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-3", signerRef: "staff-001", status: "signed" },
+    { id: "sr-4", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-4", signerRef: "staff-006", status: "pending" },
+    { id: "sr-5", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-5", signerRef: "staff-001", status: "declined" },
+  ];
+
+  const recordDeclarations: DBSchema["recordDeclarations"] = [
+    { id: "rd-1", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-1", classification: "confidential", declaredAt: "2026-03-01" },
+    { id: "rd-2", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-2", classification: "internal", declaredAt: "2026-03-02" },
+    { id: "rd-3", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-3", classification: "public", declaredAt: "2026-03-03" },
+    { id: "rd-4", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-4", classification: "confidential", declaredAt: "2026-03-04" },
+    { id: "rd-5", tenantId: tenants[0]!.id, schoolId: "camp-main", documentId: "di-5", classification: "internal", declaredAt: "2026-03-05" },
+  ];
+
+  const retentionAssignments: DBSchema["retentionAssignments"] = [
+    { id: "ra-1", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-1", scheduleRef: "ret-5yr", dispositionAt: "2031-03-01" },
+    { id: "ra-2", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-2", scheduleRef: "ret-3yr", dispositionAt: "2029-03-02" },
+    { id: "ra-3", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-3", scheduleRef: "ret-1yr", dispositionAt: "2027-03-03" },
+    { id: "ra-4", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-4", scheduleRef: "ret-5yr", dispositionAt: "2031-03-04" },
+    { id: "ra-5", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-5", scheduleRef: "ret-3yr", dispositionAt: "2029-03-05" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -1454,5 +1754,21 @@ export function seedData() {
     // M21
     subjectCombinationRules, studentSubjectPlans, boardRegistrations,
     guidanceProfiles, externalApplications, schoolExitCases, formerStudents,
+    // M22
+    serviceRequests, workOrders, workOrderActivities, maintenancePlans,
+    bookings, bookingAttendees, safetyIncidents, emergencyActions,
+    visitorVisits, accessCredentials, keyIssues, utilityMeters,
+    meterReadings, continuityPlans, continuityExercises,
+    // M23
+    announcements, messages, deliveryAttempts, notificationPreferences,
+    conversations, conversationParticipants, conversationMessages,
+    workflowDefinitions, workflowInstances, workflowTasks, workflowTransitions,
+    serviceCases, caseActivities, slaClocks,
+    documentTemplates, documentInstances, signatureRequests,
+    recordDeclarations, retentionAssignments,
+    // M24
+    reportDefinitions, dashboards, dashboardWidgets, reportRuns,
+    metricDefinitions, semanticDimensions, reportAccessPolicies, reportCatalogEntries,
+    dataProducts, pipelineRuns, dataQualityResults, modelVersions, modelScores,
   };
 }
