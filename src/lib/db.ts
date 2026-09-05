@@ -3,7 +3,7 @@ import type { DBSchema, StoreName } from "./types";
 import { seedData } from "./seed";
 
 const DB_NAME = "shikshya-erp-m01";
-const DB_VERSION = 18;
+const DB_VERSION = 19;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -298,6 +298,30 @@ function openDB(): Promise<IDBDatabase> {
         "dataQualityResults",
         "modelVersions",
         "modelScores",
+        // M04.02 stores
+        "counselingSessions", "followUps",
+        // M10 stores
+        "courseSpaces", "courseRosters", "courseContents", "learningResources",
+        "assignments", "submissions", "quizzes", "quizAttempts",
+        "discussions", "discussionPosts", "learningMetrics", "interventionAlerts",
+        "ltiTools", "contentImports",
+        // M14 stores
+        "vendors", "vendorDocuments", "purchaseRequisitions", "requisitionItems",
+        "rfqs", "bidComparisons", "purchaseOrders", "poItems",
+        "goodsReceipts", "qualityInspections", "contracts", "contractRenewals",
+        "supplierScores", "slaTrackings",
+        // M15 stores
+        "items", "stores", "warehouses", "stockEntries", "stockLedgers",
+        "physicalCounts", "varianceReports", "fixedAssets", "assetCategories",
+        "assetTransfers", "custodyRecords", "depreciationSchedules", "impairments",
+        "assetMaintenances", "disposals",
+        // M18 stores
+        "residenceBlocks", "roomTypes", "hostelApplications", "roomAllocations",
+        "rollCalls", "residenceIncidents", "mealPlans", "messManagement",
+        "posModules", "prepaidWallets",
+        // M24 analytics stores
+        "studentAnalytics", "cohortAnalysis", "financeAnalytics", "workforceAnalytics",
+        "reportBuilders", "reportSchedules",
       ];
       stores.forEach((s) => {
         if (!db.objectStoreNames.contains(s)) db.createObjectStore(s, { keyPath: "id" });
@@ -397,6 +421,30 @@ const ALL_STORES: StoreName[] = [
   "reportDefinitions", "dashboards", "dashboardWidgets", "reportRuns",
   "metricDefinitions", "semanticDimensions", "reportAccessPolicies", "reportCatalogEntries",
   "dataProducts", "pipelineRuns", "dataQualityResults", "modelVersions", "modelScores",
+  // M04.02 stores
+  "counselingSessions", "followUps",
+  // M10 stores
+  "courseSpaces", "courseRosters", "courseContents", "learningResources",
+  "assignments", "submissions", "quizzes", "quizAttempts",
+  "discussions", "discussionPosts", "learningMetrics", "interventionAlerts",
+  "ltiTools", "contentImports",
+  // M14 stores
+  "vendors", "vendorDocuments", "purchaseRequisitions", "requisitionItems",
+  "rfqs", "bidComparisons", "purchaseOrders", "poItems",
+  "goodsReceipts", "qualityInspections", "contracts", "contractRenewals",
+  "supplierScores", "slaTrackings",
+  // M15 stores
+  "items", "stores", "warehouses", "stockEntries", "stockLedgers",
+  "physicalCounts", "varianceReports", "fixedAssets", "assetCategories",
+  "assetTransfers", "custodyRecords", "depreciationSchedules", "impairments",
+  "assetMaintenances", "disposals",
+  // M18 stores
+  "residenceBlocks", "roomTypes", "hostelApplications", "roomAllocations",
+  "rollCalls", "residenceIncidents", "mealPlans", "messManagement",
+  "posModules", "prepaidWallets",
+  // M24 analytics stores
+  "studentAnalytics", "cohortAnalysis", "financeAnalytics", "workforceAnalytics",
+  "reportBuilders", "reportSchedules",
 ];
 
 async function ensureSeeded(): Promise<void> {
@@ -474,6 +522,30 @@ async function ensureSeeded(): Promise<void> {
     "reportDefinitions", "dashboards", "dashboardWidgets", "reportRuns",
     "metricDefinitions", "semanticDimensions", "reportAccessPolicies", "reportCatalogEntries",
     "dataProducts", "pipelineRuns", "dataQualityResults", "modelVersions", "modelScores",
+    // M04.02 stores
+    "counselingSessions", "followUps",
+    // M10 stores
+    "courseSpaces", "courseRosters", "courseContents", "learningResources",
+    "assignments", "submissions", "quizzes", "quizAttempts",
+    "discussions", "discussionPosts", "learningMetrics", "interventionAlerts",
+    "ltiTools", "contentImports",
+    // M14 stores
+    "vendors", "vendorDocuments", "purchaseRequisitions", "requisitionItems",
+    "rfqs", "bidComparisons", "purchaseOrders", "poItems",
+    "goodsReceipts", "qualityInspections", "contracts", "contractRenewals",
+    "supplierScores", "slaTrackings",
+    // M15 stores
+    "items", "stores", "warehouses", "stockEntries", "stockLedgers",
+    "physicalCounts", "varianceReports", "fixedAssets", "assetCategories",
+    "assetTransfers", "custodyRecords", "depreciationSchedules", "impairments",
+    "assetMaintenances", "disposals",
+    // M18 stores
+    "residenceBlocks", "roomTypes", "hostelApplications", "roomAllocations",
+    "rollCalls", "residenceIncidents", "mealPlans", "messManagement",
+    "posModules", "prepaidWallets",
+    // M24 analytics stores
+    "studentAnalytics", "cohortAnalysis", "financeAnalytics", "workforceAnalytics",
+    "reportBuilders", "reportSchedules",
   ];
   const missing = incrementalStores.filter((s) => !db.objectStoreNames.contains(s));
   if (missing.length === 0) {

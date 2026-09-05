@@ -33,6 +33,14 @@ import {
   MessageCircle, GitBranch, PenTool, Archive, Settings,
   // M24 icons
   LayoutDashboard as LayoutDashboardM24, Binary, Database, Brain,
+  // M10 icons
+  FileStack, Plug, TrendingUp, Utensils,
+  // M14 icons
+  ShoppingCart, PackageCheck, FileSignature,
+  // M15 icons
+  TrendingDown,
+  // M18 icons
+  Home,
   // Logout
   LogOut,
 } from "lucide-react";
@@ -78,15 +86,21 @@ const m03Nav: NavItem[] = [
 
 const m04Nav: NavItem[] = [
   { to: "/campaigns", label: "Campaigns & Enquiries", labelNe: "अभियान", icon: Megaphone, micro: "M04.01" },
+  { to: "/admissions-counseling", label: "Admissions Counseling", labelNe: "प्रवेश परामर्श", icon: MessageSquare, micro: "M04.02" },
   { to: "/applications", label: "Applications", labelNe: "आवेदन", icon: FileText, micro: "M04.03" },
-  { to: "/selections", label: "Selections & Offers", labelNe: "छनोट", icon: ClipboardCheck, micro: "M04.05" },
+  { to: "/eligibility-verification", label: "Eligibility & Documents", labelNe: "योग्यता", icon: ClipboardCheck, micro: "M04.04" },
+  { to: "/entrance-test-interview", label: "Entrance Test & Interview", labelNe: "प्रवेश परीक्षा", icon: FileCheck, micro: "M04.05" },
+  { to: "/selections", label: "Selections & Offers", labelNe: "छनोट", icon: ClipboardCheck, micro: "M04.06" },
   { to: "/conversions", label: "Conversions", labelNe: "रूपान्तरण", icon: UserCheck, micro: "M04.07" },
 ];
 
 const m05Nav: NavItem[] = [
   { to: "/students", label: "Student Master", labelNe: "विद्यार्थी", icon: GraduationCap, micro: "M05.01" },
+  { to: "/guardians-families", label: "Guardians & Families", labelNe: "अभिभावक", icon: Users, micro: "M05.02" },
+  { to: "/student-documents", label: "Student Documents", labelNe: "कागजात", icon: FileText, micro: "M05.03" },
   { to: "/enrolments", label: "Enrolment & Movement", labelNe: "भर्ना", icon: ArrowRightLeft, micro: "M05.04" },
   { to: "/holds", label: "Holds & Clearance", labelNe: "रोक", icon: ShieldBan, micro: "M05.07" },
+  { to: "/id-card-campus-identity", label: "ID Card & Identity", labelNe: "परिचयपत्र", icon: BadgeCheck, micro: "M05.08" },
 ];
 
 const m06Nav: NavItem[] = [
@@ -127,6 +141,16 @@ const m09Nav: NavItem[] = [
   { to: "/certificates", label: "Certificates & Letters", labelNe: "प्रमाणपत्र", icon: GraduationCap, micro: "M09.05" },
   { to: "/credentials", label: "Digital Credentials", labelNe: "डिजिटल प्रमाण", icon: BadgeCheck, micro: "M09.06" },
   { to: "/completions", label: "Class 10/12 Completion", labelNe: "उत्तीर्ण", icon: Trophy, micro: "M09.07" },
+];
+
+const m10Nav: NavItem[] = [
+  { to: "/course-spaces", label: "Course Spaces & Rosters", labelNe: "कोर्स स्पेस", icon: Monitor, micro: "M10.01" },
+  { to: "/content-resources", label: "Content & Resources", labelNe: "सामग्री", icon: FileStack, micro: "M10.02" },
+  { to: "/lms-assignments", label: "Assignments & Submissions", labelNe: "गृहकार्य", icon: ClipboardList, micro: "M10.03" },
+  { to: "/quizzes-practice", label: "Quizzes & Practice", labelNe: "क्विज", icon: HelpCircle, micro: "M10.04" },
+  { to: "/discussions-collaboration", label: "Discussion & Collaboration", labelNe: "छलफल", icon: MessageSquare, micro: "M10.05" },
+  { to: "/learning-analytics", label: "Learning Analytics", labelNe: "विश्लेषण", icon: TrendingUp, micro: "M10.06" },
+  { to: "/lti-content-interop", label: "LTI & Interoperability", labelNe: "LTI", icon: Plug, micro: "M10.07" },
 ];
 
 const m11Nav: NavItem[] = [
@@ -180,6 +204,26 @@ const m13Nav: NavItem[] = [
   { to: "/separations", label: "Separation & Contracts", labelNe: "अवकाश", icon: Briefcase, micro: "M13.10" },
 ];
 
+const m14Nav: NavItem[] = [
+  { to: "/vendor-master", label: "Vendor Master", labelNe: "विक्रेता", icon: Building2, micro: "M14.01" },
+  { to: "/purchase-requisition", label: "Purchase Requisitions", labelNe: "खरिद माग", icon: ClipboardList, micro: "M14.02" },
+  { to: "/sourcing-evaluation", label: "Sourcing & Evaluation", labelNe: "स्रोत मूल्यांकन", icon: Scale, micro: "M14.03" },
+  { to: "/purchase-orders", label: "Purchase Orders", labelNe: "खरिद आदेश", icon: ShoppingCart, micro: "M14.04" },
+  { to: "/receipt-inspection", label: "Receipt & Inspection", labelNe: "रसीद", icon: PackageCheck, micro: "M14.05" },
+  { to: "/contract-management", label: "Contract Management", labelNe: "सम्झौता", icon: FileSignature, micro: "M14.06" },
+  { to: "/supplier-performance", label: "Supplier Performance", labelNe: "आपूर्तिकर्ता", icon: TrendingUp, micro: "M14.07" },
+];
+
+const m15Nav: NavItem[] = [
+  { to: "/item-store-master", label: "Item & Store Master", labelNe: "वस्तु र भण्डार", icon: Package, micro: "M15.01" },
+  { to: "/stock-transactions", label: "Stock Transactions", labelNe: "स्टक कारोबार", icon: ArrowRightLeft, micro: "M15.02" },
+  { to: "/counts-reconciliation", label: "Counts & Reconciliation", labelNe: "भौतिक गणना", icon: ClipboardCheck, micro: "M15.03" },
+  { to: "/asset-register", label: "Asset Register", labelNe: "सम्पत्ति", icon: Landmark, micro: "M15.04" },
+  { to: "/asset-movement-custody", label: "Asset Movement", labelNe: "सम्पत्ति स्थानान्तरण", icon: ArrowRightLeft, micro: "M15.05" },
+  { to: "/depreciation-impairment", label: "Depreciation & Impairment", labelNe: "मूल्यह्रास", icon: TrendingDown, micro: "M15.06" },
+  { to: "/asset-maintenance-disposal", label: "Maintenance & Disposal", labelNe: "मर्मत र विलोपन", icon: Wrench, micro: "M15.07" },
+];
+
 const m16Nav: NavItem[] = [
   { to: "/library-catalog", label: "Catalog & Digital", labelNe: "सूची तथा डिजिटल", icon: BookOpen, micro: "M16.01" },
   { to: "/library-holdings", label: "Holdings & Shelving", labelNe: "प्रति तथा शेल्फ", icon: Layers, micro: "M16.02" },
@@ -195,6 +239,14 @@ const m17Nav: NavItem[] = [
   { to: "/boarding-safety", label: "Boarding & Safety", labelNe: "बोर्डिङ सुरक्षा", icon: ShieldCheck, micro: "M17.04" },
   { to: "/transport-operations", label: "GPS & Operations", labelNe: "जिपिएस", icon: Navigation, micro: "M17.05" },
   { to: "/fuel-maintenance", label: "Fuel & Maintenance", labelNe: "इन्धन मर्मत", icon: Wrench, micro: "M17.06" },
+];
+
+const m18Nav: NavItem[] = [
+  { to: "/residence-inventory", label: "Residence Inventory", labelNe: "निवास", icon: Building2, micro: "M18.01" },
+  { to: "/hostel-allocation", label: "Application & Allocation", labelNe: "आवेदन", icon: Home, micro: "M18.02" },
+  { to: "/residence-operations", label: "Residence Operations", labelNe: "निवास सञ्चालन", icon: ClipboardList, micro: "M18.03" },
+  { to: "/meal-plans-dining", label: "Meal Plans & Dining", labelNe: "खाना योजना", icon: Utensils, micro: "M18.05" },
+  { to: "/campus-pos-wallet", label: "Campus POS & Wallet", labelNe: "क्याम्पस POS", icon: Wallet, micro: "M18.06" },
 ];
 
 const m19Nav: NavItem[] = [
@@ -250,6 +302,9 @@ const m24Nav: NavItem[] = [
   { to: "/metrics", label: "Metric & Semantic Layer", labelNe: "मेट्रिक", icon: Binary, micro: "M24.03" },
   { to: "/data-pipelines", label: "Data Pipelines", labelNe: "डेटा पाइपलाइन", icon: Database, micro: "M24.04" },
   { to: "/ai-models", label: "AI Models & Analytics", labelNe: "AI मोडेल", icon: Brain, micro: "M24.05-06" },
+  { to: "/student-success-analytics", label: "Student Success Analytics", labelNe: "विद्यार्थी सफलता", icon: GraduationCap, micro: "M24.05" },
+  { to: "/finance-workforce-analytics", label: "Finance & Workforce Analytics", labelNe: "वित्त विश्लेषण", icon: FileBarChart, micro: "M24.06" },
+  { to: "/report-builder-governance", label: "Report Builder", labelNe: "रिपोर्ट निर्माण", icon: FileBarChart, micro: "M24.07" },
 ];
 
 function NavSection({ label, items, role }: { label: string; items: NavItem[]; role: UserRole }) {
@@ -318,11 +373,15 @@ export function AppShell() {
           <NavSection label="Scheduling & Attendance" items={m07Nav} role={role} />
           <NavSection label="Assessment & Exams" items={m08Nav} role={role} />
           <NavSection label="Results & Certificates" items={m09Nav} role={role} />
+          <NavSection label="Learning Management" items={m10Nav} role={role} />
           <NavSection label="Portals & Self-Service" items={m11Nav} role={role} />
           <NavSection label="Finance & Accounting" items={m12Nav} role={role} />
           <NavSection label="HR & Payroll" items={m13Nav} role={role} />
+          <NavSection label="Procurement & Vendors" items={m14Nav} role={role} />
+          <NavSection label="Inventory & Assets" items={m15Nav} role={role} />
           <NavSection label="Library & Resources" items={m16Nav} role={role} />
           <NavSection label="Transport & Fleet" items={m17Nav} role={role} />
+          <NavSection label="Hostel & Residence" items={m18Nav} role={role} />
           <NavSection label="Student Services & Wellbeing" items={m19Nav} role={role} />
           <NavSection label="Activities & Community" items={m20Nav} role={role} />
           <NavSection label="Senior Secondary & Guidance" items={m21Nav} role={role} />

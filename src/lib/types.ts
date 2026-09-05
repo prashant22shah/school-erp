@@ -3431,6 +3431,359 @@ export interface RetentionAssignment {
   dispositionAt: string;
 }
 
+// ── M04.02 Admissions Counseling — domain types ─────────────────────────────
+
+export type CounselingType = "career" | "academic" | "personal" | "behavioral" | "parent";
+export type CounselingStatus = "scheduled" | "completed" | "cancelled" | "no_show";
+export interface CounselingSession {
+  id: string; studentRef: string; studentName: string; counselorRef: string; counselorName: string;
+  type: CounselingType; scheduledOn: string; duration: number; notes: string; outcome: string;
+  followUpRequired: boolean; status: CounselingStatus; createdOn: string;
+}
+export type FollowUpStatus = "pending" | "completed" | "overdue" | "cancelled";
+export interface FollowUp {
+  id: string; sessionRef: string; studentRef: string; studentName: string; assignedTo: string;
+  action: string; dueDate: string; completedDate: string; notes: string;
+  status: FollowUpStatus; createdOn: string;
+}
+
+// ── M10 Learning Management & Digital — domain types ─────────────────────────
+
+export type CourseSpaceStatus = "draft" | "active" | "archived";
+export interface CourseSpace {
+  id: string; code: string; name: string; subjectRef: string; subjectName: string;
+  teacherRef: string; teacherName: string; gradeRef: string; gradeName: string;
+  term: string; maxEnrollment: number; enrolledCount: number;
+  status: CourseSpaceStatus; createdOn: string;
+}
+export interface CourseRoster {
+  id: string; courseSpaceRef: string; studentRef: string; studentName: string;
+  enrolledOn: string; status: "active" | "completed" | "dropped"; lastAccessed: string; progress: number;
+  createdOn: string;
+}
+export type ContentKind = "document" | "video" | "link" | "scorm" | "quiz" | "assignment";
+export interface CourseContent {
+  id: string; courseSpaceRef: string; title: string; type: ContentKind; sortOrder: number;
+  url: string; description: string; publishOn: string;
+  status: "draft" | "published" | "archived"; createdOn: string;
+}
+export type ResourceKind = "book" | "video" | "article" | "simulation" | "worksheet" | "other";
+export interface LearningResource {
+  id: string; title: string; type: ResourceKind; subject: string; grade: string;
+  url: string; description: string; language: string; accessLevel: "public" | "restricted";
+  createdOn: string;
+}
+export type AssignmentSubmissionMode = "online" | "offline" | "both";
+export interface Assignment {
+  id: string; courseSpaceRef: string; title: string; description: string; dueDate: string;
+  maxScore: number; weightage: number; submissionMode: AssignmentSubmissionMode;
+  status: "draft" | "published" | "closed" | "graded"; createdOn: string;
+}
+export interface Submission {
+  id: string; assignmentRef: string; studentRef: string; studentName: string;
+  submittedOn: string; fileUrl: string; score: number; feedback: string; gradedBy: string;
+  status: "submitted" | "late" | "graded" | "returned"; createdOn: string;
+}
+export type QuizKind = "practice" | "graded" | "timed";
+export interface Quiz {
+  id: string; courseSpaceRef: string; title: string; type: QuizKind; questionCount: number;
+  timeLimit: number; maxScore: number; passingScore: number;
+  status: "draft" | "published" | "closed"; createdOn: string;
+}
+export interface QuizAttempt {
+  id: string; quizRef: string; studentRef: string; studentName: string;
+  startedOn: string; completedOn: string; score: number; answers: string;
+  status: "in_progress" | "completed" | "timed_out"; createdOn: string;
+}
+export interface Discussion {
+  id: string; courseSpaceRef: string; title: string; authorRef: string; authorName: string;
+  postCount: number; lastPostOn: string; status: "open" | "closed" | "pinned"; createdOn: string;
+}
+export interface DiscussionPost {
+  id: string; discussionRef: string; authorRef: string; authorName: string;
+  content: string; parentPostId: string; createdOn: string;
+}
+export interface LearningMetric {
+  id: string; studentRef: string; studentName: string; courseSpaceRef: string;
+  loginCount: number; contentAccessed: number; assignmentCompletion: number;
+  quizAverage: number; attendanceRate: number; riskLevel: "low" | "medium" | "high";
+  measuredOn: string; createdOn: string;
+}
+export type AlertKind = "low_engagement" | "failing_grade" | "attendance_drop" | "missing_assignments";
+export interface InterventionAlert {
+  id: string; studentRef: string; studentName: string; courseSpaceRef: string;
+  alertType: AlertKind; severity: "info" | "warning" | "critical"; message: string;
+  assignedTo: string; status: "open" | "acknowledged" | "resolved"; createdOn: string;
+}
+export interface LTITool {
+  id: string; name: string; vendor: string; launchUrl: string; consumerKey: string;
+  version: string; status: "active" | "inactive" | "pending_config"; createdOn: string;
+}
+export type ImportSource = "scorm" | "qti" | "common_cartridge" | "csv";
+export interface ContentImport {
+  id: string; sourceType: ImportSource; fileName: string; targetCourseRef: string;
+  importedBy: string; itemCount: number; errors: string;
+  status: "pending" | "processing" | "completed" | "failed"; createdOn: string;
+}
+
+// ── M14 Procurement, Vendors & Contracts — domain types ─────────────────────
+
+export interface Vendor {
+  id: string; name: string; code: string; category: string; contactPerson: string;
+  email: string; phone: string; address: string; panNo: string; bankDetails: string;
+  rating: number; status: "active" | "inactive" | "blacklisted"; createdOn: string;
+}
+export interface VendorDocument {
+  id: string; vendorRef: string; type: "registration" | "pan" | "tax_clearance" | "insurance" | "bank_guarantee";
+  documentNo: string; issuedDate: string; expiryDate: string; fileUrl: string;
+  status: "valid" | "expired" | "pending_renewal"; createdOn: string;
+}
+export interface PurchaseRequisition {
+  id: string; requisitionNo: string; department: string; requestedBy: string;
+  requestedByName: string; purpose: string; totalEstimate: number;
+  status: "draft" | "submitted" | "approved" | "rejected" | "converted"; createdOn: string;
+}
+export interface RequisitionItem {
+  id: string; requisitionRef: string; itemName: string; description: string;
+  quantity: number; unit: string; estimatedCost: number; specification: string;
+  preferredVendor: string; status: "pending" | "approved" | "rejected"; createdOn: string;
+}
+export interface RFQ {
+  id: string; rfqNo: string; requisitionRef: string; title: string;
+  issueDate: string; closingDate: string; vendorsInvited: number;
+  status: "draft" | "issued" | "closed" | "evaluated"; createdOn: string;
+}
+export interface BidComparison {
+  id: string; rfqRef: string; vendorRef: string; vendorName: string;
+  quotedAmount: number; deliveryTerms: string; paymentTerms: string;
+  technicalScore: number; commercialScore: number; totalScore: number; rank: number;
+  status: "submitted" | "evaluated" | "selected" | "rejected"; createdOn: string;
+}
+export interface PurchaseOrder {
+  id: string; poNo: string; vendorRef: string; vendorName: string; requisitionRef: string;
+  orderDate: string; deliveryDate: string; totalAmount: number; terms: string;
+  status: "draft" | "sent" | "acknowledged" | "partial_received" | "completed" | "cancelled"; createdOn: string;
+}
+export interface POItem {
+  id: string; poRef: string; itemName: string; description: string; quantity: number;
+  unit: string; unitPrice: number; totalPrice: number; receivedQty: number;
+  status: "pending" | "partial" | "received"; createdOn: string;
+}
+export interface GoodsReceipt {
+  id: string; grnNo: string; poRef: string; vendorRef: string; receivedBy: string;
+  receivedDate: string; items: string; inspectionStatus: "pending" | "passed" | "failed";
+  notes: string; status: "draft" | "inspected" | "accepted" | "rejected"; createdOn: string;
+}
+export interface QualityInspection {
+  id: string; grnRef: string; inspectedBy: string; inspectionDate: string;
+  itemsChecked: number; itemsPassed: number; itemsFailed: number; notes: string;
+  status: "pending" | "passed" | "failed" | "conditional"; createdOn: string;
+}
+export interface Contract {
+  id: string; contractNo: string; vendorRef: string; vendorName: string; title: string;
+  startDate: string; endDate: string; value: number; renewalTerms: string;
+  status: "draft" | "active" | "expired" | "terminated"; createdOn: string;
+}
+export interface ContractRenewal {
+  id: string; contractRef: string; previousEndDate: string; newEndDate: string;
+  revisedValue: number; notes: string;
+  status: "pending" | "approved" | "rejected" | "completed"; createdOn: string;
+}
+export interface SupplierScore {
+  id: string; vendorRef: string; vendorName: string; period: string;
+  qualityScore: number; deliveryScore: number; priceScore: number; serviceScore: number;
+  overallScore: number; rank: number; createdOn: string;
+}
+export interface SLATracking {
+  id: string; vendorRef: string; contractRef: string; slaMetric: string;
+  target: string; actual: string; period: string;
+  status: "met" | "at_risk" | "breached"; createdOn: string;
+}
+
+// ── M15 Inventory, Stores & Fixed Assets — domain types ─────────────────────
+
+export interface Item {
+  id: string; code: string; name: string; category: string; unit: string;
+  description: string; minStock: number; maxStock: number; reorderLevel: number;
+  unitCost: number; status: "active" | "inactive" | "discontinued"; createdOn: string;
+}
+export type StoreKind = "main" | "department" | "laboratory" | "library" | "maintenance";
+export interface Store {
+  id: string; code: string; name: string; location: string; type: StoreKind;
+  capacity: number; manager: string; status: "active" | "inactive"; createdOn: string;
+}
+export interface Warehouse {
+  id: string; code: string; name: string; address: string; capacity: number;
+  manager: string; status: "active" | "inactive"; createdOn: string;
+}
+export type StockEntryType = "receipt" | "issue" | "transfer" | "adjustment" | "return";
+export interface StockEntry {
+  id: string; entryNo: string; storeRef: string; itemRef: string; itemName: string;
+  type: StockEntryType; quantity: number; unitCost: number; reference: string;
+  enteredBy: string; entryDate: string;
+  status: "draft" | "posted" | "cancelled"; createdOn: string;
+}
+export interface StockLedger {
+  id: string; itemRef: string; itemName: string; storeRef: string;
+  openingQty: number; receivedQty: number; issuedQty: number; closingQty: number;
+  balanceValue: number; period: string; createdOn: string;
+}
+export interface PhysicalCount {
+  id: string; countNo: string; storeRef: string; countDate: string; countedBy: string;
+  itemCounted: number; discrepancyCount: number;
+  status: "draft" | "in_progress" | "completed" | "adjusted"; createdOn: string;
+}
+export interface VarianceReport {
+  id: string; countRef: string; itemRef: string; itemName: string;
+  systemQty: number; physicalQty: number; variance: number; varianceValue: number;
+  reason: string; status: "open" | "investigated" | "adjusted" | "written_off"; createdOn: string;
+}
+export interface FixedAsset {
+  id: string; assetCode: string; name: string; category: string; purchaseDate: string;
+  purchaseCost: number; salvageValue: number; usefulLife: number; location: string;
+  custodian: string; serialNo: string;
+  status: "active" | "disposed" | "transferred" | "under_maintenance"; createdOn: string;
+}
+export type DepreciationMethod = "straight_line" | "declining_balance" | "units_of_production";
+export interface AssetCategory {
+  id: string; code: string; name: string; depreciationMethod: DepreciationMethod;
+  defaultLife: number; glAccount: string; createdOn: string;
+}
+export interface AssetTransfer {
+  id: string; assetRef: string; assetName: string; fromLocation: string; toLocation: string;
+  fromCustodian: string; toCustodian: string; transferDate: string; reason: string;
+  approvedBy: string; status: "draft" | "approved" | "completed"; createdOn: string;
+}
+export interface CustodyRecord {
+  id: string; assetRef: string; assetName: string; custodianRef: string; custodianName: string;
+  assignedDate: string; returnDate: string; condition: "good" | "fair" | "poor" | "damaged";
+  notes: string; status: "active" | "returned"; createdOn: string;
+}
+export interface DepreciationSchedule {
+  id: string; assetRef: string; assetName: string; method: string; period: string;
+  openingValue: number; depreciationAmount: number; accumulatedDepreciation: number;
+  closingValue: number; status: "draft" | "posted"; createdOn: string;
+}
+export interface Impairment {
+  id: string; assetRef: string; assetName: string; impairmentDate: string;
+  carryingValue: number; recoverableAmount: number; impairmentLoss: number;
+  reason: string; approvedBy: string;
+  status: "draft" | "approved" | "posted"; createdOn: string;
+}
+export interface AssetMaintenance {
+  id: string; assetRef: string; assetName: string;
+  maintenanceType: "preventive" | "corrective" | "upgrade"; scheduledDate: string;
+  completedDate: string; cost: number; vendor: string; description: string;
+  status: "scheduled" | "in_progress" | "completed" | "cancelled"; createdOn: string;
+}
+export interface Disposal {
+  id: string; assetRef: string; assetName: string; disposalDate: string;
+  disposalMethod: "sale" | "donation" | "scrap" | "trade_in"; salePrice: number;
+  buyer: string; netBookValue: number; gainLoss: number; approvedBy: string;
+  status: "draft" | "approved" | "completed"; createdOn: string;
+}
+
+// ── M18 Hostel, Residence & Campus Commerce — domain types ───────────────────
+
+export type BlockType = "boys" | "girls" | "mixed" | "staff";
+export interface ResidenceBlock {
+  id: string; code: string; name: string; type: BlockType; floors: number;
+  totalRooms: number; totalBeds: number; occupiedBeds: number; warden: string;
+  status: "active" | "under_maintenance" | "closed"; createdOn: string;
+}
+export interface RoomType {
+  id: string; code: string; name: string; blockRef: string; bedCount: number;
+  amenities: string; feePerMonth: number; description: string;
+  status: "active" | "inactive"; createdOn: string;
+}
+export interface HostelApplication {
+  id: string; applicationNo: string; studentRef: string; studentName: string;
+  blockPreference: string; roomTypePreference: string; session: string;
+  appliedOn: string; guardianConsent: boolean;
+  status: "pending" | "approved" | "rejected" | "waitlisted" | "cancelled"; createdOn: string;
+}
+export interface RoomAllocation {
+  id: string; applicationRef: string; studentRef: string; studentName: string;
+  blockRef: string; blockName: string; roomNo: string; bedNo: string;
+  allocatedFrom: string; allocatedTo: string; feeAmount: number;
+  status: "active" | "vacated" | "transferred" | "terminated"; createdOn: string;
+}
+export interface RollCall {
+  id: string; blockRef: string; date: string; takenBy: string;
+  presentCount: number; absentCount: number; lateCount: number; notes: string;
+  status: "draft" | "submitted"; createdOn: string;
+}
+export type IncidentType = "discipline" | "health" | "safety" | "damage" | "theft" | "other";
+export interface ResidenceIncident {
+  id: string; blockRef: string; reportedBy: string; incidentDate: string;
+  type: IncidentType; description: string; actionTaken: string;
+  severity: "minor" | "moderate" | "major";
+  status: "reported" | "investigating" | "resolved" | "closed"; createdOn: string;
+}
+export type MealType = "vegetarian" | "non_vegetarian" | "vegan" | "special";
+export interface MealPlan {
+  id: string; code: string; name: string; type: MealType; mealsPerDay: number;
+  monthlyRate: number; description: string; status: "active" | "inactive"; createdOn: string;
+}
+export type ServingMeal = "breakfast" | "lunch" | "dinner" | "snack";
+export interface MessManagement {
+  id: string; date: string; mealType: ServingMeal; mealPlanRef: string;
+  preparedFor: number; servedCount: number; costPerHead: number; totalCost: number;
+  notes: string; status: "planned" | "prepared" | "served" | "cancelled"; createdOn: string;
+}
+export type POSTerminalType = "canteen" | "stationery" | "printing" | "vending";
+export interface POSModule {
+  id: string; terminalCode: string; location: string; type: POSTerminalType;
+  vendor: string; status: "active" | "inactive" | "maintenance"; lastSyncDate: string;
+  createdOn: string;
+}
+export interface PrepaidWallet {
+  id: string; studentRef: string; studentName: string; balance: number;
+  totalTopUp: number; totalSpent: number; lastTransaction: string;
+  status: "active" | "frozen" | "closed"; createdOn: string;
+}
+
+// ── M24 Analytics Extensions — domain types ──────────────────────────────────
+
+export interface StudentAnalytics {
+  id: string; studentRef: string; studentName: string; grade: string;
+  attendanceRate: number; avgScore: number; assignmentCompletion: number;
+  riskScore: number; riskFactors: string; interventions: string;
+  lastUpdated: string; createdOn: string;
+}
+export interface CohortAnalysis {
+  id: string; cohortName: string; gradeRef: string; academicYear: string;
+  enrolledCount: number; promotedCount: number; repeatedCount: number;
+  withdrawnCount: number; avgAttendance: number; avgScore: number;
+  passRate: number; dropoutRate: number; analyzedOn: string; createdOn: string;
+}
+export interface FinanceAnalytics {
+  id: string; period: string; totalRevenue: number; totalExpense: number;
+  feeCollectionRate: number; outstandingReceivable: number; budgetUtilization: number;
+  scholarshipDisbursed: number; operatingSurplus: number;
+  analyzedOn: string; createdOn: string;
+}
+export interface WorkforceAnalytics {
+  id: string; period: string; totalStaff: number; teachingStaff: number;
+  nonTeachingStaff: number; vacancyRate: number; attritionRate: number;
+  avgExperience: number; leaveUtilization: number; trainingHours: number;
+  analyzedOn: string; createdOn: string;
+}
+export type ReportBuilderCategory = "student" | "academic" | "finance" | "hr" | "operational" | "custom";
+export interface ReportBuilder {
+  id: string; name: string; description: string; category: ReportBuilderCategory;
+  dataSource: string; columns: string; filters: string; groupBy: string;
+  sortBy: string; chartType: string; status: "draft" | "published" | "archived";
+  createdBy: string; createdOn: string;
+}
+export type ScheduleFrequency = "daily" | "weekly" | "monthly" | "quarterly";
+export interface ReportSchedule {
+  id: string; reportRef: string; reportName: string; frequency: ScheduleFrequency;
+  recipients: string; format: "pdf" | "excel" | "csv";
+  lastRun: string; nextRun: string;
+  status: "active" | "paused" | "completed" | "failed"; createdOn: string;
+}
+
 // ── Database schema ─────────────────────────────────────────────────────────
 
 export interface DBSchema {
@@ -3718,6 +4071,73 @@ export interface DBSchema {
   dataQualityResults: DataQualityResult[];
   modelVersions: ModelVersion[];
   modelScores: ModelScore[];
+  // M04.02 stores
+  counselingSessions: CounselingSession[];
+  followUps: FollowUp[];
+  // M10 stores
+  courseSpaces: CourseSpace[];
+  courseRosters: CourseRoster[];
+  courseContents: CourseContent[];
+  learningResources: LearningResource[];
+  assignments: Assignment[];
+  submissions: Submission[];
+  quizzes: Quiz[];
+  quizAttempts: QuizAttempt[];
+  discussions: Discussion[];
+  discussionPosts: DiscussionPost[];
+  learningMetrics: LearningMetric[];
+  interventionAlerts: InterventionAlert[];
+  ltiTools: LTITool[];
+  contentImports: ContentImport[];
+  // M14 stores
+  vendors: Vendor[];
+  vendorDocuments: VendorDocument[];
+  purchaseRequisitions: PurchaseRequisition[];
+  requisitionItems: RequisitionItem[];
+  rfqs: RFQ[];
+  bidComparisons: BidComparison[];
+  purchaseOrders: PurchaseOrder[];
+  poItems: POItem[];
+  goodsReceipts: GoodsReceipt[];
+  qualityInspections: QualityInspection[];
+  contracts: Contract[];
+  contractRenewals: ContractRenewal[];
+  supplierScores: SupplierScore[];
+  slaTrackings: SLATracking[];
+  // M15 stores
+  items: Item[];
+  stores: Store[];
+  warehouses: Warehouse[];
+  stockEntries: StockEntry[];
+  stockLedgers: StockLedger[];
+  physicalCounts: PhysicalCount[];
+  varianceReports: VarianceReport[];
+  fixedAssets: FixedAsset[];
+  assetCategories: AssetCategory[];
+  assetTransfers: AssetTransfer[];
+  custodyRecords: CustodyRecord[];
+  depreciationSchedules: DepreciationSchedule[];
+  impairments: Impairment[];
+  assetMaintenances: AssetMaintenance[];
+  disposals: Disposal[];
+  // M18 stores
+  residenceBlocks: ResidenceBlock[];
+  roomTypes: RoomType[];
+  hostelApplications: HostelApplication[];
+  roomAllocations: RoomAllocation[];
+  rollCalls: RollCall[];
+  residenceIncidents: ResidenceIncident[];
+  mealPlans: MealPlan[];
+  messManagement: MessManagement[];
+  posModules: POSModule[];
+  prepaidWallets: PrepaidWallet[];
+  // M24 analytics stores
+  studentAnalytics: StudentAnalytics[];
+  cohortAnalysis: CohortAnalysis[];
+  financeAnalytics: FinanceAnalytics[];
+  workforceAnalytics: WorkforceAnalytics[];
+  reportBuilders: ReportBuilder[];
+  reportSchedules: ReportSchedule[];
 }
 
 export type StoreName = keyof DBSchema;

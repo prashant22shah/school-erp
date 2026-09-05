@@ -169,6 +169,48 @@ import ManagementDashboards from "@/pages/management-dashboards";
 import MetricLayer from "@/pages/metric-layer";
 import DataPipelines from "@/pages/data-pipelines";
 import AiModels from "@/pages/ai-models";
+// M04 new pages
+import AdmissionsCounseling from "@/pages/admissions-counseling";
+import EligibilityVerification from "@/pages/eligibility-verification";
+import EntranceTestInterview from "@/pages/entrance-test-interview";
+// M05 new pages
+import GuardiansFamilies from "@/pages/guardians-families";
+import StudentDocuments from "@/pages/student-documents";
+import IdCardCampusIdentity from "@/pages/id-card-campus-identity";
+// M10 pages
+import CourseSpaces from "@/pages/course-spaces";
+import ContentResources from "@/pages/content-resources";
+import LmsAssignments from "@/pages/lms-assignments";
+import QuizzesPractice from "@/pages/quizzes-practice";
+import DiscussionsCollaboration from "@/pages/discussions-collaboration";
+import LearningAnalytics from "@/pages/learning-analytics";
+import LtiContentInterop from "@/pages/lti-content-interop";
+// M14 pages
+import VendorMaster from "@/pages/vendor-master";
+import PurchaseRequisition from "@/pages/purchase-requisition";
+import SourcingEvaluation from "@/pages/sourcing-evaluation";
+import PurchaseOrders from "@/pages/purchase-orders";
+import ReceiptInspection from "@/pages/receipt-inspection";
+import ContractManagement from "@/pages/contract-management";
+import SupplierPerformance from "@/pages/supplier-performance";
+// M15 pages
+import ItemStoreMaster from "@/pages/item-store-master";
+import StockTransactions from "@/pages/stock-transactions";
+import CountsReconciliation from "@/pages/counts-reconciliation";
+import AssetRegister from "@/pages/asset-register";
+import AssetMovementCustody from "@/pages/asset-movement-custody";
+import DepreciationImpairment from "@/pages/depreciation-impairment";
+import AssetMaintenanceDisposal from "@/pages/asset-maintenance-disposal";
+// M18 pages
+import ResidenceInventory from "@/pages/residence-inventory";
+import HostelAllocation from "@/pages/hostel-allocation";
+import ResidenceOperations from "@/pages/residence-operations";
+import MealPlansDining from "@/pages/meal-plans-dining";
+import CampusPosWallet from "@/pages/campus-pos-wallet";
+// M24 new pages
+import StudentSuccessAnalytics from "@/pages/student-success-analytics";
+import FinanceWorkforceAnalytics from "@/pages/finance-workforce-analytics";
+import ReportBuilderGovernance from "@/pages/report-builder-governance";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -250,10 +292,18 @@ export default function App() {
               <Route path="applications" element={<ApplicationPortal />} />
               <Route path="selections" element={<SelectionOffer />} />
               <Route path="conversions" element={<ApplicantConversion />} />
+              {/* M04 new */}
+              <Route path="admissions-counseling" element={<AdmissionsCounseling />} />
+              <Route path="eligibility-verification" element={<EligibilityVerification />} />
+              <Route path="entrance-test-interview" element={<EntranceTestInterview />} />
               {/* M05 */}
               <Route path="students" element={<StudentMaster />} />
               <Route path="enrolments" element={<EnrolmentMovement />} />
               <Route path="holds" element={<HoldClearance />} />
+              {/* M05 new */}
+              <Route path="guardians-families" element={<GuardiansFamilies />} />
+              <Route path="student-documents" element={<StudentDocuments />} />
+              <Route path="id-card-campus-identity" element={<IdCardCampusIdentity />} />
               {/* M06 */}
               <Route path="curriculum" element={<CurriculumMapping />} />
               <Route path="syllabus" element={<SyllabusContent />} />
@@ -286,6 +336,14 @@ export default function App() {
               <Route path="certificates" element={<CertificatesPage />} />
               <Route path="credentials" element={<CredentialsPage />} />
               <Route path="completions" element={<CompletionsPage />} />
+              {/* M10 */}
+              <Route path="course-spaces" element={<CourseSpaces />} />
+              <Route path="content-resources" element={<ContentResources />} />
+              <Route path="lms-assignments" element={<LmsAssignments />} />
+              <Route path="quizzes-practice" element={<QuizzesPractice />} />
+              <Route path="discussions-collaboration" element={<DiscussionsCollaboration />} />
+              <Route path="learning-analytics" element={<LearningAnalytics />} />
+              <Route path="lti-content-interop" element={<LtiContentInterop />} />
               {/* M11 */}
               <Route path="student-portal" element={<StudentPortalPage />} />
               <Route path="parent-portal" element={<ParentPortalPage />} />
@@ -332,6 +390,22 @@ export default function App() {
               <Route path="payslip-management" element={<PayslipManagementPage />} />
               <Route path="payroll" element={<PayrollPage />} />
               <Route path="separations" element={<SeparationsPage />} />
+              {/* M14 */}
+              <Route path="vendor-master" element={<VendorMaster />} />
+              <Route path="purchase-requisition" element={<PurchaseRequisition />} />
+              <Route path="sourcing-evaluation" element={<SourcingEvaluation />} />
+              <Route path="purchase-orders" element={<PurchaseOrders />} />
+              <Route path="receipt-inspection" element={<ReceiptInspection />} />
+              <Route path="contract-management" element={<ContractManagement />} />
+              <Route path="supplier-performance" element={<SupplierPerformance />} />
+              {/* M15 */}
+              <Route path="item-store-master" element={<ItemStoreMaster />} />
+              <Route path="stock-transactions" element={<StockTransactions />} />
+              <Route path="counts-reconciliation" element={<CountsReconciliation />} />
+              <Route path="asset-register" element={<AssetRegister />} />
+              <Route path="asset-movement-custody" element={<AssetMovementCustody />} />
+              <Route path="depreciation-impairment" element={<DepreciationImpairment />} />
+              <Route path="asset-maintenance-disposal" element={<AssetMaintenanceDisposal />} />
               {/* M16 */}
               <Route path="library-catalog" element={<LibraryCatalogPage />} />
               <Route path="library-holdings" element={<LibraryHoldingsPage />} />
@@ -345,6 +419,12 @@ export default function App() {
               <Route path="boarding-safety" element={<BoardingSafetyPage />} />
               <Route path="transport-operations" element={<TransportOperationsPage />} />
               <Route path="fuel-maintenance" element={<FuelMaintenancePage />} />
+              {/* M18 */}
+              <Route path="residence-inventory" element={<ResidenceInventory />} />
+              <Route path="hostel-allocation" element={<HostelAllocation />} />
+              <Route path="residence-operations" element={<ResidenceOperations />} />
+              <Route path="meal-plans-dining" element={<MealPlansDining />} />
+              <Route path="campus-pos-wallet" element={<CampusPosWallet />} />
               {/* M19 */}
               <Route path="health-clinic" element={<HealthClinic />} />
               <Route path="counseling" element={<CounselingSafeguarding />} />
@@ -388,6 +468,10 @@ export default function App() {
               <Route path="metrics" element={<MetricLayer />} />
               <Route path="data-pipelines" element={<DataPipelines />} />
               <Route path="ai-models" element={<AiModels />} />
+              {/* M24 new */}
+              <Route path="student-success-analytics" element={<StudentSuccessAnalytics />} />
+              <Route path="finance-workforce-analytics" element={<FinanceWorkforceAnalytics />} />
+              <Route path="report-builder-governance" element={<ReportBuilderGovernance />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

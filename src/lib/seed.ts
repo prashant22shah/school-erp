@@ -1195,6 +1195,69 @@ export function seedData() {
     { id: "vm-3", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, vehicleId: "veh-2", vehicleNo: "Ba 1 Pa 7890", type: "repair", description: "Brake pad replacement", cost: 6500, status: "scheduled", createdOn: "2025-08-28", updatedOn: "2025-08-28" },
   ];
 
+  const residenceBlocks: DBSchema["residenceBlocks"] = [
+    { id: "rb-1", code: "BLK-A", name: "Block A — Boys", type: "boys", floors: 3, totalRooms: 30, totalBeds: 120, occupiedBeds: 98, warden: "Ramesh Adhikari", status: "active", createdOn: "2025-03-01" },
+    { id: "rb-2", code: "BLK-B", name: "Block B — Girls", type: "girls", floors: 3, totalRooms: 28, totalBeds: 112, occupiedBeds: 85, warden: "Sarita Karki", status: "active", createdOn: "2025-03-01" },
+    { id: "rb-3", code: "BLK-C", name: "Block C — Mixed Senior", type: "mixed", floors: 2, totalRooms: 20, totalBeds: 40, occupiedBeds: 32, warden: "Dipak Shrestha", status: "active", createdOn: "2025-03-01" },
+    { id: "rb-4", code: "BLK-S", name: "Staff Quarters", type: "staff", floors: 2, totalRooms: 12, totalBeds: 12, occupiedBeds: 8, warden: "", status: "active", createdOn: "2025-03-01" },
+  ];
+
+  const roomTypes: DBSchema["roomTypes"] = [
+    { id: "rt-1", code: "4BED-STD", name: "4-Bed Standard", blockRef: "rb-1", bedCount: 4, amenities: "Fan, Study table, Almirah", feePerMonth: 3500, description: "Standard 4-bed dormitory room", status: "active", createdOn: "2025-03-01" },
+    { id: "rt-2", code: "2BED-AC", name: "2-Bed AC", blockRef: "rb-3", bedCount: 2, amenities: "AC, Attached bathroom, Study table, Almirah", feePerMonth: 7000, description: "Premium 2-bed room with AC", status: "active", createdOn: "2025-03-01" },
+    { id: "rt-3", code: "4BED-GIRL", name: "4-Bed Girls", blockRef: "rb-2", bedCount: 4, amenities: "Fan, Study table, Almirah, Curtain partition", feePerMonth: 3500, description: "Standard 4-bed room for girls block", status: "active", createdOn: "2025-03-01" },
+    { id: "rt-4", code: "STAFF-SGL", name: "Staff Single", blockRef: "rb-4", bedCount: 1, amenities: "Attached bathroom, AC, Mini fridge", feePerMonth: 5000, description: "Single occupancy staff quarter", status: "active", createdOn: "2025-03-01" },
+  ];
+
+  const hostelApplications: DBSchema["hostelApplications"] = [
+    { id: "ha-1", applicationNo: "HA-2082-001", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", blockPreference: "Block A — Boys", roomTypePreference: "4-Bed Standard", session: "2082", appliedOn: "2025-04-10", guardianConsent: true, status: "approved", createdOn: "2025-04-10" },
+    { id: "ha-2", applicationNo: "HA-2082-002", studentRef: "stu-2", studentName: "Sita Thapa", blockPreference: "Block B — Girls", roomTypePreference: "4-Bed Girls", session: "2082", appliedOn: "2025-04-12", guardianConsent: true, status: "approved", createdOn: "2025-04-12" },
+    { id: "ha-3", applicationNo: "HA-2082-003", studentRef: "stu-5", studentName: "Bijay Lama", blockPreference: "Block C — Mixed Senior", roomTypePreference: "2-Bed AC", session: "2082", appliedOn: "2025-04-15", guardianConsent: true, status: "pending", createdOn: "2025-04-15" },
+    { id: "ha-4", applicationNo: "HA-2082-004", studentRef: "stu-6", studentName: "Kriti Dangol", blockPreference: "Block B — Girls", roomTypePreference: "4-Bed Girls", session: "2082", appliedOn: "2025-05-01", guardianConsent: false, status: "waitlisted", createdOn: "2025-05-01" },
+  ];
+
+  const roomAllocations: DBSchema["roomAllocations"] = [
+    { id: "ra-1", applicationRef: "ha-1", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", blockRef: "rb-1", blockName: "Block A — Boys", roomNo: "A-101", bedNo: "B1", allocatedFrom: "2025-04-15", allocatedTo: "2025-12-15", feeAmount: 3500, status: "active", createdOn: "2025-04-15" },
+    { id: "ra-2", applicationRef: "ha-2", studentRef: "stu-2", studentName: "Sita Thapa", blockRef: "rb-2", blockName: "Block B — Girls", roomNo: "B-205", bedNo: "B3", allocatedFrom: "2025-04-15", allocatedTo: "2025-12-15", feeAmount: 3500, status: "active", createdOn: "2025-04-15" },
+  ];
+
+  const rollCalls: DBSchema["rollCalls"] = [
+    { id: "rc-1", blockRef: "rb-1", date: "2025-09-01", takenBy: "Ramesh Adhikari", presentCount: 90, absentCount: 5, lateCount: 3, notes: "5 students on approved leave", status: "submitted", createdOn: "2025-09-01" },
+    { id: "rc-2", blockRef: "rb-2", date: "2025-09-01", takenBy: "Sarita Karki", presentCount: 80, absentCount: 3, lateCount: 2, notes: "All absentees reported sick", status: "submitted", createdOn: "2025-09-01" },
+    { id: "rc-3", blockRef: "rb-1", date: "2025-09-02", takenBy: "Ramesh Adhikari", presentCount: 95, absentCount: 2, lateCount: 1, notes: "", status: "draft", createdOn: "2025-09-02" },
+  ];
+
+  const residenceIncidents: DBSchema["residenceIncidents"] = [
+    { id: "ri-1", blockRef: "rb-1", reportedBy: "Ramesh Adhikari", incidentDate: "2025-08-20", type: "discipline", description: "Noise complaint after lights-out — Room A-203", actionTaken: "Verbal warning issued to students", severity: "minor", status: "resolved", createdOn: "2025-08-20" },
+    { id: "ri-2", blockRef: "rb-2", reportedBy: "Sarita Karki", incidentDate: "2025-08-25", type: "health", description: "Student fainted in bathroom — dehydration suspected", actionTaken: "First aid administered, parents notified, hospital visit done", severity: "moderate", status: "closed", createdOn: "2025-08-25" },
+    { id: "ri-3", blockRef: "rb-1", reportedBy: "Security Guard", incidentDate: "2025-09-01", type: "theft", description: "Mobile phone missing from Room A-105", actionTaken: "Investigation underway, CCTV footage reviewed", severity: "moderate", status: "investigating", createdOn: "2025-09-01" },
+  ];
+
+  const mealPlans: DBSchema["mealPlans"] = [
+    { id: "mp-1", code: "VEG-STD", name: "Standard Vegetarian", type: "vegetarian", mealsPerDay: 3, monthlyRate: 4500, description: "3 meals a day — dal bhat, roti, seasonal vegetables", status: "active", createdOn: "2025-03-01" },
+    { id: "mp-2", code: "NVEG-STD", name: "Standard Non-Veg", type: "non_vegetarian", mealsPerDay: 3, monthlyRate: 5500, description: "3 meals — includes chicken/fish twice a week", status: "active", createdOn: "2025-03-01" },
+    { id: "mp-3", code: "SPL-DIET", name: "Special Diet", type: "special", mealsPerDay: 3, monthlyRate: 6000, description: "Custom diet plan for medical/allergy needs", status: "active", createdOn: "2025-03-01" },
+  ];
+
+  const messManagement: DBSchema["messManagement"] = [
+    { id: "mm-1", date: "2025-09-01", mealType: "breakfast", mealPlanRef: "mp-1", preparedFor: 95, servedCount: 90, costPerHead: 35, totalCost: 3325, notes: "", status: "served", createdOn: "2025-09-01" },
+    { id: "mm-2", date: "2025-09-01", mealType: "lunch", mealPlanRef: "mp-2", preparedFor: 55, servedCount: 52, costPerHead: 65, totalCost: 3575, notes: "Extra rice prepared for sports day", status: "served", createdOn: "2025-09-01" },
+    { id: "mm-3", date: "2025-09-02", mealType: "dinner", mealPlanRef: "mp-1", preparedFor: 95, servedCount: 0, costPerHead: 55, totalCost: 0, notes: "Dinner preparation pending", status: "planned", createdOn: "2025-09-02" },
+  ];
+
+  const posModules: DBSchema["posModules"] = [
+    { id: "pos-1", terminalCode: "POS-CAN-01", location: "Main Canteen", type: "canteen", vendor: "NepalPOS Systems", status: "active", lastSyncDate: "2025-09-01", createdOn: "2025-04-01" },
+    { id: "pos-2", terminalCode: "POS-STA-01", location: "Stationery Shop", type: "stationery", vendor: "NepalPOS Systems", status: "active", lastSyncDate: "2025-09-01", createdOn: "2025-04-01" },
+    { id: "pos-3", terminalCode: "POS-PRT-01", location: "Library Printing", type: "printing", vendor: "EduTech Solutions", status: "active", lastSyncDate: "2025-08-30", createdOn: "2025-05-01" },
+    { id: "pos-4", terminalCode: "POS-VND-01", location: "Block A Vending", type: "vending", vendor: "VendCorp Nepal", status: "maintenance", lastSyncDate: "2025-08-28", createdOn: "2025-06-01" },
+  ];
+
+  const prepaidWallets: DBSchema["prepaidWallets"] = [
+    { id: "pw-1", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", balance: 2500, totalTopUp: 10000, totalSpent: 7500, lastTransaction: "2025-09-01", status: "active", createdOn: "2025-04-01" },
+    { id: "pw-2", studentRef: "stu-2", studentName: "Sita Thapa", balance: 1800, totalTopUp: 8000, totalSpent: 6200, lastTransaction: "2025-09-01", status: "active", createdOn: "2025-04-01" },
+    { id: "pw-3", studentRef: "stu-3", studentName: "Bikash Gurung", balance: 500, totalTopUp: 5000, totalSpent: 4500, lastTransaction: "2025-08-30", status: "active", createdOn: "2025-04-01" },
+  ];
+
   // ── M12.19–M12.24 seed data ─────────────────────────────────────────────
   const commitmentRecords: DBSchema["commitmentRecords"] = [
     { id: "cr-1", tenantId: tenants[0]!.id, schoolId: campuses[0]!.id, donorName: "Himalayan Foundation", fundName: "Infrastructure Fund", amount: 2500000, pledgeDate: "2025-03-15", expectedDate: "2025-06-30", receivedDate: "2025-06-28", status: "received", remarks: "Building renovation project", createdOn: "2025-03-15", updatedOn: "2025-06-28" },
@@ -1695,6 +1758,333 @@ export function seedData() {
     { id: "ra-5", tenantId: tenants[0]!.id, schoolId: "camp-main", recordId: "rd-5", scheduleRef: "ret-3yr", dispositionAt: "2029-03-05" },
   ];
 
+  const counselingSessions: DBSchema["counselingSessions"] = [
+    { id: "csn-1", studentRef: "stu-2", studentName: "Sita Kumari Thapa", counselorRef: "uid-4", counselorName: "Sabina Dulal", type: "career", scheduledOn: "2026-08-20", duration: 45, notes: "Discussed NEB Science stream options and career paths in engineering vs medical", outcome: "Student shortlisted engineering as preferred path; referred to Dr. Bikash for further guidance", followUpRequired: true, status: "completed", createdOn: "2026-08-18" },
+    { id: "csn-2", studentRef: "stu-3", studentName: "Bikash Gurung", counselorRef: "uid-4", counselorName: "Sabina Dulal", type: "academic", scheduledOn: "2026-09-02", duration: 30, notes: "Performance dip in Mathematics and Science; identified lack of study routine at home", outcome: "Prepared weekly study timetable; parents informed via phone call", followUpRequired: true, status: "completed", createdOn: "2026-08-30" },
+    { id: "csn-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", counselorRef: "uid-4", counselorName: "Sabina Dulal", type: "personal", scheduledOn: "2026-09-10", duration: 40, notes: "Guardian reported behavioral changes after family relocation; student appears withdrawn", outcome: "Scheduled follow-up session; teacher asked to monitor classroom participation", followUpRequired: true, status: "scheduled", createdOn: "2026-09-05" },
+  ];
+
+  const followUps: DBSchema["followUps"] = [
+    { id: "fu-1", sessionRef: "csn-1", studentRef: "stu-2", studentName: "Sita Kumari Thapa", assignedTo: "Dr. Bikash Gurung", action: "Arrange career talk with NEB engineering faculty representative", dueDate: "2026-09-15", completedDate: "", notes: "Contacted Pulchowk Campus alumni for guest session", status: "pending", createdOn: "2026-08-20" },
+    { id: "fu-2", sessionRef: "csn-2", studentRef: "stu-3", studentName: "Bikash Gurung", assignedTo: "Manoj Rai", action: "Monitor weekly test scores in Mathematics for next 4 weeks", dueDate: "2026-09-30", completedDate: "", notes: "Class teacher to submit progress update every Friday", status: "pending", createdOn: "2026-09-02" },
+    { id: "fu-3", sessionRef: "csn-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", assignedTo: "Sabina Dulal", action: "Conduct second counseling session with guardian present", dueDate: "2026-09-17", completedDate: "", notes: "Guardian agreed to attend; focus on home environment adjustment", status: "pending", createdOn: "2026-09-05" },
+  ];
+
+  const courseSpaces: DBSchema["courseSpaces"] = [
+    { id: "csp-1", code: "CS-MATH-10", name: "Mathematics — Class 10", subjectRef: "su-3", subjectName: "Mathematics", teacherRef: "sp-2", teacherName: "Manoj Rai", gradeRef: "gc-8", gradeName: "Class 10", term: "First Term 2082", maxEnrollment: 45, enrolledCount: 42, status: "active", createdOn: "2026-04-15" },
+    { id: "csp-2", code: "CS-SCI-10", name: "Science — Class 10", subjectRef: "su-4", subjectName: "Science", teacherRef: "sp-2", teacherName: "Manoj Rai", gradeRef: "gc-8", gradeName: "Class 10", term: "First Term 2082", maxEnrollment: 45, enrolledCount: 40, status: "active", createdOn: "2026-04-15" },
+    { id: "csp-3", code: "CS-ENG-09", name: "English — Class 9", subjectRef: "su-2", subjectName: "English", teacherRef: "sp-1", teacherName: "Sunita Bajracharya", gradeRef: "gc-7", gradeName: "Class 9", term: "First Term 2082", maxEnrollment: 40, enrolledCount: 38, status: "active", createdOn: "2026-04-15" },
+    { id: "csp-4", code: "CS-NEP-11", name: "Nepali — Class 11", subjectRef: "su-1", subjectName: "Nepali", teacherRef: "sp-3", teacherName: "Anita Maharjan", gradeRef: "gc-9", gradeName: "Class 11", term: "First Term 2082", maxEnrollment: 35, enrolledCount: 30, status: "active", createdOn: "2026-04-15" },
+  ];
+
+  const courseRosters: DBSchema["courseRosters"] = [
+    { id: "cr-1", courseSpaceRef: "csp-1", studentRef: "stu-3", studentName: "Bikash Gurung", enrolledOn: "2026-04-15", status: "active", lastAccessed: "2026-09-03", progress: 72, createdOn: "2026-04-15" },
+    { id: "cr-2", courseSpaceRef: "csp-1", studentRef: "stu-5", studentName: "Kiran Bhandari", enrolledOn: "2026-09-01", status: "active", lastAccessed: "2026-09-04", progress: 15, createdOn: "2026-09-01" },
+    { id: "cr-3", courseSpaceRef: "csp-2", studentRef: "stu-3", studentName: "Bikash Gurung", enrolledOn: "2026-04-15", status: "active", lastAccessed: "2026-09-02", progress: 68, createdOn: "2026-04-15" },
+    { id: "cr-4", courseSpaceRef: "csp-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", enrolledOn: "2026-04-15", status: "active", lastAccessed: "2026-09-01", progress: 80, createdOn: "2026-04-15" },
+    { id: "cr-5", courseSpaceRef: "csp-4", studentRef: "stu-2", studentName: "Sita Kumari Thapa", enrolledOn: "2026-04-15", status: "active", lastAccessed: "2026-09-03", progress: 65, createdOn: "2026-04-15" },
+  ];
+
+  const courseContents: DBSchema["courseContents"] = [
+    { id: "cc-1", courseSpaceRef: "csp-1", title: "Chapter 1 — Sets and Relations (PDF)", type: "document", sortOrder: 1, url: "/content/math10/ch1-sets.pdf", description: "Notes and exercises on sets, Venn diagrams and relations", publishOn: "2026-04-15", status: "published", createdOn: "2026-04-15" },
+    { id: "cc-2", courseSpaceRef: "csp-1", title: "Quadratic Equations — Video Lecture", type: "video", sortOrder: 2, url: "https://www.youtube.com/watch?v=nep-math-quadratic", description: "Step-by-step solving of quadratic equations with SEE-pattern examples", publishOn: "2026-05-01", status: "published", createdOn: "2026-04-28" },
+    { id: "cc-3", courseSpaceRef: "csp-2", title: "Periodic Table Interactive", type: "link", sortOrder: 1, url: "https://ptable.com", description: "Interactive periodic table for chemical properties reference", publishOn: "2026-04-15", status: "published", createdOn: "2026-04-15" },
+    { id: "cc-4", courseSpaceRef: "csp-3", title: "The Necklace — Text and Comprehension", type: "document", sortOrder: 1, url: "/content/eng9/ch2-necklace.pdf", description: "Guy de Maupassant short story with comprehension questions", publishOn: "2026-04-20", status: "published", createdOn: "2026-04-18" },
+    { id: "cc-5", courseSpaceRef: "csp-4", title: "Karnali Blues — Poem Analysis", type: "document", sortOrder: 1, url: "/content/nep11/karnali-blues.pdf", description: "Analysis of Karnali Blues poem with literary devices discussion", publishOn: "2026-05-10", status: "draft", createdOn: "2026-05-08" },
+  ];
+
+  const learningResources: DBSchema["learningResources"] = [
+    { id: "lr-1", title: "Mathematics SEE Guide — Sukunda Pustak Bhawan", type: "book", subject: "Mathematics", grade: "Class 10", url: "/resources/math10-see-guide.pdf", description: "Comprehensive SEE preparation guide with solved model questions", language: "Nepali", accessLevel: "restricted", createdOn: "2026-04-10" },
+    { id: "lr-2", title: "NEB Physics Video Series — Waves and Optics", type: "video", subject: "Physics", grade: "Class 11", url: "https://www.youtube.com/playlist?list=nep-physics-11", description: "NEB syllabus-aligned video lectures covering waves, sound and optics", language: "English", accessLevel: "public", createdOn: "2026-05-01" },
+    { id: "lr-3", title: "Nepali Grammar Workbook — Baalpaath Series", type: "book", subject: "Nepali", grade: "Class 9", url: "/resources/nep9-grammar.pdf", description: "Vyakaran workbook covering samas, sandhi and muhavare with exercises", language: "Nepali", accessLevel: "restricted", createdOn: "2026-04-12" },
+  ];
+
+  const assignments: DBSchema["assignments"] = [
+    { id: "asg-1", courseSpaceRef: "csp-1", title: "Quadratic Equations — Problem Set 3", description: "Solve exercises 2.4 to 2.6 from textbook; show all working steps", dueDate: "2026-09-10", maxScore: 25, weightage: 10, submissionMode: "offline", status: "published", createdOn: "2026-09-01" },
+    { id: "asg-2", courseSpaceRef: "csp-2", title: "Chemical Reactions Lab Report", description: "Write a lab report on acid-base titration experiment conducted on Bhadra 15", dueDate: "2026-09-15", maxScore: 30, weightage: 15, submissionMode: "both", status: "published", createdOn: "2026-09-02" },
+    { id: "asg-3", courseSpaceRef: "csp-3", title: "Essay — My Favourite Festival (Dashain)", description: "Write a 300-word essay on Dashain celebrations in your family; include cultural significance", dueDate: "2026-09-20", maxScore: 20, weightage: 8, submissionMode: "online", status: "published", createdOn: "2026-09-03" },
+    { id: "asg-4", courseSpaceRef: "csp-4", title: "Poetry Analysis — Muna Madan", description: "Analyze the theme of social inequality in Muna Madan; minimum 500 words", dueDate: "2026-09-25", maxScore: 40, weightage: 20, submissionMode: "online", status: "draft", createdOn: "2026-09-04" },
+  ];
+
+  const submissions: DBSchema["submissions"] = [
+    { id: "sub-1", assignmentRef: "asg-1", studentRef: "stu-3", studentName: "Bikash Gurung", submittedOn: "2026-09-08", fileUrl: "/submissions/stu3-math-pset3.pdf", score: 22, feedback: "Good work on factorization; minor error in Q5 sign convention", gradedBy: "Manoj Rai", status: "graded", createdOn: "2026-09-08" },
+    { id: "sub-2", assignmentRef: "asg-1", studentRef: "stu-5", studentName: "Kiran Bhandari", submittedOn: "2026-09-10", fileUrl: "/submissions/stu5-math-pset3.pdf", score: 0, feedback: "", gradedBy: "", status: "submitted", createdOn: "2026-09-10" },
+    { id: "sub-3", assignmentRef: "asg-2", studentRef: "stu-3", studentName: "Bikash Gurung", submittedOn: "2026-09-14", fileUrl: "/submissions/stu3-sci-lab.pdf", score: 28, feedback: "Excellent lab report with accurate titration calculations and clear observations", gradedBy: "Manoj Rai", status: "graded", createdOn: "2026-09-14" },
+    { id: "sub-4", assignmentRef: "asg-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", submittedOn: "2026-09-18", fileUrl: "/submissions/stu1-eng-dashain.docx", score: 0, feedback: "", gradedBy: "", status: "submitted", createdOn: "2026-09-18" },
+    { id: "sub-5", assignmentRef: "asg-3", studentRef: "stu-4", studentName: "Anisha Maharjan", submittedOn: "2026-09-22", fileUrl: "", score: 0, feedback: "Late submission without prior approval", gradedBy: "", status: "late", createdOn: "2026-09-22" },
+  ];
+
+  const quizzes: DBSchema["quizzes"] = [
+    { id: "qz-1", courseSpaceRef: "csp-1", title: "Sets — Practice Quiz", type: "practice", questionCount: 15, timeLimit: 30, maxScore: 30, passingScore: 12, status: "published", createdOn: "2026-05-01" },
+    { id: "qz-2", courseSpaceRef: "csp-2", title: "Chemical Bonding — Unit Test", type: "graded", questionCount: 20, timeLimit: 45, maxScore: 40, passingScore: 16, status: "published", createdOn: "2026-06-15" },
+    { id: "qz-3", courseSpaceRef: "csp-3", title: "Tenses Revision — Practice", type: "practice", questionCount: 10, timeLimit: 20, maxScore: 20, passingScore: 10, status: "published", createdOn: "2026-07-01" },
+  ];
+
+  const quizAttempts: DBSchema["quizAttempts"] = [
+    { id: "qa-1", quizRef: "qz-1", studentRef: "stu-3", studentName: "Bikash Gurung", startedOn: "2026-05-05T10:00:00", completedOn: "2026-05-05T10:25:00", score: 26, answers: "[{\"q\":1,\"a\":\"B\"},{\"q\":2,\"a\":\"A\"}]", status: "completed", createdOn: "2026-05-05" },
+    { id: "qa-2", quizRef: "qz-1", studentRef: "stu-5", studentName: "Kiran Bhandari", startedOn: "2026-09-03T14:00:00", completedOn: "2026-09-03T14:28:00", score: 18, answers: "[{\"q\":1,\"a\":\"C\"},{\"q\":2,\"a\":\"B\"}]", status: "completed", createdOn: "2026-09-03" },
+    { id: "qa-3", quizRef: "qz-2", studentRef: "stu-3", studentName: "Bikash Gurung", startedOn: "2026-06-20T09:00:00", completedOn: "2026-06-20T09:42:00", score: 34, answers: "[{\"q\":1,\"a\":\"A\"},{\"q\":2,\"a\":\"D\"}]", status: "completed", createdOn: "2026-06-20" },
+    { id: "qa-4", quizRef: "qz-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", startedOn: "2026-07-10T11:00:00", completedOn: "", score: 0, answers: "[{\"q\":1,\"a\":\"B\"}]", status: "in_progress", createdOn: "2026-07-10" },
+  ];
+
+  const discussions: DBSchema["discussions"] = [
+    { id: "disc-1", courseSpaceRef: "csp-1", title: "Tips for Solving Quadratic Equations Quickly", authorRef: "sp-2", authorName: "Manoj Rai", postCount: 8, lastPostOn: "2026-09-03", status: "pinned", createdOn: "2026-05-10" },
+    { id: "disc-2", courseSpaceRef: "csp-2", title: "Lab Safety Rules — Please Read Before Practicals", authorRef: "sp-2", authorName: "Manoj Rai", postCount: 3, lastPostOn: "2026-08-15", status: "pinned", createdOn: "2026-04-20" },
+    { id: "disc-3", courseSpaceRef: "csp-3", title: "Book Recommendation Thread — Share Your Favourite English Novels", authorRef: "sp-1", authorName: "Sunita Bajracharya", postCount: 12, lastPostOn: "2026-09-04", status: "open", createdOn: "2026-06-01" },
+  ];
+
+  const discussionPosts: DBSchema["discussionPosts"] = [
+    { id: "dp-1", discussionRef: "disc-1", authorRef: "sp-2", authorName: "Manoj Rai", content: "Always check discriminant first: if b\u00B2-4ac > 0 two real roots, if = 0 equal roots, if < 0 no real roots. This saves time in SEE.", parentPostId: "", createdOn: "2026-05-10" },
+    { id: "dp-2", discussionRef: "disc-1", authorRef: "stu-3", authorName: "Bikash Gurung", content: "Thank you sir! I also find completing the square method easier for equations with odd coefficients.", parentPostId: "dp-1", createdOn: "2026-05-12" },
+    { id: "dp-3", discussionRef: "disc-2", authorRef: "sp-2", authorName: "Manoj Rai", content: "Mandatory: goggles during acid experiments, gloves for chemical handling. Report any spillage immediately.", parentPostId: "", createdOn: "2026-04-20" },
+    { id: "dp-4", discussionRef: "disc-3", authorRef: "stu-1", authorName: "Ram Bahadur Shrestha", content: "I recently read Palpasa Cafe by Narayan Wagle. It beautifully captures the Maoist insurgency era. Highly recommended!", parentPostId: "", createdOn: "2026-06-05" },
+    { id: "dp-5", discussionRef: "disc-3", authorRef: "stu-2", authorName: "Sita Kumari Thapa", content: "I would suggest Seto Dharti by Amar Neupane. It is about child marriage in rural Nepal and very moving.", parentPostId: "dp-4", createdOn: "2026-06-07" },
+  ];
+
+  const learningMetrics: DBSchema["learningMetrics"] = [
+    { id: "lm-1", studentRef: "stu-3", studentName: "Bikash Gurung", courseSpaceRef: "csp-1", loginCount: 48, contentAccessed: 12, assignmentCompletion: 85, quizAverage: 86.7, attendanceRate: 92, riskLevel: "low", measuredOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "lm-2", studentRef: "stu-5", studentName: "Kiran Bhandari", courseSpaceRef: "csp-1", loginCount: 8, contentAccessed: 3, assignmentCompletion: 25, quizAverage: 60, attendanceRate: 70, riskLevel: "high", measuredOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "lm-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", courseSpaceRef: "csp-3", loginCount: 35, contentAccessed: 8, assignmentCompletion: 90, quizAverage: 78, attendanceRate: 88, riskLevel: "low", measuredOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "lm-4", studentRef: "stu-2", studentName: "Sita Kumari Thapa", courseSpaceRef: "csp-4", loginCount: 22, contentAccessed: 5, assignmentCompletion: 60, quizAverage: 72, attendanceRate: 95, riskLevel: "medium", measuredOn: "2026-09-01", createdOn: "2026-09-01" },
+  ];
+
+  const interventionAlerts: DBSchema["interventionAlerts"] = [
+    { id: "ia-1", studentRef: "stu-5", studentName: "Kiran Bhandari", courseSpaceRef: "csp-1", alertType: "low_engagement", severity: "critical", message: "Only 8 logins and 25% assignment completion since enrollment; risk of falling behind in SEE preparation", assignedTo: "Manoj Rai", status: "open", createdOn: "2026-09-01" },
+    { id: "ia-2", studentRef: "stu-2", studentName: "Sita Kumari Thapa", courseSpaceRef: "csp-4", alertType: "missing_assignments", severity: "warning", message: "Muna Madan analysis assignment not yet submitted; due date approaching in 3 days", assignedTo: "Anita Maharjan", status: "acknowledged", createdOn: "2026-09-03" },
+    { id: "ia-3", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", courseSpaceRef: "csp-3", alertType: "attendance_drop", severity: "info", message: "Attendance dropped from 96% to 88% in last 2 weeks; possible family relocation impact", assignedTo: "Sabina Dulal", status: "open", createdOn: "2026-09-04" },
+  ];
+
+  const ltiTools: DBSchema["ltiTools"] = [
+    { id: "lti-1", name: "PhET Interactive Simulations", vendor: "University of Colorado Boulder", launchUrl: "https://phet.colorado.edu/lti/launch", consumerKey: "sunrise-phet-key", version: "1.3", status: "active", createdOn: "2026-04-15" },
+    { id: "lti-2", name: "Khan Academy Nepal", vendor: "Khan Academy", launchUrl: "https://ne.khanacademy.org/lti/launch", consumerKey: "sunrise-khan-key", version: "1.1", status: "active", createdOn: "2026-05-01" },
+  ];
+
+  const contentImports: DBSchema["contentImports"] = [
+    { id: "ci-1", sourceType: "common_cartridge", fileName: "NEB_Physics_Grade11_v2.imscc", targetCourseRef: "csp-4", importedBy: "Anish Karki", itemCount: 45, errors: "2 resources failed validation (missing file references)", status: "completed", createdOn: "2026-05-15" },
+    { id: "ci-2", sourceType: "qti", fileName: "SEE_Math_ModelQuestions_2082.zip", targetCourseRef: "csp-1", importedBy: "Manoj Rai", itemCount: 120, errors: "", status: "completed", createdOn: "2026-06-01" },
+  ];
+
+  const vendors: DBSchema["vendors"] = [
+    { id: "vnd-1", name: "Maha Laxmi Stationery Suppliers", code: "VND-KTM-001", category: "Stationery & Office Supplies", contactPerson: "Rajesh Shrestha", email: "rajesh@mahalaxmi.com.np", phone: "+977-1-4275610", address: "New Road, Kathmandu-24", panNo: "301234567", bankDetails: "Nabil Bank, New Road Branch, A/C: 01234567890", rating: 4.2, status: "active", createdOn: "2024-03-15" },
+    { id: "vnd-2", name: "Sagarmatha Lab Equipment Pvt. Ltd.", code: "VND-KTM-002", category: "Laboratory Equipment", contactPerson: "Binita Joshi", email: "binita@saglab.com.np", phone: "+977-1-5523890", address: "Satdobato, Lalitpur-15", panNo: "401987654", bankDetails: "NIC Asia Bank, Satdobato Branch, A/C: 98765432101", rating: 4.5, status: "active", createdOn: "2024-06-01" },
+    { id: "vnd-3", name: "Himalayan Furniture House", code: "VND-BKT-001", category: "Furniture & Fixtures", contactPerson: "Dipak Tamang", email: "dipak@hfurnish.com.np", phone: "+977-1-6612345", address: "Suryabinayak, Bhaktapur-6", panNo: "501456789", bankDetails: "Global IME Bank, Bhaktapur Branch, A/C: 11223344556", rating: 3.8, status: "active", createdOn: "2025-01-10" },
+    { id: "vnd-4", name: "Kathmandu IT Solutions", code: "VND-KTM-003", category: "IT Equipment & Services", contactPerson: "Arun Maharjan", email: "arun@ktmit.com.np", phone: "+977-1-4418200", address: "Baneshwor, Kathmandu-10", panNo: "601876543", bankDetails: "Kumari Bank, Baneshwor Branch, A/C: 66778899001", rating: 4.7, status: "active", createdOn: "2024-08-20" },
+  ];
+
+  const vendorDocuments: DBSchema["vendorDocuments"] = [
+    { id: "vd-1", vendorRef: "vnd-1", type: "registration", documentNo: "REG-KTM-2761/2078", issuedDate: "2021-07-15", expiryDate: "2026-07-14", fileUrl: "/docs/vendor/vnd1-registration.pdf", status: "valid", createdOn: "2024-03-15" },
+    { id: "vd-2", vendorRef: "vnd-1", type: "pan", documentNo: "PAN-301234567", issuedDate: "2021-08-01", expiryDate: "", fileUrl: "/docs/vendor/vnd1-pan.pdf", status: "valid", createdOn: "2024-03-15" },
+    { id: "vd-3", vendorRef: "vnd-2", type: "tax_clearance", documentNo: "TC-2082-401987654", issuedDate: "2025-11-15", expiryDate: "2026-11-14", fileUrl: "/docs/vendor/vnd2-tax.pdf", status: "valid", createdOn: "2024-06-01" },
+    { id: "vd-4", vendorRef: "vnd-3", type: "insurance", documentNo: "INS-BKT-2026-0447", issuedDate: "2026-01-01", expiryDate: "2026-12-31", fileUrl: "/docs/vendor/vnd3-insurance.pdf", status: "valid", createdOn: "2025-01-10" },
+    { id: "vd-5", vendorRef: "vnd-4", type: "bank_guarantee", documentNo: "BG-KUM-2026-0089", issuedDate: "2026-04-01", expiryDate: "2027-03-31", fileUrl: "/docs/vendor/vnd4-bguarantee.pdf", status: "valid", createdOn: "2024-08-20" },
+  ];
+
+  const purchaseRequisitions: DBSchema["purchaseRequisitions"] = [
+    { id: "prq-1", requisitionNo: "PRQ-2083-001", department: "Academic Section", requestedBy: "uid-2", requestedByName: "Ramesh Shrestha", purpose: "Annual stationery and examination supplies for SEE preparation classes", totalEstimate: 125000, status: "approved", createdOn: "2026-07-15" },
+    { id: "prq-2", requisitionNo: "PRQ-2083-002", department: "Science Stream (11-12)", requestedBy: "uid-5", requestedByName: "Manoj Rai", purpose: "Lab equipment replacement — titration sets and microscope slides for Class 11 practicals", totalEstimate: 85000, status: "submitted", createdOn: "2026-08-20" },
+    { id: "prq-3", requisitionNo: "PRQ-2083-003", department: "IT & Records Cell", requestedBy: "uid-1", requestedByName: "Anish Karki", purpose: "Replacement of 5 desktop computers in Computer Lab — current units are 6+ years old", totalEstimate: 375000, status: "draft", createdOn: "2026-09-01" },
+  ];
+
+  const requisitionItems: DBSchema["requisitionItems"] = [
+    { id: "rqi-1", requisitionRef: "prq-1", itemName: "Answer Sheets (A4, ruled)", description: "SEE-pattern answer sheets, 32 pages each", quantity: 5000, unit: "sheets", estimatedCost: 25000, specification: "A4 size, 80 GSM, ruled both sides", preferredVendor: "vnd-1", status: "approved", createdOn: "2026-07-15" },
+    { id: "rqi-2", requisitionRef: "prq-1", itemName: "Whiteboard Markers (assorted)", description: "Non-toxic dry erase markers in blue, red, black", quantity: 200, unit: "pieces", estimatedCost: 16000, specification: "Chisel tip, low-odor, refillable preferred", preferredVendor: "vnd-1", status: "approved", createdOn: "2026-07-15" },
+    { id: "rqi-3", requisitionRef: "prq-1", itemName: "Graph Papers (A4)", description: "1mm grid graph paper for Mathematics and Science", quantity: 1000, unit: "sheets", estimatedCost: 8000, specification: "A4, 1mm grid, 70 GSM", preferredVendor: "vnd-1", status: "approved", createdOn: "2026-07-15" },
+    { id: "rqi-4", requisitionRef: "prq-2", itemName: "Burette Set (50ml)", description: "Class A borosilicate burette with stand and clamp", quantity: 15, unit: "sets", estimatedCost: 45000, specification: "50ml, Class A accuracy, PTFE stopcock", preferredVendor: "vnd-2", status: "pending", createdOn: "2026-08-20" },
+    { id: "rqi-5", requisitionRef: "prq-3", itemName: "Desktop Computer (i5, 8GB)", description: "Dell OptiPlex with monitor, keyboard and mouse", quantity: 5, unit: "units", estimatedCost: 350000, specification: "Intel i5-13th gen, 8GB DDR5, 256GB SSD, 21.5 inch monitor", preferredVendor: "vnd-4", status: "pending", createdOn: "2026-09-01" },
+  ];
+
+  const rfqs: DBSchema["rfqs"] = [
+    { id: "rfq-1", rfqNo: "RFQ-2083-001", requisitionRef: "prq-1", title: "Supply of Stationery and Exam Materials — FY 2083/84", issueDate: "2026-07-20", closingDate: "2026-08-05", vendorsInvited: 3, status: "evaluated", createdOn: "2026-07-20" },
+    { id: "rfq-2", rfqNo: "RFQ-2083-002", requisitionRef: "prq-2", title: "Laboratory Equipment — Chemistry and Physics", issueDate: "2026-08-25", closingDate: "2026-09-10", vendorsInvited: 2, status: "issued", createdOn: "2026-08-25" },
+  ];
+
+  const bidComparisons: DBSchema["bidComparisons"] = [
+    { id: "bc-1", rfqRef: "rfq-1", vendorRef: "vnd-1", vendorName: "Maha Laxmi Stationery Suppliers", quotedAmount: 118000, deliveryTerms: "Delivery within 7 days of PO", paymentTerms: "30 days after delivery", technicalScore: 85, commercialScore: 90, totalScore: 88, rank: 1, status: "selected", createdOn: "2026-08-06" },
+    { id: "bc-2", rfqRef: "rfq-1", vendorRef: "vnd-3", vendorName: "Himalayan Furniture House", quotedAmount: 132000, deliveryTerms: "Delivery within 10 days", paymentTerms: "50% advance, 50% on delivery", technicalScore: 72, commercialScore: 78, totalScore: 75, rank: 3, status: "rejected", createdOn: "2026-08-06" },
+    { id: "bc-3", rfqRef: "rfq-2", vendorRef: "vnd-2", vendorName: "Sagarmatha Lab Equipment Pvt. Ltd.", quotedAmount: 78000, deliveryTerms: "Delivery within 14 days; includes calibration certificate", paymentTerms: "Net 45 days", technicalScore: 92, commercialScore: 85, totalScore: 89, rank: 1, status: "evaluated", createdOn: "2026-09-11" },
+    { id: "bc-4", rfqRef: "rfq-1", vendorRef: "vnd-4", vendorName: "Kathmandu IT Solutions", quotedAmount: 126500, deliveryTerms: "Delivery within 5 days", paymentTerms: "Net 30 days", technicalScore: 80, commercialScore: 82, totalScore: 81, rank: 2, status: "rejected", createdOn: "2026-08-06" },
+  ];
+
+  const purchaseOrders: DBSchema["purchaseOrders"] = [
+    { id: "po-1", poNo: "PO-2083-001", vendorRef: "vnd-1", vendorName: "Maha Laxmi Stationery Suppliers", requisitionRef: "prq-1", orderDate: "2026-08-10", deliveryDate: "2026-08-17", totalAmount: 118000, terms: "Net 30; delivery at Baneshwor Main Campus store", status: "completed", createdOn: "2026-08-10" },
+    { id: "po-2", poNo: "PO-2083-002", vendorRef: "vnd-2", vendorName: "Sagarmatha Lab Equipment Pvt. Ltd.", requisitionRef: "prq-2", orderDate: "2026-09-12", deliveryDate: "2026-09-26", totalAmount: 78000, terms: "Net 45; delivery at Baneshwor Main Campus lab", status: "sent", createdOn: "2026-09-12" },
+    { id: "po-3", poNo: "PO-2083-003", vendorRef: "vnd-4", vendorName: "Kathmandu IT Solutions", requisitionRef: "prq-3", orderDate: "2026-09-15", deliveryDate: "2026-09-30", totalAmount: 365000, terms: "50% advance, 50% after installation", status: "draft", createdOn: "2026-09-15" },
+  ];
+
+  const poItems: DBSchema["poItems"] = [
+    { id: "poi-1", poRef: "po-1", itemName: "Answer Sheets (A4, ruled)", description: "SEE-pattern answer sheets, 32 pages each", quantity: 5000, unit: "sheets", unitPrice: 5, totalPrice: 25000, receivedQty: 5000, status: "received", createdOn: "2026-08-10" },
+    { id: "poi-2", poRef: "po-1", itemName: "Whiteboard Markers (assorted)", description: "Non-toxic dry erase markers", quantity: 200, unit: "pieces", unitPrice: 80, totalPrice: 16000, receivedQty: 200, status: "received", createdOn: "2026-08-10" },
+    { id: "poi-3", poRef: "po-1", itemName: "Graph Papers (A4)", description: "1mm grid graph paper", quantity: 1000, unit: "sheets", unitPrice: 8, totalPrice: 8000, receivedQty: 1000, status: "received", createdOn: "2026-08-10" },
+    { id: "poi-4", poRef: "po-2", itemName: "Burette Set (50ml)", description: "Class A borosilicate burette with stand", quantity: 15, unit: "sets", unitPrice: 3000, totalPrice: 45000, receivedQty: 0, status: "pending", createdOn: "2026-09-12" },
+    { id: "poi-5", poRef: "po-3", itemName: "Desktop Computer (i5, 8GB)", description: "Dell OptiPlex with monitor", quantity: 5, unit: "units", unitPrice: 73000, totalPrice: 365000, receivedQty: 0, status: "pending", createdOn: "2026-09-15" },
+  ];
+
+  const goodsReceipts: DBSchema["goodsReceipts"] = [
+    { id: "grn-1", grnNo: "GRN-2083-001", poRef: "po-1", vendorRef: "vnd-1", receivedBy: "Manoj Rai", receivedDate: "2026-08-16", items: "Answer Sheets 5000, Markers 200, Graph Papers 1000", inspectionStatus: "passed", notes: "All items received in good condition; quantities matched PO", status: "accepted", createdOn: "2026-08-16" },
+    { id: "grn-2", grnNo: "GRN-2083-002", poRef: "po-2", vendorRef: "vnd-2", receivedBy: "Manoj Rai", receivedDate: "2026-09-25", items: "Burette Sets 15", inspectionStatus: "pending", notes: "Awaiting quality inspection by science department", status: "draft", createdOn: "2026-09-25" },
+    { id: "grn-3", grnNo: "GRN-2083-003", poRef: "po-1", vendorRef: "vnd-1", receivedBy: "Laxmi Poudel", receivedDate: "2026-08-17", items: "Supplementary stationery lot — correction pens 50, staplers 20", inspectionStatus: "passed", notes: "Replacement items for damaged stock received earlier", status: "accepted", createdOn: "2026-08-17" },
+  ];
+
+  const qualityInspections: DBSchema["qualityInspections"] = [
+    { id: "qi-1", grnRef: "grn-1", inspectedBy: "Manoj Rai", inspectionDate: "2026-08-17", itemsChecked: 3, itemsPassed: 3, itemsFailed: 0, notes: "Sample check: 5% of answer sheets verified for print quality and binding", status: "passed", createdOn: "2026-08-17" },
+    { id: "qi-2", grnRef: "grn-2", inspectedBy: "Dr. Bikash Gurung", inspectionDate: "2026-09-26", itemsChecked: 1, itemsPassed: 0, itemsFailed: 0, notes: "Inspection scheduled; awaiting chemistry lab faculty availability", status: "pending", createdOn: "2026-09-26" },
+  ];
+
+  const contracts: DBSchema["contracts"] = [
+    { id: "ct-1", contractNo: "CTR-2083-001", vendorRef: "vnd-1", vendorName: "Maha Laxmi Stationery Suppliers", title: "Annual Stationery Supply Agreement FY 2083/84", startDate: "2026-07-16", endDate: "2027-07-15", value: 500000, renewalTerms: "Auto-renew unless 30-day notice; price escalation capped at 5%", status: "active", createdOn: "2026-07-15" },
+    { id: "ct-2", contractNo: "CTR-2083-002", vendorRef: "vnd-4", vendorName: "Kathmandu IT Solutions", title: "IT Equipment Maintenance Contract", startDate: "2026-04-15", endDate: "2027-04-14", value: 180000, renewalTerms: "Annual renewal with 90-day notice; includes quarterly preventive maintenance visits", status: "active", createdOn: "2026-04-15" },
+    { id: "ct-3", contractNo: "CTR-2082-003", vendorRef: "vnd-2", vendorName: "Sagarmatha Lab Equipment Pvt. Ltd.", title: "Lab Equipment Annual Maintenance FY 2082/83", startDate: "2025-07-16", endDate: "2026-07-15", value: 95000, renewalTerms: "Contract expired; renewal under negotiation", status: "expired", createdOn: "2025-07-15" },
+  ];
+
+  const contractRenewals: DBSchema["contractRenewals"] = [
+    { id: "ctr-1", contractRef: "ct-3", previousEndDate: "2026-07-15", newEndDate: "2027-07-15", revisedValue: 105000, notes: "Renegotiated 10.5% increase reflecting new lab instruments added in 2082", status: "pending", createdOn: "2026-06-20" },
+    { id: "ctr-2", contractRef: "ct-1", previousEndDate: "2027-07-15", newEndDate: "2028-07-15", revisedValue: 525000, notes: "Early renewal discussion; 5% price cap maintained per original terms", status: "pending", createdOn: "2026-09-01" },
+  ];
+
+  const supplierScores: DBSchema["supplierScores"] = [
+    { id: "ss-1", vendorRef: "vnd-1", vendorName: "Maha Laxmi Stationery Suppliers", period: "FY 2082/83", qualityScore: 88, deliveryScore: 92, priceScore: 85, serviceScore: 90, overallScore: 88.75, rank: 1, createdOn: "2026-07-01" },
+    { id: "ss-2", vendorRef: "vnd-2", vendorName: "Sagarmatha Lab Equipment Pvt. Ltd.", period: "FY 2082/83", qualityScore: 92, deliveryScore: 78, priceScore: 80, serviceScore: 85, overallScore: 83.75, rank: 2, createdOn: "2026-07-01" },
+    { id: "ss-3", vendorRef: "vnd-4", vendorName: "Kathmandu IT Solutions", period: "FY 2082/83", qualityScore: 90, deliveryScore: 95, priceScore: 75, serviceScore: 88, overallScore: 87, rank: 3, createdOn: "2026-07-01" },
+    { id: "ss-4", vendorRef: "vnd-3", vendorName: "Himalayan Furniture House", period: "FY 2082/83", qualityScore: 75, deliveryScore: 70, priceScore: 88, serviceScore: 72, overallScore: 76.25, rank: 4, createdOn: "2026-07-01" },
+  ];
+
+  const slaTrackings: DBSchema["slaTrackings"] = [
+    { id: "sla-1", vendorRef: "vnd-1", contractRef: "ct-1", slaMetric: "Delivery within 7 days of PO", target: "7 days", actual: "6 days", period: "Q1 2083/84", status: "met", createdOn: "2026-08-20" },
+    { id: "sla-2", vendorRef: "vnd-4", contractRef: "ct-2", slaMetric: "Quarterly preventive maintenance visit", target: "Every 90 days", actual: "98 days", period: "Q1 2083/84", status: "at_risk", createdOn: "2026-09-01" },
+    { id: "sla-3", vendorRef: "vnd-2", contractRef: "ct-3", slaMetric: "Equipment defect response within 48 hours", target: "48 hours", actual: "72 hours", period: "Q4 2082/83", status: "breached", createdOn: "2026-06-15" },
+  ];
+
+  const items: DBSchema["items"] = [
+    { id: "itm-1", code: "ITM-STR-001", name: "Exercise Copies (200 pages)", category: "Stationery", unit: "pieces", description: "Standard 200-page ruled exercise copies for students", minStock: 500, maxStock: 5000, reorderLevel: 1000, unitCost: 45, status: "active", createdOn: "2024-04-01" },
+    { id: "itm-2", code: "ITM-STR-002", name: "Whiteboard Marker (Blue)", category: "Stationery", unit: "pieces", description: "Non-toxic blue dry erase marker", minStock: 50, maxStock: 500, reorderLevel: 100, unitCost: 80, status: "active", createdOn: "2024-04-01" },
+    { id: "itm-3", code: "ITM-LAB-001", name: "Litmus Paper Set", category: "Lab Equipment", unit: "packs", description: "pH testing litmus paper strips, 100 strips per pack", minStock: 10, maxStock: 100, reorderLevel: 20, unitCost: 120, status: "active", createdOn: "2024-06-01" },
+    { id: "itm-4", code: "ITM-LAB-002", name: "Test Tubes (Borosilicate)", category: "Lab Equipment", unit: "pieces", description: "150mm borosilicate glass test tubes", minStock: 20, maxStock: 200, reorderLevel: 40, unitCost: 65, status: "active", createdOn: "2024-06-01" },
+    { id: "itm-5", code: "ITM-GEN-001", name: "A4 Printing Paper (80 GSM)", category: "Office Supplies", unit: "reams", description: "500-sheet ream of A4 white copy paper", minStock: 20, maxStock: 200, reorderLevel: 40, unitCost: 450, status: "active", createdOn: "2024-04-01" },
+  ];
+
+  const stores: DBSchema["stores"] = [
+    { id: "str-1", code: "STR-MAIN", name: "Main Store — Baneshwor Campus", location: "Ground Floor, Academic Block", type: "main", capacity: 5000, manager: "Manoj Rai", status: "active", createdOn: "2024-04-01" },
+    { id: "str-2", code: "STR-DEPT", name: "Department Store — Secondary", location: "Room 305, Third Floor", type: "department", capacity: 1000, manager: "Deepak Adhikari", status: "active", createdOn: "2024-06-01" },
+    { id: "str-3", code: "STR-LAB", name: "Science Lab Store", location: "Adjacent to Physics Lab", type: "laboratory", capacity: 500, manager: "Dr. Bikash Gurung", status: "active", createdOn: "2024-06-01" },
+  ];
+
+  const warehouses: DBSchema["warehouses"] = [
+    { id: "wh-1", code: "WH-KTM-01", name: "Kathmandu Central Warehouse", address: "Balaju Industrial District, Kathmandu-16", capacity: 20000, manager: "Rajesh Shrestha", status: "active", createdOn: "2024-04-01" },
+    { id: "wh-2", code: "WH-BKT-01", name: "Bhaktapur Overflow Warehouse", address: "Suryabinayak Road, Bhaktapur", capacity: 8000, manager: "Dipak Tamang", status: "active", createdOn: "2025-01-15" },
+  ];
+
+  const stockEntries: DBSchema["stockEntries"] = [
+    { id: "se-1", entryNo: "SE-2083-001", storeRef: "str-1", itemRef: "itm-1", itemName: "Exercise Copies (200 pages)", type: "receipt", quantity: 3000, unitCost: 45, reference: "GRN-2083-001", enteredBy: "Manoj Rai", entryDate: "2026-08-17", status: "posted", createdOn: "2026-08-17" },
+    { id: "se-2", entryNo: "SE-2083-002", storeRef: "str-1", itemRef: "itm-2", itemName: "Whiteboard Marker (Blue)", type: "receipt", quantity: 200, unitCost: 80, reference: "GRN-2083-001", enteredBy: "Manoj Rai", entryDate: "2026-08-17", status: "posted", createdOn: "2026-08-17" },
+    { id: "se-3", entryNo: "SE-2083-003", storeRef: "str-1", itemRef: "itm-1", itemName: "Exercise Copies (200 pages)", type: "issue", quantity: 500, unitCost: 45, reference: "REQ-SEC-001", enteredBy: "Manoj Rai", entryDate: "2026-08-20", status: "posted", createdOn: "2026-08-20" },
+    { id: "se-4", entryNo: "SE-2083-004", storeRef: "str-3", itemRef: "itm-3", itemName: "Litmus Paper Set", type: "receipt", quantity: 30, unitCost: 120, reference: "GRN-2082-045", enteredBy: "Dr. Bikash Gurung", entryDate: "2026-07-10", status: "posted", createdOn: "2026-07-10" },
+    { id: "se-5", entryNo: "SE-2083-005", storeRef: "str-3", itemRef: "itm-4", itemName: "Test Tubes (Borosilicate)", type: "adjustment", quantity: -5, unitCost: 65, reference: "ADJ-BREAKAGE-001", enteredBy: "Dr. Bikash Gurung", entryDate: "2026-09-01", status: "posted", createdOn: "2026-09-01" },
+  ];
+
+  const stockLedgers: DBSchema["stockLedgers"] = [
+    { id: "sl-1", itemRef: "itm-1", itemName: "Exercise Copies (200 pages)", storeRef: "str-1", openingQty: 1200, receivedQty: 3000, issuedQty: 500, closingQty: 3700, balanceValue: 166500, period: "Bhadra 2083", createdOn: "2026-09-01" },
+    { id: "sl-2", itemRef: "itm-2", itemName: "Whiteboard Marker (Blue)", storeRef: "str-1", openingQty: 80, receivedQty: 200, issuedQty: 60, closingQty: 220, balanceValue: 17600, period: "Bhadra 2083", createdOn: "2026-09-01" },
+    { id: "sl-3", itemRef: "itm-3", itemName: "Litmus Paper Set", storeRef: "str-3", openingQty: 15, receivedQty: 30, issuedQty: 12, closingQty: 33, balanceValue: 3960, period: "Bhadra 2083", createdOn: "2026-09-01" },
+    { id: "sl-4", itemRef: "itm-5", itemName: "A4 Printing Paper (80 GSM)", storeRef: "str-1", openingQty: 60, receivedQty: 0, issuedQty: 25, closingQty: 35, balanceValue: 15750, period: "Bhadra 2083", createdOn: "2026-09-01" },
+  ];
+
+  const physicalCounts: DBSchema["physicalCounts"] = [
+    { id: "pc-1", countNo: "PC-2083-001", storeRef: "str-1", countDate: "2026-08-30", countedBy: "Manoj Rai", itemCounted: 15, discrepancyCount: 2, status: "adjusted", createdOn: "2026-08-30" },
+    { id: "pc-2", countNo: "PC-2083-002", storeRef: "str-3", countDate: "2026-09-01", countedBy: "Dr. Bikash Gurung", itemCounted: 8, discrepancyCount: 1, status: "completed", createdOn: "2026-09-01" },
+  ];
+
+  const varianceReports: DBSchema["varianceReports"] = [
+    { id: "vr-1", countRef: "pc-1", itemRef: "itm-1", itemName: "Exercise Copies (200 pages)", systemQty: 3750, physicalQty: 3700, variance: -50, varianceValue: -2250, reason: "Damaged copies removed from shelf without system entry", status: "adjusted", createdOn: "2026-08-31" },
+    { id: "vr-2", countRef: "pc-1", itemRef: "itm-2", itemName: "Whiteboard Marker (Blue)", systemQty: 225, physicalQty: 220, variance: -5, varianceValue: -400, reason: "5 markers found dried out; disposed without logging", status: "adjusted", createdOn: "2026-08-31" },
+    { id: "vr-3", countRef: "pc-2", itemRef: "itm-4", itemName: "Test Tubes (Borosilicate)", systemQty: 50, physicalQty: 45, variance: -5, varianceValue: -325, reason: "5 test tubes broken during Class 11 practical on Shrawan 28", status: "investigated", createdOn: "2026-09-02" },
+  ];
+
+  const fixedAssets: DBSchema["fixedAssets"] = [
+    { id: "fa-1", assetCode: "FA-IT-001", name: "Dell OptiPlex Desktop — Lab Unit 01", category: "IT Equipment", purchaseDate: "2024-07-15", purchaseCost: 75000, salvageValue: 7500, usefulLife: 5, location: "Computer Lab, Room 101", custodian: "Anish Karki", serialNo: "DL-2024-00101", status: "active", createdOn: "2024-07-15" },
+    { id: "fa-2", assetCode: "FA-IT-002", name: "Dell OptiPlex Desktop — Lab Unit 02", category: "IT Equipment", purchaseDate: "2024-07-15", purchaseCost: 75000, salvageValue: 7500, usefulLife: 5, location: "Computer Lab, Room 101", custodian: "Anish Karki", serialNo: "DL-2024-00102", status: "active", createdOn: "2024-07-15" },
+    { id: "fa-3", assetCode: "FA-FUR-001", name: "Teacher Desk — Main Office", category: "Furniture", purchaseDate: "2023-04-01", purchaseCost: 18000, salvageValue: 1800, usefulLife: 10, location: "Staff Room, Room 202", custodian: "Ramesh Shrestha", serialNo: "FRN-2023-0055", status: "active", createdOn: "2023-04-01" },
+    { id: "fa-4", assetCode: "FA-VEH-001", name: "Tata School Bus — Route A", category: "Vehicle", purchaseDate: "2022-03-15", purchaseCost: 3500000, salvageValue: 500000, usefulLife: 10, location: "School Parking, Baneshwor", custodian: "Transport Department", serialNo: "NP-01-PA-1234", status: "active", createdOn: "2022-03-15" },
+    { id: "fa-5", assetCode: "FA-IT-003", name: "Epson EB-X51 Projector", category: "IT Equipment", purchaseDate: "2025-06-01", purchaseCost: 65000, salvageValue: 5000, usefulLife: 5, location: "Room 201 — Smart Classroom", custodian: "Anish Karki", serialNo: "EP-2025-0089", status: "active", createdOn: "2025-06-01" },
+  ];
+
+  const assetCategories: DBSchema["assetCategories"] = [
+    { id: "ac-1", code: "CAT-IT", name: "IT Equipment", depreciationMethod: "straight_line", defaultLife: 5, glAccount: "1400-IT", createdOn: "2024-04-01" },
+    { id: "ac-2", code: "CAT-FUR", name: "Furniture & Fixtures", depreciationMethod: "straight_line", defaultLife: 10, glAccount: "1410-FUR", createdOn: "2024-04-01" },
+    { id: "ac-3", code: "CAT-VEH", name: "Vehicles", depreciationMethod: "declining_balance", defaultLife: 10, glAccount: "1420-VEH", createdOn: "2024-04-01" },
+  ];
+
+  const assetTransfers: DBSchema["assetTransfers"] = [
+    { id: "at-1", assetRef: "fa-1", assetName: "Dell OptiPlex Desktop — Lab Unit 01", fromLocation: "Computer Lab, Room 101", toLocation: "IT Office, Room 203", fromCustodian: "Anish Karki", toCustodian: "Laxmi Poudel", transferDate: "2026-06-15", reason: "Reassigned for accounts department use; lab receiving new units", approvedBy: "Ramesh Shrestha", status: "completed", createdOn: "2026-06-10" },
+    { id: "at-2", assetRef: "fa-5", assetName: "Epson EB-X51 Projector", fromLocation: "Room 201 — Smart Classroom", toLocation: "Assembly Hall", fromCustodian: "Anish Karki", toCustodian: "Manoj Rai", transferDate: "2026-09-05", reason: "Required for PTM event presentation on Bhadra 20", approvedBy: "Ramesh Shrestha", status: "approved", createdOn: "2026-09-03" },
+  ];
+
+  const custodyRecords: DBSchema["custodyRecords"] = [
+    { id: "cur-1", assetRef: "fa-1", assetName: "Dell OptiPlex Desktop — Lab Unit 01", custodianRef: "uid-3", custodianName: "Laxmi Poudel", assignedDate: "2026-06-15", returnDate: "", condition: "good", notes: "Transferred from lab; system RAM upgraded to 16GB at time of transfer", status: "active", createdOn: "2026-06-15" },
+    { id: "cur-2", assetRef: "fa-4", assetName: "Tata School Bus — Route A", custodianRef: "uid-5", custodianName: "Transport Department", assignedDate: "2022-03-15", returnDate: "", condition: "fair", notes: "Annual fitness certificate due Baisakh 2084; minor body scratches from parking lot", status: "active", createdOn: "2022-03-15" },
+    { id: "cur-3", assetRef: "fa-3", assetName: "Teacher Desk — Main Office", custodianRef: "uid-2", custodianName: "Ramesh Shrestha", assignedDate: "2023-04-01", returnDate: "", condition: "good", notes: "Standard office desk; no damage reported", status: "active", createdOn: "2023-04-01" },
+  ];
+
+  const depreciationSchedules: DBSchema["depreciationSchedules"] = [
+    { id: "ds-1", assetRef: "fa-1", assetName: "Dell OptiPlex Desktop — Lab Unit 01", method: "straight_line", period: "FY 2082/83", openingValue: 67500, depreciationAmount: 13500, accumulatedDepreciation: 27000, closingValue: 54000, status: "posted", createdOn: "2026-07-01" },
+    { id: "ds-2", assetRef: "fa-4", assetName: "Tata School Bus — Route A", method: "declining_balance", period: "FY 2082/83", openingValue: 2880000, depreciationAmount: 432000, accumulatedDepreciation: 1052000, closingValue: 2448000, status: "posted", createdOn: "2026-07-01" },
+    { id: "ds-3", assetRef: "fa-3", assetName: "Teacher Desk — Main Office", method: "straight_line", period: "FY 2082/83", openingValue: 14400, depreciationAmount: 1620, accumulatedDepreciation: 5400, closingValue: 12780, status: "posted", createdOn: "2026-07-01" },
+    { id: "ds-4", assetRef: "fa-5", assetName: "Epson EB-X51 Projector", method: "straight_line", period: "FY 2082/83", openingValue: 60000, depreciationAmount: 12000, accumulatedDepreciation: 12000, closingValue: 53000, status: "posted", createdOn: "2026-07-01" },
+  ];
+
+  const impairments: DBSchema["impairments"] = [
+    { id: "imp-1", assetRef: "fa-2", assetName: "Dell OptiPlex Desktop — Lab Unit 02", impairmentDate: "2026-08-15", carryingValue: 54000, recoverableAmount: 35000, impairmentLoss: 19000, reason: "Motherboard failure; repair cost exceeds 60% of current value", approvedBy: "Ramesh Shrestha", status: "posted", createdOn: "2026-08-15" },
+    { id: "imp-2", assetRef: "fa-3", assetName: "Teacher Desk — Main Office", impairmentDate: "2026-09-01", carryingValue: 12780, recoverableAmount: 10000, impairmentLoss: 2780, reason: "Water damage from monsoon leaking; structural integrity compromised", approvedBy: "Ramesh Shrestha", status: "draft", createdOn: "2026-09-01" },
+  ];
+
+  const assetMaintenances: DBSchema["assetMaintenances"] = [
+    { id: "am-1", assetRef: "fa-4", assetName: "Tata School Bus — Route A", maintenanceType: "preventive", scheduledDate: "2026-09-15", completedDate: "", cost: 0, vendor: "Tata Service Center, Balaju", description: "Scheduled 6-month service: oil change, brake inspection, tyre rotation", status: "scheduled", createdOn: "2026-09-01" },
+    { id: "am-2", assetRef: "fa-1", assetName: "Dell OptiPlex Desktop — Lab Unit 01", maintenanceType: "corrective", scheduledDate: "2026-08-20", completedDate: "2026-08-21", cost: 3500, vendor: "Kathmandu IT Solutions", description: "RAM upgrade from 8GB to 16GB for accounts department software requirements", status: "completed", createdOn: "2026-08-18" },
+    { id: "am-3", assetRef: "fa-5", assetName: "Epson EB-X51 Projector", maintenanceType: "preventive", scheduledDate: "2026-12-01", completedDate: "", cost: 0, vendor: "Kathmandu IT Solutions", description: "Lamp hour check and air filter cleaning; lamp replacement expected at 4000 hours", status: "scheduled", createdOn: "2026-09-01" },
+  ];
+
+  const disposals: DBSchema["disposals"] = [
+    { id: "dsp-1", assetRef: "fa-2", assetName: "Dell OptiPlex Desktop — Lab Unit 02", disposalDate: "2026-09-10", disposalMethod: "scrap", salePrice: 5000, buyer: "KTM Recyclers, Balaju", netBookValue: 35000, gainLoss: -30000, approvedBy: "Ramesh Shrestha", status: "approved", createdOn: "2026-09-05" },
+    { id: "dsp-2", assetRef: "fa-3", assetName: "Teacher Desk — Main Office", disposalDate: "2026-09-20", disposalMethod: "donation", salePrice: 0, buyer: "Shree Saraswati Secondary School, Kirtipur", netBookValue: 10000, gainLoss: -10000, approvedBy: "Ramesh Shrestha", status: "draft", createdOn: "2026-09-03" },
+  ];
+
+  const studentAnalytics: DBSchema["studentAnalytics"] = [
+    { id: "sa-1", studentRef: "stu-3", studentName: "Bikash Gurung", grade: "Class 10", attendanceRate: 92, avgScore: 78.5, assignmentCompletion: 85, riskScore: 15, riskFactors: "Minor dip in Science scores last month", interventions: "Academic counseling session conducted; weekly study schedule recommended", lastUpdated: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "sa-2", studentRef: "stu-5", studentName: "Kiran Bhandari", grade: "Class 10", attendanceRate: 70, avgScore: 55, assignmentCompletion: 25, riskScore: 82, riskFactors: "Low engagement, new admission, poor attendance, no assignment submissions", interventions: "Intervention alert raised; class teacher assigned as mentor; guardian meeting scheduled", lastUpdated: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "sa-3", studentRef: "stu-2", studentName: "Sita Kumari Thapa", grade: "Class 11", attendanceRate: 95, avgScore: 82, assignmentCompletion: 78, riskScore: 20, riskFactors: "Pending Muna Madan assignment", interventions: "Reminder sent; tutor support arranged for Nepali literature", lastUpdated: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "sa-4", studentRef: "stu-1", studentName: "Ram Bahadur Shrestha", grade: "Class 1", attendanceRate: 88, avgScore: 72, assignmentCompletion: 90, riskScore: 30, riskFactors: "Attendance drop linked to family relocation; appears withdrawn", interventions: "Personal counseling session scheduled; teacher monitoring initiated", lastUpdated: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "sa-5", studentRef: "stu-4", studentName: "Anisha Maharjan", grade: "Nursery", attendanceRate: 96, avgScore: 88, assignmentCompletion: 100, riskScore: 5, riskFactors: "", interventions: "", lastUpdated: "2026-09-01", createdOn: "2026-09-01" },
+  ];
+
+  const cohortAnalysis: DBSchema["cohortAnalysis"] = [
+    { id: "ca-1", cohortName: "Class 10 — Batch 2082", gradeRef: "gc-8", academicYear: "2082 BS", enrolledCount: 84, promotedCount: 0, repeatedCount: 0, withdrawnCount: 2, avgAttendance: 91, avgScore: 68.5, passRate: 0, dropoutRate: 2.4, analyzedOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "ca-2", cohortName: "Class 11 Science — Batch 2082", gradeRef: "gc-9", academicYear: "2082 BS", enrolledCount: 30, promotedCount: 0, repeatedCount: 0, withdrawnCount: 1, avgAttendance: 94, avgScore: 74.2, passRate: 0, dropoutRate: 3.3, analyzedOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "ca-3", cohortName: "Class 1 — Batch 2082", gradeRef: "gc-4", academicYear: "2082 BS", enrolledCount: 74, promotedCount: 0, repeatedCount: 0, withdrawnCount: 0, avgAttendance: 97, avgScore: 85.3, passRate: 0, dropoutRate: 0, analyzedOn: "2026-09-01", createdOn: "2026-09-01" },
+  ];
+
+  const financeAnalytics: DBSchema["financeAnalytics"] = [
+    { id: "fa-a1", period: "Q1 FY 2083/84", totalRevenue: 12500000, totalExpense: 9800000, feeCollectionRate: 92.5, outstandingReceivable: 3200000, budgetUtilization: 78.4, scholarshipDisbursed: 450000, operatingSurplus: 2700000, analyzedOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "fa-a2", period: "FY 2082/83", totalRevenue: 48500000, totalExpense: 41200000, feeCollectionRate: 94.1, outstandingReceivable: 2800000, budgetUtilization: 96.2, scholarshipDisbursed: 1800000, operatingSurplus: 7300000, analyzedOn: "2026-07-15", createdOn: "2026-07-15" },
+    { id: "fa-a3", period: "Shrawan 2083", totalRevenue: 4200000, totalExpense: 3400000, feeCollectionRate: 88.3, outstandingReceivable: 3500000, budgetUtilization: 72.1, scholarshipDisbursed: 150000, operatingSurplus: 800000, analyzedOn: "2026-08-15", createdOn: "2026-08-15" },
+  ];
+
+  const workforceAnalytics: DBSchema["workforceAnalytics"] = [
+    { id: "wa-1", period: "Q1 FY 2083/84", totalStaff: 173, teachingStaff: 112, nonTeachingStaff: 61, vacancyRate: 5.2, attritionRate: 2.1, avgExperience: 8.4, leaveUtilization: 62, trainingHours: 48, analyzedOn: "2026-09-01", createdOn: "2026-09-01" },
+    { id: "wa-2", period: "FY 2082/83", totalStaff: 168, teachingStaff: 108, nonTeachingStaff: 60, vacancyRate: 7.1, attritionRate: 4.8, avgExperience: 7.9, leaveUtilization: 71, trainingHours: 192, analyzedOn: "2026-07-15", createdOn: "2026-07-15" },
+    { id: "wa-3", period: "Bhadra 2083", totalStaff: 173, teachingStaff: 112, nonTeachingStaff: 61, vacancyRate: 5.2, attritionRate: 0.6, avgExperience: 8.4, leaveUtilization: 18, trainingHours: 12, analyzedOn: "2026-09-04", createdOn: "2026-09-04" },
+  ];
+
+  const reportBuilders: DBSchema["reportBuilders"] = [
+    { id: "rpb-1", name: "SEE Result Analysis Report", description: "Subject-wise pass percentage and GPA distribution for SEE batch", category: "academic", dataSource: "result_lines + marksheets", columns: "subject,grade_letter,count,percentage,gpa_avg", filters: "academic_year=2082", groupBy: "subject", sortBy: "pass_rate DESC", chartType: "bar", status: "published", createdBy: "Ramesh Shrestha", createdOn: "2026-07-01" },
+    { id: "rpb-2", name: "Fee Defaulters Summary", description: "Outstanding fee balances by class and guardian with aging buckets", category: "finance", dataSource: "invoices + payments", columns: "student_name,guardian_name,class,outstanding,aging_30,aging_60,aging_90", filters: "status=overdue", groupBy: "class", sortBy: "outstanding DESC", chartType: "table", status: "published", createdBy: "Laxmi Poudel", createdOn: "2026-08-15" },
+    { id: "rpb-3", name: "Staff Attendance Trend", description: "Monthly staff attendance summary with leave type breakdown", category: "hr", dataSource: "staff_rosters + leave_requests", columns: "month,present,absent,leave_sick,leave_casual,leave_annual", filters: "fy=2083/84", groupBy: "month", sortBy: "month ASC", chartType: "line", status: "draft", createdBy: "Suresh Thapa", createdOn: "2026-09-01" },
+  ];
+
+  const reportSchedules: DBSchema["reportSchedules"] = [
+    { id: "rps-1", reportRef: "rpb-2", reportName: "Fee Defaulters Summary", frequency: "weekly", recipients: "laxmi.poudel@sunrise.edu.np, ramesh.shrestha@sunrise.edu.np", format: "excel", lastRun: "2026-09-02T08:00:00", nextRun: "2026-09-09T08:00:00", status: "active", createdOn: "2026-08-20" },
+    { id: "rps-2", reportRef: "rpb-1", reportName: "SEE Result Analysis Report", frequency: "monthly", recipients: "ramesh.shrestha@sunrise.edu.np", format: "pdf", lastRun: "2026-08-01T09:00:00", nextRun: "2026-09-01T09:00:00", status: "active", createdOn: "2026-07-10" },
+    { id: "rps-3", reportRef: "rpb-3", reportName: "Staff Attendance Trend", frequency: "monthly", recipients: "suresh.thapa@sunrise.edu.np, ramesh.shrestha@sunrise.edu.np", format: "pdf", lastRun: "", nextRun: "2026-10-01T09:00:00", status: "paused", createdOn: "2026-09-01" },
+  ];
+
   return {
     tenants, institution, legalEntities, campuses, orgUnits, locations,
     holidays, calendarYears, locale, sequences, featureFlags, configVersions, audit,
@@ -1745,6 +2135,9 @@ export function seedData() {
     // M17
     vehicles, transportRoutes, busStops, routeSchedules, riderAssignments,
     boardingLogs, gpsTracks, vehicleMaintenance,
+    // M18
+    residenceBlocks, roomTypes, hostelApplications, roomAllocations,
+    rollCalls, residenceIncidents, mealPlans, messManagement, posModules, prepaidWallets,
     // M19
     healthProfiles, clinicVisits, counselingCases, supportNeeds,
     conductIncidents, grievances, advisingAssignments,
@@ -1770,5 +2163,25 @@ export function seedData() {
     reportDefinitions, dashboards, dashboardWidgets, reportRuns,
     metricDefinitions, semanticDimensions, reportAccessPolicies, reportCatalogEntries,
     dataProducts, pipelineRuns, dataQualityResults, modelVersions, modelScores,
+    // M04.02
+    counselingSessions, followUps,
+    // M10
+    courseSpaces, courseRosters, courseContents, learningResources,
+    assignments, submissions, quizzes, quizAttempts,
+    discussions, discussionPosts, learningMetrics, interventionAlerts,
+    ltiTools, contentImports,
+    // M14
+    vendors, vendorDocuments, purchaseRequisitions, requisitionItems,
+    rfqs, bidComparisons, purchaseOrders, poItems,
+    goodsReceipts, qualityInspections, contracts, contractRenewals,
+    supplierScores, slaTrackings,
+    // M15
+    items, stores, warehouses, stockEntries, stockLedgers,
+    physicalCounts, varianceReports, fixedAssets, assetCategories,
+    assetTransfers, custodyRecords, depreciationSchedules,
+    impairments, assetMaintenances, disposals,
+    // M24 analytics extensions
+    studentAnalytics, cohortAnalysis, financeAnalytics, workforceAnalytics,
+    reportBuilders, reportSchedules,
   };
 }

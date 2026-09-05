@@ -85,7 +85,31 @@ export type PermissionResource =
   // M24
   | "reportDefinitions" | "dashboards" | "dashboardWidgets" | "reportRuns"
   | "metricDefinitions" | "semanticDimensions" | "reportAccessPolicies" | "reportCatalogEntries"
-  | "dataProducts" | "pipelineRuns" | "dataQualityResults" | "modelVersions" | "modelScores";
+  | "dataProducts" | "pipelineRuns" | "dataQualityResults" | "modelVersions" | "modelScores"
+  // M04.02
+  | "counselingSessions" | "followUps"
+  // M10
+  | "courseSpaces" | "courseRosters" | "courseContents" | "learningResources"
+  | "assignments" | "submissions" | "quizzes" | "quizAttempts"
+  | "discussions" | "discussionPosts" | "learningMetrics" | "interventionAlerts"
+  | "ltiTools" | "contentImports"
+  // M14
+  | "vendors" | "vendorDocuments" | "purchaseRequisitions" | "requisitionItems"
+  | "rfqs" | "bidComparisons" | "purchaseOrders" | "poItems"
+  | "goodsReceipts" | "qualityInspections" | "contracts" | "contractRenewals"
+  | "supplierScores" | "slaTrackings"
+  // M15
+  | "items" | "storesM15" | "warehouses" | "stockEntries" | "stockLedgers"
+  | "physicalCounts" | "varianceReports" | "fixedAssets" | "assetCategories"
+  | "assetTransfers" | "custodyRecords" | "depreciationSchedules" | "impairments"
+  | "assetMaintenances" | "disposals"
+  // M18
+  | "residenceBlocks" | "roomTypes" | "hostelApplications" | "roomAllocations"
+  | "rollCalls" | "residenceIncidents" | "mealPlans" | "messManagement"
+  | "posModules" | "prepaidWallets"
+  // M24 analytics
+  | "studentAnalytics" | "cohortAnalysis" | "financeAnalytics" | "workforceAnalytics"
+  | "reportBuilders" | "reportSchedules";
 
 /** A single permission rule: role + resource + allowed actions. */
 interface PermissionRule {
@@ -321,6 +345,73 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "admin", resource: "dataQualityResults", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "modelVersions", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "modelScores", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M04.02
+  { role: "admin", resource: "counselingSessions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "followUps", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M10
+  { role: "admin", resource: "courseSpaces", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "courseRosters", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "courseContents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "learningResources", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "assignments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "submissions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "quizzes", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "quizAttempts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "discussions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "discussionPosts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "learningMetrics", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "interventionAlerts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "ltiTools", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "contentImports", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M14
+  { role: "admin", resource: "vendors", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "vendorDocuments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "purchaseRequisitions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "requisitionItems", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "rfqs", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "bidComparisons", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "purchaseOrders", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "poItems", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "goodsReceipts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "qualityInspections", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "contracts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "contractRenewals", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "supplierScores", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "slaTrackings", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M15
+  { role: "admin", resource: "items", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "storesM15", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "warehouses", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "stockEntries", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "stockLedgers", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "physicalCounts", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "varianceReports", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "fixedAssets", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "assetCategories", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "assetTransfers", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "custodyRecords", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "depreciationSchedules", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "impairments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "assetMaintenances", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "disposals", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M18
+  { role: "admin", resource: "residenceBlocks", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "roomTypes", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "hostelApplications", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "roomAllocations", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "rollCalls", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "residenceIncidents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "mealPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "messManagement", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "posModules", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "prepaidWallets", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  // M24 analytics
+  { role: "admin", resource: "studentAnalytics", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "cohortAnalysis", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "financeAnalytics", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "workforceAnalytics", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "reportBuilders", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "reportSchedules", actions: ["create", "read", "update", "delete", "export", "approve"] },
 
   // ── Principal: broad academic + operational + read finance ───────────────────
   { role: "principal", resource: "institutions", actions: ["read", "update"] },
@@ -519,6 +610,73 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "principal", resource: "dataQualityResults", actions: ["read"] },
   { role: "principal", resource: "modelVersions", actions: ["read"] },
   { role: "principal", resource: "modelScores", actions: ["read"] },
+  // M04.02
+  { role: "principal", resource: "counselingSessions", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "followUps", actions: ["create", "read", "update", "delete"] },
+  // M10
+  { role: "principal", resource: "courseSpaces", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "courseRosters", actions: ["read"] },
+  { role: "principal", resource: "courseContents", actions: ["read"] },
+  { role: "principal", resource: "learningResources", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "assignments", actions: ["read"] },
+  { role: "principal", resource: "submissions", actions: ["read"] },
+  { role: "principal", resource: "quizzes", actions: ["read"] },
+  { role: "principal", resource: "quizAttempts", actions: ["read"] },
+  { role: "principal", resource: "discussions", actions: ["read"] },
+  { role: "principal", resource: "discussionPosts", actions: ["read"] },
+  { role: "principal", resource: "learningMetrics", actions: ["read"] },
+  { role: "principal", resource: "interventionAlerts", actions: ["read", "update"] },
+  { role: "principal", resource: "ltiTools", actions: ["read"] },
+  { role: "principal", resource: "contentImports", actions: ["read"] },
+  // M14
+  { role: "principal", resource: "vendors", actions: ["create", "read", "update"] },
+  { role: "principal", resource: "vendorDocuments", actions: ["read"] },
+  { role: "principal", resource: "purchaseRequisitions", actions: ["create", "read", "update", "approve"] },
+  { role: "principal", resource: "requisitionItems", actions: ["read"] },
+  { role: "principal", resource: "rfqs", actions: ["read"] },
+  { role: "principal", resource: "bidComparisons", actions: ["read"] },
+  { role: "principal", resource: "purchaseOrders", actions: ["read", "approve"] },
+  { role: "principal", resource: "poItems", actions: ["read"] },
+  { role: "principal", resource: "goodsReceipts", actions: ["read"] },
+  { role: "principal", resource: "qualityInspections", actions: ["read"] },
+  { role: "principal", resource: "contracts", actions: ["read", "approve"] },
+  { role: "principal", resource: "contractRenewals", actions: ["read", "approve"] },
+  { role: "principal", resource: "supplierScores", actions: ["read"] },
+  { role: "principal", resource: "slaTrackings", actions: ["read"] },
+  // M15
+  { role: "principal", resource: "items", actions: ["read"] },
+  { role: "principal", resource: "storesM15", actions: ["read"] },
+  { role: "principal", resource: "warehouses", actions: ["read"] },
+  { role: "principal", resource: "stockEntries", actions: ["read"] },
+  { role: "principal", resource: "stockLedgers", actions: ["read"] },
+  { role: "principal", resource: "physicalCounts", actions: ["read"] },
+  { role: "principal", resource: "varianceReports", actions: ["read"] },
+  { role: "principal", resource: "fixedAssets", actions: ["read"] },
+  { role: "principal", resource: "assetCategories", actions: ["read"] },
+  { role: "principal", resource: "assetTransfers", actions: ["read", "approve"] },
+  { role: "principal", resource: "custodyRecords", actions: ["read"] },
+  { role: "principal", resource: "depreciationSchedules", actions: ["read"] },
+  { role: "principal", resource: "impairments", actions: ["read", "approve"] },
+  { role: "principal", resource: "assetMaintenances", actions: ["read"] },
+  { role: "principal", resource: "disposals", actions: ["read", "approve"] },
+  // M18
+  { role: "principal", resource: "residenceBlocks", actions: ["create", "read", "update"] },
+  { role: "principal", resource: "roomTypes", actions: ["create", "read", "update"] },
+  { role: "principal", resource: "hostelApplications", actions: ["read", "approve"] },
+  { role: "principal", resource: "roomAllocations", actions: ["create", "read", "update"] },
+  { role: "principal", resource: "rollCalls", actions: ["read"] },
+  { role: "principal", resource: "residenceIncidents", actions: ["read", "update"] },
+  { role: "principal", resource: "mealPlans", actions: ["read"] },
+  { role: "principal", resource: "messManagement", actions: ["read"] },
+  { role: "principal", resource: "posModules", actions: ["read"] },
+  { role: "principal", resource: "prepaidWallets", actions: ["read"] },
+  // M24 analytics
+  { role: "principal", resource: "studentAnalytics", actions: ["read"] },
+  { role: "principal", resource: "cohortAnalysis", actions: ["read"] },
+  { role: "principal", resource: "financeAnalytics", actions: ["read"] },
+  { role: "principal", resource: "workforceAnalytics", actions: ["read"] },
+  { role: "principal", resource: "reportBuilders", actions: ["create", "read", "update", "delete"] },
+  { role: "principal", resource: "reportSchedules", actions: ["create", "read", "update", "delete"] },
 
   // ── Accountant: finance CRUD, student read, staff read/payroll ──────────────
   { role: "accountant", resource: "institutions", actions: ["read"] },
@@ -610,6 +768,19 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "teacher", resource: "mobileDevices", actions: ["read"] },
   { role: "teacher", resource: "accessibilityProfiles", actions: ["read"] },
   { role: "teacher", resource: "teacherPortal", actions: ["read"] },
+  // M10
+  { role: "teacher", resource: "courseSpaces", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "courseRosters", actions: ["read"] },
+  { role: "teacher", resource: "courseContents", actions: ["create", "read", "update", "delete"] },
+  { role: "teacher", resource: "learningResources", actions: ["read"] },
+  { role: "teacher", resource: "assignments", actions: ["create", "read", "update", "delete"] },
+  { role: "teacher", resource: "submissions", actions: ["read", "update"] },
+  { role: "teacher", resource: "quizzes", actions: ["create", "read", "update", "delete"] },
+  { role: "teacher", resource: "quizAttempts", actions: ["read"] },
+  { role: "teacher", resource: "discussions", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "discussionPosts", actions: ["create", "read", "update"] },
+  { role: "teacher", resource: "learningMetrics", actions: ["read"] },
+  { role: "teacher", resource: "interventionAlerts", actions: ["read", "update"] },
   { role: "teacher", resource: "staffProfiles", actions: ["read"] },
   { role: "teacher", resource: "leaveRequests", actions: ["create", "read"] },
   { role: "teacher", resource: "performanceReviews", actions: ["read"] },
@@ -906,6 +1077,23 @@ const ALL_ADMIN_ROUTES = [
   "/notices", "/conversations", "/workflow-designer", "/case-management", "/document-templates", "/electronic-signature", "/records-retention", "/notification-preferences",
   // M24
   "/operational-reports", "/dashboards", "/metrics", "/data-pipelines", "/ai-models",
+  // M04.02, M04.04, M04.05
+  "/admissions-counseling", "/eligibility-verification", "/entrance-test-interview",
+  // M05.02, M05.03, M05.08
+  "/guardians-families", "/student-documents", "/id-card-campus-identity",
+  // M10
+  "/course-spaces", "/content-resources", "/lms-assignments", "/quizzes-practice",
+  "/discussions-collaboration", "/learning-analytics", "/lti-content-interop",
+  // M14
+  "/vendor-master", "/purchase-requisition", "/sourcing-evaluation", "/purchase-orders",
+  "/receipt-inspection", "/contract-management", "/supplier-performance",
+  // M15
+  "/item-store-master", "/stock-transactions", "/counts-reconciliation", "/asset-register",
+  "/asset-movement-custody", "/depreciation-impairment", "/asset-maintenance-disposal",
+  // M18
+  "/residence-inventory", "/hostel-allocation", "/residence-operations", "/meal-plans-dining", "/campus-pos-wallet",
+  // M24
+  "/student-success-analytics", "/finance-workforce-analytics", "/report-builder-governance",
 ];
 
 const ROLE_ROUTES: Record<UserRole, string[]> = {
@@ -936,6 +1124,23 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/notices", "/conversations", "/workflow-designer", "/case-management", "/document-templates", "/electronic-signature", "/records-retention", "/notification-preferences",
     // M24
     "/operational-reports", "/dashboards", "/metrics", "/data-pipelines", "/ai-models",
+    // M04.02, M04.04, M04.05
+    "/admissions-counseling", "/eligibility-verification", "/entrance-test-interview",
+    // M05.02, M05.03, M05.08
+    "/guardians-families", "/student-documents", "/id-card-campus-identity",
+    // M10
+    "/course-spaces", "/content-resources", "/lms-assignments", "/quizzes-practice",
+    "/discussions-collaboration", "/learning-analytics", "/lti-content-interop",
+    // M14
+    "/vendor-master", "/purchase-requisition", "/sourcing-evaluation", "/purchase-orders",
+    "/receipt-inspection", "/contract-management", "/supplier-performance",
+    // M15
+    "/item-store-master", "/stock-transactions", "/counts-reconciliation", "/asset-register",
+    "/asset-movement-custody", "/depreciation-impairment", "/asset-maintenance-disposal",
+    // M18
+    "/residence-inventory", "/hostel-allocation", "/residence-operations", "/meal-plans-dining", "/campus-pos-wallet",
+    // M24
+    "/student-success-analytics", "/finance-workforce-analytics", "/report-builder-governance",
   ],
 
   accountant: [
@@ -946,6 +1151,11 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/finance-setup", "/chart-of-accounts", "/journals", "/recurring-journals", "/fee-catalog", "/fee-assignments", "/invoices", "/accounts-receivable", "/scholarships", "/collections", "/online-payments", "/refunds-writeoffs", "/dunning", "/vendor-bills", "/expense-claims", "/disbursements", "/bank-budget", "/bank-reconciliation", "/budgeting-commitments", "/tax-withholding", "/accruals-deferrals", "/fund-accounting", "/period-close", "/financial-statements",
     "/staff", "/compensation-benefits", "/payroll-rules", "/payslip-management", "/payroll",
     "/fundraising",
+    // M14
+    "/vendor-master", "/purchase-requisition", "/sourcing-evaluation", "/purchase-orders",
+    "/receipt-inspection", "/contract-management", "/supplier-performance",
+    // M15
+    "/item-store-master", "/stock-transactions", "/counts-reconciliation",
     // M22
     "/utilities",
     // M23
@@ -962,6 +1172,9 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/results", "/result-publications", "/result-corrections", "/marksheets", "/certificates", "/credentials", "/completions",
     "/portal-announcements", "/portal-access", "/mobile-devices", "/accessibility",
     "/teacher-portal",
+    // M10
+    "/course-spaces", "/content-resources", "/lms-assignments", "/quizzes-practice",
+    "/discussions-collaboration", "/learning-analytics", "/lti-content-interop",
     "/library-catalog", "/library-holdings", "/library-circulation", "/library-acquisitions", "/library-digital",
     "/staff", "/leave-requests", "/performance", "/payroll", "/separations",
     "/fleet", "/transport-routes", "/transport-riders", "/boarding-safety", "/transport-operations",
@@ -981,6 +1194,8 @@ const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/subjects",
     "/students",
     "/student-portal",
+    // M10
+    "/course-spaces", "/lms-assignments", "/quizzes-practice", "/discussions-collaboration",
     "/library-catalog", "/library-circulation", "/library-digital",
     "/events", "/clubs", "/sports", "/career-guidance",
     // M22
