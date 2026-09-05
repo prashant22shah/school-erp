@@ -62,12 +62,12 @@ export default function MealPlansDining() {
         description="Manage meal plans, mess scheduling, and dining cost tracking."
         actions={
           <div className="flex gap-2">
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button variant="outline" onClick={() => { setEditingPlan(undefined); setPlanDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New meal plan
               </Button>
             </CanCreate>
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button onClick={() => { setEditingMess(undefined); setMessDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New mess entry
               </Button>
@@ -133,7 +133,7 @@ export default function MealPlansDining() {
                         <TableCell><span className="text-sm font-mono">{p.monthlyRate?.toLocaleString()}</span></TableCell>
                         <TableCell><Badge variant={planStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingPlan(p); setPlanDialogOpen(true); }} onDelete={() => deletePlan.mutate(p)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingPlan(p); setPlanDialogOpen(true); }} onDelete={() => deletePlan.mutate(p)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -174,7 +174,7 @@ export default function MealPlansDining() {
                         <TableCell><span className="text-sm max-w-[150px] truncate inline-block">{m.notes || "—"}</span></TableCell>
                         <TableCell><Badge variant={messStatusVariant[m.status] ?? "secondary"} className="capitalize">{m.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingMess(m); setMessDialogOpen(true); }} onDelete={() => deleteMess.mutate(m)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingMess(m); setMessDialogOpen(true); }} onDelete={() => deleteMess.mutate(m)} />
                         </TableCell>
                       </TableRow>
                     ))}

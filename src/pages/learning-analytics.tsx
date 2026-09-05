@@ -62,7 +62,7 @@ export default function LearningAnalyticsPage() {
         titleNe="विश्लेषण"
         microModule="M10.06"
         description="Student engagement metrics and intervention alerts."
-        actions={<div className="flex gap-2"><CanCreate resource="learningAnalytics"><Button variant="outline" onClick={() => { setEditingMetric(undefined); setMetricOpen(true); }}><Plus className="h-4 w-4" /> New Metric</Button></CanCreate><CanCreate resource="learningAnalytics"><Button onClick={() => { setEditingAlert(undefined); setAlertOpen(true); }}><Plus className="h-4 w-4" /> New Alert</Button></CanCreate></div>}
+        actions={<div className="flex gap-2"><CanCreate resource="learningMetrics"><Button variant="outline" onClick={() => { setEditingMetric(undefined); setMetricOpen(true); }}><Plus className="h-4 w-4" /> New Metric</Button></CanCreate><CanCreate resource="learningMetrics"><Button onClick={() => { setEditingAlert(undefined); setAlertOpen(true); }}><Plus className="h-4 w-4" /> New Alert</Button></CanCreate></div>}
       />
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="animate-fade-up"><CardContent className="flex items-center gap-3 p-4"><div className="rounded-lg bg-blue-100 p-2 text-blue-600"><TrendingUp className="h-4 w-4" /></div><div><p className="text-xs text-muted-foreground">Total Metrics</p><p className="text-lg font-bold">{metrics.data?.length ?? 0}</p></div></CardContent></Card>
@@ -85,7 +85,7 @@ export default function LearningAnalyticsPage() {
                 <TableCell><span className="text-sm font-mono">{m.quizAverage}</span></TableCell>
                 <TableCell><span className="text-sm font-mono">{m.attendanceRate}%</span></TableCell>
                 <TableCell><Badge variant={riskLevelVariant[m.riskLevel] ?? "secondary"} className="capitalize">{m.riskLevel}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningAnalytics" onEdit={() => { setEditingMetric(m); setMetricOpen(true); }} onDelete={() => deleteMetric.mutate(m.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningMetrics" onEdit={() => { setEditingMetric(m); setMetricOpen(true); }} onDelete={() => deleteMetric.mutate(m.id)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -101,7 +101,7 @@ export default function LearningAnalyticsPage() {
                 <TableCell className="text-sm max-w-[200px] truncate">{a.message}</TableCell>
                 <TableCell className="text-sm">{a.assignedTo}</TableCell>
                 <TableCell><Badge variant={alertStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningAnalytics" onEdit={() => { setEditingAlert(a); setAlertOpen(true); }} onDelete={() => deleteAlert.mutate(a.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningMetrics" onEdit={() => { setEditingAlert(a); setAlertOpen(true); }} onDelete={() => deleteAlert.mutate(a.id)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

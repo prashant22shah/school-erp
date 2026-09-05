@@ -62,12 +62,12 @@ export default function CampusPosWallet() {
         description="Manage campus POS terminals and student prepaid wallets for cashless transactions."
         actions={
           <div className="flex gap-2">
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button variant="outline" onClick={() => { setEditingPos(undefined); setPosDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New terminal
               </Button>
             </CanCreate>
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button onClick={() => { setEditingWallet(undefined); setWalletDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New wallet
               </Button>
@@ -132,7 +132,7 @@ export default function CampusPosWallet() {
                         <TableCell><span className="text-xs">{fmtDate(p.lastSyncDate)}</span></TableCell>
                         <TableCell><Badge variant={posStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingPos(p); setPosDialogOpen(true); }} onDelete={() => deletePos.mutate(p)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingPos(p); setPosDialogOpen(true); }} onDelete={() => deletePos.mutate(p)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -169,7 +169,7 @@ export default function CampusPosWallet() {
                         <TableCell><span className="text-xs">{fmtDate(w.lastTransaction)}</span></TableCell>
                         <TableCell><Badge variant={walletStatusVariant[w.status] ?? "secondary"} className="capitalize">{w.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingWallet(w); setWalletDialogOpen(true); }} onDelete={() => deleteWallet.mutate(w)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingWallet(w); setWalletDialogOpen(true); }} onDelete={() => deleteWallet.mutate(w)} />
                         </TableCell>
                       </TableRow>
                     ))}

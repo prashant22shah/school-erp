@@ -59,12 +59,12 @@ export default function HostelAllocation() {
         description="Manage hostel applications, approvals, and room/bed allocations."
         actions={
           <div className="flex gap-2">
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button variant="outline" onClick={() => { setEditingApp(undefined); setAppDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New application
               </Button>
             </CanCreate>
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button onClick={() => { setEditingAlloc(undefined); setAllocDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New allocation
               </Button>
@@ -131,7 +131,7 @@ export default function HostelAllocation() {
                         <TableCell>{a.guardianConsent ? <Badge variant="success">Yes</Badge> : <Badge variant="secondary">No</Badge>}</TableCell>
                         <TableCell><Badge variant={appStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingApp(a); setAppDialogOpen(true); }} onDelete={() => deleteApp.mutate(a)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingApp(a); setAppDialogOpen(true); }} onDelete={() => deleteApp.mutate(a)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -172,7 +172,7 @@ export default function HostelAllocation() {
                         <TableCell><span className="text-sm font-mono">{a.feeAmount?.toLocaleString()}</span></TableCell>
                         <TableCell><Badge variant={allocStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingAlloc(a); setAllocDialogOpen(true); }} onDelete={() => deleteAlloc.mutate(a)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingAlloc(a); setAllocDialogOpen(true); }} onDelete={() => deleteAlloc.mutate(a)} />
                         </TableCell>
                       </TableRow>
                     ))}

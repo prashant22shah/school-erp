@@ -60,12 +60,12 @@ export default function ResidenceInventory() {
         description="Manage residence blocks, room types, bed capacity, and warden assignments."
         actions={
           <div className="flex gap-2">
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button variant="outline" onClick={() => { setEditingBlock(undefined); setBlockDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New block
               </Button>
             </CanCreate>
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button onClick={() => { setEditingRoom(undefined); setRoomDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New room type
               </Button>
@@ -134,7 +134,7 @@ export default function ResidenceInventory() {
                         <TableCell><span className="text-sm">{b.warden || "—"}</span></TableCell>
                         <TableCell><Badge variant={blockStatusVariant[b.status] ?? "secondary"} className="capitalize">{b.status.replace("_", " ")}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingBlock(b); setBlockDialogOpen(true); }} onDelete={() => deleteBlock.mutate(b)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingBlock(b); setBlockDialogOpen(true); }} onDelete={() => deleteBlock.mutate(b)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -174,7 +174,7 @@ export default function ResidenceInventory() {
                         <TableCell><span className="text-sm font-mono">{r.feePerMonth?.toLocaleString()}</span></TableCell>
                         <TableCell><Badge variant={roomStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingRoom(r); setRoomDialogOpen(true); }} onDelete={() => deleteRoomType.mutate(r)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingRoom(r); setRoomDialogOpen(true); }} onDelete={() => deleteRoomType.mutate(r)} />
                         </TableCell>
                       </TableRow>
                     ))}

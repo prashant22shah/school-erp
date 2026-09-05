@@ -65,12 +65,12 @@ export default function ResidenceOperations() {
         description="Track residence roll calls and report/manage residence incidents."
         actions={
           <div className="flex gap-2">
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button variant="outline" onClick={() => { setEditingRoll(undefined); setRollDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New roll call
               </Button>
             </CanCreate>
-            <CanCreate resource="hostel">
+            <CanCreate resource="residenceBlocks">
               <Button onClick={() => { setEditingIncident(undefined); setIncidentDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New incident
               </Button>
@@ -135,7 +135,7 @@ export default function ResidenceOperations() {
                         <TableCell><span className="text-sm max-w-[200px] truncate inline-block">{r.notes || "—"}</span></TableCell>
                         <TableCell><Badge variant={rollCallStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingRoll(r); setRollDialogOpen(true); }} onDelete={() => deleteRollCall.mutate(r)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingRoll(r); setRollDialogOpen(true); }} onDelete={() => deleteRollCall.mutate(r)} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -174,7 +174,7 @@ export default function ResidenceOperations() {
                         <TableCell><span className="text-sm max-w-[180px] truncate inline-block">{i.actionTaken || "—"}</span></TableCell>
                         <TableCell><Badge variant={incidentStatusVariant[i.status] ?? "secondary"} className="capitalize">{i.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="hostel" onEdit={() => { setEditingIncident(i); setIncidentDialogOpen(true); }} onDelete={() => deleteIncident.mutate(i)} />
+                          <RowActionMenu resource="residenceBlocks" onEdit={() => { setEditingIncident(i); setIncidentDialogOpen(true); }} onDelete={() => deleteIncident.mutate(i)} />
                         </TableCell>
                       </TableRow>
                     ))}
