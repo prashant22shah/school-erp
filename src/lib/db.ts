@@ -455,19 +455,19 @@ async function ensureSeeded(): Promise<void> {
     req.onsuccess = () => resolve(req.result);
   });
   if (existing === 0) {
-    const seed = seedData();
+    const seed = seedData() as Record<string, { id: string }[]>;
     await new Promise<void>((resolve, reject) => {
       const t = db.transaction(ALL_STORES, "readwrite");
       (Object.keys(seed) as StoreName[]).forEach((k) => {
         const store = t.objectStore(k);
-        (seed[k] as { id: string }[]).forEach((item) => store.put(item));
+        seed[k].forEach((item) => store.put(item));
       });
       t.oncomplete = () => resolve();
       t.onerror = () => reject(t.error);
     });
     return;
   }
-  const seed = seedData();
+  const seed = seedData() as Record<string, { id: string }[]>;
   const incrementalStores: StoreName[] = [
     "persons", "students", "guardians", "studentGuardians", "studentDocuments",
     "enrolments", "subjectSelections", "studentMovements", "progressionAudits",
@@ -551,7 +551,7 @@ async function ensureSeeded(): Promise<void> {
   if (missing.length === 0) {
     let needsSeed = false;
     for (const s of incrementalStores) {
-      const expected = (seed[s] as { id: string }[])?.length ?? 0;
+      const expected = seed[s]?.length ?? 0;
       const count = await new Promise<number>((resolve) => {
         try {
           const t = db.transaction(s, "readonly");
@@ -573,7 +573,7 @@ async function ensureSeeded(): Promise<void> {
     seedableStores.forEach((k) => {
       try {
         const store = t.objectStore(k);
-        (seed[k] as { id: string }[]).forEach((item) => store.put(item));
+        seed[k].forEach((item) => store.put(item));
       } catch {}
     });
     t.oncomplete = () => resolve();

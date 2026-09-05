@@ -34,9 +34,8 @@ export function LearningResourceFormDialog({ open, onOpenChange, editing }: { op
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
-        updatedOn: now,
       } as LearningResource,
       { onSuccess: () => onOpenChange(false) }
     );

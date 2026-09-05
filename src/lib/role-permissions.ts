@@ -25,8 +25,9 @@ export type PermissionResource =
   | "academicYears" | "schoolLevels" | "subjects" | "sections" | "gradingScales" | "academicPolicies"
   // M04
   | "campaigns" | "applications" | "selections" | "conversions"
+  | "eligibilityDecisions" | "applicationDocuments" | "selectionEvents" | "selectionScores"
   // M05
-  | "students" | "enrolments" | "holds"
+  | "students" | "enrolments" | "holds" | "guardians" | "studentGuardians" | "identityCards" | "studentDocuments"
   // M06
   | "curriculumMaps" | "syllabusPlans" | "lessonPlans" | "teachingWorkload" | "qualityReviews" | "facultyReviews"
   // M07
@@ -162,9 +163,17 @@ const ROLE_PERMISSIONS: PermissionRule[] = [
   { role: "admin", resource: "applications", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "selections", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "conversions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "eligibilityDecisions", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "applicationDocuments", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "selectionEvents", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "selectionScores", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "students", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "enrolments", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "holds", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "guardians", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "studentGuardians", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "identityCards", actions: ["create", "read", "update", "delete", "export", "approve"] },
+  { role: "admin", resource: "studentDocuments", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "curriculumMaps", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "syllabusPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },
   { role: "admin", resource: "lessonPlans", actions: ["create", "read", "update", "delete", "export", "approve"] },

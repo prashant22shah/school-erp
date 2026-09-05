@@ -110,7 +110,7 @@ export default function PurchaseRequisitionPage() {
                     <TableCell><Badge variant={prStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                     <TableCell><span className="text-xs">{fmtDate(r.createdOn)}</span></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingPr(r); setPrDialogOpen(true); }} onDelete={() => deleteRequisition.mutate(r)} />
+                      <RowActionMenu resource="purchaseRequisitions" onEdit={() => { setEditingPr(r); setPrDialogOpen(true); }} onDelete={() => deleteRequisition.mutate(r)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -142,7 +142,7 @@ export default function PurchaseRequisitionPage() {
                     <TableCell><span className="text-sm">{i.preferredVendor || "—"}</span></TableCell>
                     <TableCell><Badge variant={itemStatusVariant[i.status] ?? "secondary"} className="capitalize">{i.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingItem(i); setItemDialogOpen(true); }} onDelete={() => deleteRequisitionItem.mutate(i)} />
+                      <RowActionMenu resource="purchaseRequisitions" onEdit={() => { setEditingItem(i); setItemDialogOpen(true); }} onDelete={() => deleteRequisitionItem.mutate(i)} />
                     </TableCell>
                   </TableRow>
                 ))}

@@ -34,13 +34,12 @@ export function QuizFormDialog({ open, onOpenChange, editing }: { open: boolean;
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         questionCount: Number(form.questionCount),
         timeLimit: Number(form.timeLimit),
         maxScore: Number(form.maxScore),
         passingScore: Number(form.passingScore),
-        updatedOn: now,
       } as Quiz,
       { onSuccess: () => onOpenChange(false) }
     );

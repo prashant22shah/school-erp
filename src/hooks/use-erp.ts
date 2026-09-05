@@ -1404,7 +1404,7 @@ export const useDeleteAssignment = () => useErpMutation<Assignment, void>(api.de
 export const useSubmissions = () => useQuery({ queryKey: keys.submissions, queryFn: api.listSubmissions });
 export const useSaveSubmission = () => useErpMutation<Submission, Submission>(api.saveSubmission, [keys.submissions, keys.audit]);
 export const useDeleteSubmission = () => useErpMutation<Submission, void>(api.deleteSubmission, [keys.submissions, keys.audit]);
-export const useQuizzes = () => useQuery({ queryKey: keys.quizzes, queryFn: api.listQuizzes });
+export const useQuizzes = () => useQuery({ queryKey: keys.quizzes, queryFn: api.listQuizs });
 export const useSaveQuiz = () => useErpMutation<Quiz, Quiz>(api.saveQuiz, [keys.quizzes, keys.audit]);
 export const useDeleteQuiz = () => useErpMutation<Quiz, void>(api.deleteQuiz, [keys.quizzes, keys.audit]);
 export const useQuizAttempts = () => useQuery({ queryKey: keys.quizAttempts, queryFn: api.listQuizAttempts });

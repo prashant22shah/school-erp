@@ -27,7 +27,7 @@ export function EligibilityDecisionFormDialog({ open, onOpenChange, decision }: 
 
   const submit = () => {
     if (!form.applicationId || !form.ruleName || !form.outcome || !form.decidedBy) return;
-    const appName = (applications.data ?? []).find((a) => a.id === form.applicationId)?.applicantName ?? form.applicationName ?? "";
+    const appName = (applications.data ?? []).find((a) => a.id === form.applicationId)?.studentName ?? form.applicationName ?? "";
     save.mutate(
       { ...(decision ?? { id: uid() }), ...form, applicationName: appName, tenantId: "tenant-default" } as EligibilityDecision,
       { onSuccess: () => onOpenChange(false) }
@@ -46,7 +46,7 @@ export function EligibilityDecisionFormDialog({ open, onOpenChange, decision }: 
             <Label>Application</Label>
             <Select value={form.applicationId ?? ""} onValueChange={(v) => set({ applicationId: v })}>
               <SelectTrigger><SelectValue placeholder="Select application" /></SelectTrigger>
-              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.applicantName ?? a.id}</SelectItem>)}</SelectContent>
+              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.studentName ?? a.id}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">

@@ -118,7 +118,7 @@ export default function VendorMasterPage() {
                     <TableCell><span className="text-sm">{v.rating}</span></TableCell>
                     <TableCell><Badge variant={vendorStatusVariant[v.status] ?? "secondary"} className="capitalize">{v.status.replace(/_/g, " ")}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingVendor(v); setVendorDialogOpen(true); }} onDelete={() => deleteVendor.mutate(v)} />
+                      <RowActionMenu resource="vendors" onEdit={() => { setEditingVendor(v); setVendorDialogOpen(true); }} onDelete={() => deleteVendor.mutate(v)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -148,7 +148,7 @@ export default function VendorMasterPage() {
                     <TableCell><span className="text-sm">{fmtDate(d.expiryDate)}</span></TableCell>
                     <TableCell><Badge variant={docStatusVariant[d.status] ?? "secondary"} className="capitalize">{d.status.replace(/_/g, " ")}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingDoc(d); setDocDialogOpen(true); }} onDelete={() => deleteVendorDocument.mutate(d)} />
+                      <RowActionMenu resource="vendors" onEdit={() => { setEditingDoc(d); setDocDialogOpen(true); }} onDelete={() => deleteVendorDocument.mutate(d)} />
                     </TableCell>
                   </TableRow>
                 ))}

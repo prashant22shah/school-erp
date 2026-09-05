@@ -109,7 +109,7 @@ export default function SupplierPerformancePage() {
                     <TableCell><span className="text-sm font-mono font-bold">{s.overallScore}</span></TableCell>
                     <TableCell><span className="text-sm font-mono">{s.rank}</span></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingScore(s); setScoreDialogOpen(true); }} onDelete={() => deleteScore.mutate(s)} />
+                      <RowActionMenu resource="supplierScores" onEdit={() => { setEditingScore(s); setScoreDialogOpen(true); }} onDelete={() => deleteScore.mutate(s)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -141,7 +141,7 @@ export default function SupplierPerformancePage() {
                     <TableCell><span className="text-sm">{sl.period}</span></TableCell>
                     <TableCell><Badge variant={slaStatusVariant[sl.status] ?? "secondary"} className="capitalize">{sl.status.replace(/_/g, " ")}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingSla(sl); setSlaDialogOpen(true); }} onDelete={() => deleteSla.mutate(sl)} />
+                      <RowActionMenu resource="supplierScores" onEdit={() => { setEditingSla(sl); setSlaDialogOpen(true); }} onDelete={() => deleteSla.mutate(sl)} />
                     </TableCell>
                   </TableRow>
                 ))}

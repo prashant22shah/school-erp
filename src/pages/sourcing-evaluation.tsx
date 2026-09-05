@@ -110,7 +110,7 @@ export default function SourcingEvaluationPage() {
                     <TableCell><span className="text-sm font-mono">{r.vendorsInvited}</span></TableCell>
                     <TableCell><Badge variant={rfqStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingRfq(r); setRfqDialogOpen(true); }} onDelete={() => deleteRfq.mutate(r)} />
+                      <RowActionMenu resource="rfqs" onEdit={() => { setEditingRfq(r); setRfqDialogOpen(true); }} onDelete={() => deleteRfq.mutate(r)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -144,7 +144,7 @@ export default function SourcingEvaluationPage() {
                     <TableCell><span className="text-sm font-mono">{b.rank}</span></TableCell>
                     <TableCell><Badge variant={bidStatusVariant[b.status] ?? "secondary"} className="capitalize">{b.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingBid(b); setBidDialogOpen(true); }} onDelete={() => deleteBid.mutate(b)} />
+                      <RowActionMenu resource="rfqs" onEdit={() => { setEditingBid(b); setBidDialogOpen(true); }} onDelete={() => deleteBid.mutate(b)} />
                     </TableCell>
                   </TableRow>
                 ))}

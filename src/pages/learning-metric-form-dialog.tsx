@@ -34,14 +34,13 @@ export function LearningMetricFormDialog({ open, onOpenChange, editing }: { open
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         loginCount: Number(form.loginCount),
         contentAccessed: Number(form.contentAccessed),
         assignmentCompletion: Number(form.assignmentCompletion),
         quizAverage: Number(form.quizAverage),
         attendanceRate: Number(form.attendanceRate),
-        updatedOn: now,
       } as LearningMetric,
       { onSuccess: () => onOpenChange(false) }
     );

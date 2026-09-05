@@ -34,11 +34,10 @@ export function CourseSpaceFormDialog({ open, onOpenChange, editing }: { open: b
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         maxEnrollment: Number(form.maxEnrollment),
         enrolledCount: Number(form.enrolledCount),
-        updatedOn: now,
       } as CourseSpace,
       { onSuccess: () => onOpenChange(false) }
     );

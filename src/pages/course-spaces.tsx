@@ -85,7 +85,7 @@ export default function CourseSpacesPage() {
                 <TableCell className="text-sm">{a.teacherName}</TableCell>
                 <TableCell><span className="text-sm font-mono">{a.enrolledCount}/{a.maxEnrollment}</span></TableCell>
                 <TableCell><Badge variant={courseSpaceStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseSpaces" onEdit={() => { setEditingSpace(a); setSpaceOpen(true); }} onDelete={() => deleteCourseSpace.mutate(a.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseSpaces" onEdit={() => { setEditingSpace(a); setSpaceOpen(true); }} onDelete={() => deleteCourseSpace.mutate(a)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -99,7 +99,7 @@ export default function CourseSpacesPage() {
                 <TableCell className="text-sm">{fmtDate(r.enrolledOn)}</TableCell>
                 <TableCell><Badge variant={rosterStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                 <TableCell><span className="text-sm font-mono">{r.progress}%</span></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseSpaces" onDelete={() => deleteRoster.mutate(r.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseSpaces" onDelete={() => deleteRoster.mutate(r)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

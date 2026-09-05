@@ -69,7 +69,7 @@ export default function ContentResourcesPage() {
                 <TableCell><Badge variant="secondary" className="capitalize">{c.type}</Badge></TableCell>
                 <TableCell className="text-sm max-w-[200px] truncate">{c.url || "—"}</TableCell>
                 <TableCell><Badge variant={contentStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseContents" onEdit={() => { setEditingContent(c); setContentOpen(true); }} onDelete={() => deleteContent.mutate(c.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="courseContents" onEdit={() => { setEditingContent(c); setContentOpen(true); }} onDelete={() => deleteContent.mutate(c)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -84,7 +84,7 @@ export default function ContentResourcesPage() {
                 <TableCell className="text-sm">{r.subject || "—"}</TableCell>
                 <TableCell className="text-sm">{r.grade || "—"}</TableCell>
                 <TableCell><Badge variant={accessVariant[r.accessLevel] ?? "secondary"} className="capitalize">{r.accessLevel}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningResources" onEdit={() => { setEditingResource(r); setResourceOpen(true); }} onDelete={() => deleteResource.mutate(r.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="learningResources" onEdit={() => { setEditingResource(r); setResourceOpen(true); }} onDelete={() => deleteResource.mutate(r)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

@@ -27,7 +27,7 @@ export function FollowUpFormDialog({ open, onOpenChange, followUp }: { open: boo
   const submit = () => {
     if (!form.studentName || !form.assignedTo || !form.action || !form.dueDate) return;
     save.mutate(
-      { ...(followUp ?? { id: uid() }), ...form, tenantId: "tenant-default" } as FollowUp,
+      { ...(followUp ?? { id: uid() }), ...form } as FollowUp,
       { onSuccess: () => onOpenChange(false) }
     );
   };

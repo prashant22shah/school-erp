@@ -79,7 +79,7 @@ export default function QuizzesPracticePage() {
                 <TableCell><span className="text-sm font-mono">{a.questionCount}</span></TableCell>
                 <TableCell><span className="text-sm font-mono">{a.maxScore}/{a.passingScore}</span></TableCell>
                 <TableCell><Badge variant={quizStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="quizzes" onEdit={() => { setEditingQuiz(a); setQuizOpen(true); }} onDelete={() => deleteQuiz.mutate(a.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="quizzes" onEdit={() => { setEditingQuiz(a); setQuizOpen(true); }} onDelete={() => deleteQuiz.mutate(a)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -94,7 +94,7 @@ export default function QuizzesPracticePage() {
                 <TableCell className="text-sm">{fmtDate(r.completedOn)}</TableCell>
                 <TableCell><span className="text-sm font-mono">{r.score}</span></TableCell>
                 <TableCell><Badge variant={attemptStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status.replace("_", " ")}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="quizzes" onEdit={() => { setEditingAttempt(r); setAttemptOpen(true); }} onDelete={() => deleteAttempt.mutate(r.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="quizzes" onEdit={() => { setEditingAttempt(r); setAttemptOpen(true); }} onDelete={() => deleteAttempt.mutate(r)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

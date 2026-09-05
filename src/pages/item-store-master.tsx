@@ -64,7 +64,7 @@ export default function ItemStoreMaster() {
                 <Plus className="h-4 w-4" /> New item
               </Button>
             </CanCreate>
-            <CanCreate resource="stores">
+            <CanCreate resource="storesM15">
               <Button onClick={() => { setEditingStore(undefined); setStoreDialogOpen(true); }}>
                 <Plus className="h-4 w-4" /> New store
               </Button>
@@ -172,7 +172,7 @@ export default function ItemStoreMaster() {
                         <TableCell><span className="text-sm font-mono">{s.capacity}</span></TableCell>
                         <TableCell><Badge variant={storeStatusVariant[s.status] ?? "secondary"} className="capitalize">{s.status}</Badge></TableCell>
                         <TableCell className="pr-5 text-right">
-                          <RowActionMenu resource="stores" onEdit={() => { setEditingStore(s); setStoreDialogOpen(true); }} onDelete={() => deleteStore.mutate(s)} />
+                          <RowActionMenu resource="storesM15" onEdit={() => { setEditingStore(s); setStoreDialogOpen(true); }} onDelete={() => deleteStore.mutate(s)} />
                         </TableCell>
                       </TableRow>
                     ))}

@@ -79,7 +79,7 @@ export default function LtiContentInteropPage() {
                 <TableCell className="text-sm max-w-[200px] truncate">{t.launchUrl}</TableCell>
                 <TableCell><span className="text-sm font-mono">{t.version}</span></TableCell>
                 <TableCell><Badge variant={ltiStatusVariant[t.status] ?? "secondary"} className="capitalize">{t.status.replace("_", " ")}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="ltiTools" onEdit={() => { setEditingLti(t); setLtiOpen(true); }} onDelete={() => deleteLTITool.mutate(t.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="ltiTools" onEdit={() => { setEditingLti(t); setLtiOpen(true); }} onDelete={() => deleteLTITool.mutate(t)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -95,7 +95,7 @@ export default function LtiContentInteropPage() {
                 <TableCell><span className="text-sm font-mono">{i.itemCount}</span></TableCell>
                 <TableCell className="text-sm max-w-[150px] truncate">{i.errors}</TableCell>
                 <TableCell><Badge variant={importStatusVariant[i.status] ?? "secondary"} className="capitalize">{i.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="ltiTools" onEdit={() => { setEditingImport(i); setImportOpen(true); }} onDelete={() => deleteImport.mutate(i.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="ltiTools" onEdit={() => { setEditingImport(i); setImportOpen(true); }} onDelete={() => deleteImport.mutate(i)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

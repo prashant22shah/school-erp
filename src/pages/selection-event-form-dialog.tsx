@@ -27,7 +27,7 @@ export function SelectionEventFormDialog({ open, onOpenChange, event }: { open: 
 
   const submit = () => {
     if (!form.applicationId || !form.type || !form.scheduledDate) return;
-    const appName = (applications.data ?? []).find((a) => a.id === form.applicationId)?.applicantName ?? form.applicationName ?? "";
+    const appName = (applications.data ?? []).find((a) => a.id === form.applicationId)?.studentName ?? form.applicationName ?? "";
     save.mutate(
       { ...(event ?? { id: uid() }), ...form, applicationName: appName, tenantId: "tenant-default" } as SelectionEvent,
       { onSuccess: () => onOpenChange(false) }
@@ -46,7 +46,7 @@ export function SelectionEventFormDialog({ open, onOpenChange, event }: { open: 
             <Label>Application</Label>
             <Select value={form.applicationId ?? ""} onValueChange={(v) => set({ applicationId: v })}>
               <SelectTrigger><SelectValue placeholder="Select application" /></SelectTrigger>
-              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.applicantName ?? a.id}</SelectItem>)}</SelectContent>
+              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.studentName ?? a.id}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">

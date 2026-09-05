@@ -33,10 +33,9 @@ export function DiscussionFormDialog({ open, onOpenChange, editing }: { open: bo
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         postCount: Number(form.postCount),
-        updatedOn: now,
       } as Discussion,
       { onSuccess: () => onOpenChange(false) }
     );

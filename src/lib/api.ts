@@ -41,8 +41,6 @@ import type {
   LibraryAcquisition, DigitalResource,
   Vehicle, TransportRoute, BusStop, RouteSchedule, RiderAssignment, BoardingLog,
   GpsTrack, VehicleMaintenance,
-  ResidenceBlock, RoomType, HostelApplication, RoomAllocation, RollCall,
-  ResidenceIncident, MealPlan, MessManagement, POSModule, PrepaidWallet,
   HealthProfile, ClinicVisit, CounselingCase, SupportNeed, AccommodationPlan,
   ConductIncident, ConductAction, Grievance, AdvisingAssignment, InterventionPlan,
   CommunityEvent, EventRegistration, ActivityGroup, GroupMembership,

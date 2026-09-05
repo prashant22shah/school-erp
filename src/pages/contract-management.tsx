@@ -110,7 +110,7 @@ export default function ContractManagementPage() {
                     <TableCell><span className="text-sm font-mono">Rs {c.value.toLocaleString()}</span></TableCell>
                     <TableCell><Badge variant={contractStatusVariant[c.status] ?? "secondary"} className="capitalize">{c.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingContract(c); setContractDialogOpen(true); }} onDelete={() => deleteContract.mutate(c)} />
+                      <RowActionMenu resource="contracts" onEdit={() => { setEditingContract(c); setContractDialogOpen(true); }} onDelete={() => deleteContract.mutate(c)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -140,7 +140,7 @@ export default function ContractManagementPage() {
                     <TableCell><span className="text-sm max-w-[200px] truncate inline-block">{r.notes}</span></TableCell>
                     <TableCell><Badge variant={renewalStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingRenewal(r); setRenewalDialogOpen(true); }} onDelete={() => deleteRenewal.mutate(r)} />
+                      <RowActionMenu resource="contracts" onEdit={() => { setEditingRenewal(r); setRenewalDialogOpen(true); }} onDelete={() => deleteRenewal.mutate(r)} />
                     </TableCell>
                   </TableRow>
                 ))}

@@ -79,7 +79,7 @@ export default function LmsAssignmentsPage() {
                 <TableCell><span className="text-sm font-mono">{a.maxScore}</span></TableCell>
                 <TableCell><Badge variant="secondary" className="capitalize">{a.submissionMode}</Badge></TableCell>
                 <TableCell><Badge variant={assignmentStatusVariant[a.status] ?? "secondary"} className="capitalize">{a.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="assignments" onEdit={() => { setEditingAss(a); setAssOpen(true); }} onDelete={() => deleteAssignment.mutate(a.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="assignments" onEdit={() => { setEditingAss(a); setAssOpen(true); }} onDelete={() => deleteAssignment.mutate(a)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -94,7 +94,7 @@ export default function LmsAssignmentsPage() {
                 <TableCell><span className="text-sm font-mono">{r.score}</span></TableCell>
                 <TableCell className="text-sm max-w-[200px] truncate">{r.feedback}</TableCell>
                 <TableCell><Badge variant={submissionStatusVariant[r.status] ?? "secondary"} className="capitalize">{r.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="assignments" onEdit={() => { setEditingSub(r); setSubOpen(true); }} onDelete={() => deleteSubmission.mutate(r.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="assignments" onEdit={() => { setEditingSub(r); setSubOpen(true); }} onDelete={() => deleteSubmission.mutate(r)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

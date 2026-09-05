@@ -75,7 +75,7 @@ export default function DiscussionsCollaborationPage() {
                 <TableCell><span className="text-sm font-mono">{d.postCount}</span></TableCell>
                 <TableCell className="text-sm">{fmtDate(d.lastPostOn)}</TableCell>
                 <TableCell><Badge variant={discussionStatusVariant[d.status] ?? "secondary"} className="capitalize">{d.status}</Badge></TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="discussions" onEdit={() => { setEditingDisc(d); setDiscOpen(true); }} onDelete={() => deleteDiscussion.mutate(d.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="discussions" onEdit={() => { setEditingDisc(d); setDiscOpen(true); }} onDelete={() => deleteDiscussion.mutate(d)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}
@@ -89,7 +89,7 @@ export default function DiscussionsCollaborationPage() {
                 <TableCell className="text-sm max-w-[300px] truncate">{p.content}</TableCell>
                 <TableCell><Badge variant="secondary">{p.discussionRef}</Badge></TableCell>
                 <TableCell className="text-sm">{fmtDate(p.createdOn)}</TableCell>
-                <TableCell className="pr-5 text-right"><RowActionMenu resource="discussions" onEdit={() => { setEditingPost(p); setPostOpen(true); }} onDelete={() => deletePost.mutate(p.id)} /></TableCell>
+                <TableCell className="pr-5 text-right"><RowActionMenu resource="discussions" onEdit={() => { setEditingPost(p); setPostOpen(true); }} onDelete={() => deletePost.mutate(p)} /></TableCell>
               </TableRow>
             ))}</TableBody></Table></CardContent></Card>
           )}

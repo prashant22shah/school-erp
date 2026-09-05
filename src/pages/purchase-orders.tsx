@@ -110,7 +110,7 @@ export default function PurchaseOrdersPage() {
                     <TableCell><span className="text-sm font-mono">Rs {p.totalAmount.toLocaleString()}</span></TableCell>
                     <TableCell><Badge variant={poStatusVariant[p.status] ?? "secondary"} className="capitalize">{p.status.replace(/_/g, " ")}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingPo(p); setPoDialogOpen(true); }} onDelete={() => deletePo.mutate(p)} />
+                      <RowActionMenu resource="purchaseOrders" onEdit={() => { setEditingPo(p); setPoDialogOpen(true); }} onDelete={() => deletePo.mutate(p)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -142,7 +142,7 @@ export default function PurchaseOrdersPage() {
                     <TableCell><span className="text-sm font-mono">{i.receivedQty}</span></TableCell>
                     <TableCell><Badge variant={itemStatusVariant[i.status] ?? "secondary"} className="capitalize">{i.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingItem(i); setItemDialogOpen(true); }} onDelete={() => deletePoItem.mutate(i)} />
+                      <RowActionMenu resource="purchaseOrders" onEdit={() => { setEditingItem(i); setItemDialogOpen(true); }} onDelete={() => deletePoItem.mutate(i)} />
                     </TableCell>
                   </TableRow>
                 ))}

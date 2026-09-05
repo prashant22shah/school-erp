@@ -15,7 +15,7 @@ import { fmtDate } from "@/lib/utils";
 import type { Grievance, GrievanceOutcome } from "@/lib/types";
 
 const grievanceStatusVariant: Record<string, "default" | "info" | "warning" | "destructive" | "secondary"> = {
-  filed: "default", acknowledged: "info", investigating: "warning", resolved: "success", appealed: "destructive", closed: "secondary",
+  filed: "default", acknowledged: "info", investigating: "warning", resolved: "info", appealed: "destructive", closed: "secondary",
 };
 
 const outcomeStatusVariant: Record<string, "default" | "info" | "warning"> = {

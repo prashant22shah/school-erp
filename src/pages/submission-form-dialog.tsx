@@ -33,10 +33,9 @@ export function SubmissionFormDialog({ open, onOpenChange, editing }: { open: bo
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         score: Number(form.score),
-        updatedOn: now,
       } as Submission,
       { onSuccess: () => onOpenChange(false) }
     );

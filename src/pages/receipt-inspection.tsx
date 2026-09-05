@@ -108,7 +108,7 @@ export default function ReceiptInspectionPage() {
                     <TableCell><Badge variant={inspectionStatusVariant[g.inspectionStatus] ?? "secondary"} className="capitalize">{g.inspectionStatus}</Badge></TableCell>
                     <TableCell><Badge variant={grnStatusVariant[g.status] ?? "secondary"} className="capitalize">{g.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingGrn(g); setGrnDialogOpen(true); }} onDelete={() => deleteGrn.mutate(g)} />
+                      <RowActionMenu resource="goodsReceipts" onEdit={() => { setEditingGrn(g); setGrnDialogOpen(true); }} onDelete={() => deleteGrn.mutate(g)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -140,7 +140,7 @@ export default function ReceiptInspectionPage() {
                     <TableCell><span className="text-sm font-mono text-red-600">{i.itemsFailed}</span></TableCell>
                     <TableCell><Badge variant={inspectionStatusVariant[i.status] ?? "secondary"} className="capitalize">{i.status}</Badge></TableCell>
                     <TableCell className="pr-5 text-right">
-                      <RowActionMenu onEdit={() => { setEditingInsp(i); setInspDialogOpen(true); }} onDelete={() => deleteInspection.mutate(i)} />
+                      <RowActionMenu resource="goodsReceipts" onEdit={() => { setEditingInsp(i); setInspDialogOpen(true); }} onDelete={() => deleteInspection.mutate(i)} />
                     </TableCell>
                   </TableRow>
                 ))}

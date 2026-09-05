@@ -33,10 +33,9 @@ export function QuizAttemptFormDialog({ open, onOpenChange, editing }: { open: b
     const now = new Date().toISOString();
     save.mutate(
       {
-        ...(editing ?? { id: uid(), tenantId: "tenant-default", schoolId: "camp-main", createdOn: now }),
+        ...(editing ?? { id: uid(), createdOn: now }),
         ...form,
         score: Number(form.score),
-        updatedOn: now,
       } as QuizAttempt,
       { onSuccess: () => onOpenChange(false) }
     );

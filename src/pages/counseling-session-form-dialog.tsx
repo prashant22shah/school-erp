@@ -29,7 +29,7 @@ export function CounselingSessionFormDialog({ open, onOpenChange, session }: { o
   const submit = () => {
     if (!form.studentName || !form.counselorName || !form.scheduledOn) return;
     save.mutate(
-      { ...(session ?? { id: uid() }), ...form, tenantId: "tenant-default" } as CounselingSession,
+      { ...(session ?? { id: uid() }), ...form } as CounselingSession,
       { onSuccess: () => onOpenChange(false) }
     );
   };

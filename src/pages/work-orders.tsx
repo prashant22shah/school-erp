@@ -112,7 +112,7 @@ export default function WorkOrdersPage() {
         </TabsContent>
       </Tabs>
 
-      <ServiceRequestFormDialog open={open} onOpenChange={setOpen} serviceRequest={editing} dialogType={dialogType} />
+      <ServiceRequestFormDialog open={open} onOpenChange={setOpen} editing={dialogType === "serviceRequest" ? (editing as ServiceRequest) : undefined} />
     </div>
   );
 }

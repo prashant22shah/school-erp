@@ -45,7 +45,7 @@ export function ApplicationDocumentFormDialog({ open, onOpenChange, document }: 
             <Label>Application</Label>
             <Select value={form.applicationId ?? ""} onValueChange={(v) => set({ applicationId: v })}>
               <SelectTrigger><SelectValue placeholder="Select application" /></SelectTrigger>
-              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.applicantName ?? a.id}</SelectItem>)}</SelectContent>
+              <SelectContent>{(applications.data ?? []).map((a) => <SelectItem key={a.id} value={a.id}>{a.studentName ?? a.id}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">
