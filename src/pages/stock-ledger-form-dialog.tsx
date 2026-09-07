@@ -14,7 +14,7 @@ export function StockLedgerFormDialog({ open, onOpenChange, editing }: { open: b
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { itemName: "", storeRef: "", openingQty: 0, receivedQty: 0, issuedQty: 0, closingQty: 0, balanceValue: 0, period: "", createdOn: todayISO() });
+      setForm(editing ?? { itemRef: "", itemName: "", storeRef: "", openingQty: 0, receivedQty: 0, issuedQty: 0, closingQty: 0, balanceValue: 0, period: "", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -33,6 +33,10 @@ export function StockLedgerFormDialog({ open, onOpenChange, editing }: { open: b
           <DialogDescription>Record stock movement totals for a period (M15.02).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Item ref</Label>
+            <Input placeholder="Item ID" value={form.itemRef ?? ""} onChange={(e) => set({ itemRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Item name</Label>
             <Input placeholder="Item name" value={form.itemName ?? ""} onChange={(e) => set({ itemName: e.target.value })} />

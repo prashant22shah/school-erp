@@ -19,7 +19,7 @@ export function IdentityCardFormDialog({ open, onOpenChange, card }: { open: boo
 
   useEffect(() => {
     if (open) {
-      setForm(card ?? { studentId: "", studentName: "", cardType: "student_id" as CardType, serial: "", issuedOn: todayISO(), validUntil: "", status: "active", createdOn: todayISO() });
+      setForm(card ?? { studentId: "", studentName: "", cardType: "student_id" as CardType, serial: "", issuedOn: todayISO(), validUntil: "", replacedBy: "", status: "active", createdOn: todayISO() });
     }
   }, [open, card]);
 
@@ -66,6 +66,10 @@ export function IdentityCardFormDialog({ open, onOpenChange, card }: { open: boo
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>{STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent>
             </Select>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Replaced by</Label>
+            <Input placeholder="Replacement card ID (optional)" value={form.replacedBy ?? ""} onChange={(e) => set({ replacedBy: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Issued on</Label>

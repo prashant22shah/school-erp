@@ -19,7 +19,7 @@ export function DiscussionFormDialog({ open, onOpenChange, editing }: { open: bo
     if (open) {
       setForm(
         editing ?? {
-          courseSpaceRef: "", title: "", authorName: "",
+          courseSpaceRef: "", title: "", authorRef: "", authorName: "",
           postCount: 0, lastPostOn: "", status: "open",
         }
       );
@@ -56,6 +56,10 @@ export function DiscussionFormDialog({ open, onOpenChange, editing }: { open: bo
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Title</Label>
             <Input placeholder="e.g. Chapter 4 Discussion" value={form.title ?? ""} onChange={(e) => set({ title: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Author Ref</Label>
+            <Input placeholder="Author ID" value={form.authorRef ?? ""} onChange={(e) => set({ authorRef: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Author Name</Label>

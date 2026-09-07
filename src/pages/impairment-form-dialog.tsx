@@ -18,7 +18,7 @@ export function ImpairmentFormDialog({ open, onOpenChange, editing }: { open: bo
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", impairmentDate: todayISO(), carryingValue: 0, recoverableAmount: 0, impairmentLoss: 0, reason: "", approvedBy: "", status: "draft", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", impairmentDate: todayISO(), carryingValue: 0, recoverableAmount: 0, impairmentLoss: 0, reason: "", approvedBy: "", status: "draft", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -26,7 +26,7 @@ export function ImpairmentFormDialog({ open, onOpenChange, editing }: { open: bo
 
   const submit = () => {
     if (!form.assetName || !form.impairmentDate) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "" }), ...form } as Impairment, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as Impairment, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -37,6 +37,10 @@ export function ImpairmentFormDialog({ open, onOpenChange, editing }: { open: bo
           <DialogDescription>Record an asset impairment loss when recoverable amount drops below carrying value (M15.06).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />

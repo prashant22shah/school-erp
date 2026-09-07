@@ -67,6 +67,10 @@ export function FollowUpFormDialog({ open, onOpenChange, followUp }: { open: boo
               <SelectContent>{STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent>
             </Select>
           </div>
+          <div className="space-y-1.5">
+            <Label>Completed date</Label>
+            <Input type="date" value={form.completedDate ?? ""} onChange={(e) => set({ completedDate: e.target.value })} />
+          </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Action</Label>
             <Textarea placeholder="Follow-up action required" value={form.action ?? ""} onChange={(e) => set({ action: e.target.value })} />

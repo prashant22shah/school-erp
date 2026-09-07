@@ -44,6 +44,10 @@ export function HostelApplicationFormDialog({ open, onOpenChange, editing }: { o
             <Input placeholder="e.g. HA-2082-001" value={form.applicationNo ?? ""} onChange={(e) => set({ applicationNo: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Student ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Student name</Label>
             <Input placeholder="Student name" value={form.studentName ?? ""} onChange={(e) => set({ studentName: e.target.value })} />
           </div>

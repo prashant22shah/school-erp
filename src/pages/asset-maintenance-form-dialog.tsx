@@ -19,7 +19,7 @@ export function AssetMaintenanceFormDialog({ open, onOpenChange, editing }: { op
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", maintenanceType: "preventive", scheduledDate: todayISO(), completedDate: "", cost: 0, vendor: "", description: "", status: "scheduled", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", maintenanceType: "preventive", scheduledDate: todayISO(), completedDate: "", cost: 0, vendor: "", description: "", status: "scheduled", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -27,7 +27,7 @@ export function AssetMaintenanceFormDialog({ open, onOpenChange, editing }: { op
 
   const submit = () => {
     if (!form.assetName || !form.scheduledDate) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "" }), ...form } as AssetMaintenance, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as AssetMaintenance, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -38,6 +38,10 @@ export function AssetMaintenanceFormDialog({ open, onOpenChange, editing }: { op
           <DialogDescription>Schedule or record asset maintenance work (M15.07).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />

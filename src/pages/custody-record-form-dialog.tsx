@@ -19,7 +19,7 @@ export function CustodyRecordFormDialog({ open, onOpenChange, editing }: { open:
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", custodianName: "", assignedDate: todayISO(), returnDate: "", condition: "good", notes: "", status: "active", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", custodianRef: "", custodianName: "", assignedDate: todayISO(), returnDate: "", condition: "good", notes: "", status: "active", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -27,7 +27,7 @@ export function CustodyRecordFormDialog({ open, onOpenChange, editing }: { open:
 
   const submit = () => {
     if (!form.assetName || !form.custodianName) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "", custodianRef: "" }), ...form } as CustodyRecord, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as CustodyRecord, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -39,8 +39,16 @@ export function CustodyRecordFormDialog({ open, onOpenChange, editing }: { open:
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Custodian ref</Label>
+            <Input placeholder="Custodian ID" value={form.custodianRef ?? ""} onChange={(e) => set({ custodianRef: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Custodian name</Label>

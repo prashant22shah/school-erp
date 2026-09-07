@@ -20,7 +20,7 @@ export function StudentDocumentFormDialog({ open, onOpenChange, document }: { op
 
   useEffect(() => {
     if (open) {
-      setForm(document ?? { type: "birth_certificate" as StudentDocType, status: "pending" as const, createdOn: todayISO() });
+      setForm(document ?? { fileRef: "", verifiedBy: "", verifiedOn: "", type: "birth_certificate" as StudentDocType, status: "pending" as const, createdOn: todayISO() });
     }
   }, [open, document]);
 
@@ -60,6 +60,18 @@ export function StudentDocumentFormDialog({ open, onOpenChange, document }: { op
           <div className="space-y-1.5">
             <Label>Document name</Label>
             <Input placeholder="e.g. Birth Certificate" value={form.documentName ?? ""} onChange={(e) => set({ documentName: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>File reference</Label>
+            <Input placeholder="e.g. file path or URL" value={form.fileRef ?? ""} onChange={(e) => set({ fileRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Verified by</Label>
+            <Input placeholder="Verifier name" value={form.verifiedBy ?? ""} onChange={(e) => set({ verifiedBy: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Verified on</Label>
+            <Input type="date" value={form.verifiedOn ?? ""} onChange={(e) => set({ verifiedOn: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Status</Label>

@@ -19,7 +19,7 @@ export function QuizAttemptFormDialog({ open, onOpenChange, editing }: { open: b
     if (open) {
       setForm(
         editing ?? {
-          quizRef: "", studentName: "", startedOn: "",
+          quizRef: "", studentRef: "", studentName: "", startedOn: "",
           completedOn: "", score: 0, answers: "", status: "in_progress",
         }
       );
@@ -52,6 +52,10 @@ export function QuizAttemptFormDialog({ open, onOpenChange, editing }: { open: b
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Quiz Ref</Label>
             <Input placeholder="Quiz ID" value={form.quizRef ?? ""} onChange={(e) => set({ quizRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Student Ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Student Name</Label>

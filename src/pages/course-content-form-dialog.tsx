@@ -21,7 +21,7 @@ export function CourseContentFormDialog({ open, onOpenChange, editing }: { open:
       setForm(
         editing ?? {
           courseSpaceRef: "", title: "", type: "document", url: "",
-          description: "", sortOrder: 0, status: "draft",
+          description: "", sortOrder: 0, publishOn: "", status: "draft",
         }
       );
     }
@@ -75,6 +75,10 @@ export function CourseContentFormDialog({ open, onOpenChange, editing }: { open:
           <div className="space-y-1.5 sm:col-span-2">
             <Label>URL</Label>
             <Input placeholder="https://…" value={form.url ?? ""} onChange={(e) => set({ url: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Publish on</Label>
+            <Input type="date" value={form.publishOn ?? ""} onChange={(e) => set({ publishOn: e.target.value })} />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Description</Label>

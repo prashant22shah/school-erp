@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useSaveDiscussionPost } from "@/hooks/use-erp";
 import { uid } from "@/lib/utils";
 import type { DiscussionPost } from "@/lib/types";
@@ -16,7 +17,7 @@ export function DiscussionPostFormDialog({ open, onOpenChange, editing }: { open
     if (open) {
       setForm(
         editing ?? {
-          discussionRef: "", authorName: "", content: "", parentPostId: "",
+          discussionRef: "", authorRef: "", authorName: "", content: "", parentPostId: "",
         }
       );
     }
@@ -49,6 +50,10 @@ export function DiscussionPostFormDialog({ open, onOpenChange, editing }: { open
             <Input placeholder="Discussion ID" value={form.discussionRef ?? ""} onChange={(e) => set({ discussionRef: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Author Ref</Label>
+            <Input placeholder="Author ID" value={form.authorRef ?? ""} onChange={(e) => set({ authorRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Author Name</Label>
             <Input placeholder="e.g. Ram Shrestha" value={form.authorName ?? ""} onChange={(e) => set({ authorName: e.target.value })} />
           </div>
@@ -58,7 +63,7 @@ export function DiscussionPostFormDialog({ open, onOpenChange, editing }: { open
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Content</Label>
-            <Input placeholder="Post content" value={form.content ?? ""} onChange={(e) => set({ content: e.target.value })} />
+            <Textarea placeholder="Post content" value={form.content ?? ""} onChange={(e) => set({ content: e.target.value })} />
           </div>
         </div>
         <DialogFooter>

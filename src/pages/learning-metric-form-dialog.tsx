@@ -19,7 +19,7 @@ export function LearningMetricFormDialog({ open, onOpenChange, editing }: { open
     if (open) {
       setForm(
         editing ?? {
-          studentName: "", courseSpaceRef: "", loginCount: 0,
+          studentRef: "", studentName: "", courseSpaceRef: "", loginCount: 0,
           contentAccessed: 0, assignmentCompletion: 0, quizAverage: 0,
           attendanceRate: 0, riskLevel: "low",
         }
@@ -54,6 +54,10 @@ export function LearningMetricFormDialog({ open, onOpenChange, editing }: { open
           <DialogDescription>Track a student's engagement and performance metrics (M10.06).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Student Ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Student Name</Label>
             <Input placeholder="e.g. Ram Shrestha" value={form.studentName ?? ""} onChange={(e) => set({ studentName: e.target.value })} />

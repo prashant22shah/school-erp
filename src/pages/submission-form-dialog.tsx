@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useSaveSubmission } from "@/hooks/use-erp";
 import { uid } from "@/lib/utils";
 import type { Submission } from "@/lib/types";
@@ -19,7 +20,7 @@ export function SubmissionFormDialog({ open, onOpenChange, editing }: { open: bo
     if (open) {
       setForm(
         editing ?? {
-          assignmentRef: "", studentName: "", submittedOn: "",
+          assignmentRef: "", studentRef: "", studentName: "", submittedOn: "",
           fileUrl: "", score: 0, feedback: "", gradedBy: "", status: "submitted",
         }
       );
@@ -54,6 +55,10 @@ export function SubmissionFormDialog({ open, onOpenChange, editing }: { open: bo
             <Input placeholder="Assignment ID" value={form.assignmentRef ?? ""} onChange={(e) => set({ assignmentRef: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Student Ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Student Name</Label>
             <Input placeholder="e.g. Ram Shrestha" value={form.studentName ?? ""} onChange={(e) => set({ studentName: e.target.value })} />
           </div>
@@ -82,7 +87,7 @@ export function SubmissionFormDialog({ open, onOpenChange, editing }: { open: bo
           </div>
           <div className="space-y-1.5">
             <Label>Feedback</Label>
-            <Input placeholder="Feedback notes" value={form.feedback ?? ""} onChange={(e) => set({ feedback: e.target.value })} />
+            <Textarea placeholder="Feedback notes" value={form.feedback ?? ""} onChange={(e) => set({ feedback: e.target.value })} />
           </div>
         </div>
         <DialogFooter>

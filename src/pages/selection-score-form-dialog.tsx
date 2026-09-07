@@ -62,9 +62,9 @@ export function SelectionScoreFormDialog({ open, onOpenChange, score }: { open: 
             <Label>Evaluated by</Label>
             <Input placeholder="Evaluator name" value={form.evaluatedBy ?? ""} onChange={(e) => set({ evaluatedBy: e.target.value })} />
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 sm:col-span-2">
             <Label>Remarks</Label>
-            <Input placeholder="Remarks" value={form.remarks ?? ""} onChange={(e) => set({ remarks: e.target.value })} />
+            <Textarea placeholder="Remarks" value={form.remarks ?? ""} onChange={(e) => set({ remarks: e.target.value })} />
           </div>
         </div>
         <DialogFooter>

@@ -67,6 +67,10 @@ export function ReportScheduleFormDialog({ open, onOpenChange, editing }: { open
             </Select>
           </div>
           <div className="space-y-1.5">
+            <Label>Last Run</Label>
+            <Input type="datetime-local" value={form.lastRun ? form.lastRun.slice(0, 16) : ""} onChange={(e) => set({ lastRun: e.target.value ? new Date(e.target.value).toISOString() : "" })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Next Run</Label>
             <Input type="datetime-local" value={form.nextRun ? form.nextRun.slice(0, 16) : ""} onChange={(e) => set({ nextRun: e.target.value ? new Date(e.target.value).toISOString() : "" })} />
           </div>

@@ -18,7 +18,7 @@ export function DisposalFormDialog({ open, onOpenChange, editing }: { open: bool
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", disposalDate: todayISO(), disposalMethod: "sale", salePrice: 0, buyer: "", netBookValue: 0, gainLoss: 0, approvedBy: "", status: "draft", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", disposalDate: todayISO(), disposalMethod: "sale", salePrice: 0, buyer: "", netBookValue: 0, gainLoss: 0, approvedBy: "", status: "draft", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -26,7 +26,7 @@ export function DisposalFormDialog({ open, onOpenChange, editing }: { open: bool
 
   const submit = () => {
     if (!form.assetName || !form.disposalDate) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "" }), ...form } as Disposal, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as Disposal, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -37,6 +37,10 @@ export function DisposalFormDialog({ open, onOpenChange, editing }: { open: bool
           <DialogDescription>Record asset disposal by sale, donation, scrap or trade-in (M15.07).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />

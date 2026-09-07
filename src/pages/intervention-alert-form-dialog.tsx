@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useSaveInterventionAlert } from "@/hooks/use-erp";
 import { uid } from "@/lib/utils";
 import type { InterventionAlert, AlertKind } from "@/lib/types";
@@ -21,7 +22,7 @@ export function InterventionAlertFormDialog({ open, onOpenChange, editing }: { o
     if (open) {
       setForm(
         editing ?? {
-          studentName: "", courseSpaceRef: "", alertType: "low_engagement",
+          studentRef: "", studentName: "", courseSpaceRef: "", alertType: "low_engagement",
           severity: "warning", message: "", assignedTo: "", status: "open",
         }
       );
@@ -51,6 +52,10 @@ export function InterventionAlertFormDialog({ open, onOpenChange, editing }: { o
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
+            <Label>Student Ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Student Name</Label>
             <Input placeholder="e.g. Ram Shrestha" value={form.studentName ?? ""} onChange={(e) => set({ studentName: e.target.value })} />
           </div>
@@ -74,7 +79,7 @@ export function InterventionAlertFormDialog({ open, onOpenChange, editing }: { o
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Message</Label>
-            <Input placeholder="Describe the alert" value={form.message ?? ""} onChange={(e) => set({ message: e.target.value })} />
+            <Textarea placeholder="Describe the alert" value={form.message ?? ""} onChange={(e) => set({ message: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Assigned To</Label>

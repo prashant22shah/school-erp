@@ -67,6 +67,18 @@ export function CourseSpaceFormDialog({ open, onOpenChange, editing }: { open: b
             <Input placeholder="e.g. Mathematics Grade 10" value={form.name ?? ""} onChange={(e) => set({ name: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Subject Ref</Label>
+            <Input placeholder="Subject ID" value={form.subjectRef ?? ""} onChange={(e) => set({ subjectRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Teacher Ref</Label>
+            <Input placeholder="Teacher ID" value={form.teacherRef ?? ""} onChange={(e) => set({ teacherRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Grade Ref</Label>
+            <Input placeholder="Grade ID" value={form.gradeRef ?? ""} onChange={(e) => set({ gradeRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Subject Name</Label>
             <Input placeholder="e.g. Mathematics" value={form.subjectName ?? ""} onChange={(e) => set({ subjectName: e.target.value })} />
           </div>

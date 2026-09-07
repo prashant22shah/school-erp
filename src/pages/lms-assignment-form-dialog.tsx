@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useSaveAssignment } from "@/hooks/use-erp";
 import { uid } from "@/lib/utils";
 import type { Assignment, AssignmentSubmissionMode } from "@/lib/types";
@@ -61,7 +62,7 @@ export function LmsAssignmentFormDialog({ open, onOpenChange, editing }: { open:
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label>Description</Label>
-            <Input placeholder="Assignment details" value={form.description ?? ""} onChange={(e) => set({ description: e.target.value })} />
+            <Textarea placeholder="Assignment details" value={form.description ?? ""} onChange={(e) => set({ description: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Due Date</Label>

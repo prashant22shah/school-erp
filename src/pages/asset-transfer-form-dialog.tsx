@@ -18,7 +18,7 @@ export function AssetTransferFormDialog({ open, onOpenChange, editing }: { open:
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", fromLocation: "", toLocation: "", fromCustodian: "", toCustodian: "", transferDate: todayISO(), reason: "", approvedBy: "", status: "draft", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", fromLocation: "", toLocation: "", fromCustodian: "", toCustodian: "", transferDate: todayISO(), reason: "", approvedBy: "", status: "draft", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -26,7 +26,7 @@ export function AssetTransferFormDialog({ open, onOpenChange, editing }: { open:
 
   const submit = () => {
     if (!form.assetName || !form.toLocation) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "" }), ...form } as AssetTransfer, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as AssetTransfer, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -37,6 +37,10 @@ export function AssetTransferFormDialog({ open, onOpenChange, editing }: { open:
           <DialogDescription>Record movement of an asset between locations or custodians (M15.05).</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
           <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />

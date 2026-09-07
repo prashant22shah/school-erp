@@ -40,6 +40,18 @@ export function RoomAllocationFormDialog({ open, onOpenChange, editing }: { open
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
+            <Label>Application ref</Label>
+            <Input placeholder="Application ID" value={form.applicationRef ?? ""} onChange={(e) => set({ applicationRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Student ref</Label>
+            <Input placeholder="Student ID" value={form.studentRef ?? ""} onChange={(e) => set({ studentRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Block ref</Label>
+            <Input placeholder="Block ID" value={form.blockRef ?? ""} onChange={(e) => set({ blockRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Student name</Label>
             <Input placeholder="Student name" value={form.studentName ?? ""} onChange={(e) => set({ studentName: e.target.value })} />
           </div>

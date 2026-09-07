@@ -45,6 +45,14 @@ export function PurchaseOrderFormDialog({ open, onOpenChange, po }: { open: bool
             <Input placeholder="e.g. PO-2026-001" value={form.poNo ?? ""} onChange={(e) => set({ poNo: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Vendor Ref</Label>
+            <Input placeholder="Vendor ID" value={form.vendorRef ?? ""} onChange={(e) => set({ vendorRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Requisition Ref</Label>
+            <Input placeholder="Requisition ID" value={form.requisitionRef ?? ""} onChange={(e) => set({ requisitionRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Vendor Name</Label>
             <Input placeholder="Vendor name" value={form.vendorName ?? ""} onChange={(e) => set({ vendorName: e.target.value })} />
           </div>

@@ -45,6 +45,10 @@ export function ContractFormDialog({ open, onOpenChange, contract }: { open: boo
             <Input placeholder="e.g. CTR-2026-001" value={form.contractNo ?? ""} onChange={(e) => set({ contractNo: e.target.value })} />
           </div>
           <div className="space-y-1.5">
+            <Label>Vendor Ref</Label>
+            <Input placeholder="Vendor ID" value={form.vendorRef ?? ""} onChange={(e) => set({ vendorRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Vendor Name</Label>
             <Input placeholder="Vendor name" value={form.vendorName ?? ""} onChange={(e) => set({ vendorName: e.target.value })} />
           </div>

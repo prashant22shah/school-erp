@@ -17,7 +17,7 @@ export function DepreciationScheduleFormDialog({ open, onOpenChange, editing }: 
 
   useEffect(() => {
     if (open) {
-      setForm(editing ?? { assetName: "", method: "", period: "", openingValue: 0, depreciationAmount: 0, accumulatedDepreciation: 0, closingValue: 0, status: "draft", createdOn: todayISO() });
+      setForm(editing ?? { assetRef: "", assetName: "", method: "", period: "", openingValue: 0, depreciationAmount: 0, accumulatedDepreciation: 0, closingValue: 0, status: "draft", createdOn: todayISO() });
     }
   }, [open, editing]);
 
@@ -25,7 +25,7 @@ export function DepreciationScheduleFormDialog({ open, onOpenChange, editing }: 
 
   const submit = () => {
     if (!form.assetName || !form.period) return;
-    save.mutate({ ...(editing ?? { id: uid(), assetRef: "" }), ...form } as DepreciationSchedule, { onSuccess: () => onOpenChange(false) });
+    save.mutate({ ...(editing ?? { id: uid() }), ...form } as DepreciationSchedule, { onSuccess: () => onOpenChange(false) });
   };
 
   return (
@@ -37,12 +37,23 @@ export function DepreciationScheduleFormDialog({ open, onOpenChange, editing }: 
         </DialogHeader>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
+            <Label>Asset ref</Label>
+            <Input placeholder="Asset ID" value={form.assetRef ?? ""} onChange={(e) => set({ assetRef: e.target.value })} />
+          </div>
+          <div className="space-y-1.5">
             <Label>Asset name</Label>
             <Input placeholder="Asset name" value={form.assetName ?? ""} onChange={(e) => set({ assetName: e.target.value })} />
           </div>
           <div className="space-y-1.5">
             <Label>Method</Label>
-            <Input placeholder="e.g. straight_line" value={form.method ?? ""} onChange={(e) => set({ method: e.target.value })} />
+            <Select value={form.method ?? ""} onValueChange={(v) => set({ method: v })}>
+              <SelectTrigger><SelectValue placeholder="Select method" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="straight_line">Straight Line</SelectItem>
+                <SelectItem value="declining_balance">Declining Balance</SelectItem>
+                <SelectItem value="units_of_production">Units of Production</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-1.5">
             <Label>Period</Label>
